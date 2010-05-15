@@ -80,3 +80,19 @@
 ;;; MACRO
 (autoload 'macro-dwim "macro" "DWIM macro recording and playback." t)
 (autoload 'macro-clear "macro" "Clear last keyboard macro" t)
+
+;;; MAGIT
+(defvar genehack/git-executable (executable-find "git")
+  "Path to active git executable")
+
+(if genehack/git-executable
+    (progn
+      (require 'magit)
+      (defun genehack/magit-status-with-prompt (dir)
+        "Prompt for git repo path then call magit-status on it."
+        (interactive "Dgit repo: ")
+        (magit-status dir)))
+  (defun genehack/magit-status-with-prompt ()
+    "Stub function for when git isn't available"
+    (interactive)
+    (message "Unable to find a git binary; magit is unavailable.")))

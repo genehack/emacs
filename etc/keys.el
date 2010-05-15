@@ -8,6 +8,7 @@
 ;;; F keys
 (global-set-key (kbd "<f1>")      'disk)
 (global-set-key (kbd "<f2>")      'genehack/dired-right-here)
+(global-set-key (kbd "<f3>")      'genehack/magit-status-with-prompt)
 
 (global-set-key (kbd "<f12>")     'macro-dwim)
 (global-set-key (kbd "M-<f12>")   'macro-clear)
