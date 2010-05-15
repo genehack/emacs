@@ -116,3 +116,11 @@
     (cond ((string-match "[[{(<]" next-char) (forward-sexp 1))
           ((string-match "[\]})>]" prev-char) (backward-sexp 1))
           (t (error "%s" "Not an expression boundary.")))))
+
+;;; SCRATCH-BUFFER
+(defun genehack/create-scratch-buffer nil
+  "(re)create a scratch buffer"
+  (interactive)
+  (switch-to-buffer (get-buffer-create "*scratch*"))
+  (insert initial-scratch-message)
+  (lisp-interaction-mode))
