@@ -44,6 +44,9 @@
       (ido-dired)
     (dired default-directory)))
 
+;;; DISK
+(autoload 'disk "disk" "Save, revert, or find file." t)
+
 ;;; FLYMAKE FOR CSS FILES
 ;;;; after <http://www.emacswiki.org/emacs-en/FlymakeCSS>
 (if (file-exists-p "/opt/css-validator")

@@ -6,5 +6,6 @@
 (global-set-key (kbd "C-x =") 'genehack/diff-current-buffer-with-file)
 
 ;;; F keys
+(global-set-key (kbd "<f1>") 'disk)
 (global-set-key (kbd "<f2>") 'genehack/dired-right-here)
 
