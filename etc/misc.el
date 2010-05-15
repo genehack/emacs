@@ -124,3 +124,12 @@
   (switch-to-buffer (get-buffer-create "*scratch*"))
   (insert initial-scratch-message)
   (lisp-interaction-mode))
+
+;;; SMART-TAB
+;;;; disabled until i figure out the best way to integrate smart-tab
+;;;; with auto-complete-mode
+;; (require 'smart-tab)
+;; (global-smart-tab-mode 1)
+;; (setq smart-tab-completion-functions-alist
+;;       '((cperl-mode      . plcmp-cmd-smart-complete)
+;;         (text-mode       . dabbrev-completion)))
