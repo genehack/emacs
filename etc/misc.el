@@ -7,3 +7,11 @@
 (add-to-list 'ac-dictionary-directories (concat genehack/emacs-libs-dir "auto-complete/ac-dict"))
 (ac-config-default)
 (setq ac-comphist-file (concat genehack/emacs-config-dir "tmp/ac-comphist.dat"))
+
+;;; DIRED-RIGHT-HERE
+(defun genehack/dired-right-here (arg)
+  "Run ido-dired or, with prefix, dired on current active directory."
+  (interactive "p")
+  (if (eq 1 arg)
+      (ido-dired)
+    (dired default-directory)))
