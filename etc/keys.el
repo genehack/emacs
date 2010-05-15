@@ -4,6 +4,7 @@
 
 ;; GLOBAL ONLY -- mode-specific in mode-specific files
 (global-set-key (kbd "C-x =") 'genehack/diff-current-buffer-with-file)
+(global-set-key (kbd "C-%")   'genehack/paren-bounce)
 
 ;;; F keys
 (global-set-key (kbd "<f1>")      'disk)

@@ -106,3 +106,13 @@
 (defalias 'term 'multi-term)
 (setq multi-term-dedicated-select-after-open-p t
       multi-term-dedicated-window-height 24)
+
+;;; PAREN-BOUNCE
+;;;; ganked from <http://elfs.livejournal.com/1216037.html>
+(defun genehack/paren-bounce ()
+  (interactive)
+  (let ((prev-char (char-to-string (preceding-char)))
+	(next-char (char-to-string (following-char))))
+    (cond ((string-match "[[{(<]" next-char) (forward-sexp 1))
+          ((string-match "[\]})>]" prev-char) (backward-sexp 1))
+          (t (error "%s" "Not an expression boundary.")))))
