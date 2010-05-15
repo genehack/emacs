@@ -76,3 +76,7 @@
 (autoload 'js2-mode "js2" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (setq-default js2-basic-offset 2)
+
+;;; MACRO
+(autoload 'macro-dwim "macro" "DWIM macro recording and playback." t)
+(autoload 'macro-clear "macro" "Clear last keyboard macro" t)

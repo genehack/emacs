@@ -6,6 +6,9 @@
 (global-set-key (kbd "C-x =") 'genehack/diff-current-buffer-with-file)
 
 ;;; F keys
-(global-set-key (kbd "<f1>") 'disk)
-(global-set-key (kbd "<f2>") 'genehack/dired-right-here)
+(global-set-key (kbd "<f1>")      'disk)
+(global-set-key (kbd "<f2>")      'genehack/dired-right-here)
 
+(global-set-key (kbd "<f12>")     'macro-dwim)
+(global-set-key (kbd "M-<f12>")   'macro-clear)
+(global-set-key (kbd "ESC <f12>") 'macro-clear)
