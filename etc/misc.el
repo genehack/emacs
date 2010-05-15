@@ -47,6 +47,9 @@
 ;;; DISK
 (autoload 'disk "disk" "Save, revert, or find file." t)
 
+;;; FILLADAPT -- WTF isn't this part of emacs by default by now?!
+(require 'filladapt)
+
 ;;; FLYMAKE FOR CSS FILES
 ;;;; after <http://www.emacswiki.org/emacs-en/FlymakeCSS>
 (if (file-exists-p "/opt/css-validator")
