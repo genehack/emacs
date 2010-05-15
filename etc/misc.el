@@ -146,3 +146,12 @@
           (lambda ()
             (if (string-match "\\.tt2?$" buffer-file-name)
                 (template-minor-mode 1))))
+;;; TOGGLE-BOL
+(defun genehack/bol-toggle ()
+  "Toggle between beginning of indent and beginning of line"
+  (interactive)
+  (let ((genehack/bol-command-name "genehack/bol-toggle"))
+    (setq this-command genehack/bol-command-name)
+    (cond ((equal (point) (point-at-bol)) (back-to-indentation))
+          ((equal last-command genehack/bol-command-name) (move-beginning-of-line nil))
+          (t (back-to-indentation)))))
