@@ -40,3 +40,22 @@
   (if (eq 1 arg)
       (ido-dired)
     (dired default-directory)))
+
+;;; FLYMAKE FOR CSS FILES
+;;;; after <http://www.emacswiki.org/emacs-en/FlymakeCSS>
+(if (file-exists-p "/opt/css-validator")
+    (progn
+      (require 'flymake)
+      (defconst css-validator "java -jar /opt/css-validator/css-validator.jar")
+
+      (defun flymake-css-init ()
+        (let* ((temp-file   (flymake-init-create-temp-buffer-copy 'flymake-create-temp-inplace))
+               (local-file  (file-relative-name
+                             temp-file
+                             (file-name-directory buffer-file-name))))
+          (list "java" (list "-jar" "/opt/css-validator/css-validator.jar" "-output" "gnu" (concat "file:" local-file)))))
+
+      (push '(".+\\.css$" flymake-css-init) flymake-allowed-file-name-masks)
+      (push '("^file:\\([^:]+\\):\\([^:]+\\):\\(.*\\)" 1 2 nil 3) flymake-err-line-patterns)
+
+      (add-hook 'css-mode-hook 'flymake-mode)))
