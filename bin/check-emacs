@@ -1,0 +1,4 @@
+#! /bin/sh
+
+emacs -q --eval '(condition-case err (progn (load "~/.emacs.d/init.el") (kill-emacs 0)) (error (kill-emacs 1)))'
+ 
