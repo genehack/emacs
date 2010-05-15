@@ -50,6 +50,9 @@
 ;;; FILLADAPT -- WTF isn't this part of emacs by default by now?!
 (require 'filladapt)
 
+;;; FIXME
+(require 'fixme)
+
 ;;; FLYMAKE FOR CSS FILES
 ;;;; after <http://www.emacswiki.org/emacs-en/FlymakeCSS>
 (if (file-exists-p "/opt/css-validator")
