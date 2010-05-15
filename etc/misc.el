@@ -71,3 +71,8 @@
       (push '("^file:\\([^:]+\\):\\([^:]+\\):\\(.*\\)" 1 2 nil 3) flymake-err-line-patterns)
 
       (add-hook 'css-mode-hook 'flymake-mode)))
+
+;;; JS2
+(autoload 'js2-mode "js2" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(setq-default js2-basic-offset 2)
