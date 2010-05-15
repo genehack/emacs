@@ -101,3 +101,8 @@
 (autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.mrkd" . markdown-mode))
 
+;;; MULTI-TERM
+(require 'multi-term)
+(defalias 'term 'multi-term)
+(setq multi-term-dedicated-select-after-open-p t
+      multi-term-dedicated-window-height 24)
