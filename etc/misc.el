@@ -133,3 +133,10 @@
 ;; (setq smart-tab-completion-functions-alist
 ;;       '((cperl-mode      . plcmp-cmd-smart-complete)
 ;;         (text-mode       . dabbrev-completion)))
+
+;;; TEMPLATE
+(require 'template-mode)
+(add-hook 'html-mode-hook
+          (lambda ()
+            (if (string-match "\\.tt2?$" buffer-file-name)
+                (template-minor-mode 1))))
