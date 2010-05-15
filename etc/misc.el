@@ -27,6 +27,9 @@
      (color-theme-initialize)
      (color-theme-hober)))
 
+;;; CSS-HEXCOLOR
+(require 'css-hexcolor)
+
 ;;; DIFF-CURRENT-BUFFER-WITH-FILE
 (defun genehack/diff-current-buffer-with-file ()
   "Show diff between current buffer contents and file on disk"
