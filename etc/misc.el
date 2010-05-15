@@ -15,6 +15,10 @@
              (or (file-exists-p (file-name-directory buffer-file-name))
                  (make-directory (file-name-directory buffer-file-name) t))))
 
+;;; BROWSE-KILL-RING
+(require 'browse-kill-ring)
+(browse-kill-ring-default-keybindings)
+
 ;;; DIFF-CURRENT-BUFFER-WITH-FILE
 (defun genehack/diff-current-buffer-with-file ()
   "Show diff between current buffer contents and file on disk"
