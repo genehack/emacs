@@ -8,6 +8,12 @@
 (ac-config-default)
 (setq ac-comphist-file (concat genehack/emacs-config-dir "tmp/ac-comphist.dat"))
 
+;;; DIFF-CURRENT-BUFFER-WITH-FILE
+(defun genehack/diff-current-buffer-with-file ()
+  "Show diff between current buffer contents and file on disk"
+  (interactive)
+  (diff-buffer-with-file (current-buffer)))
+
 ;;; DIRED-RIGHT-HERE
 (defun genehack/dired-right-here (arg)
   "Run ido-dired or, with prefix, dired on current active directory."
