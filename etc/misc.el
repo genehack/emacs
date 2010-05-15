@@ -19,6 +19,14 @@
 (require 'browse-kill-ring)
 (browse-kill-ring-default-keybindings)
 
+;;; COLOR-THEME
+(add-to-list 'load-path (concat genehack/emacs-libs-dir "color-theme"))
+(require 'color-theme)
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)
+     (color-theme-hober)))
+
 ;;; DIFF-CURRENT-BUFFER-WITH-FILE
 (defun genehack/diff-current-buffer-with-file ()
   "Show diff between current buffer contents and file on disk"
