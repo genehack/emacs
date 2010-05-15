@@ -96,3 +96,8 @@
     "Stub function for when git isn't available"
     (interactive)
     (message "Unable to find a git binary; magit is unavailable.")))
+
+;;; MARKDOWN
+(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.mrkd" . markdown-mode))
+
