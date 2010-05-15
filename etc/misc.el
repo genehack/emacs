@@ -8,6 +8,13 @@
 (ac-config-default)
 (setq ac-comphist-file (concat genehack/emacs-config-dir "tmp/ac-comphist.dat"))
 
+;;; AUTO CREATE DIRECTORIES
+;;;; after <http://atomized.org/2008/12/emacs-create-directory-before-saving/>
+(add-hook 'before-save-hook
+          '(lambda ()
+             (or (file-exists-p (file-name-directory buffer-file-name))
+                 (make-directory (file-name-directory buffer-file-name) t))))
+
 ;;; DIFF-CURRENT-BUFFER-WITH-FILE
 (defun genehack/diff-current-buffer-with-file ()
   "Show diff between current buffer contents and file on disk"
