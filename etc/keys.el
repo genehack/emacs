@@ -22,7 +22,10 @@
 (global-set-key (kbd "<f1>")      'disk)
 (global-set-key (kbd "<f2>")      'genehack/dired-right-here)
 (global-set-key (kbd "<f3>")      'genehack/magit-status-with-prompt)
-
+(global-set-key (kbd "<f4>")      'bury-buffer)
+(global-set-key (kbd "<f6>")      'genehack/switch-to-gnus)
+(global-set-key (kbd "<f7>")      'genehack/erc)
+(global-set-key (kbd "<f10>")     'menu-bar-open)
 (global-set-key (kbd "<f11>")     'multi-term-dedicated-toggle)
 (global-set-key (kbd "<f12>")     'macro-dwim)
 (global-set-key (kbd "M-<f12>")   'macro-clear)
