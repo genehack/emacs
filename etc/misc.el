@@ -171,3 +171,7 @@
     (cond ((equal (point) (point-at-bol)) (back-to-indentation))
           ((equal last-command genehack/bol-command-name) (move-beginning-of-line nil))
           (t (back-to-indentation)))))
+
+;;; YAML-MODE
+(autoload 'yaml-mode "yaml-mode" "YAML" t)
+(add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
