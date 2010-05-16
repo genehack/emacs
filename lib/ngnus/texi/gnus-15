@@ -1,0 +1,1375 @@
+Info file: gnus,    -*-Text-*-
+produced by `texinfo-format-buffer'
+from file `gnus.texi'
+using `texinfmt.el' version 2.42 of  7 Jul 2006.
+
+Copyright (C) 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
+2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover
+     texts being "A GNU Manual", and with the Back-Cover Texts as in
+     (a) below.  A copy of the license is included in the section
+     entitled "GNU Free Documentation License" in the Emacs manual.
+
+     (a) The FSF's Back-Cover Text is: "You have freedom to copy and
+     modify this GNU Manual, like GNU software.  Copies published by
+     the Free Software Foundation raise funds for GNU development."
+
+     This document is part of a collection distributed under the GNU
+     Free Documentation License.  If you want to distribute this
+     document separately from the collection, you can do so by adding
+     a copy of the license to the document, as described in section 6
+     of the license.
+
+
+
+INFO-DIR-SECTION Emacs
+START-INFO-DIR-ENTRY
+* Gnus: (gnus).         The newsreader Gnus.
+END-INFO-DIR-ENTRY
+
+
+
+
+
+
+
+
+File: gnus, Node: Faces and Fonts, Next: Compilation, Prev: Window Layout, Up: Various
+
+Faces and Fonts
+===============
+
+Fiddling with fonts and faces used to be very difficult, but these
+days it is very simple.  You simply say `M-x customize-face', pick out
+the face you want to alter, and alter it via the standard Customize
+interface.
+
+
+
+
+File: gnus, Node: Compilation, Next: Mode Lines, Prev: Faces and Fonts, Up: Various
+
+Compilation
+===========
+
+
+Remember all those line format specification variables?
+`gnus-summary-line-format', `gnus-group-line-format', and so on.  Now,
+Gnus will of course heed whatever these variables are, but,
+unfortunately, changing them will mean a quite significant slow-down.
+(The default values of these variables have byte-compiled functions
+associated with them, while the user-generated versions do not, of
+course.)
+
+To help with this, you can run `M-x gnus-compile' after you've fiddled
+around with the variables and feel that you're (kind of) satisfied.
+This will result in the new specs being byte-compiled, and you'll get
+top speed again.  Gnus will save these compiled specs in the
+`.newsrc.eld' file.  (User-defined functions aren't compiled by this
+function, though--you should compile them yourself by sticking them
+into the `~/.gnus.el' file and byte-compiling that file.)
+
+
+
+
+File: gnus, Node: Mode Lines, Next: Highlighting and Menus, Prev: Compilation, Up: Various
+
+Mode Lines
+==========
+
+`gnus-updated-mode-lines' says what buffers should keep their mode
+lines updated.  It is a list of symbols.  Supported symbols include
+`group', `article', `summary', `server', `browse', and `tree'.  If the
+corresponding symbol is present, Gnus will keep that mode line updated
+with information that may be pertinent.  If this variable is `nil',
+screen refresh may be quicker.
+
+
+By default, Gnus displays information on the current article in the
+mode lines of the summary and article buffers.  The information Gnus
+wishes to display (e.g. the subject of the article) is often longer
+than the mode lines, and therefore have to be cut off at some point.
+The `gnus-mode-non-string-length' variable says how long the other
+elements on the line is (i.e., the non-info part).  If you put
+additional elements on the mode line (e.g. a clock), you should modify
+this variable:
+
+     (add-hook 'display-time-hook
+               (lambda () (setq gnus-mode-non-string-length
+                                (+ 21
+                                   (if line-number-mode 5 0)
+                                   (if column-number-mode 4 0)
+                                   (length display-time-string)))))
+
+If this variable is `nil' (which is the default), the mode line
+strings won't be chopped off, and they won't be padded either.  Note
+that the default is unlikely to be desirable, as even the percentage
+complete in the buffer may be crowded off the mode line; the user
+should configure this variable appropriately for her configuration.
+
+
+
+
+File: gnus, Node: Highlighting and Menus, Next: Buttons, Prev: Mode Lines, Up: Various
+
+Highlighting and Menus
+======================
+
+The `gnus-visual' variable controls most of the Gnus-prettifying
+aspects.  If `nil', Gnus won't attempt to create menus or use fancy
+colors or fonts.  This will also inhibit loading the `gnus-vis.el'
+file.
+
+This variable can be a list of visual properties that are enabled.
+The following elements are valid, and are all included by default:
+
+`group-highlight'
+     Do highlights in the group buffer.
+`summary-highlight'
+     Do highlights in the summary buffer.
+`article-highlight'
+     Do highlights in the article buffer.
+`highlight'
+     Turn on highlighting in all buffers.
+`group-menu'
+     Create menus in the group buffer.
+`summary-menu'
+     Create menus in the summary buffers.
+`article-menu'
+     Create menus in the article buffer.
+`browse-menu'
+     Create menus in the browse buffer.
+`server-menu'
+     Create menus in the server buffer.
+`score-menu'
+     Create menus in the score buffers.
+`menu'
+     Create menus in all buffers.
+
+So if you only want highlighting in the article buffer and menus in
+all buffers, you could say something like:
+
+     (setq gnus-visual '(article-highlight menu))
+
+If you want highlighting only and no menus whatsoever, you'd say:
+
+     (setq gnus-visual '(highlight))
+
+If `gnus-visual' is `t', highlighting and menus will be used in all
+Gnus buffers.
+
+Other general variables that influence the look of all buffers
+include:
+
+`gnus-mouse-face'
+     This is the face (i.e., font) used for mouse highlighting in
+     Gnus.  No mouse highlights will be done if `gnus-visual' is
+     `nil'.
+
+
+There are hooks associated with the creation of all the different
+menus:
+
+
+`gnus-article-menu-hook'
+     Hook called after creating the article mode menu.
+
+`gnus-group-menu-hook'
+     Hook called after creating the group mode menu.
+
+`gnus-summary-menu-hook'
+     Hook called after creating the summary mode menu.
+
+`gnus-server-menu-hook'
+     Hook called after creating the server mode menu.
+
+`gnus-browse-menu-hook'
+     Hook called after creating the browse mode menu.
+
+`gnus-score-menu-hook'
+     Hook called after creating the score mode menu.
+
+
+
+
+
+File: gnus, Node: Buttons, Next: Daemons, Prev: Highlighting and Menus, Up: Various
+
+Buttons
+=======
+
+Those new-fangled "mouse" contraptions is very popular with the young,
+hep kids who don't want to learn the proper way to do things these
+days.  Why, I remember way back in the summer of '89, when I was using
+Emacs on a Tops 20 system.  Three hundred users on one single machine,
+and every user was running Simula compilers.  Bah!
+
+Right.
+
+Well, you can make Gnus display bufferfuls of buttons you can click to
+do anything by setting `gnus-carpal' to `t'.  Pretty simple, really.
+Tell the chiropractor I sent you.
+
+
+
+`gnus-carpal-mode-hook'
+     Hook run in all carpal mode buffers.
+
+`gnus-carpal-button-face'
+     Face used on buttons.
+
+`gnus-carpal-header-face'
+     Face used on carpal buffer headers.
+
+`gnus-carpal-group-buffer-buttons'
+     Buttons in the group buffer.
+
+`gnus-carpal-summary-buffer-buttons'
+     Buttons in the summary buffer.
+
+`gnus-carpal-server-buffer-buttons'
+     Buttons in the server buffer.
+
+`gnus-carpal-browse-buffer-buttons'
+     Buttons in the browse buffer.
+
+All the `buttons' variables are lists.  The elements in these list are
+either cons cells where the `car' contains a text to be displayed and
+the `cdr' contains a function symbol, or a simple string.
+
+
+
+
+File: gnus, Node: Daemons, Next: NoCeM, Prev: Buttons, Up: Various
+
+Daemons
+=======
+
+Gnus, being larger than any program ever written (allegedly), does
+lots of strange stuff that you may wish to have done while you're not
+present.  For instance, you may want it to check for new mail once in
+a while.  Or you may want it to close down all connections to all
+servers when you leave Emacs idle.  And stuff like that.
+
+Gnus will let you do stuff like that by defining various
+"handlers".  Each handler consists of three elements:  A
+FUNCTION, a TIME, and an IDLE parameter.
+
+Here's an example of a handler that closes connections when Emacs has
+been idle for thirty minutes:
+
+     (gnus-demon-close-connections nil 30)
+
+Here's a handler that scans for PGP headers every hour when Emacs is
+idle:
+
+     (gnus-demon-scan-pgp 60 t)
+
+This TIME parameter and that IDLE parameter work together
+in a strange, but wonderful fashion.  Basically, if IDLE is
+`nil', then the function will be called every TIME minutes.
+
+If IDLE is `t', then the function will be called after TIME minutes
+only if Emacs is idle.  So if Emacs is never idle, the function will
+never be called.  But once Emacs goes idle, the function will be
+called every TIME minutes.
+
+If IDLE is a number and TIME is a number, the function will
+be called every TIME minutes only when Emacs has been idle for
+IDLE minutes.
+
+If IDLE is a number and TIME is `nil', the function will be called
+once every time Emacs has been idle for IDLE minutes.
+
+And if TIME is a string, it should look like `07:31', and the function
+will then be called once every day somewhere near that time.  Modified
+by the IDLE parameter, of course.
+
+(When I say "minute" here, I really mean `gnus-demon-timestep'
+seconds.  This is 60 by default.  If you change that variable, all the
+timings in the handlers will be affected.)
+
+So, if you want to add a handler, you could put something like this in
+your `~/.gnus.el' file:
+
+     (gnus-demon-add-handler 'gnus-demon-close-connections 30 t)
+
+Some ready-made functions to do this have been created:
+`gnus-demon-add-nocem', `gnus-demon-add-disconnection',
+`gnus-demon-add-nntp-close-connection',
+`gnus-demon-add-scan-timestamps', `gnus-demon-add-rescan', and
+`gnus-demon-add-scanmail'.  Just put those functions in your
+`~/.gnus.el' if you want those abilities.
+
+If you add handlers to `gnus-demon-handlers' directly, you should run
+`gnus-demon-init' to make the changes take hold.  To cancel all
+daemons, you can use the `gnus-demon-cancel' function.
+
+Note that adding daemons can be pretty naughty if you over do it.
+Adding functions that scan all news and mail from all servers every
+two seconds is a sure-fire way of getting booted off any respectable
+system.  So behave.
+
+
+
+
+File: gnus, Node: NoCeM, Next: Undo, Prev: Daemons, Up: Various
+
+NoCeM
+=====
+
+"Spamming" is posting the same article lots and lots of times.
+Spamming is bad.  Spamming is evil.
+
+Spamming is usually canceled within a day or so by various
+anti-spamming agencies.  These agencies usually also send out "NoCeM"
+messages.  NoCeM is pronounced "no see-'em", and means what the name
+implies--these are messages that make the offending articles, like, go
+away.
+
+What use are these NoCeM messages if the articles are canceled anyway?
+Some sites do not honor cancel messages and some sites just honor
+cancels from a select few people.  Then you may wish to make use of
+the NoCeM messages, which are distributed in the `alt.nocem.misc'
+newsgroup.
+
+Gnus can read and parse the messages in this group automatically, and
+this will make spam disappear.
+
+There are some variables to customize, of course:
+
+`gnus-use-nocem'
+     Set this variable to `t' to set the ball rolling.  It is `nil' by
+     default.
+
+     You can also set this variable to a positive number as a group
+     level.  In that case, Gnus scans NoCeM messages when checking new
+     news if this value is not exceeding a group level that you
+     specify as the prefix argument to some commands, e.g. `gnus',
+     `gnus-group-get-new-news', etc.  Otherwise, Gnus does not scan
+     NoCeM messages if you specify a group level to those commands.
+     For example, if you use 1 or 2 on the mail groups and the levels
+     on the news groups remain the default, 3 is the best choice.
+
+`gnus-nocem-groups'
+     Gnus will look for NoCeM messages in the groups in this list.
+     The default is
+          ("news.lists.filters" "news.admin.net-abuse.bulletins"
+           "alt.nocem.misc" "news.admin.net-abuse.announce")
+
+`gnus-nocem-issuers'
+     There are many people issuing NoCeM messages.  This list says
+     what people you want to listen to.  The default is ("Automoose-1"
+     clewis@ferret.ocunix.on.ca" "cosmo.roadkill" "SpamHippo"
+     hweede@snafu.de") fine, upstanding citizens all of them.
+
+     Known despammers that you can put in this list are listed at
+     `http://www.xs4all.nl/~rosalind/nocemreg/nocemreg.html'.
+
+     You do not have to heed NoCeM messages from all these people--just the
+     ones you want to listen to.  You also don't have to accept all NoCeM
+     messages from the people you like.  Each NoCeM message has a "type"
+     header that gives the message a (more or less, usually less) rigorous
+     definition.  Common types are `spam', `spew', `mmf',
+     `binary', and `troll'.  To specify this, you have to use
+     `(ISSUER CONDITIONS ...)' elements in the list.
+     Each condition is either a string (which is a regexp that matches types
+     you want to use) or a list on the form `(not STRING)', where
+     STRING is a regexp that matches types you don't want to use.
+
+     For instance, if you want all NoCeM messages from Chris Lewis except his
+     `troll' messages, you'd say:
+
+          ("clewis@ferret.ocunix.on.ca" ".*" (not "troll"))
+
+     On the other hand, if you just want nothing but his `spam' and
+     `spew' messages, you'd say:
+
+          ("clewis@ferret.ocunix.on.ca" (not ".*") "spew" "spam")
+
+     The specs are applied left-to-right.
+
+
+`gnus-nocem-verifyer'
+     This should be a function for verifying that the NoCeM issuer is
+     who she says she is.  The default is `pgg-verify', which returns
+     non-`nil' if the verification is successful, otherwise (including
+     the case the NoCeM message was not signed) returns `nil'.  If
+     this is too slow and you don't care for verification (which may
+     be dangerous), you can set this variable to `nil'.
+
+     Formerly the default was `mc-verify', which is a Mailcrypt
+     function.  While you can still use it, you can change it into
+     `pgg-verify' running with GnuPG if you are willing to add the
+     PGP public keys to GnuPG's keyring.
+
+`gnus-nocem-directory'
+     This is where Gnus will store its NoCeM cache files.  The default is
+     `~/News/NoCeM/'.
+
+`gnus-nocem-expiry-wait'
+     The number of days before removing old NoCeM entries from the
+     cache.  The default is 15.  If you make it shorter Gnus will be
+     faster, but you might then see old spam.
+
+`gnus-nocem-check-from'
+     Non-`nil' means check for valid issuers in message bodies.
+     Otherwise don't bother fetching articles unless their author
+     matches a valid issuer; that is much faster if you are selective
+     about the issuers.
+
+`gnus-nocem-check-article-limit'
+     If non-`nil', the maximum number of articles to check in any
+     NoCeM group.  NoCeM groups can be huge and very slow to process.
+
+
+Using NoCeM could potentially be a memory hog.  If you have many
+living (i. e., subscribed or unsubscribed groups), your Emacs process
+will grow big.  If this is a problem, you should kill off all (or
+most) of your unsubscribed groups (*Note Subscription Commands::).
+
+
+
+
+File: gnus, Node: Undo, Next: Predicate Specifiers, Prev: NoCeM, Up: Various
+
+Undo
+====
+
+It is very useful to be able to undo actions one has done.  In normal
+Emacs buffers, it's easy enough--you just push the `undo' button.  In
+Gnus buffers, however, it isn't that simple.
+
+The things Gnus displays in its buffer is of no value whatsoever to
+Gnus--it's all just data designed to look nice to the user.
+Killing a group in the group buffer with `C-k' makes the line
+disappear, but that's just a side-effect of the real action--the
+removal of the group in question from the internal Gnus structures.
+Undoing something like that can't be done by the normal Emacs
+`undo' function.
+
+Gnus tries to remedy this somewhat by keeping track of what the user
+does and coming up with actions that would reverse the actions the
+user takes.  When the user then presses the `undo' key, Gnus will run
+the code to reverse the previous action, or the previous actions.
+However, not all actions are easily reversible, so Gnus currently
+offers a few key functions to be undoable.  These include killing
+groups, yanking groups, and changing the list of read articles of
+groups.  That's it, really.  More functions may be added in the
+future, but each added function means an increase in data to be
+stored, so Gnus will never be totally undoable.
+
+The undoability is provided by the `gnus-undo-mode' minor mode.  It is
+used if `gnus-use-undo' is non-`nil', which is the default.  The
+`C-M-_' key performs the `gnus-undo' command, which should feel kinda
+like the normal Emacs `undo' command.
+
+
+
+
+File: gnus, Node: Predicate Specifiers, Next: Moderation, Prev: Undo, Up: Various
+
+Predicate Specifiers
+====================
+
+Some Gnus variables are "predicate specifiers".  This is a special
+form that allows flexible specification of predicates without having
+to type all that much.
+
+These specifiers are lists consisting of functions, symbols and lists.
+
+Here's an example:
+
+     (or gnus-article-unseen-p
+         gnus-article-unread-p)
+
+The available symbols are `or', `and' and `not'.  The functions all
+take one parameter.
+
+Internally, Gnus calls `gnus-make-predicate' on these specifiers to
+create a function that can be called.  This input parameter to this
+function will be passed along to all the functions in the predicate
+specifier.
+
+
+
+
+File: gnus, Node: Moderation, Next: Fetching a Group, Prev: Predicate Specifiers, Up: Various
+
+Moderation
+==========
+
+If you are a moderator, you can use the `gnus-mdrtn.el' package.  It
+is not included in the standard Gnus package.  Write a mail to
+`larsi@gnus.org' and state what group you moderate, and you'll get a
+copy.
+
+The moderation package is implemented as a minor mode for summary
+buffers.  Put
+
+     (add-hook 'gnus-summary-mode-hook 'gnus-moderate)
+
+in your `~/.gnus.el' file.
+
+If you are the moderator of `rec.zoofle', this is how it's supposed to
+work:
+
+  1. You split your incoming mail by matching on
+     `Newsgroups:.*rec.zoofle', which will put all the to-be-posted
+     articles in some mail group--for instance, `nnml:rec.zoofle'.
+
+  2. You enter that group once in a while and post articles using the
+     `e' (edit-and-post) or `s' (just send unedited) commands.
+
+  3. If, while reading the `rec.zoofle' newsgroup, you happen upon some
+     articles that weren't approved by you, you can cancel them with the
+     `c' command.
+
+To use moderation mode in these two groups, say:
+
+     (setq gnus-moderated-list
+           "^nnml:rec.zoofle$\\|^rec.zoofle$")
+
+
+
+
+File: gnus, Node: Fetching a Group, Next: Image Enhancements, Prev: Moderation, Up: Various
+
+Fetching a Group
+================
+
+It is sometimes convenient to be able to just say "I want to read this
+group and I don't care whether Gnus has been started or not".  This is
+perhaps more useful for people who write code than for users, but the
+command `gnus-fetch-group' provides this functionality in any case.
+It takes the group name as a parameter.
+
+
+
+
+File: gnus, Node: Image Enhancements, Next: Fuzzy Matching, Prev: Fetching a Group, Up: Various
+
+Image Enhancements
+==================
+
+XEmacs, as well as Emacs 21 (1) (*Note Image Enhancements-Footnotes::)
+and up, are able to display pictures and stuff, so Gnus has taken
+advantage of that.
+
+* Menu:
+
+* X-Face::                      Display a funky, teensy black-and-white image.
+* Face::                        Display a funkier, teensier colored image.
+* Smileys::                     Show all those happy faces the way they were meant to be shown.
+* Picons::                      How to display pictures of what you're reading.
+* XVarious::                    Other XEmacsy Gnusey variables.
+
+
+
+File: gnus  Node: Image Enhancements-Footnotes, Up: Image Enhancements
+
+(1) Emacs 21 on MS Windows doesn't support images, Emacs 22 does.
+
+
+
+File: gnus, Node: X-Face, Next: Face, Prev: Image Enhancements, Up: Image Enhancements
+
+X-Face
+------
+
+`X-Face' headers describe a 48x48 pixel black-and-white (1 bit depth)
+image that's supposed to represent the author of the message.  It
+seems to be supported by an ever-growing number of mail and news
+readers.
+
+
+Viewing an `X-Face' header either requires an Emacs that has
+`compface' support (which most XEmacs versions have), or that you
+have suitable conversion or display programs installed.  If your Emacs
+has image support the default action is to display the face before the
+`From' header.  If there's no native `X-Face' support, Gnus
+will try to convert the `X-Face' header using external programs
+from the `pbmplus' package and friends, see below.  For XEmacs it's
+faster if XEmacs has been compiled with `X-Face' support.  The
+default action under Emacs without image support is to fork off the
+`display' program.
+
+On a GNU/Linux system, the `display' program is included in the
+ImageMagick package.  For external conversion programs look for packages
+with names like `netpbm', `libgr-progs' and `compface'.
+On Windows, you may use the packages `netpbm' and `compface'
+from `http://gnuwin32.sourceforge.net'.  You need to add the
+`bin' directory to your `PATH' environment variable.
+
+The variable `gnus-article-x-face-command' controls which programs
+are used to display the `X-Face' header.  If this variable is a
+string, this string will be executed in a sub-shell.  If it is a
+function, this function will be called with the face as the argument.
+If `gnus-article-x-face-too-ugly' (which is a regexp) matches the
+`From' header, the face will not be shown.
+
+(Note: `x-face' is used in the variable/function names, not
+`xface').
+
+Face and variable:
+
+`gnus-x-face'
+     Face to show X-Face.  The colors from this face are used as the
+     foreground and background colors of the displayed X-Faces.  The
+     default colors are black and white.
+
+`gnus-face-properties-alist'
+     Alist of image types and properties applied to Face (*Note
+     Face::) and X-Face images.  The default value is `((pbm . (:face
+     gnus-x-face)) (png . nil))' for Emacs or `((xface . (:face
+     gnus-x-face)))' for XEmacs.  Here are examples:
+
+          ;; Specify the altitude of Face and X-Face images in the From header.
+          (setq gnus-face-properties-alist
+                '((pbm . (:face gnus-x-face :ascent 80))
+                  (png . (:ascent 80))))
+
+          ;; Show Face and X-Face images as pressed buttons.
+          (setq gnus-face-properties-alist
+                '((pbm . (:face gnus-x-face :relief -2))
+                  (png . (:relief -2))))
+
+     *Note Image Descriptors: (elisp)Image Descriptors. for the valid properties for various image types.
+     Currently, `pbm' is used for X-Face images and `png' is used
+     for Face images in Emacs.  Only the `:face' property is effective
+     on the `xface' image type in XEmacs if it is built with the
+     `libcompface' library.
+
+If you use posting styles, you can use an `x-face-file' entry in
+`gnus-posting-styles', *Note Posting Styles::.  If you don't, Gnus
+provides a few convenience functions and variables to allow easier
+insertion of X-Face headers in outgoing messages.  You also need the
+above mentioned ImageMagick, netpbm or other image conversion packages
+(depending the values of the variables below) for these functions.
+
+`gnus-random-x-face' goes through all the `pbm' files in
+`gnus-x-face-directory' and picks one at random, and then converts it
+to the X-Face format by using the `gnus-convert-pbm-to-x-face-command'
+shell command.  The `pbm' files should be 48x48 pixels big.  It
+returns the X-Face header data as a string.
+
+`gnus-insert-random-x-face-header' calls `gnus-random-x-face' and
+inserts a `X-Face' header with the randomly generated data.
+
+`gnus-x-face-from-file' takes a GIF file as the parameter, and then
+converts the file to X-Face format by using the
+`gnus-convert-image-to-x-face-command' shell command.
+
+Here's how you would typically use the first function.  Put something
+like the following in your `~/.gnus.el' file:
+
+     (setq message-required-news-headers
+           (nconc message-required-news-headers
+                  (list '(X-Face . gnus-random-x-face))))
+
+Using the last function would be something like this:
+
+     (setq message-required-news-headers
+           (nconc message-required-news-headers
+                  (list '(X-Face . (lambda ()
+                                     (gnus-x-face-from-file
+                                      "~/My-face.gif"))))))
+
+
+
+
+File: gnus, Node: Face, Next: Smileys, Prev: X-Face, Up: Image Enhancements
+
+Face
+----
+
+
+`Face' headers are essentially a funkier version of `X-Face'
+ones. They describe a 48x48 pixel colored image that's supposed to
+represent the author of the message.
+
+The contents of a `Face' header must be a base64 encoded PNG image.
+See `http://quimby.gnus.org/circus/face/' for the precise
+specifications.
+
+The `gnus-face-properties-alist' variable affects the appearance of
+displayed Face images.  *Note X-Face::.
+
+Viewing an `Face' header requires an Emacs that is able to display PNG
+images.
+
+Gnus provides a few convenience functions and variables to allow
+easier insertion of Face headers in outgoing messages.
+
+`gnus-convert-png-to-face' takes a 48x48 PNG image, no longer than 726
+bytes long, and converts it to a face.
+
+`gnus-face-from-file' takes a JPEG file as the parameter, and then
+converts the file to Face format by using the
+`gnus-convert-image-to-face-command' shell command.
+
+Here's how you would typically use this function. Put something like
+the following in your `~/.gnus.el' file:
+
+     (setq message-required-news-headers
+           (nconc message-required-news-headers
+                  (list '(Face . (lambda ()
+                                   (gnus-face-from-file "~/face.jpg"))))))
+
+
+
+
+File: gnus, Node: Smileys, Next: Picons, Prev: Face, Up: Image Enhancements
+
+Smileys
+-------
+
+
+"Smiley" is a package separate from Gnus, but since Gnus is currently
+the only package that uses Smiley, it is documented here.
+
+In short--to use Smiley in Gnus, put the following in your
+`~/.gnus.el' file:
+
+     (setq gnus-treat-display-smileys t)
+
+Smiley maps text smiley faces---`:-)', `8-)', `:-(' and the like--to
+pictures and displays those instead of the text smiley faces.  The
+conversion is controlled by a list of regexps that matches text and
+maps that to file names.
+
+The alist used is specified by the `smiley-regexp-alist' variable.
+The first item in each element is the regexp to be matched; the second
+element is the regexp match group that is to be replaced by the
+picture; and the third element is the name of the file to be
+displayed.
+
+The following variables customize the appearance of the smileys:
+
+
+`smiley-style'
+     Specifies the smiley style.  Predefined smiley styles include
+     `low-color' (small 13x14 pixel, three-color images), `medium'
+     (more colorful images, 16x16 pixel), and `grayscale' (grayscale
+     images, 14x14 pixel).  The default depends on the height of the
+     default face.
+
+`smiley-data-directory'
+     Where Smiley will look for smiley faces files.  You shouldn't set
+     this variable anymore.  Customize `smiley-style' instead.
+
+`gnus-smiley-file-types'
+     List of suffixes on smiley file names to try.
+
+
+
+
+
+File: gnus, Node: Picons, Next: XVarious, Prev: Smileys, Up: Image Enhancements
+
+Picons
+------
+
+
+So...  You want to slow down your news reader even more!  This is a
+good way to do so.  It's also a great way to impress people staring
+over your shoulder as you read news.
+
+What are Picons?  To quote directly from the Picons Web site:
+
+
+     "Picons" is short for "personal icons".  They're small,
+     constrained images used to represent users and domains on the net,
+     organized into databases so that the appropriate image for a given
+     e-mail address can be found.  Besides users and domains, there are picon
+     databases for Usenet newsgroups and weather forecasts.  The picons are
+     in either monochrome `XBM' format or color `XPM' and
+     `GIF' formats.
+
+For instructions on obtaining and installing the picons databases,
+point your Web browser at
+`http://www.cs.indiana.edu/picons/ftp/index.html'.
+
+If you are using Debian GNU/Linux, saying `apt-get install picons.*'
+will install the picons where Gnus can find them.
+
+To enable displaying picons, simply make sure that
+`gnus-picon-databases' points to the directory containing the Picons
+databases.
+
+The variable `gnus-picon-style' controls how picons are displayed.
+If `inline', the textual representation is replaced.  If
+`right', picons are added right to the textual representation.
+
+The following variables offer control over where things are located.
+
+
+`gnus-picon-databases'
+     The location of the picons database.  This is a list of
+     directories containing the `news', `domains', `users' (and so on)
+     subdirectories.  Defaults to `("/usr/lib/picon"
+     /usr/local/faces")'.
+
+`gnus-picon-news-directories'
+     List of subdirectories to search in `gnus-picon-databases' for
+     newsgroups faces.  `("news")' is the default.
+
+`gnus-picon-user-directories'
+     List of subdirectories to search in `gnus-picon-databases' for
+     user faces.  `("users" "usenix" "local" "misc")' is the default.
+
+`gnus-picon-domain-directories'
+     List of subdirectories to search in `gnus-picon-databases' for
+     domain name faces.  Defaults to `("domains")'.  Some people may
+     want to add `"unknown"' to this list.
+
+`gnus-picon-file-types'
+     Ordered list of suffixes on picon file names to try.  Defaults to
+     `("xpm" "gif" "xbm")' minus those not built-in your Emacs.
+
+
+
+
+
+File: gnus, Node: XVarious, Prev: Picons, Up: Image Enhancements
+
+Various XEmacs Variables
+------------------------
+
+`gnus-xmas-glyph-directory'
+     This is where Gnus will look for pictures.  Gnus will normally
+     auto-detect this directory, but you may set it manually if you
+     have an unusual directory structure.
+
+`gnus-xmas-modeline-glyph'
+     A glyph displayed in all Gnus mode lines.  It is a tiny gnu head
+     by default.
+
+
+
+Toolbar
+.......
+
+
+`gnus-use-toolbar'
+     This variable specifies the position to display the toolbar.  If
+     `nil', don't display toolbars.  If it is non-`nil', it should be
+     one of the symbols `default', `top', `bottom', `right', and
+     `left'.  `default' means to use the default toolbar, the rest
+     mean to display the toolbar on the place which those names show.
+     The default is `default'.
+
+`gnus-toolbar-thickness'
+     Cons of the height and the width specifying the thickness of a
+     toolbar.  The height is used for the toolbar displayed on the top
+     or the bottom, the width is used for the toolbar displayed on the
+     right or the left.  The default is that of the default toolbar.
+
+`gnus-group-toolbar'
+     The toolbar in the group buffer.
+
+`gnus-summary-toolbar'
+     The toolbar in the summary buffer.
+
+`gnus-summary-mail-toolbar'
+     The toolbar in the summary buffer of mail groups.
+
+
+
+
+
+
+File: gnus, Node: Fuzzy Matching, Next: Thwarting Email Spam, Prev: Image Enhancements, Up: Various
+
+Fuzzy Matching
+==============
+
+Gnus provides "fuzzy matching" of `Subject' lines when doing things
+like scoring, thread gathering and thread comparison.
+
+As opposed to regular expression matching, fuzzy matching is very
+fuzzy.  It's so fuzzy that there's not even a definition of what
+fuzziness" means, and the implementation has changed over time.
+
+Basically, it tries to remove all noise from lines before comparing.
+`Re: ', parenthetical remarks, white space, and so on, are filtered
+out of the strings before comparing the results.  This often leads to
+adequate results--even when faced with strings generated by text
+manglers masquerading as newsreaders.
+
+
+
+
+File: gnus, Node: Thwarting Email Spam, Next: Spam Package, Prev: Fuzzy Matching, Up: Various
+
+Thwarting Email Spam
+====================
+
+In these last days of the Usenet, commercial vultures are hanging
+about and grepping through news like crazy to find email addresses
+they can foist off their scams and products to.  As a reaction to
+this, many people have started putting nonsense addresses into their
+`From' lines.  I think this is counterproductive--it makes it
+difficult for people to send you legitimate mail in response to things
+you write, as well as making it difficult to see who wrote what.  This
+rewriting may perhaps be a bigger menace than the unsolicited
+commercial email itself in the end.
+
+The biggest problem I have with email spam is that it comes in under
+false pretenses.  I press `g' and Gnus merrily informs me that I have
+10 new emails.  I say "Golly gee!  Happy is me!" and select the mail
+group, only to find two pyramid schemes, seven advertisements ("New!
+Miracle tonic for growing full, lustrous hair on your toes!")  and one
+mail asking me to repent and find some god.
+
+This is annoying.  Here's what you can do about it.
+
+* Menu:
+
+* The problem of spam::         Some background, and some solutions
+* Anti-Spam Basics::            Simple steps to reduce the amount of spam.
+* SpamAssassin::                How to use external anti-spam tools.
+* Hashcash::                    Reduce spam by burning CPU time.
+
+
+
+File: gnus, Node: The problem of spam, Next: Anti-Spam Basics, Prev: Thwarting Email Spam, Up: Thwarting Email Spam
+
+The problem of spam
+-------------------
+
+First, some background on spam.
+
+If you have access to e-mail, you are familiar with spam (technically
+termed UCE, Unsolicited Commercial E-mail).  Simply put, it
+exists because e-mail delivery is very cheap compared to paper mail,
+so only a very small percentage of people need to respond to an UCE to
+make it worthwhile to the advertiser.  Ironically, one of the most
+common spams is the one offering a database of e-mail addresses for
+further spamming.  Senders of spam are usually called *spammers*,
+but terms like *vermin*, *scum*, *sociopaths*, and
+*morons* are in common use as well.
+
+Spam comes from a wide variety of sources.  It is simply impossible to
+dispose of all spam without discarding useful messages.  A good
+example is the TMDA system, which requires senders unknown to you to
+confirm themselves as legitimate senders before their e-mail can reach
+you.  Without getting into the technical side of TMDA, a downside is
+clearly that e-mail from legitimate sources may be discarded if those
+sources can't or won't confirm themselves through the TMDA system.
+Another problem with TMDA is that it requires its users to have a
+basic understanding of e-mail delivery and processing.
+
+The simplest approach to filtering spam is filtering, at the mail
+server or when you sort through incoming mail.  If you get 200 spam
+messages per day from `random-address@vmadmin.com', you block
+`vmadmin.com'.  If you get 200 messages about `VIAGRA', you discard
+all messages with `VIAGRA' in the message.  If you get lots of spam
+from Bulgaria, for example, you try to filter all mail from Bulgarian
+IPs.
+
+This, unfortunately, is a great way to discard legitimate e-mail.  The
+risks of blocking a whole country (Bulgaria, Norway, Nigeria, China,
+etc.) or even a continent (Asia, Africa, Europe, etc.) from contacting
+you should be obvious, so don't do it if you have the choice.
+
+In another instance, the very informative and useful RISKS digest has
+been blocked by overzealous mail filters because it *contained* words
+that were common in spam messages.  Nevertheless, in isolated cases,
+with great care, direct filtering of mail can be useful.
+
+Another approach to filtering e-mail is the distributed spam
+processing, for instance DCC implements such a system.  In essence, N
+systems around the world agree that a machine X in Ghana, Estonia, or
+California is sending out spam e-mail, and these N systems enter X or
+the spam e-mail from X into a database.  The criteria for spam
+detection vary--it may be the number of messages sent, the content of
+the messages, and so on.  When a user of the distributed processing
+system wants to find out if a message is spam, he consults one of
+those N systems.
+
+Distributed spam processing works very well against spammers that send
+a large number of messages at once, but it requires the user to set up
+fairly complicated checks.  There are commercial and free distributed
+spam processing systems.  Distributed spam processing has its risks as
+well.  For instance legitimate e-mail senders have been accused of
+sending spam, and their web sites and mailing lists have been shut
+down for some time because of the incident.
+
+The statistical approach to spam filtering is also popular.  It is
+based on a statistical analysis of previous spam messages.  Usually
+the analysis is a simple word frequency count, with perhaps pairs of
+words or 3-word combinations thrown into the mix.  Statistical
+analysis of spam works very well in most of the cases, but it can
+classify legitimate e-mail as spam in some cases.  It takes time to
+run the analysis, the full message must be analyzed, and the user has
+to store the database of spam analysis.  Statistical analysis on the
+server is gaining popularity.  This has the advantage of letting the
+user Just Read Mail, but has the disadvantage that it's harder to tell
+the server that it has misclassified mail.
+
+Fighting spam is not easy, no matter what anyone says.  There is no
+magic switch that will distinguish Viagra ads from Mom's e-mails.
+Even people are having a hard time telling spam apart from non-spam,
+because spammers are actively looking to fool us into thinking they
+are Mom, essentially.  Spamming is irritating, irresponsible, and
+idiotic behavior from a bunch of people who think the world owes them
+a favor.  We hope the following sections will help you in fighting the
+spam plague.
+
+
+
+File: gnus, Node: Anti-Spam Basics, Next: SpamAssassin, Prev: The problem of spam, Up: Thwarting Email Spam
+
+Anti-Spam Basics
+----------------
+
+One way of dealing with spam is having Gnus split out all spam into a
+`spam' mail group (*Note Splitting Mail::).
+
+First, pick one (1) valid mail address that you can be reached at, and
+put it in your `From' header of all your news articles.  (I've chosen
+`larsi@trym.ifi.uio.no', but for many addresses on the form
+`larsi+usenet@ifi.uio.no' will be a better choice.  Ask your sysadmin
+whether your sendmail installation accepts keywords in the local part
+of the mail address.)
+
+     (setq message-default-news-headers
+           "From: Lars Magne Ingebrigtsen <larsi@trym.ifi.uio.no>\n")
+
+Then put the following split rule in `nnmail-split-fancy' (*Note Fancy
+Mail Splitting::):
+
+     (...
+      (to "larsi@trym.ifi.uio.no"
+          (| ("subject" "re:.*" "misc")
+             ("references" ".*@.*" "misc")
+             "spam"))
+      ...)
+
+This says that all mail to this address is suspect, but if it has a
+`Subject' that starts with a `Re:' or has a `References' header, it's
+probably ok.  All the rest goes to the `spam' group.  (This idea
+probably comes from Tim Pierce.)
+
+In addition, many mail spammers talk directly to your SMTP server and
+do not include your email address explicitly in the `To' header.  Why
+they do this is unknown--perhaps it's to thwart this thwarting scheme?
+In any case, this is trivial to deal with--you just put anything not
+addressed to you in the `spam' group by ending your fancy split rule
+in this way:
+
+     (
+      ...
+      (to "larsi" "misc")
+      "spam")
+
+In my experience, this will sort virtually everything into the right
+group.  You still have to check the `spam' group from time to time to
+check for legitimate mail, though.  If you feel like being a good net
+citizen, you can even send off complaints to the proper authorities on
+each unsolicited commercial email--at your leisure.
+
+This works for me.  It allows people an easy way to contact me (they
+can just press `r' in the usual way), and I'm not bothered at all with
+spam.  It's a win-win situation.  Forging `From' headers to point to
+non-existent domains is yucky, in my opinion.
+
+Be careful with this approach.  Spammers are wise to it.
+
+
+
+
+File: gnus, Node: SpamAssassin, Next: Hashcash, Prev: Anti-Spam Basics, Up: Thwarting Email Spam
+
+SpamAssassin, Vipul's Razor, DCC, etc
+-------------------------------------
+
+The days where the hints in the previous section were sufficient in
+avoiding spam are coming to an end.  There are many tools out there
+that claim to reduce the amount of spam you get.  This section could
+easily become outdated fast, as new products replace old, but
+fortunately most of these tools seem to have similar interfaces.  Even
+though this section will use SpamAssassin as an example, it should be
+easy to adapt it to most other tools.
+
+Note that this section does not involve the `spam.el' package, which
+is discussed in the next section.  If you don't care for all the
+features of `spam.el', you can make do with these simple recipes.
+
+If the tool you are using is not installed on the mail server, you
+need to invoke it yourself.  Ideas on how to use the `:postscript'
+mail source parameter (*Note Mail Source Specifiers::) follow.
+
+     (setq mail-sources
+           '((file :prescript "formail -bs spamassassin < /var/mail/%u")
+             (pop :user "jrl"
+                  :server "pophost"
+                  :postscript
+                  "mv %t /tmp/foo; formail -bs spamc < /tmp/foo > %t")))
+
+Once you manage to process your incoming spool somehow, thus making
+the mail contain e.g. a header indicating it is spam, you are ready to
+filter it out.  Using normal split methods (*Note Splitting Mail::):
+
+     (setq nnmail-split-methods '(("spam"  "^X-Spam-Flag: YES")
+                                  ...))
+
+Or using fancy split methods (*Note Fancy Mail Splitting::):
+
+     (setq nnmail-split-methods 'nnmail-split-fancy
+           nnmail-split-fancy '(| ("X-Spam-Flag" "YES" "spam")
+                                  ...))
+
+Some people might not like the idea of piping the mail through various
+programs using a `:prescript' (if some program is buggy, you might
+lose all mail).  If you are one of them, another solution is to call
+the external tools during splitting.  Example fancy split method:
+
+     (setq nnmail-split-fancy '(| (: kevin-spamassassin)
+                                  ...))
+     (defun kevin-spamassassin ()
+       (save-excursion
+         (save-restriction
+           (widen)
+           (if (eq 1 (call-process-region (point-min) (point-max)
+                                          "spamc" nil nil nil "-c"))
+               "spam"))))
+
+Note that with the nnimap back end, message bodies will not be
+downloaded by default.  You need to set `nnimap-split-download-body'
+to `t' to do that (*Note Splitting in IMAP::).
+
+That is about it.  As some spam is likely to get through anyway, you
+might want to have a nifty function to call when you happen to read
+spam.  And here is the nifty function:
+
+      (defun my-gnus-raze-spam ()
+       "Submit SPAM to Vipul's Razor, then mark it as expirable."
+       (interactive)
+       (gnus-summary-show-raw-article)
+       (gnus-summary-save-in-pipe "razor-report -f -d")
+       (gnus-summary-mark-as-expirable 1))
+
+
+
+File: gnus, Node: Hashcash, Prev: SpamAssassin, Up: Thwarting Email Spam
+
+Hashcash
+--------
+
+A novel technique to fight spam is to require senders to do something
+costly and demonstrably unique for each message they send.  This has
+the obvious drawback that you cannot rely on everyone in the world
+using this technique, since it is not part of the Internet standards,
+but it may be useful in smaller communities.
+
+While the tools in the previous section work well in practice, they
+work only because the tools are constantly maintained and updated as
+new form of spam appears.  This means that a small percentage of spam
+will always get through.  It also means that somewhere, someone needs
+to read lots of spam to update these tools.  Hashcash avoids that, but
+instead prefers that everyone you contact through e-mail supports the
+scheme.  You can view the two approaches as pragmatic vs dogmatic.
+The approaches have their own advantages and disadvantages, but as
+often in the real world, a combination of them is stronger than either
+one of them separately.
+
+The "something costly" is to burn CPU time, more specifically to
+compute a hash collision up to a certain number of bits.  The
+resulting hashcash cookie is inserted in a `X-Hashcash:' header.  For
+more details, and for the external application `hashcash' you need to
+install to use this feature, see `http://www.hashcash.org/'.  Even
+more information can be found at `http://www.camram.org/'.
+
+If you wish to generate hashcash for each message you send, you can
+customize `message-generate-hashcash' (*Note Mail Headers:
+(message)Mail Headers.), as in:
+
+     (setq message-generate-hashcash t)
+
+You will need to set up some additional variables as well:
+
+
+`hashcash-default-payment'
+     This variable indicates the default number of bits the hash
+     collision should consist of.  By default this is 20.  Suggested
+     useful values include 17 to 29.
+
+`hashcash-payment-alist'
+     Some receivers may require you to spend burn more CPU time than
+     the default.  This variable contains a list of `(ADDR AMOUNT)'
+     cells, where ADDR is the receiver (email address or newsgroup)
+     and AMOUNT is the number of bits in the collision that is needed.
+     It can also contain `(ADDR STRING AMOUNT)' cells, where the
+     STRING is the string to use (normally the email address or
+     newsgroup name is used).
+
+`hashcash-path'
+     Where the `hashcash' binary is installed.  This variable should
+     be automatically set by `executable-find', but if it's `nil'
+     (usually because the `hashcash' binary is not in your path)
+     you'll get a warning when you check hashcash payments and an
+     error when you generate hashcash payments.
+
+
+Gnus can verify hashcash cookies, although this can also be done by
+hand customized mail filtering scripts.  To verify a hashcash cookie
+in a message, use the `mail-check-payment' function in the
+`hashcash.el' library.  You can also use the `spam.el' package with
+the `spam-use-hashcash' back end to validate hashcash cookies in
+incoming mail and filter mail accordingly (*Note Anti-spam Hashcash
+Payments::).
+
+
+
+File: gnus, Node: Spam Package, Next: Other modes, Prev: Thwarting Email Spam, Up: Various
+
+Spam Package
+============
+
+The Spam package provides Gnus with a centralized mechanism for
+detecting and filtering spam.  It filters new mail, and processes
+messages according to whether they are spam or ham.  ("Ham" is the
+name used throughout this manual to indicate non-spam messages.)
+
+* Menu:
+
+* Spam Package Introduction::
+* Filtering Incoming Mail::
+* Detecting Spam in Groups::
+* Spam and Ham Processors::
+* Spam Package Configuration Examples::
+* Spam Back Ends::
+* Extending the Spam package::
+* Spam Statistics Package::
+
+
+
+File: gnus, Node: Spam Package Introduction, Next: Filtering Incoming Mail, Prev: Spam Package, Up: Spam Package
+
+Spam Package Introduction
+-------------------------
+
+You must read this section to understand how the Spam package works.
+Do not skip, speed-read, or glance through this section.
+
+Make sure you read the section on the `spam.el' sequence of events.
+See *Note Extending the Spam package::.
+
+To use the Spam package, you *must* first run the function
+`spam-initialize':
+
+     (spam-initialize)
+
+This autoloads `spam.el' and installs the various hooks necessary to
+let the Spam package do its job.  In order to make use of the Spam
+package, you have to set up certain group parameters and variables,
+which we will describe below.  All of the variables controlling the
+Spam package can be found in the `spam' customization group.
+
+There are two "contact points" between the Spam package and the rest
+of Gnus: checking new mail for spam, and leaving a group.
+
+Checking new mail for spam is done in one of two ways: while splitting
+incoming mail, or when you enter a group.
+
+The first way, checking for spam while splitting incoming mail, is
+suited to mail back ends such as `nnml' or `nnimap', where new mail
+appears in a single spool file.  The Spam package processes incoming
+mail, and sends mail considered to be spam to a designated "spam"
+group.  *Note Filtering Incoming Mail::.
+
+The second way is suited to back ends such as `nntp', which have no
+incoming mail spool, or back ends where the server is in charge of
+splitting incoming mail.  In this case, when you enter a Gnus group,
+the unseen or unread messages in that group are checked for spam.
+Detected spam messages are marked as spam.  *Note Detecting Spam in
+Groups::.
+
+In either case, you have to tell the Spam package what method to use
+to detect spam messages.  There are several methods, or "spam back
+ends" (not to be confused with Gnus back ends!) to choose from: spam
+blacklists" and "whitelists", dictionary-based filters, and so forth.
+*Note Spam Back Ends::.
+
+In the Gnus summary buffer, messages that have been identified as spam
+always appear with a `$' symbol.
+
+The Spam package divides Gnus groups into three categories: ham
+groups, spam groups, and unclassified groups.  You should mark each of
+the groups you subscribe to as either a ham group or a spam group,
+using the `spam-contents' group parameter (*Note Group Parameters::).
+Spam groups have a special property: when you enter a spam group, all
+unseen articles are marked as spam.  Thus, mail split into a spam
+group is automatically marked as spam.
+
+Identifying spam messages is only half of the Spam package's job.  The
+second half comes into play whenever you exit a group buffer.  At this
+point, the Spam package does several things:
+
+First, it calls "spam and ham processors" to process the articles
+according to whether they are spam or ham.  There is a pair of spam
+and ham processors associated with each spam back end, and what the
+processors do depends on the back end.  At present, the main role of
+spam and ham processors is for dictionary-based spam filters: they add
+the contents of the messages in the group to the filter's dictionary,
+to improve its ability to detect future spam.  The `spam-process'
+group parameter specifies what spam processors to use.  *Note Spam and
+Ham Processors::.
+
+If the spam filter failed to mark a spam message, you can mark it
+yourself, so that the message is processed as spam when you exit the
+group:
+
+`M-d'
+`M s x'
+`S x'
+     Mark current article as spam, showing it with the `$' mark
+     (`gnus-summary-mark-as-spam').
+
+Similarly, you can unmark an article if it has been erroneously marked
+as spam.  *Note Setting Marks::.
+
+Normally, a ham message found in a non-ham group is not processed as
+ham--the rationale is that it should be moved into a ham group for
+further processing (see below).  However, you can force these articles
+to be processed as ham by setting
+`spam-process-ham-in-spam-groups' and
+`spam-process-ham-in-nonham-groups'.
+
+The second thing that the Spam package does when you exit a group is
+to move ham articles out of spam groups, and spam articles out of ham
+groups.  Ham in a spam group is moved to the group specified by the
+variable `gnus-ham-process-destinations', or the group parameter
+`ham-process-destination'.  Spam in a ham group is moved to the group
+specified by the variable `gnus-spam-process-destinations', or the
+group parameter `spam-process-destination'.  If these variables are
+not set, the articles are left in their current group.  If an article
+cannot be moved (e.g., with a read-only backend such as NNTP), it is
+copied.
+
+If an article is moved to another group, it is processed again when
+you visit the new group.  Normally, this is not a problem, but if you
+want each article to be processed only once, load the
+`gnus-registry.el' package and set the variable `spam-log-to-registry'
+to `t'.  *Note Spam Package Configuration Examples::.
+
+Normally, spam groups ignore `gnus-spam-process-destinations'.
+However, if you set `spam-move-spam-nonspam-groups-only' to `nil',
+spam will also be moved out of spam groups, depending on the
+`spam-process-destination' parameter.
+
+The final thing the Spam package does is to mark spam articles as
+expired, which is usually the right thing to do.
+
+If all this seems confusing, don't worry.  Soon it will be as natural
+as typing Lisp one-liners on a neural interface... err, sorry, that's
+50 years in the future yet.  Just trust us, it's not so bad.
+
+
+

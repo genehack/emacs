@@ -1,0 +1,1226 @@
+Info file: gnus,    -*-Text-*-
+produced by `texinfo-format-buffer'
+from file `gnus.texi'
+using `texinfmt.el' version 2.42 of  7 Jul 2006.
+
+Copyright (C) 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
+2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover
+     texts being "A GNU Manual", and with the Back-Cover Texts as in
+     (a) below.  A copy of the license is included in the section
+     entitled "GNU Free Documentation License" in the Emacs manual.
+
+     (a) The FSF's Back-Cover Text is: "You have freedom to copy and
+     modify this GNU Manual, like GNU software.  Copies published by
+     the Free Software Foundation raise funds for GNU development."
+
+     This document is part of a collection distributed under the GNU
+     Free Documentation License.  If you want to distribute this
+     document separately from the collection, you can do so by adding
+     a copy of the license to the document, as described in section 6
+     of the license.
+
+
+
+INFO-DIR-SECTION Emacs
+START-INFO-DIR-ENTRY
+* Gnus: (gnus).         The newsreader Gnus.
+END-INFO-DIR-ENTRY
+
+
+
+
+
+
+
+
+File: gnus, Node: Incorporating Old Mail, Next: Expiring Mail, Prev: Group Mail Splitting, Up: Getting Mail
+
+Incorporating Old Mail
+----------------------
+
+Most people have lots of old mail stored in various file formats.  If
+you have set up Gnus to read mail using one of the spiffy Gnus mail
+back ends, you'll probably wish to have that old mail incorporated
+into your mail groups.
+
+Doing so can be quite easy.
+
+To take an example: You're reading mail using `nnml' (*Note Mail
+Spool::), and have set `nnmail-split-methods' to a satisfactory value
+(*Note Splitting Mail::).  You have an old Unix mbox file filled with
+important, but old, mail.  You want to move it into your `nnml'
+groups.
+
+Here's how:
+
+  1. Go to the group buffer.
+
+  2. Type `G f' and give the file name to the mbox file when prompted to create an
+     `nndoc' group from the mbox file (*Note Foreign Groups::).
+
+  3. Type `SPACE' to enter the newly created group.
+
+  4. Type `M P b' to process-mark all articles in this group's buffer
+     (*Note Setting Process Marks::).
+
+  5. Type `B r' to respool all the process-marked articles, and answer
+     `nnml' when prompted (*Note Mail Group Commands::).
+
+All the mail messages in the mbox file will now also be spread out
+over all your `nnml' groups.  Try entering them and check whether
+things have gone without a glitch.  If things look ok, you may
+consider deleting the mbox file, but I wouldn't do that unless I was
+absolutely sure that all the mail has ended up where it should be.
+
+Respooling is also a handy thing to do if you're switching from one
+mail back end to another.  Just respool all the mail in the old mail
+groups using the new mail back end.
+
+
+
+
+File: gnus, Node: Expiring Mail, Next: Washing Mail, Prev: Incorporating Old Mail, Up: Getting Mail
+
+Expiring Mail
+-------------
+
+Traditional mail readers have a tendency to remove mail articles when
+you mark them as read, in some way.  Gnus takes a fundamentally
+different approach to mail reading.
+
+Gnus basically considers mail just to be news that has been received
+in a rather peculiar manner.  It does not think that it has the power
+to actually change the mail, or delete any mail messages.  If you
+enter a mail group, and mark articles as "read", or kill them in some
+other fashion, the mail articles will still exist on the system.  I
+repeat: Gnus will not delete your old, read mail.  Unless you ask it
+to, of course.
+
+To make Gnus get rid of your unwanted mail, you have to mark the
+articles as "expirable".  (With the default key bindings, this means
+that you have to type `E'.)  This does not mean that the articles will
+disappear right away, however.  In general, a mail article will be
+deleted from your system if, 1) it is marked as expirable, AND 2) it
+is more than one week old.  If you do not mark an article as
+expirable, it will remain on your system until hell freezes over.
+This bears repeating one more time, with some spurious
+capitalizations: IF you do NOT mark articles as EXPIRABLE, Gnus will
+NEVER delete those ARTICLES.
+
+You do not have to mark articles as expirable by hand.  Gnus provides
+two features, called "auto-expire" and "total-expire", that can help
+you with this.  In a nutshell, "auto-expire" means that Gnus hits `E'
+for you when you select an article.  And "total-expire" means that
+Gnus considers all articles as expirable that are read.  So, in
+addition to the articles marked `E', also the articles marked `r',
+`R', `O', `K', `Y' and so on are considered expirable.
+
+When should either auto-expire or total-expire be used?  Most people
+who are subscribed to mailing lists split each list into its own group
+and then turn on auto-expire or total-expire for those groups.  (*Note
+Splitting Mail::, for more information on splitting each list into its
+own group.)
+
+Which one is better, auto-expire or total-expire?  It's not easy to
+answer.  Generally speaking, auto-expire is probably faster.  Another
+advantage of auto-expire is that you get more marks to work with: for
+the articles that are supposed to stick around, you can still choose
+between tick and dormant and read marks.  But with total-expire, you
+only have dormant and ticked to choose from.  The advantage of
+total-expire is that it works well with adaptive scoring (*Note
+Adaptive Scoring::).  Auto-expire works with normal scoring but not
+with adaptive scoring.
+
+Groups that match the regular expression
+`gnus-auto-expirable-newsgroups' will have all articles that you read
+marked as expirable automatically.  All articles marked as expirable
+have an `E' in the first column in the summary buffer.
+
+By default, if you have auto expiry switched on, Gnus will mark all the
+articles you read as expirable, no matter if they were read or unread
+before.  To avoid having articles marked as read marked as expirable
+automatically, you can put something like the following in your
+`~/.gnus.el' file:
+
+     (remove-hook 'gnus-mark-article-hook
+                  'gnus-summary-mark-read-and-unread-as-read)
+     (add-hook 'gnus-mark-article-hook 'gnus-summary-mark-unread-as-read)
+
+Note that making a group auto-expirable doesn't mean that all read
+articles are expired--only the articles marked as expirable will be
+expired.  Also note that using the `d' command won't make articles
+expirable--only semi-automatic marking of articles as read will mark
+the articles as expirable in auto-expirable groups.
+
+Let's say you subscribe to a couple of mailing lists, and you want the
+articles you have read to disappear after a while:
+
+     (setq gnus-auto-expirable-newsgroups
+           "mail.nonsense-list\\|mail.nice-list")
+
+Another way to have auto-expiry happen is to have the element
+`auto-expire' in the group parameters of the group.
+
+If you use adaptive scoring (*Note Adaptive Scoring::) and
+auto-expiring, you'll have problems.  Auto-expiring and adaptive
+scoring don't really mix very well.
+
+The `nnmail-expiry-wait' variable supplies the default time an
+expirable article has to live.  Gnus starts counting days from when
+the message *arrived*, not from when it was sent.  The default is
+seven days.
+
+Gnus also supplies a function that lets you fine-tune how long
+articles are to live, based on what group they are in.  Let's say you
+want to have one month expiry period in the `mail.private' group, a
+one day expiry period in the `mail.junk' group, and a six day expiry
+period everywhere else:
+
+     (setq nnmail-expiry-wait-function
+           (lambda (group)
+            (cond ((string= group "mail.private")
+                    31)
+                  ((string= group "mail.junk")
+                    1)
+                  ((string= group "important")
+                    'never)
+                  (t
+                    6))))
+
+The group names this function is fed are "unadorned" group names--no
+`nnml:' prefixes and the like.
+
+The `nnmail-expiry-wait' variable and
+`nnmail-expiry-wait-function' function can either be a number (not
+necessarily an integer) or one of the symbols `immediate' or
+`never'.
+
+You can also use the `expiry-wait' group parameter to selectively
+change the expiry period (*Note Group Parameters::).
+
+The normal action taken when expiring articles is to delete them.
+However, in some circumstances it might make more sense to move them
+to other groups instead of deleting them.  The variable
+`nnmail-expiry-target' (and the `expiry-target' group parameter)
+controls this.  The variable supplies a default value for all groups,
+which can be overridden for specific groups by the group parameter.
+default value is `delete', but this can also be a string (which should
+be the name of the group the message should be moved to), or a
+function (which will be called in a buffer narrowed to the message in
+question, and with the name of the group being moved from as its
+parameter) which should return a target--either a group name or
+`delete'.
+
+Here's an example for specifying a group name:
+     (setq nnmail-expiry-target "nnml:expired")
+
+Gnus provides a function `nnmail-fancy-expiry-target' which will
+expire mail to groups according to the variable
+`nnmail-fancy-expiry-targets'.  Here's an example:
+
+      (setq nnmail-expiry-target 'nnmail-fancy-expiry-target
+            nnmail-fancy-expiry-targets
+            '((to-from "boss" "nnfolder:Work")
+              ("subject" "IMPORTANT" "nnfolder:IMPORTANT.%Y.%b")
+              ("from" ".*" "nnfolder:Archive-%Y")))
+
+With this setup, any mail that has `IMPORTANT' in its Subject
+header and was sent in the year `YYYY' and month `MMM', will
+get expired to the group `nnfolder:IMPORTANT.YYYY.MMM'.  If its
+From or To header contains the string `boss', it will get expired
+to `nnfolder:Work'.  All other mail will get expired to
+`nnfolder:Archive-YYYY'.
+
+If `nnmail-keep-last-article' is non-`nil', Gnus will never expire the
+final article in a mail newsgroup.  This is to make life easier for
+procmail users.
+
+By the way: That line up there, about Gnus never expiring
+non-expirable articles, is a lie.  If you put `total-expire' in the
+group parameters, articles will not be marked as expirable, but all
+read articles will be put through the expiry process.  Use with
+extreme caution.  Even more dangerous is the
+`gnus-total-expirable-newsgroups' variable.  All groups that match
+this regexp will have all read articles put through the expiry
+process, which means that *all* old mail articles in the groups in
+question will be deleted after a while.  Use with extreme caution, and
+don't come crying to me when you discover that the regexp you used
+matched the wrong group and all your important mail has disappeared.
+Be a *man*!  Or a *woman*!  Whatever you feel more comfortable with!
+So there!
+
+Most people make most of their mail groups total-expirable, though.
+
+If `gnus-inhibit-user-auto-expire' is non-`nil', user marking commands
+will not mark an article as expirable, even if the group has
+auto-expire turned on.
+
+
+
+
+File: gnus, Node: Washing Mail, Next: Duplicates, Prev: Expiring Mail, Up: Getting Mail
+
+Washing Mail
+------------
+
+Mailers and list servers are notorious for doing all sorts of really,
+really stupid things with mail.  "Hey, RFC 822 doesn't explicitly
+prohibit us from adding the string `wE aRe ElItE!!!!!1!!' to the end
+of all lines passing through our server, so let's do that!!!!1!"  Yes,
+but RFC 822 wasn't designed to be read by morons.  Things that were
+considered to be self-evident were not discussed.  So.  Here we are.
+
+Case in point: The German version of Microsoft Exchange adds `AW: ' to
+the subjects of replies instead of `Re: '.  I could pretend to be
+shocked and dismayed by this, but I haven't got the energy.  It is to
+laugh.
+
+Gnus provides a plethora of functions for washing articles while
+displaying them, but it might be nicer to do the filtering before
+storing the mail to disk.  For that purpose, we have three hooks and
+various functions that can be put in these hooks.
+
+`nnmail-prepare-incoming-hook'
+     This hook is called before doing anything with the mail and is
+     meant for grand, sweeping gestures.  It is called in a buffer
+     that contains all the new, incoming mail.  Functions to be used
+     include:
+
+     `nnheader-ms-strip-cr'
+          Remove trailing carriage returns from each line.  This is
+          default on Emacs running on MS machines.
+
+
+`nnmail-prepare-incoming-header-hook'
+     This hook is called narrowed to each header.  It can be used when
+     cleaning up the headers.  Functions that can be used include:
+
+     `nnmail-remove-leading-whitespace'
+          Clear leading white space that "helpful" listservs have
+          added to the headers to make them look nice.  Aaah.
+
+          (Note that this function works on both the header on the
+          body of all messages, so it is a potentially dangerous
+          function to use (if a body of a message contains something
+          that looks like a header line).  So rather than fix the bug,
+          it is of course the right solution to make it into a feature
+          by documenting it.)
+
+     `nnmail-remove-list-identifiers'
+          Some list servers add an identifier--for example, `(idm)'---to the
+          beginning of all `Subject' headers.  I'm sure that's nice for
+          people who use stone age mail readers.  This function will remove
+          strings that match the `nnmail-list-identifiers' regexp, which can
+          also be a list of regexp.  `nnmail-list-identifiers' may not contain
+          `\\(..\\)'.
+
+          For instance, if you want to remove the `(idm)' and the
+          `nagnagnag' identifiers:
+
+               (setq nnmail-list-identifiers
+                     '("(idm)" "nagnagnag"))
+
+          This can also be done non-destructively with
+          `gnus-list-identifiers', *Note Article Hiding::.
+
+     `nnmail-remove-tabs'
+          Translate all `TAB' characters into `SPACE' characters.
+
+     `nnmail-ignore-broken-references'
+          Some mail user agents (e.g. Eudora and Pegasus) produce broken
+          `References' headers, but correct `In-Reply-To' headers.  This
+          function will get rid of the `References' header if the headers
+          contain a line matching the regular expression
+          `nnmail-broken-references-mailers'.
+
+
+`nnmail-prepare-incoming-message-hook'
+     This hook is called narrowed to each message.  Functions to be
+     used include:
+
+     `article-de-quoted-unreadable'
+          Decode Quoted Readable encoding.
+
+
+
+
+
+File: gnus, Node: Duplicates, Next: Not Reading Mail, Prev: Washing Mail, Up: Getting Mail
+
+Duplicates
+----------
+
+If you are a member of a couple of mailing lists, you will sometimes
+receive two copies of the same mail.  This can be quite annoying, so
+`nnmail' checks for and treats any duplicates it might find.  To do
+this, it keeps a cache of old `Message-ID's---
+`nnmail-message-id-cache-file', which is `~/.nnmail-cache' by default.
+The approximate maximum number of `Message-ID's stored there is
+controlled by the `nnmail-message-id-cache-length' variable, which is
+1000 by default.  (So 1000 `Message-ID's will be stored.) If all this
+sounds scary to you, you can set `nnmail-treat-duplicates' to `warn'
+(which is what it is by default), and `nnmail' won't delete duplicate
+mails.  Instead it will insert a warning into the head of the mail
+saying that it thinks that this is a duplicate of a different message.
+
+This variable can also be a function.  If that's the case, the function
+will be called from a buffer narrowed to the message in question with
+the `Message-ID' as a parameter.  The function must return either
+`nil', `warn', or `delete'.
+
+You can turn this feature off completely by setting the variable to
+`nil'.
+
+If you want all the duplicate mails to be put into a special
+duplicates" group, you could do that using the normal mail split
+methods:
+
+     (setq nnmail-split-fancy '(| ;; Messages duplicates go to a
+separate group.  ("gnus-warning" "duplicat\\(e\\|ion\\) of message"
+duplicate") ;; Message from daemons, postmaster, and the like to
+another.  (any mail "mail.misc") ;; Other rules.  [...] )) Or
+something like:
+     (setq nnmail-split-methods
+           '(("duplicates" "^Gnus-Warning:.*duplicate")
+             ;; Other rules.
+             [...]))
+
+Here's a neat feature: If you know that the recipient reads her mail
+with Gnus, and that she has `nnmail-treat-duplicates' set to `delete',
+you can send her as many insults as you like, just by using a
+`Message-ID' of a mail that you know that she's already received.
+Think of all the fun!  She'll never see any of it!  Whee!
+
+
+
+
+File: gnus, Node: Not Reading Mail, Next: Choosing a Mail Back End, Prev: Duplicates, Up: Getting Mail
+
+Not Reading Mail
+----------------
+
+If you start using any of the mail back ends, they have the annoying
+habit of assuming that you want to read mail with them.  This might
+not be unreasonable, but it might not be what you want.
+
+If you set `mail-sources' and `nnmail-spool-file' to `nil', none of
+the back ends will ever attempt to read incoming mail, which should
+help.
+
+This might be too much, if, for instance, you are reading mail quite
+happily with `nnml' and just want to peek at some old Rmail file you
+have stashed away with `nnbabyl'.  All back ends have variables called
+back-end-`get-new-mail'.  If you want to disable the `nnbabyl' mail
+reading, you edit the virtual server for the group to have a setting
+where `nnbabyl-get-new-mail' to `nil'.
+
+All the mail back ends will call `nn'*`-prepare-save-mail-hook'
+narrowed to the article to be saved before saving it when reading
+incoming mail.
+
+
+
+
+File: gnus, Node: Choosing a Mail Back End, Prev: Not Reading Mail, Up: Getting Mail
+
+Choosing a Mail Back End
+------------------------
+
+Gnus will read the mail spool when you activate a mail group.  The
+mail file is first copied to your home directory.  What happens after
+that depends on what format you want to store your mail in.
+
+There are six different mail back ends in the standard Gnus, and more
+back ends are available separately.  The mail back end most people use
+(because it is possibly the fastest) is `nnml' (*Note Mail Spool::).
+
+* Menu:
+
+* Unix Mail Box::               Using the (quite) standard Un*x mbox.
+* Rmail Babyl::                 Emacs programs use the Rmail Babyl format.
+* Mail Spool::                  Store your mail in a private spool?
+* MH Spool::                    An mhspool-like back end.
+* Maildir::                     Another one-file-per-message format.
+* Mail Folders::                Having one file for each group.
+* Comparing Mail Back Ends::    An in-depth looks at pros and cons.
+
+
+
+
+File: gnus, Node: Unix Mail Box, Next: Rmail Babyl, Prev: Choosing a Mail Back End, Up: Choosing a Mail Back End
+
+Unix Mail Box
+.............
+
+The "nnmbox" back end will use the standard Un*x mbox file to store
+mail.  `nnmbox' will add extra headers to each mail article to say
+which group it belongs in.
+
+Virtual server settings:
+
+`nnmbox-mbox-file'
+     The name of the mail box in the user's home directory.  Default is
+     `~/mbox'.
+
+`nnmbox-active-file'
+     The name of the active file for the mail box.  Default is
+     `~/.mbox-active'.
+
+`nnmbox-get-new-mail'
+     If non-`nil', `nnmbox' will read incoming mail and split it into
+     groups.  Default is `t'.
+
+
+
+
+File: gnus, Node: Rmail Babyl, Next: Mail Spool, Prev: Unix Mail Box, Up: Choosing a Mail Back End
+
+Rmail Babyl
+...........
+
+The "nnbabyl" back end will use a Babyl mail box (aka. "Rmail mbox")
+to store mail.  `nnbabyl' will add extra headers to each mail article
+to say which group it belongs in.
+
+Virtual server settings:
+
+`nnbabyl-mbox-file'
+     The name of the Rmail mbox file.  The default is `~/RMAIL'
+
+`nnbabyl-active-file'
+     The name of the active file for the rmail box.  The default is
+     `~/.rmail-active'
+
+`nnbabyl-get-new-mail'
+     If non-`nil', `nnbabyl' will read incoming mail.  Default is
+     `t'
+
+
+
+
+File: gnus, Node: Mail Spool, Next: MH Spool, Prev: Rmail Babyl, Up: Choosing a Mail Back End
+
+Mail Spool
+..........
+
+The "nnml" spool mail format isn't compatible with any other known
+format.  It should be used with some caution.
+
+If you use this back end, Gnus will split all incoming mail into
+files, one file for each mail, and put the articles into the
+corresponding directories under the directory specified by the
+`nnml-directory' variable.  The default value is `~/Mail/'.
+
+You do not have to create any directories beforehand; Gnus will take
+care of all that.
+
+If you have a strict limit as to how many files you are allowed to
+store in your account, you should not use this back end.  As each mail
+gets its own file, you might very well occupy thousands of inodes
+within a few weeks.  If this is no problem for you, and it isn't a
+problem for you having your friendly systems administrator walking
+around, madly, shouting "Who is eating all my inodes?! Who? Who!?!",
+then you should know that this is probably the fastest format to use.
+You do not have to trudge through a big mbox file just to read your
+new mail.
+
+`nnml' is probably the slowest back end when it comes to article
+splitting.  It has to create lots of files, and it also generates NOV
+databases for the incoming mails.  This makes it possibly the fastest
+back end when it comes to reading mail.
+
+When the marks file is used (which it is by default), `nnml' servers
+have the property that you may backup them using `tar' or similar, and
+later be able to restore them into Gnus (by adding the proper `nnml'
+server) and have all your marks be preserved.  Marks for a group are
+usually stored in the `.marks' file (but see `nnml-marks-file-name')
+within each `nnml' group's directory.  Individual `nnml' groups are
+also possible to backup, use `G m' to restore the group (after
+restoring the backup into the nnml directory).
+
+If for some reason you believe your `.marks' files are screwed up, you
+can just delete them all.  Gnus will then correctly regenerate them
+next time it starts.
+
+Virtual server settings:
+
+`nnml-directory'
+     All `nnml' directories will be placed under this directory.  The
+     default is the value of `message-directory' (whose default value
+     is `~/Mail').
+
+`nnml-active-file'
+     The active file for the `nnml' server.  The default is
+     `~/Mail/active'.
+
+`nnml-newsgroups-file'
+     The `nnml' group descriptions file.  *Note Newsgroups File
+     Format::.  The default is `~/Mail/newsgroups'.
+
+`nnml-get-new-mail'
+     If non-`nil', `nnml' will read incoming mail.  The default is
+     `t'.
+
+`nnml-nov-is-evil'
+     If non-`nil', this back end will ignore any NOV files.  The
+     default is `nil'.
+
+`nnml-nov-file-name'
+     The name of the NOV files.  The default is `.overview'.
+
+`nnml-prepare-save-mail-hook'
+     Hook run narrowed to an article before saving.
+
+`nnml-marks-is-evil'
+     If non-`nil', this back end will ignore any MARKS files.  The
+     default is `nil'.
+
+`nnml-marks-file-name'
+     The name of the "marks" files.  The default is `.marks'.
+
+`nnml-use-compressed-files'
+     If non-`nil', `nnml' will allow using compressed message files.
+     This requires `auto-compression-mode' to be enabled (*Note
+     Compressed Files: (emacs)Compressed Files.).  If the value of
+     `nnml-use-compressed-files' is a string, it is used as the file
+     extension specifying the compression program.  You can set it to
+     `.bz2' if your Emacs supports it.  A value of `t' is equivalent
+     to `.gz'.
+
+`nnml-compressed-files-size-threshold'
+     Default size threshold for compressed message files.  Message
+     files with bodies larger than that many characters will be
+     automatically compressed if `nnml-use-compressed-files' is
+     non-`nil'.
+
+
+If your `nnml' groups and NOV files get totally out of whack, you can
+do a complete update by typing `M-x nnml-generate-nov-databases'.
+This command will trawl through the entire `nnml' hierarchy, looking
+at each and every article, so it might take a while to complete.  A
+better interface to this functionality can be found in the server
+buffer (*Note Server Commands::).
+
+
+
+
+File: gnus, Node: MH Spool, Next: Maildir, Prev: Mail Spool, Up: Choosing a Mail Back End
+
+MH Spool
+........
+
+`nnmh' is just like `nnml', except that is doesn't generate NOV
+databases and it doesn't keep an active file or marks file.  This
+makes `nnmh' a *much* slower back end than `nnml', but it also makes
+it easier to write procmail scripts for.
+
+Virtual server settings:
+
+`nnmh-directory'
+     All `nnmh' directories will be located under this directory.  The
+     default is the value of `message-directory' (whose default is
+     `~/Mail')
+
+`nnmh-get-new-mail'
+     If non-`nil', `nnmh' will read incoming mail.  The default is
+     `t'.
+
+`nnmh-be-safe'
+     If non-`nil', `nnmh' will go to ridiculous lengths to make sure
+     that the articles in the folder are actually what Gnus thinks
+     they are.  It will check date stamps and stat everything in
+     sight, so setting this to `t' will mean a serious slow-down.  If
+     you never use anything but Gnus to read the `nnmh' articles, you
+     do not have to set this variable to `t'.  The default is `nil'.
+
+
+
+
+File: gnus, Node: Maildir, Next: Mail Folders, Prev: MH Spool, Up: Choosing a Mail Back End
+
+Maildir
+.......
+
+`nnmaildir' stores mail in the maildir format, with each maildir
+corresponding to a group in Gnus.  This format is documented here:
+`http://cr.yp.to/proto/maildir.html' and here:
+`http://www.qmail.org/man/man5/maildir.html'.  `nnmaildir' also stores
+extra information in the `.nnmaildir/' directory within a maildir.
+
+Maildir format was designed to allow concurrent deliveries and
+reading, without needing locks.  With other back ends, you would have
+your mail delivered to a spool of some kind, and then you would
+configure Gnus to split mail from that spool into your groups.  You
+can still do that with `nnmaildir', but the more common configuration
+is to have your mail delivered directly to the maildirs that appear as
+group in Gnus.
+
+`nnmaildir' is designed to be perfectly reliable: `C-g' will never
+corrupt its data in memory, and `SIGKILL' will never corrupt its data
+in the filesystem.
+
+`nnmaildir' stores article marks and NOV data in each maildir.  So you
+can copy a whole maildir from one Gnus setup to another, and you will
+keep your marks.
+
+Virtual server settings:
+
+`directory'
+     For each of your `nnmaildir' servers (it's very unlikely that
+     you'd need more than one), you need to create a directory and populate
+     it with maildirs or symlinks to maildirs (and nothing else; do not
+     choose a directory already used for other purposes).  Each maildir
+     will be represented in Gnus as a newsgroup on that server; the
+     filename of the symlink will be the name of the group.  Any filenames
+     in the directory starting with `.' are ignored.  The directory is
+     scanned when you first start Gnus, and each time you type `g' in
+     the group buffer; if any maildirs have been removed or added,
+     `nnmaildir' notices at these times.
+
+     The value of the `directory' parameter should be a Lisp form
+     which is processed by `eval' and `expand-file-name' to get the
+     path of the directory for this server.  The form is `eval'ed only
+     when the server is opened; the resulting string is used until the
+     server is closed.  (If you don't know about forms and `eval',
+     don't worry--a simple string will work.)  This parameter is not
+     optional; you must specify it.  I don't recommend using
+     `"~/Mail"' or a subdirectory of it; several other parts of Gnus
+     use that directory by default for various things, and may get
+     confused if `nnmaildir' uses it too.  `"~/.nnmaildir"' is a
+     typical value.
+
+`target-prefix'
+     This should be a Lisp form which is processed by `eval' and
+     `expand-file-name'.  The form is `eval'ed only when the server is
+     opened; the resulting string is used until the server is closed.
+
+     When you create a group on an `nnmaildir' server, the maildir is
+     created with `target-prefix' prepended to its name, and a symlink
+     pointing to that maildir is created, named with the plain group name.
+     So if `directory' is `"~/.nnmaildir"' and
+     `target-prefix' is `"../maildirs/"', then when you create
+     the group `foo', `nnmaildir' will create
+     `~/.nnmaildir/../maildirs/foo' as a maildir, and will create
+     `~/.nnmaildir/foo' as a symlink pointing to
+     `../maildirs/foo'.
+
+     You can set `target-prefix' to a string without any slashes to
+     create both maildirs and symlinks in the same `directory'; in
+     this case, any maildirs found in `directory' whose names start
+     with `target-prefix' will not be listed as groups (but the
+     symlinks pointing to them will be).
+
+     As a special case, if `target-prefix' is `""' (the default),
+     then when you create a group, the maildir will be created in
+     `directory' without a corresponding symlink.  Beware that you
+     cannot use `gnus-group-delete-group' on such groups without the
+     `force' argument.
+
+`directory-files'
+     This should be a function with the same interface as
+     `directory-files' (such as `directory-files' itself).  It is used
+     to scan the server's `directory' for maildirs.  This parameter is
+     optional; the default is `nnheader-directory-files-safe' if
+     `nnheader-directory-files-is-safe' is `nil', and
+     `directory-files' otherwise.  (`nnheader-directory-files-is-safe'
+     is checked only once when the server is opened; if you want to
+     check it each time the directory is scanned, you'll have to
+     provide your own function that does that.)
+
+`get-new-mail'
+     If non-`nil', then after scanning for new mail in the group
+     maildirs themselves as usual, this server will also incorporate
+     mail the conventional Gnus way, from `mail-sources' according to
+     `nnmail-split-methods' or `nnmail-split-fancy'.  The default
+     value is `nil'.
+
+     Do *not* use the same maildir both in `mail-sources' and as an
+     `nnmaildir' group.  The results might happen to be useful, but
+     that would be by chance, not by design, and the results might be
+     different in the future.  If your split rules create new groups,
+     remember to supply a `create-directory' server parameter.
+
+
+Group parameters
+................
+
+`nnmaildir' uses several group parameters.  It's safe to ignore all
+this; the default behavior for `nnmaildir' is the same as the default
+behavior for other mail back ends: articles are deleted after one
+week, etc.  Except for the expiry parameters, all this functionality
+is unique to `nnmaildir', so you can ignore it if you're just trying
+to duplicate the behavior you already have with another back end.
+
+If the value of any of these parameters is a vector, the first element
+is evaluated as a Lisp form and the result is used, rather than the
+original value.  If the value is not a vector, the value itself is
+evaluated as a Lisp form.  (This is why these parameters use names
+different from those of other, similar parameters supported by other
+back ends: they have different, though similar, meanings.)  (For
+numbers, strings, `nil', and `t', you can ignore the `eval' business
+again; for other values, remember to use an extra quote and wrap the
+value in a vector when appropriate.)
+
+`expire-age'
+     An integer specifying the minimum age, in seconds, of an article
+     before it will be expired, or the symbol `never' to specify that
+     articles should never be expired.  If this parameter is not set,
+     `nnmaildir' falls back to the usual
+     `nnmail-expiry-wait'(`-function') variables (the `expiry-wait'
+     group parameter overrides `nnmail-expiry-wait' and makes
+     `nnmail-expiry-wait-function' ineffective).  If you wanted a
+     value of 3 days, you could use something like `[(* 3 24 60 60)]';
+     `nnmaildir' will evaluate the form and use the result.  An
+     article's age is measured starting from the article file's
+     modification time.  Normally, this is the same as the article's
+     delivery time, but editing an article makes it younger.  Moving
+     an article (other than via expiry) may also make an article
+     younger.
+
+`expire-group'
+     If this is set to a string such as a full Gnus group name, like
+          "backend+server.address.string:group.name"
+     and if it is not the name of the same group that the parameter belongs
+     to, then articles will be moved to the specified group during expiry
+     before being deleted.  *If this is set to an `nnmaildir'
+     group, the article will be just as old in the destination group as it
+     was in the source group.*  So be careful with `expire-age' in the
+     destination group.  If this is set to the name of the same group that
+     the parameter belongs to, then the article is not expired at all.  If
+     you use the vector form, the first element is evaluated once for each
+     article.  So that form can refer to
+     `nnmaildir-article-file-name', etc., to decide where to put the
+     article.  *Even if this parameter is not set, `nnmaildir'
+     does not fall back to the `expiry-target' group parameter or the
+     `nnmail-expiry-target' variable.*
+
+`read-only'
+     If this is set to `t', `nnmaildir' will treat the articles in
+     this maildir as read-only.  This means: articles are not renamed
+     from `new/' into `cur/'; articles are only found in `new/', not
+     `cur/'; articles are never deleted; articles cannot be edited.
+     `new/' is expected to be a symlink to the `new/' directory of
+     another maildir--e.g., a system-wide mailbox containing a mailing
+     list of common interest.  Everything in the maildir outside
+     `new/' is *not* treated as read-only, so for a shared mailbox,
+     you do still need to set up your own maildir (or have write
+     permission to the shared mailbox); your maildir just won't
+     contain extra copies of the articles.
+
+`directory-files'
+     A function with the same interface as `directory-files'.  It is
+     used to scan the directories in the maildir corresponding to this
+     group to find articles.  The default is the function specified by
+     the server's `directory-files' parameter.
+
+`distrust-Lines:'
+     If non-`nil', `nnmaildir' will always count the lines of an
+     article, rather than use the `Lines:' header field.  If
+     `nil', the header field will be used if present.
+
+`always-marks'
+     A list of mark symbols, such as `['(read expire)]'.  Whenever
+     Gnus asks `nnmaildir' for article marks, `nnmaildir' will say
+     that all articles have these marks, regardless of whether the
+     marks stored in the filesystem say so.  This is a
+     proof-of-concept feature that will probably be removed
+     eventually; it ought to be done in Gnus proper, or abandoned if
+     it's not worthwhile.
+
+`never-marks'
+     A list of mark symbols, such as `['(tick expire)]'.  Whenever
+     Gnus asks `nnmaildir' for article marks, `nnmaildir' will say
+     that no articles have these marks, regardless of whether the
+     marks stored in the filesystem say so.  `never-marks' overrides
+     `always-marks'.  This is a proof-of-concept feature that will
+     probably be removed eventually; it ought to be done in Gnus
+     proper, or abandoned if it's not worthwhile.
+
+`nov-cache-size'
+     An integer specifying the size of the NOV memory cache.  To
+     speed things up, `nnmaildir' keeps NOV data in memory
+     for a limited number of articles in each group.  (This is probably not
+     worthwhile, and will probably be removed in the future.)  This
+     parameter's value is noticed only the first time a group is seen after
+     the server is opened--i.e., when you first start Gnus, typically.
+     The NOV cache is never resized until the server is closed
+     and reopened.  The default is an estimate of the number of articles
+     that would be displayed in the summary buffer: a count of articles
+     that are either marked with `tick' or not marked with
+     `read', plus a little extra.
+
+
+Article identification
+......................
+Articles are stored in the `cur/' subdirectory of each maildir.  Each
+article file is named like `uniq:info', where `uniq' contains no
+colons.  `nnmaildir' ignores, but preserves, the `:info' part.  (Other
+maildir readers typically use this part of the filename to store
+marks.)  The `uniq' part uniquely identifies the article, and is used
+in various places in the `.nnmaildir/' subdirectory of the maildir to
+store information about the corresponding article.  The full pathname
+of an article is available in the variable
+`nnmaildir-article-file-name' after you request the article in the
+summary buffer.
+
+
+NOV data
+........
+An article identified by `uniq' has its NOV data (used to generate
+lines in the summary buffer) stored in `.nnmaildir/nov/uniq'.  There
+is no `nnmaildir-generate-nov-databases' function.  (There isn't much
+need for it--an article's NOV data is updated automatically when the
+article or `nnmail-extra-headers' has changed.)  You can force
+`nnmaildir' to regenerate the NOV data for a single article simply by
+deleting the corresponding NOV file, but *beware*: this will also
+cause `nnmaildir' to assign a new article number for this article,
+which may cause trouble with `seen' marks, the Agent, and the cache.
+
+
+Article marks
+.............
+An article identified by `uniq' is considered to have the mark `flag'
+when the file `.nnmaildir/marks/flag/uniq' exists.  When Gnus asks
+`nnmaildir' for a group's marks, `nnmaildir' looks for such files and
+reports the set of marks it finds.  When Gnus asks `nnmaildir' to
+store a new set of marks, `nnmaildir' creates and deletes the
+corresponding files as needed.  (Actually, rather than create a new
+file for each mark, it just creates hard links to
+`.nnmaildir/markfile', to save inodes.)
+
+You can invent new marks by creating a new directory in
+`.nnmaildir/marks/'.  You can tar up a maildir and remove it from your
+server, untar it later, and keep your marks.  You can add and remove
+marks yourself by creating and deleting mark files.  If you do this
+while Gnus is running and your `nnmaildir' server is open, it's best
+to exit all summary buffers for `nnmaildir' groups and type `s' in the
+group buffer first, and to type `g' or `M-g' in the group buffer
+afterwards.  Otherwise, Gnus might not pick up the changes, and might
+undo them.
+
+
+
+
+File: gnus, Node: Mail Folders, Next: Comparing Mail Back Ends, Prev: Maildir, Up: Choosing a Mail Back End
+
+Mail Folders
+............
+
+`nnfolder' is a back end for storing each mail group in a separate
+file.  Each file is in the standard Un*x mbox format.  `nnfolder' will
+add extra headers to keep track of article numbers and arrival dates.
+
+When the marks file is used (which it is by default), `nnfolder'
+servers have the property that you may backup them using `tar' or
+similar, and later be able to restore them into Gnus (by adding the
+proper `nnfolder' server) and have all your marks be preserved.  Marks
+for a group are usually stored in a file named as the mbox file with
+`.mrk' concatenated to it (but see `nnfolder-marks-file-suffix')
+within the `nnfolder' directory.  Individual `nnfolder' groups are
+also possible to backup, use `G m' to restore the group (after
+restoring the backup into the `nnfolder' directory).
+
+Virtual server settings:
+
+`nnfolder-directory'
+     All the `nnfolder' mail boxes will be stored under this
+     directory.  The default is the value of `message-directory'
+     (whose default is `~/Mail')
+
+`nnfolder-active-file'
+     The name of the active file.  The default is `~/Mail/active'.
+
+`nnfolder-newsgroups-file'
+     The name of the group descriptions file.  *Note Newsgroups File
+     Format::.  The default is `~/Mail/newsgroups'
+
+`nnfolder-get-new-mail'
+     If non-`nil', `nnfolder' will read incoming mail.  The default is
+     `t'
+
+`nnfolder-save-buffer-hook'
+     Hook run before saving the folders.  Note that Emacs does the
+     normal backup renaming of files even with the `nnfolder' buffers.
+     If you wish to switch this off, you could say something like the
+     following in your `.emacs' file:
+
+          (defun turn-off-backup ()
+            (set (make-local-variable 'backup-inhibited) t))
+
+          (add-hook 'nnfolder-save-buffer-hook 'turn-off-backup)
+
+`nnfolder-delete-mail-hook'
+     Hook run in a buffer narrowed to the message that is to be
+     deleted.  This function can be used to copy the message to
+     somewhere else, or to extract some information from it before
+     removing it.
+
+`nnfolder-nov-is-evil'
+     If non-`nil', this back end will ignore any NOV files.  The
+     default is `nil'.
+
+`nnfolder-nov-file-suffix'
+     The extension for NOV files.  The default is `.nov'.
+
+`nnfolder-nov-directory'
+     The directory where the NOV files should be stored.  If
+     `nil', `nnfolder-directory' is used.
+
+`nnfolder-marks-is-evil'
+     If non-`nil', this back end will ignore any MARKS files.  The
+     default is `nil'.
+
+`nnfolder-marks-file-suffix'
+     The extension for MARKS files.  The default is `.mrk'.
+
+`nnfolder-marks-directory'
+     The directory where the MARKS files should be stored.  If
+     `nil', `nnfolder-directory' is used.
+
+
+
+If you have lots of `nnfolder'-like files you'd like to read with
+`nnfolder', you can use the `M-x nnfolder-generate-active-file'
+command to make `nnfolder' aware of all likely files in
+`nnfolder-directory'.  This only works if you use long file names,
+though.
+
+
+
+File: gnus, Node: Comparing Mail Back Ends, Prev: Mail Folders, Up: Choosing a Mail Back End
+
+Comparing Mail Back Ends
+........................
+
+First, just for terminology, the "back end" is the common word for a
+low-level access method--a transport, if you will, by which something
+is acquired.  The sense is that one's mail has to come from somewhere,
+and so selection of a suitable back end is required in order to get
+that mail within spitting distance of Gnus.
+
+The same concept exists for Usenet itself: Though access to articles
+is typically done by NNTP these days, once upon a midnight dreary,
+everyone in the world got at Usenet by running a reader on the machine
+where the articles lay (the machine which today we call an NNTP
+server), and access was by the reader stepping into the articles'
+directory spool area directly.  One can still select between either
+the `nntp' or `nnspool' back ends, to select between these methods, if
+one happens actually to live on the server (or can see its spool
+directly, anyway, via NFS).
+
+The goal in selecting a mail back end is to pick one which
+simultaneously represents a suitable way of dealing with the original
+format plus leaving mail in a form that is convenient to use in the
+future.  Here are some high and low points on each:
+
+`nnmbox'
+
+     UNIX systems have historically had a single, very common, and
+     well- defined format.  All messages arrive in a single "spool
+     file", and they are delineated by a line whose regular expression
+     matches `^From_'.  (My notational use of `_' is to indicate a
+     space, to make it clear in this instance that this is not the
+     RFC-specified `From:' header.)  Because Emacs and therefore Gnus
+     emanate historically from the Unix environment, it is simplest if
+     one does not mess a great deal with the original mailbox format,
+     so if one chooses this back end, Gnus' primary activity in
+     getting mail from the real spool area to Gnus' preferred
+     directory is simply to copy it, with no (appreciable) format
+     change in the process.  It is the "dumbest" way to move mail into
+     availability in the Gnus environment.  This makes it fast to move
+     into place, but slow to parse, when Gnus has to look at what's
+     where.
+
+`nnbabyl'
+
+     Once upon a time, there was the DEC-10 and DEC-20, running
+     operating systems called TOPS and related things, and the usual
+     (only?) mail reading environment was a thing called Babyl.  I
+     don't know what format was used for mail landing on the system,
+     but Babyl had its own internal format to which mail was
+     converted, primarily involving creating a spool-file-like entity
+     with a scheme for inserting Babyl-specific headers and status
+     bits above the top of each message in the file.  Rmail was Emacs'
+     first mail reader, it was written by Richard Stallman, and
+     Stallman came out of that TOPS/Babyl environment, so he wrote
+     Rmail to understand the mail files folks already had in
+     existence.  Gnus (and VM, for that matter) continue to support
+     this format because it's perceived as having some good qualities
+     in those mailer-specific headers/status bits stuff.  Rmail itself
+     still exists as well, of course, and is still maintained by
+     Stallman.
+
+     Both of the above forms leave your mail in a single file on your
+     file system, and they must parse that entire file each time you
+     take a look at your mail.
+
+`nnml'
+
+     `nnml' is the back end which smells the most as though you were
+     actually operating with an `nnspool'-accessed Usenet system.  (In
+     fact, I believe `nnml' actually derived from `nnspool' code, lo
+     these years ago.)  One's mail is taken from the original spool
+     file, and is then cut up into individual message files, 1:1.  It
+     maintains a Usenet-style active file (analogous to what one finds
+     in an INN- or CNews-based news system in (for instance)
+     `/var/lib/news/active', or what is returned via the `NNTP LIST'
+     verb) and also creates "overview" files for efficient group
+     entry, as has been defined for NNTP servers for some years now.
+     It is slower in mail-splitting, due to the creation of lots of
+     files, updates to the `nnml' active file, and additions to
+     overview files on a per-message basis, but it is extremely fast
+     on access because of what amounts to the indexing support
+     provided by the active file and overviews.
+
+     `nnml' costs "inodes" in a big way; that is, it soaks up the
+     resource which defines available places in the file system to put
+     new files.  Sysadmins take a dim view of heavy inode occupation
+     within tight, shared file systems.  But if you live on a personal
+     machine where the file system is your own and space is not at a
+     premium, `nnml' wins big.
+
+     It is also problematic using this back end if you are living in a
+     FAT16-based Windows world, since much space will be wasted on all
+     these tiny files.
+
+`nnmh'
+
+     The Rand MH mail-reading system has been around UNIX systems for
+     a very long time; it operates by splitting one's spool file of
+     messages into individual files, but with little or no indexing
+     support---`nnmh' is considered to be semantically equivalent to
+     `nnml' without active file or overviews".  This is arguably the
+     worst choice, because one gets the slowness of individual file
+     creation married to the slowness of access parsing when learning
+     what's new in one's groups.
+
+`nnfolder'
+
+     Basically the effect of `nnfolder' is `nnmbox' (the first method
+     described above) on a per-group basis.  That is, `nnmbox' itself
+     puts *all* one's mail in one file; `nnfolder' provides a little
+     bit of optimization to this so that each of one's mail groups has
+     a Unix mail box file.  It's faster than `nnmbox' because each
+     group can be parsed separately, and still provides the simple
+     Unix mail box format requiring minimal effort in moving the mail
+     around.  In addition, it maintains an "active" file making it
+     much faster for Gnus to figure out how many messages there are in
+     each separate group.
+
+     If you have groups that are expected to have a massive amount of
+     messages, `nnfolder' is not the best choice, but if you receive
+     only a moderate amount of mail, `nnfolder' is probably the most
+     friendly mail back end all over.
+
+`nnmaildir'
+
+     For configuring expiry and other things, `nnmaildir' uses
+     incompatible group parameters, slightly different from those of
+     other mail back ends.
+
+     `nnmaildir' is largely similar to `nnml', with some notable
+     differences.  Each message is stored in a separate file, but the
+     filename is unrelated to the article number in Gnus.  `nnmaildir'
+     also stores the equivalent of `nnml''s overview files in one file
+     per article, so it uses about twice as many inodes as `nnml'.
+     (Use `df -i' to see how plentiful your inode supply is.)  If this
+     slows you down or takes up very much space, consider switching to
+     ReiserFS (http://www.namesys.com/) or another
+     non-block-structured file system.
+
+     Since maildirs don't require locking for delivery, the maildirs
+     you use as groups can also be the maildirs your mail is directly
+     delivered to.  This means you can skip Gnus' mail splitting if
+     your mail is already organized into different mailboxes during
+     delivery.  A `directory' entry in `mail-sources' would have a
+     similar effect, but would require one set of mailboxes for
+     spooling deliveries (in mbox format, thus damaging message
+     bodies), and another set to be used as groups (in whatever format
+     you like).  A maildir has a built-in spool, in the `new/'
+     subdirectory.  Beware that currently, mail moved from `new/' to
+     `cur/' instead of via mail splitting will not undergo treatment
+     such as duplicate checking.
+
+     `nnmaildir' stores article marks for a given group in the
+     corresponding maildir, in a way designed so that it's easy to manipulate
+     them from outside Gnus.  You can tar up a maildir, unpack it somewhere
+     else, and still have your marks.  `nnml' also stores marks, but
+     it's not as easy to work with them from outside Gnus as with
+     `nnmaildir'.
+
+     `nnmaildir' uses a significant amount of memory to speed things
+     up.  (It keeps in memory some of the things that `nnml' stores in
+     files and that `nnmh' repeatedly parses out of message files.)
+     If this is a problem for you, you can set the `nov-cache-size'
+     group parameter to something small (0 would probably not work,
+     but 1 probably would) to make it use less memory.  This caching
+     will probably be removed in the future.
+
+     Startup is likely to be slower with `nnmaildir' than with other
+     back ends.  Everything else is likely to be faster, depending in
+     part on your file system.
+
+     `nnmaildir' does not use `nnoo', so you cannot use `nnoo' to
+     write an `nnmaildir'-derived back end.
+
+
+
+
+
+File: gnus, Node: Browsing the Web, Next: IMAP, Prev: Getting Mail, Up: Select Methods
+
+Browsing the Web
+================
+
+Web-based discussion forums are getting more and more popular.  On
+many subjects, the web-based forums have become the most important
+forums, eclipsing the importance of mailing lists and news groups.
+The reason is easy to understand--they are friendly to new users; you
+just point and click, and there's the discussion.  With mailing lists,
+you have to go through a cumbersome subscription procedure, and most
+people don't even know what a news group is.
+
+The problem with this scenario is that web browsers are not very good
+at being newsreaders.  They do not keep track of what articles you've
+read; they do not allow you to score on subjects you're interested in;
+they do not allow off-line browsing; they require you to click around
+and drive you mad in the end.
+
+So--if web browsers suck at reading discussion forums, why not use
+Gnus to do it instead?
+
+Gnus has been getting a bit of a collection of back ends for providing
+interfaces to these sources.
+
+* Menu:
+
+* Archiving Mail::
+* Web Searches::                Creating groups from articles that match a string.
+* Slashdot::                    Reading the Slashdot comments.
+* Ultimate::                    The Ultimate Bulletin Board systems.
+* Web Archive::                 Reading mailing list archived on web.
+* RSS::                         Reading RDF site summary.
+* Customizing W3::              Doing stuff to Emacs/W3 from Gnus.
+
+All the web sources require Emacs/W3 and the url library or those
+alternatives to work.
+
+The main caveat with all these web sources is that they probably won't
+work for a very long time.  Gleaning information from the HTML data is
+guesswork at best, and when the layout is altered, the Gnus back end
+will fail.  If you have reasonably new versions of these back ends,
+though, you should be ok.
+
+One thing all these Web methods have in common is that the Web sources
+are often down, unavailable or just plain too slow to be fun.  In
+those cases, it makes a lot of sense to let the Gnus Agent (*Note Gnus
+Unplugged::) handle downloading articles, and then you can read them
+at leisure from your local disk.  No more World Wide Wait for you.
+
+
+

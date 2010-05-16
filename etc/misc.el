@@ -107,6 +107,14 @@
 (autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.mrkd" . markdown-mode))
 
+;;; MAYBE-GNUS
+(defun genehack/maybe-gnus ()
+  "Run genehack/gnus or give an error"
+  (interactive)
+  (if (boundp 'genehack/gnus)
+      (genehack/gnus)
+    (message "GNUS config is not loaded.")))
+
 ;;; MULTI-TERM
 (require 'multi-term)
 (defalias 'term 'multi-term)

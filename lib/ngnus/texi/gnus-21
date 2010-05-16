@@ -1,0 +1,1587 @@
+Info file: gnus,    -*-Text-*-
+produced by `texinfo-format-buffer'
+from file `gnus.texi'
+using `texinfmt.el' version 2.42 of  7 Jul 2006.
+
+Copyright (C) 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
+2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover
+     texts being "A GNU Manual", and with the Back-Cover Texts as in
+     (a) below.  A copy of the license is included in the section
+     entitled "GNU Free Documentation License" in the Emacs manual.
+
+     (a) The FSF's Back-Cover Text is: "You have freedom to copy and
+     modify this GNU Manual, like GNU software.  Copies published by
+     the Free Software Foundation raise funds for GNU development."
+
+     This document is part of a collection distributed under the GNU
+     Free Documentation License.  If you want to distribute this
+     document separately from the collection, you can do so by adding
+     a copy of the license to the document, as described in section 6
+     of the license.
+
+
+
+INFO-DIR-SECTION Emacs
+START-INFO-DIR-ENTRY
+* Gnus: (gnus).         The newsreader Gnus.
+END-INFO-DIR-ENTRY
+
+
+
+
+
+
+
+
+File: gnus, Node: [5.1]
+
+Question 5.1
+............
+
+What are the basic commands I need to know for sending mail and
+postings?
+
+
+Answer
+......
+
+To start composing a new mail hit `m'
+either in Group or Summary buffer, for a posting, it's
+either `a' in Group buffer and
+filling the Newsgroups header manually
+or `a' in the Summary buffer of the
+group where the posting shall be send to. Replying by mail
+is
+`r' if you don't want to cite the
+author, or import the cited text manually and
+`R' to cite the text of the original
+message. For a follow up to a newsgroup, it's
+`f' and `F'
+(analogously to `r' and
+`R').
+
+Enter new headers above the line saying "--text follows this line--",
+enter the text below the line. When ready hit `C-c C-c', to send the
+message, if you want to finish it later hit `C-c C-d' to save it in
+the drafts group, where you can start editing it again by saying `D
+e'.
+
+
+
+File: gnus, Node: [5.2]
+
+Question 5.2
+............
+
+How to enable automatic word-wrap when composing messages?
+
+
+Answer
+......
+
+Starting from No Gnus, automatic word-wrap is already enabled by
+default, see the variable message-fill-column.
+
+For other versions of Gnus, say
+
+     (unless (boundp 'message-fill-column)
+       (add-hook 'message-mode-hook
+                 (lambda ()
+                   (setq fill-column 72)
+                   (turn-on-auto-fill))))
+@noindent
+
+in ~/.gnus.el.
+
+You can reformat a paragraph by hitting `M-q' (as usual).
+
+
+
+File: gnus, Node: [5.3]
+
+Question 5.3
+............
+
+How to set stuff like From, Organization, Reply-To, signature...?
+
+
+Answer
+......
+
+There are other ways, but you should use posting styles for this. (See
+below why).  This example should make the syntax clear:
+
+     (setq gnus-posting-styles
+       '((".*"
+          (name "Frank Schmitt")
+          (address "me@there.invalid")
+          (organization "Hamme net, kren mer och nimmi")
+          (signature-file "~/.signature")
+          ("X-SampleHeader" "foobar")
+          (eval (setq some-variable "Foo bar")))))
+@noindent
+
+The ".*" means that this settings are the default ones (see below),
+valid values for the first element of the following lists are
+signature, signature-file, organization, address, name or body.  The
+attribute name can also be a string.  In that case, this will be used
+as a header name, and the value will be inserted in the headers of the
+article; if the value is `nil', the header name will be removed. You
+can also say (eval (foo bar)), then the function foo will be evaluated
+with argument bar and the result will be thrown away.
+
+
+
+File: gnus, Node: [5.4]
+
+Question 5.4
+............
+
+Can I set things like From, Signature etc group based on the group I
+post too?
+
+
+Answer
+......
+
+That's the strength of posting styles. Before, we used ".*" to set the
+default for all groups. You can use a regexp like "^gmane" and the
+following settings are only applied to postings you send to the gmane
+hierarchy, use ".*binaries" instead and they will be applied to
+postings send to groups containing the string binaries in their name
+etc.
+
+You can instead of specifying a regexp specify a function which is
+evaluated, only if it returns true, the corresponding settings take
+effect. Two interesting candidates for this are message-news-p which
+returns t if the current Group is a newsgroup and the corresponding
+message-mail-p.
+
+Note that all forms that match are applied, that means in the example
+below, when I post to gmane.mail.spam.spamassassin.general, the
+settings under ".*" are applied and the settings under message-news-p
+and those under "^gmane" and those under
+^gmane\\.mail\\.spam\\.spamassassin\\.general$". Because of this put
+general settings at the top and specific ones at the bottom.
+
+     (setq gnus-posting-styles
+           '((".*" ;;default
+              (name "Frank Schmitt")
+              (organization "Hamme net, kren mer och nimmi")
+              (signature-file "~/.signature"))
+             ((message-news-p) ;;Usenet news?
+              (address "mySpamTrap@Frank-Schmitt.invalid")
+              (reply-to "hereRealRepliesOnlyPlease@Frank-Schmitt.invalid"))
+             ((message-mail-p) ;;mail?
+              (address "usedForMails@Frank-Schmitt.invalid"))
+             ("^gmane" ;;this is mail, too in fact
+              (address "usedForMails@Frank-Schmitt.invalid")
+              (reply-to nil))
+             ("^gmane\\.mail\\.spam\\.spamassassin\\.general$"
+              (eval (set (make-local-variable 'message-sendmail-envelope-from)
+                         "Azzrael@rz-online.de")))))
+@noindent
+
+
+
+File: gnus, Node: [5.5]
+
+Question 5.5
+............
+
+Is there a spell-checker? Perhaps even on-the-fly spell-checking?
+
+
+Answer
+......
+
+You can use ispell.el to spell-check stuff in Emacs. So the first
+thing to do is to make sure that you've got either ispell
+(http://fmg-www.cs.ucla.edu/fmg-members/geoff/ispell.html) or aspell
+(http://aspell.sourceforge.net/) installed and in your Path. Then you
+need ispell.el (http://www.kdstevens.com/~stevens/ispell-page.html)
+and for on-the-fly spell-checking flyspell.el
+(http://www-sop.inria.fr/mimosa/personnel/Manuel.Serrano/flyspell/flyspell.html).
+Ispell.el is shipped with Emacs and available through the XEmacs
+package system, flyspell.el is shipped with Emacs and part of XEmacs
+text-modes package which is available through the package system, so
+there should be no need to install them manually.
+
+Ispell.el assumes you use ispell, if you choose aspell say
+
+     (setq ispell-program-name "aspell")
+@noindent
+
+in your Emacs configuration file.
+
+If you want your outgoing messages to be spell-checked, say
+
+     (add-hook 'message-send-hook 'ispell-message)
+@noindent
+
+In your ~/.gnus.el, if you prefer on-the-fly spell-checking say
+
+     (add-hook 'message-mode-hook (lambda () (flyspell-mode 1)))
+@noindent
+
+
+
+File: gnus, Node: [5.6]
+
+Question 5.6
+............
+
+Can I set the dictionary based on the group I'm posting to?
+
+
+Answer
+......
+
+Yes, say something like
+
+     (add-hook 'gnus-select-group-hook
+               (lambda ()
+                 (cond
+                  ((string-match
+                    "^de\\." (gnus-group-real-name gnus-newsgroup-name))
+                   (ispell-change-dictionary "deutsch8"))
+                  (t
+                   (ispell-change-dictionary "english")))))
+@noindent
+
+in ~/.gnus.el. Change "^de\\." and "deutsch8" to something that suits
+your needs.
+
+
+
+File: gnus, Node: [5.7]
+
+Question 5.7
+............
+
+Is there some kind of address-book, so I needn't remember all those
+email addresses?
+
+
+Answer
+......
+
+There's an very basic solution for this, mail aliases.  You can store
+your mail addresses in a ~/.mailrc file using a simple alias syntax:
+
+     alias al	"Al <al@english-heritage.invalid>"
+@noindent
+
+Then typing your alias (followed by a space or punctuation character)
+on a To: or Cc: line in the message buffer will cause Gnus to insert
+the full address for you. See the node "Mail Aliases" in Message (not
+Gnus) manual for details.
+
+However, what you really want is the Insidious Big Brother Database
+bbdb. Get it through the XEmacs package system or from bbdb's homepage
+(http://bbdb.sourceforge.net/).  Now place the following in
+~/.gnus.el, to activate bbdb for Gnus:
+
+     (require 'bbdb)
+     (bbdb-initialize 'gnus 'message)
+@noindent
+
+Now you probably want some general bbdb configuration, place them in
+~/.emacs:
+
+     (require 'bbdb)
+     ;;If you don't live in Northern America, you should disable the
+     ;;syntax check for telephone numbers by saying
+     (setq bbdb-north-american-phone-numbers-p nil)
+     ;;Tell bbdb about your email address:
+     (setq bbdb-user-mail-names
+           (regexp-opt '("Your.Email@here.invalid"
+                         "Your.other@mail.there.invalid")))
+     ;;cycling while completing email addresses
+     (setq bbdb-complete-name-allow-cycling t)
+     ;;No popup-buffers
+     (setq bbdb-use-pop-up nil)
+@noindent
+
+Now you should be ready to go. Say `M-x bbdb RET RET' to open a bbdb
+buffer showing all entries. Say `c' to create a new entry, `b' to
+search your BBDB and `C-o' to add a new field to an entry. If you want
+to add a sender to the BBDB you can also just hit `:' on the posting
+in the summary buffer and you are done. When you now compose a new
+mail, hit `TAB' to cycle through know recipients.
+
+
+
+File: gnus, Node: [5.8]
+
+Question 5.8
+............
+
+Sometimes I see little images at the top of article buffer. What's
+that and how can I send one with my postings, too?
+
+
+Answer
+......
+
+Those images are called X-Faces. They are 48*48 pixel b/w pictures,
+encoded in a header line. If you want to include one in your posts,
+you've got to convert some image to a X-Face. So fire up some image
+manipulation program (say Gimp), open the image you want to include,
+cut out the relevant part, reduce color depth to 1 bit, resize to
+48*48 and save as bitmap. Now you should get the compface package from
+this site (ftp://ftp.cs.indiana.edu:/pub/faces/).  and create the
+actual X-face by saying
+
+     cat file.xbm | xbm2ikon | compface > file.face
+     cat file.face | sed 's/\\/\\\\/g;s/\"/\\\"/g;' > file.face.quoted
+@noindent
+
+If you can't use compface, there's an online X-face converter at
+`http://www.dairiki.org/xface/'.  If you use MS Windows, you could
+also use the WinFace program from
+`http://www.xs4all.nl/~walterln/winface/'.  Now you only have to tell
+Gnus to include the X-face in your postings by saying
+
+     (setq message-default-headers
+             (with-temp-buffer
+               (insert "X-Face: ")
+               (insert-file-contents "~/.xface")
+               (buffer-string)))
+@noindent
+
+in ~/.gnus.el.  If you use Gnus 5.10, you can simply add an entry
+
+     (x-face-file "~/.xface")
+@noindent
+
+to gnus-posting-styles.
+
+
+
+File: gnus, Node: [5.9]
+
+Question 5.9
+............
+
+Sometimes I accidentally hit r instead of f in newsgroups. Can Gnus
+warn me, when I'm replying by mail in newsgroups?
+
+
+Answer
+......
+
+Put this in ~/.gnus.el:
+
+     (setq gnus-confirm-mail-reply-to-news t)
+@noindent
+
+if you already use Gnus 5.10, if you still use 5.8.8 or 5.9 try this
+instead:
+
+     (eval-after-load "gnus-msg"
+       '(unless (boundp 'gnus-confirm-mail-reply-to-news)
+          (defadvice gnus-summary-reply (around reply-in-news activate)
+            "Request confirmation when replying to news."
+            (interactive)
+            (when (or (not (gnus-news-group-p gnus-newsgroup-name))
+                      (y-or-n-p "Really reply by mail to article author? "))
+              ad-do-it))))
+@noindent
+
+
+
+File: gnus, Node: [5.10]
+
+Question 5.10
+.............
+
+How to tell Gnus not to generate a sender header?
+
+
+Answer
+......
+
+Since 5.10 Gnus doesn't generate a sender header by default. For older
+Gnus' try this in ~/.gnus.el:
+
+     (eval-after-load "message"
+           '(add-to-list 'message-syntax-checks '(sender . disabled)))
+@noindent
+
+
+
+File: gnus, Node: [5.11]
+
+Question 5.11
+.............
+
+I want Gnus to locally store copies of my send mail and news, how to
+do it?
+
+
+Answer
+......
+
+You must set the variable gnus-message-archive-group to do this. You
+can set it to a string giving the name of the group where the copies
+shall go or like in the example below use a function which is
+evaluated and which returns the group to use.
+
+     (setq gnus-message-archive-group
+        '((if (message-news-p)
+              "nnml:Send-News"
+            "nnml:Send-Mail")))
+@noindent
+
+
+
+File: gnus, Node: [5.12]
+
+Question 5.12
+.............
+
+People tell me my Message-IDs are not correct, why aren't they and how
+to fix it?
+
+
+Answer
+......
+
+The message-ID is an unique identifier for messages you send. To make
+it unique, Gnus need to know which machine name to put after the
+@". If the name of the machine where Gnus is running isn't suitable
+(it probably isn't at most private machines) you can tell Gnus what to
+use by saying:
+
+     (setq message-user-fqdn "yourmachine.yourdomain.tld")
+@noindent
+
+in ~/.gnus.el.  If you use Gnus 5.9 or earlier, you can use this
+instead (works for newer versions a well):
+
+     (eval-after-load "message"
+       '(let ((fqdn "yourmachine.yourdomain.tld"));; <-- Edit this!
+          (if (boundp 'message-user-fqdn)
+              (setq message-user-fqdn fqdn)
+            (gnus-message 1 "Redefining `message-make-fqdn'.")
+            (defun message-make-fqdn ()
+              "Return user's fully qualified domain name."
+              fqdn))))
+@noindent
+
+If you have no idea what to insert for "yourmachine.yourdomain.tld",
+you've got several choices. You can either ask your provider if he
+allows you to use something like yourUserName.userfqdn.provider.net,
+or you can use somethingUnique.yourdomain.tld if you own the domain
+yourdomain.tld, or you can register at a service which gives private
+users a FQDN for free.
+
+Finally you can tell Gnus not to generate a Message-ID for News at all
+(and letting the server do the job) by saying
+
+     (setq message-required-news-headers
+       (remove' Message-ID message-required-news-headers))
+@noindent
+
+you can also tell Gnus not to generate Message-IDs for mail by saying
+
+     (setq message-required-mail-headers
+       (remove' Message-ID message-required-mail-headers))
+@noindent
+
+, however some mail servers don't generate proper Message-IDs, too, so
+test if your Mail Server behaves correctly by sending yourself a Mail
+and looking at the Message-ID.
+
+
+
+File: gnus, Node: FAQ 6 - Old messages
+
+Old messages
+------------
+
+* Menu:
+
+* [6.1]::    How to import my old mail into Gnus?
+* [6.2]::    How to archive interesting messages?
+* [6.3]::    How to search for a specific message?
+* [6.4]::    How to get rid of old unwanted mail?
+* [6.5]::    I want that all read messages are expired (at least in some
+             groups). How to do it?
+* [6.6]::    I don't want expiration to delete my mails but to move them
+             to another group.
+
+
+
+File: gnus, Node: [6.1]
+
+Question 6.1
+............
+
+How to import my old mail into Gnus?
+
+
+Answer
+......
+
+The easiest way is to tell your old mail program to
+export the messages in mbox format. Most Unix mailers
+are able to do this, if you come from the MS Windows
+world, you may find tools at
+`http://mbx2mbox.sourceforge.net/'.
+
+Now you've got to import this mbox file into Gnus. To do
+this, create a nndoc group based on the mbox file by
+saying `G f /path/file.mbox RET' in
+Group buffer. You now have read-only access to your
+mail. If you want to import the messages to your normal
+Gnus mail groups hierarchy, enter the nndoc group you've
+just created by saying `C-u RET'
+(thus making sure all messages are retrieved), mark all
+messages by saying `M P b' and
+either copy them to the desired group by saying
+`B c name.of.group RET' or send them
+through nnmail-split-methods (respool them) by saying
+`B r'.
+
+
+
+File: gnus, Node: [6.2]
+
+Question 6.2
+............
+
+How to archive interesting messages?
+
+
+Answer
+......
+
+If you stumble across an interesting message, say in gnu.emacs.gnus
+and want to archive it there are several solutions. The first and
+easiest is to save it to a file by saying `O f'. However, wouldn't it
+be much more convenient to have more direct access to the archived
+message from Gnus? If you say yes, put this snippet by Frank Haun
+<pille3003@fhaun.de> in ~/.gnus.el:
+
+     (defun my-archive-article (&optional n)
+       "Copies one or more article(s) to a corresponding `nnml:' group, e.g.
+     `gnus.ding' goes to `nnml:1.gnus.ding'. And `nnml:List-gnus.ding' goes
+     to `nnml:1.List-gnus-ding'.
+
+     Use process marks or mark a region in the summary buffer to archive
+     more then one article."
+       (interactive "P")
+       (let ((archive-name
+              (format
+               "nnml:1.%s"
+               (if (featurep 'xemacs)
+                   (replace-in-string gnus-newsgroup-name "^.*:" "")
+                 (replace-regexp-in-string "^.*:" "" gnus-newsgroup-name)))))
+         (gnus-summary-copy-article n archive-name)))
+@noindent
+
+You can now say `M-x my-archive-article' in summary buffer to archive
+the article under the cursor in a nnml group. (Change nnml to your
+preferred back end)
+
+Of course you can also make sure the cache is enabled by saying
+
+     (setq gnus-use-cache t)
+@noindent
+
+then you only have to set either the tick or the dormant mark for
+articles you want to keep, setting the read mark will remove them from
+cache.
+
+
+
+File: gnus, Node: [6.3]
+
+Question 6.3
+............
+
+How to search for a specific message?
+
+
+Answer
+......
+
+There are several ways for this, too. For a posting from
+a Usenet group the easiest solution is probably to ask
+groups.google.com (http://groups.google.com),
+if you found the posting there, tell Google to display
+the raw message, look for the message-id, and say
+`M-^ the@message.id RET' in a
+summary buffer.
+Since Gnus 5.10 there's also a Gnus interface for
+groups.google.com which you can call with
+`G W') in group buffer.
+
+Another idea which works for both mail and news groups is to enter the
+group where the message you are searching is and use the standard
+Emacs search `C-s', it's smart enough to look at articles in collapsed
+threads, too. If you want to search bodies, too try `M-s'
+instead. Further on there are the gnus-summary-limit-to-foo functions,
+which can help you, too.
+
+Of course you can also use grep to search through your local mail, but
+this is both slow for big archives and inconvenient since you are not
+displaying the found mail in Gnus. Here comes nnir into action. Nnir
+is a front end to search engines like swish-e or swish++ and
+others. You index your mail with one of those search engines and with
+the help of nnir you can search trough the indexed mail and generate a
+temporary group with all messages which met your search criteria. If
+this sound cool to you get nnir.el from
+`ftp://ls6-ftp.cs.uni-dortmund.de/pub/src/emacs/' or
+`ftp://ftp.is.informatik.uni-duisburg.de/pub/src/emacs/'.
+Instructions on how to use it are at the top of the file.
+
+
+
+File: gnus, Node: [6.4]
+
+Question 6.4
+............
+
+How to get rid of old unwanted mail?
+
+
+Answer
+......
+
+You can of course just mark the mail you don't need anymore by saying
+`#' with point over the mail and then say `B DEL' to get rid of them
+forever. You could also instead of actually deleting them, send them
+to a junk-group by saying `B m nnml:trash-bin' which you clear from
+time to time, but both are not the intended way in Gnus.
+
+In Gnus, we let mail expire like news expires on a news server. That
+means you tell Gnus the message is expirable (you tell Gnus "I don't
+need this mail anymore") by saying `E' with point over the mail in
+summary buffer. Now when you leave the group, Gnus looks at all
+messages which you marked as expirable before and if they are old
+enough (default is older than a week) they are deleted.
+
+
+
+File: gnus, Node: [6.5]
+
+Question 6.5
+............
+
+I want that all read messages are expired (at least in some
+groups). How to do it?
+
+
+Answer
+......
+
+If you want all read messages to be expired (e.g. in mailing lists
+where there's an online archive), you've got two choices: auto-expire
+and total-expire. Auto-expire means, that every article which has no
+marks set and is selected for reading is marked as expirable, Gnus
+hits `E' for you every time you read a message. Total-expire follows a
+slightly different approach, here all article where the read mark is
+set are expirable.
+
+To activate auto-expire, include auto-expire in the Group parameters
+for the group. (Hit `G c' in summary buffer with point over the group
+to change group parameters). For total-expire add total-expire to the
+group-parameters.
+
+Which method you choose is merely a matter of taste: Auto-expire is
+faster, but it doesn't play together with Adaptive Scoring, so if you
+want to use this feature, you should use total-expire.
+
+If you want a message to be excluded from expiration in
+a group where total or auto expire is active, set either
+tick (hit `u') or dormant mark (hit
+`u'), when you use auto-expire, you
+can also set the read mark (hit
+`d').
+
+
+
+File: gnus, Node: [6.6]
+
+Question 6.6
+............
+
+I don't want expiration to delete my mails but to move them to another
+group.
+
+
+Answer
+......
+
+Say something like this in ~/.gnus.el:
+
+     (setq nnmail-expiry-target "nnml:expired")
+@noindent
+
+(If you want to change the value of nnmail-expiry-target on a per
+group basis see the question "How can I disable threading in some
+(e.g. mail-) groups, or set other variables specific for some
+groups?")
+
+
+
+File: gnus, Node: FAQ 7 - Gnus in a dial-up environment
+
+Gnus in a dial-up environment
+-----------------------------
+
+* Menu:
+
+* [7.1]::    I don't have a permanent connection to the net, how can I
+             minimize the time I've got to be connected?
+* [7.2]::    So what was this thing about the Agent?
+* [7.3]::    I want to store article bodies on disk, too. How to do it?
+* [7.4]::    How to tell Gnus not to try to send mails / postings while
+             I'm offline?
+
+
+
+File: gnus, Node: [7.1]
+
+Question 7.1
+............
+
+I don't have a permanent connection to the net, how can I minimize the
+time I've got to be connected?
+
+
+Answer
+......
+
+You've got basically two options: Either you use the Gnus Agent (see
+below) for this, or you can install programs which fetch your news and
+mail to your local disk and Gnus reads the stuff from your local
+machine.
+
+If you want to follow the second approach, you need a program which
+fetches news and offers them to Gnus, a program which does the same
+for mail and a program which receives the mail you write from Gnus and
+sends them when you're online.
+
+Let's talk about Unix systems first: For the news part,
+the easiest solution is a small nntp server like
+Leafnode (http://www.leafnode.org/) or
+sn (http://infa.abo.fi/~patrik/sn/),
+of course you can also install a full featured news
+server like
+inn (http://www.isc.org/products/INN/).
+Then you want to fetch your Mail, popular choices
+are fetchmail (http://www.catb.org/~esr/fetchmail/)
+and getmail (http://www.qcc.ca/~charlesc/software/getmail-3.0/).
+You should tell those to write the mail to your disk and
+Gnus to read it from there. Last but not least the mail
+sending part: This can be done with every MTA like
+sendmail (http://www.sendmail.org/),
+postfix (http://www.qmail.org/),
+exim (http://www.exim.org/) or
+qmail (http://www.qmail.org/).
+
+On windows boxes I'd vote for Hamster (http://www.tglsoft.de/), it's a
+small freeware, open-source program which fetches your mail and news
+from remote servers and offers them to Gnus (or any other mail and/or
+news reader) via nntp respectively POP3 or IMAP. It also includes a
+smtp server for receiving mails from Gnus.
+
+
+
+File: gnus, Node: [7.2]
+
+Question 7.2
+............
+
+So what was this thing about the Agent?
+
+
+Answer
+......
+
+The Gnus agent is part of Gnus, it allows you to fetch mail and news
+and store them on disk for reading them later when you're offline. It
+kind of mimics offline newsreaders like e.g. Forte Agent. If you want
+to use the Agent place the following in ~/.gnus.el if you are still
+using 5.8.8 or 5.9 (it's the default since 5.10):
+
+     (setq gnus-agent t)
+@noindent
+
+Now you've got to select the servers whose groups can be stored
+locally.  To do this, open the server buffer (that is press `^' while
+in the group buffer).  Now select a server by moving point to the line
+naming that server.  Finally, agentize the server by typing `J a'.  If
+you make a mistake, or change your mind, you can undo this action by
+typing `J r'.  When you're done, type 'q' to return to the group
+buffer.  Now the next time you enter a group on a agentized server,
+the headers will be stored on disk and read from there the next time
+you enter the group.
+
+
+
+File: gnus, Node: [7.3]
+
+Question 7.3
+............
+
+I want to store article bodies on disk, too. How to do it?
+
+
+Answer
+......
+
+You can tell the agent to automatically fetch the bodies of articles
+which fulfill certain predicates, this is done in a special buffer
+which can be reached by saying `J c' in group buffer. Please refer to
+the documentation for information which predicates are possible and
+how exactly to do it.
+
+Further on you can tell the agent manually which articles to store on
+disk. There are two ways to do this: Number one: In the summary
+buffer, process mark a set of articles that shall be stored in the
+agent by saying `#' with point over the article and then type `J
+s'. The other possibility is to set, again in the summary buffer,
+downloadable (%) marks for the articles you want by typing `@' with
+point over the article and then typing `J u'.  What's the difference?
+Well, process marks are erased as soon as you exit the summary buffer
+while downloadable marks are permanent.  You can actually set
+downloadable marks in several groups then use fetch session ('J s' in
+the GROUP buffer) to fetch all of those articles.  The only downside
+is that fetch session also fetches all of the headers for every
+selected group on an agentized server.  Depending on the volume of
+headers, the initial fetch session could take hours.
+
+
+
+File: gnus, Node: [7.4]
+
+Question 7.4
+............
+
+How to tell Gnus not to try to send mails / postings while I'm
+offline?
+
+
+Answer
+......
+
+All you've got to do is to tell Gnus when you are online (plugged) and
+when you are offline (unplugged), the rest works automatically. You
+can toggle plugged/unplugged state by saying `J j' in group buffer. To
+start Gnus unplugged say `M-x gnus-unplugged' instead of `M-x
+gnus'. Note that for this to work, the agent must be active.
+
+
+
+File: gnus, Node: FAQ 8 - Getting help
+
+Getting help
+------------
+
+* Menu:
+
+* [8.1]::    How to find information and help inside Emacs?
+* [8.2]::    I can't find anything in the Gnus manual about X (e.g.
+             attachments, PGP, MIME...), is it not documented?
+* [8.3]::    Which websites should I know?
+* [8.4]::    Which mailing lists and newsgroups are there?
+* [8.5]::    Where to report bugs?
+* [8.6]::    I need real-time help, where to find it?
+
+
+
+File: gnus, Node: [8.1]
+
+Question 8.1
+............
+
+How to find information and help inside Emacs?
+
+
+Answer
+......
+
+The first stop should be the Gnus manual (Say `C-h i d m Gnus RET' to
+start the Gnus manual, then walk through the menus or do a full-text
+search with `s'). Then there are the general Emacs help commands
+starting with C-h, type `C-h ? ?' to get a list of all available help
+commands and their meaning. Finally `M-x apropos-command' lets you
+search through all available functions and `M-x apropos' searches the
+bound variables.
+
+
+
+File: gnus, Node: [8.2]
+
+Question 8.2
+............
+
+I can't find anything in the Gnus manual about X (e.g. attachments,
+PGP, MIME...), is it not documented?
+
+
+Answer
+......
+
+There's not only the Gnus manual but also the manuals for message,
+emacs-mime, sieve and pgg. Those packages are distributed with Gnus
+and used by Gnus but aren't really part of core Gnus, so they are
+documented in different info files, you should have a look in those
+manuals, too.
+
+
+
+File: gnus, Node: [8.3]
+
+Question 8.3
+............
+
+Which websites should I know?
+
+
+Answer
+......
+
+The two most important ones are the official Gnus website
+(http://www.gnus.org).  and it's sister site my.gnus.org (MGO)
+(http://my.gnus.org), hosting an archive of lisp snippets, howtos, a
+(not really finished) tutorial and this FAQ.
+
+Tell me about other sites which are interesting.
+
+
+
+File: gnus, Node: [8.4]
+
+Question 8.4
+............
+
+Which mailing lists and newsgroups are there?
+
+
+Answer
+......
+
+There's the newsgroup gnu.emacs.gnus (also available as
+gmane.emacs.gnus.user (http://dir.gmane.org/gmane.emacs.gnus.user))
+which deals with general Gnus questions.  If you have questions about
+development versions of Gnus, you should better ask on the ding
+mailing list, see below.
+
+If you want to stay in the big8, news.software.newssreaders is also
+read by some Gnus users (but chances for qualified help are much
+better in the above groups). If you speak German, there's
+de.comm.software.gnus.
+
+The ding mailing list (ding@gnus.org) deals with development of
+Gnus. You can read the ding list via NNTP, too under the name
+gmane.emacs.gnus.general
+(http://dir.gmane.org/gmane.emacs.gnus.general) from news.gmane.org.
+
+
+
+File: gnus, Node: [8.5]
+
+Question 8.5
+............
+
+Where to report bugs?
+
+
+Answer
+......
+
+Say `M-x gnus-bug', this will start a message to the gnus bug mailing
+list <bugs@gnus.org> including information about your environment
+which make it easier to help you.
+
+
+
+File: gnus, Node: [8.6]
+
+Question 8.6
+............
+
+I need real-time help, where to find it?
+
+
+Answer
+......
+
+Point your IRC client to irc.freenode.net, channel #gnus.
+
+
+
+File: gnus, Node: FAQ 9 - Tuning Gnus
+
+Tuning Gnus
+-----------
+
+* Menu:
+
+* [9.1]::    Starting Gnus is really slow, how to speed it up?
+* [9.2]::    How to speed up the process of entering a group?
+* [9.3]::    Sending mail becomes slower and slower, what's up?
+
+
+
+File: gnus, Node: [9.1]
+
+Question 9.1
+............
+
+Starting Gnus is really slow, how to speed it up?
+
+
+Answer
+......
+
+The reason for this could be the way Gnus reads it's active file, see
+the node "The Active File" in the Gnus manual for things you might try
+to speed the process up.  An other idea would be to byte compile your
+~/.gnus.el (say `M-x byte-compile-file RET ~/.gnus.el RET' to do
+it). Finally, if you have require statements in your .gnus, you could
+replace them with eval-after-load, which loads the stuff not at
+startup time, but when it's needed. Say you've got this in your
+~/.gnus.el:
+
+     (require 'message)
+     (add-to-list 'message-syntax-checks '(sender . disabled))
+@noindent
+
+then as soon as you start Gnus, message.el is loaded. If you replace
+it with
+
+     (eval-after-load "message"
+           '(add-to-list 'message-syntax-checks '(sender . disabled)))
+@noindent
+
+it's loaded when it's needed.
+
+
+
+File: gnus, Node: [9.2]
+
+Question 9.2
+............
+
+How to speed up the process of entering a group?
+
+
+Answer
+......
+
+A speed killer is setting the variable gnus-fetch-old-headers to
+anything different from nil, so don't do this if speed is an issue. To
+speed up building of summary say
+
+     (gnus-compile)
+@noindent
+
+at the bottom of your ~/.gnus.el, this will make gnus byte-compile
+things like gnus-summary-line-format.  then you could increase the
+value of gc-cons-threshold by saying something like
+
+     (setq gc-cons-threshold 3500000)
+@noindent
+
+in ~/.emacs. If you don't care about width of CJK characters or use
+Gnus 5.10 or younger together with a recent GNU Emacs, you should say
+
+     (setq gnus-use-correct-string-widths nil)
+@noindent
+
+in ~/.gnus.el (thanks to Jesper harder for the last two
+suggestions). Finally if you are still using 5.8.8 or 5.9 and
+experience speed problems with summary buffer generation, you
+definitely should update to 5.10 since there quite some work on
+improving it has been done.
+
+
+
+File: gnus, Node: [9.3]
+
+Question 9.3
+............
+
+Sending mail becomes slower and slower, what's up?
+
+
+Answer
+......
+
+The reason could be that you told Gnus to archive the messages you
+wrote by setting gnus-message-archive-group. Try to use a nnml group
+instead of an archive group, this should bring you back to normal
+speed.
+
+
+
+File: gnus, Node: FAQ - Glossary
+
+Glossary
+--------
+
+
+"~/.gnus.el"
+     When the term ~/.gnus.el is used it just means your Gnus
+     configuration file. You might as well call it ~/.gnus or specify
+     another name.
+
+"Back End"
+     In Gnus terminology a back end is a virtual server, a layer
+     between core Gnus and the real NNTP-, POP3-, IMAP- or
+     whatever-server which offers Gnus a standardized interface to
+     functions like "get message", "get Headers" etc.
+
+"Emacs"
+     When the term Emacs is used in this FAQ, it means either GNU
+     Emacs or XEmacs.
+
+"Message"
+     In this FAQ message means a either a mail or a posting to a
+     Usenet Newsgroup or to some other fancy back end, no matter of
+     which kind it is.
+
+"MUA"
+     MUA is an acronym for Mail User Agent, it's the program you use
+     to read and write e-mails.
+
+"NUA"
+     NUA is an acronym for News User Agent, it's the program you use
+     to read and write Usenet news.
+
+
+
+
+
+File: gnus, Node: GNU Free Documentation License, Next: Index, Prev: Appendices, Up: Top
+
+GNU Free Documentation License
+******************************
+                      Version 1.2, November 2002
+
+     Copyright (C) 2000,2001,2002  Free Software Foundation, Inc.
+     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+     Everyone is permitted to copy and distribute verbatim copies
+     of this license document, but changing it is not allowed.
+
+  0. PREAMBLE
+
+     The purpose of this License is to make a manual, textbook, or
+     other functional and useful document "free" in the sense of
+     freedom: to assure everyone the effective freedom to copy and
+     redistribute it, with or without modifying it, either
+     commercially or noncommercially.  Secondarily, this License
+     preserves for the author and publisher a way to get credit for
+     their work, while not being considered responsible for
+     modifications made by others.
+
+     This License is a kind of "copyleft," which means that derivative
+     works of the document must themselves be free in the same sense.
+     It complements the GNU General Public License, which is a
+     copyleft license designed for free software.
+
+     We have designed this License in order to use it for manuals for
+     free software, because free software needs free documentation: a
+     free program should come with manuals providing the same freedoms
+     that the software does.  But this License is not limited to
+     software manuals; it can be used for any textual work, regardless
+     of subject matter or whether it is published as a printed book.
+     We recommend this License principally for works whose purpose is
+     instruction or reference.
+
+
+  1. APPLICABILITY AND DEFINITIONS
+
+     This License applies to any manual or other work, in any medium,
+     that contains a notice placed by the copyright holder saying it
+     can be distributed under the terms of this License.  Such a
+     notice grants a world-wide, royalty-free license, unlimited in
+     duration, to use that work under the conditions stated herein.
+     The "Document," below, refers to any such manual or work.  Any
+     member of the public is a licensee, and is addressed as "you."
+     You accept the license if you copy, modify or distribute the work
+     in a way requiring permission under copyright law.
+
+     A "Modified Version" of the Document means any work containing
+     the Document or a portion of it, either copied verbatim, or with
+     modifications and/or translated into another language.
+
+     A "Secondary Section" is a named appendix or a front-matter
+     section of the Document that deals exclusively with the
+     relationship of the publishers or authors of the Document to the
+     Document's overall subject (or to related matters) and contains
+     nothing that could fall directly within that overall subject.
+     (Thus, if the Document is in part a textbook of mathematics, a
+     Secondary Section may not explain any mathematics.)  The
+     relationship could be a matter of historical connection with the
+     subject or with related matters, or of legal, commercial,
+     philosophical, ethical or political position regarding them.
+
+     The "Invariant Sections" are certain Secondary Sections whose
+     titles are designated, as being those of Invariant Sections, in
+     the notice that says that the Document is released under this
+     License.  If a section does not fit the above definition of
+     Secondary then it is not allowed to be designated as Invariant.
+     The Document may contain zero Invariant Sections.  If the
+     Document does not identify any Invariant Sections then there are
+     none.
+
+     The "Cover Texts" are certain short passages of text that are
+     listed, as Front-Cover Texts or Back-Cover Texts, in the notice
+     that says that the Document is released under this License.  A
+     Front-Cover Text may be at most 5 words, and a Back-Cover Text
+     may be at most 25 words.
+
+     A "Transparent" copy of the Document means a machine-readable
+     copy, represented in a format whose specification is available to
+     the general public, that is suitable for revising the document
+     straightforwardly with generic text editors or (for images
+     composed of pixels) generic paint programs or (for drawings) some
+     widely available drawing editor, and that is suitable for input
+     to text formatters or for automatic translation to a variety of
+     formats suitable for input to text formatters.  A copy made in an
+     otherwise Transparent file format whose markup, or absence of
+     markup, has been arranged to thwart or discourage subsequent
+     modification by readers is not Transparent.  An image format is
+     not Transparent if used for any substantial amount of text.  A
+     copy that is not "Transparent" is called "Opaque."
+
+
+     Examples of suitable formats for Transparent copies include plain
+     ASCII without markup, Texinfo input format, LaTeX input format,
+     SGML or XML using a publicly available DTD, and
+     standard-conforming simple HTML, PostScript or PDF designed for
+     human modification.  Examples of transparent image formats
+     include PNG, XCF and JPG.  Opaque formats include proprietary
+     formats that can be read and edited only by proprietary word
+     processors, SGML or XML for which the DTD and/or processing tools
+     are not generally available, and the machine-generated HTML,
+     PostScript or PDF produced by some word processors for output
+     purposes only.
+
+     The "Title Page" means, for a printed book, the title page
+     itself, plus such following pages as are needed to hold, legibly,
+     the material this License requires to appear in the title page.
+     For works in formats which do not have any title page as such,
+     Title Page" means the text near the most prominent appearance of
+     the work's title, preceding the beginning of the body of the
+     text.
+
+     A section "Entitled XYZ" means a named subunit of the Document
+     whose title either is precisely XYZ or contains XYZ in
+     parentheses following text that translates XYZ in another
+     language.  (Here XYZ stands for a specific section name mentioned
+     below, such as "Acknowledgements," "Dedications," "Endorsements,"
+     or "History.")  To "Preserve the Title" of such a section when
+     you modify the Document means that it remains a section "Entitled
+     XYZ" according to this definition.
+
+     The Document may include Warranty Disclaimers next to the notice
+     which states that this License applies to the Document.  These
+     Warranty Disclaimers are considered to be included by reference
+     in this License, but only as regards disclaiming warranties: any
+     other implication that these Warranty Disclaimers may have is
+     void and has no effect on the meaning of this License.
+
+  2. VERBATIM COPYING
+
+     You may copy and distribute the Document in any medium, either
+     commercially or noncommercially, provided that this License, the
+     copyright notices, and the license notice saying this License
+     applies to the Document are reproduced in all copies, and that
+     you add no other conditions whatsoever to those of this License.
+     You may not use technical measures to obstruct or control the
+     reading or further copying of the copies you make or distribute.
+     However, you may accept compensation in exchange for copies.  If
+     you distribute a large enough number of copies you must also
+     follow the conditions in section 3.
+
+     You may also lend copies, under the same conditions stated above,
+     and you may publicly display copies.
+
+  3. COPYING IN QUANTITY
+
+     If you publish printed copies (or copies in media that commonly
+     have printed covers) of the Document, numbering more than 100,
+     and the Document's license notice requires Cover Texts, you must
+     enclose the copies in covers that carry, clearly and legibly, all
+     these Cover Texts: Front-Cover Texts on the front cover, and
+     Back-Cover Texts on the back cover.  Both covers must also
+     clearly and legibly identify you as the publisher of these
+     copies.  The front cover must present the full title with all
+     words of the title equally prominent and visible.  You may add
+     other material on the covers in addition.  Copying with changes
+     limited to the covers, as long as they preserve the title of the
+     Document and satisfy these conditions, can be treated as verbatim
+     copying in other respects.
+
+     If the required texts for either cover are too voluminous to fit
+     legibly, you should put the first ones listed (as many as fit
+     reasonably) on the actual cover, and continue the rest onto
+     adjacent pages.
+
+     If you publish or distribute Opaque copies of the Document
+     numbering more than 100, you must either include a
+     machine-readable Transparent copy along with each Opaque copy, or
+     state in or with each Opaque copy a computer-network location
+     from which the general network-using public has access to
+     download using public-standard network protocols a complete
+     Transparent copy of the Document, free of added material.  If you
+     use the latter option, you must take reasonably prudent steps,
+     when you begin distribution of Opaque copies in quantity, to
+     ensure that this Transparent copy will remain thus accessible at
+     the stated location until at least one year after the last time
+     you distribute an Opaque copy (directly or through your agents or
+     retailers) of that edition to the public.
+
+     It is requested, but not required, that you contact the authors
+     of the Document well before redistributing any large number of
+     copies, to give them a chance to provide you with an updated
+     version of the Document.
+
+  4. MODIFICATIONS
+
+     You may copy and distribute a Modified Version of the Document
+     under the conditions of sections 2 and 3 above, provided that you
+     release the Modified Version under precisely this License, with
+     the Modified Version filling the role of the Document, thus
+     licensing distribution and modification of the Modified Version
+     to whoever possesses a copy of it.  In addition, you must do
+     these things in the Modified Version:
+
+     A. Use in the Title Page (and on the covers, if any) a title distinct
+        from that of the Document, and from those of previous versions
+        (which should, if there were any, be listed in the History section
+        of the Document).  You may use the same title as a previous version
+        if the original publisher of that version gives permission.
+     B. List on the Title Page, as authors, one or more persons or entities
+        responsible for authorship of the modifications in the Modified
+        Version, together with at least five of the principal authors of the
+        Document (all of its principal authors, if it has fewer than five),
+        unless they release you from this requirement.
+     C. State on the Title page the name of the publisher of the
+        Modified Version, as the publisher.
+     D. Preserve all the copyright notices of the Document.
+     E. Add an appropriate copyright notice for your modifications
+        adjacent to the other copyright notices.
+     F. Include, immediately after the copyright notices, a license notice
+        giving the public permission to use the Modified Version under the
+        terms of this License, in the form shown in the Addendum below.
+     G. Preserve in that license notice the full lists of Invariant Sections
+        and required Cover Texts given in the Document's license notice.
+     H. Include an unaltered copy of this License.
+     I. Preserve the section Entitled "History," Preserve its Title, and add
+        to it an item stating at least the title, year, new authors, and
+        publisher of the Modified Version as given on the Title Page.  If
+        there is no section Entitled "History" in the Document, create one
+        stating the title, year, authors, and publisher of the Document as
+        given on its Title Page, then add an item describing the Modified
+        Version as stated in the previous sentence.
+     J. Preserve the network location, if any, given in the Document for
+        public access to a Transparent copy of the Document, and likewise
+        the network locations given in the Document for previous versions
+        it was based on.  These may be placed in the "History" section.
+        You may omit a network location for a work that was published at
+        least four years before the Document itself, or if the original
+        publisher of the version it refers to gives permission.
+     K. For any section Entitled "Acknowledgements" or "Dedications,"
+        Preserve the Title of the section, and preserve in the section all
+        the substance and tone of each of the contributor acknowledgements
+        and/or dedications given therein.
+     L. Preserve all the Invariant Sections of the Document,
+        unaltered in their text and in their titles.  Section numbers
+        or the equivalent are not considered part of the section titles.
+     M. Delete any section Entitled "Endorsements."  Such a section
+        may not be included in the Modified Version.
+     N. Do not retitle any existing section to be Entitled "Endorsements"
+        or to conflict in title with any Invariant Section.
+     O. Preserve any Warranty Disclaimers.
+
+     If the Modified Version includes new front-matter sections or
+     appendices that qualify as Secondary Sections and contain no
+     material copied from the Document, you may at your option
+     designate some or all of these sections as invariant.  To do
+     this, add their titles to the list of Invariant Sections in the
+     Modified Version's license notice.  These titles must be distinct
+     from any other section titles.
+
+     You may add a section Entitled "Endorsements," provided it
+     contains nothing but endorsements of your Modified Version by
+     various parties--for example, statements of peer review or that
+     the text has been approved by an organization as the
+     authoritative definition of a standard.
+
+     You may add a passage of up to five words as a Front-Cover Text,
+     and a passage of up to 25 words as a Back-Cover Text, to the end
+     of the list of Cover Texts in the Modified Version.  Only one
+     passage of Front-Cover Text and one of Back-Cover Text may be
+     added by (or through arrangements made by) any one entity.  If
+     the Document already includes a cover text for the same cover,
+     previously added by you or by arrangement made by the same entity
+     you are acting on behalf of, you may not add another; but you may
+     replace the old one, on explicit permission from the previous
+     publisher that added the old one.
+
+     The author(s) and publisher(s) of the Document do not by this
+     License give permission to use their names for publicity for or
+     to assert or imply endorsement of any Modified Version.
+
+  5. COMBINING DOCUMENTS
+
+     You may combine the Document with other documents released under
+     this License, under the terms defined in section 4 above for
+     modified versions, provided that you include in the combination
+     all of the Invariant Sections of all of the original documents,
+     unmodified, and list them all as Invariant Sections of your
+     combined work in its license notice, and that you preserve all
+     their Warranty Disclaimers.
+
+     The combined work need only contain one copy of this License, and
+     multiple identical Invariant Sections may be replaced with a
+     single copy.  If there are multiple Invariant Sections with the
+     same name but different contents, make the title of each such
+     section unique by adding at the end of it, in parentheses, the
+     name of the original author or publisher of that section if
+     known, or else a unique number.  Make the same adjustment to the
+     section titles in the list of Invariant Sections in the license
+     notice of the combined work.
+
+     In the combination, you must combine any sections Entitled
+     History" in the various original documents, forming one section
+     Entitled "History"; likewise combine any sections Entitled
+     Acknowledgements," and any sections Entitled "Dedications."  You
+     must delete all sections Entitled "Endorsements."
+
+  6. COLLECTIONS OF DOCUMENTS
+
+     You may make a collection consisting of the Document and other
+     documents released under this License, and replace the individual
+     copies of this License in the various documents with a single
+     copy that is included in the collection, provided that you follow
+     the rules of this License for verbatim copying of each of the
+     documents in all other respects.
+
+     You may extract a single document from such a collection, and
+     distribute it individually under this License, provided you
+     insert a copy of this License into the extracted document, and
+     follow this License in all other respects regarding verbatim
+     copying of that document.
+
+  7. AGGREGATION WITH INDEPENDENT WORKS
+
+     A compilation of the Document or its derivatives with other
+     separate and independent documents or works, in or on a volume of
+     a storage or distribution medium, is called an "aggregate" if the
+     copyright resulting from the compilation is not used to limit the
+     legal rights of the compilation's users beyond what the
+     individual works permit.  When the Document is included in an
+     aggregate, this License does not apply to the other works in the
+     aggregate which are not themselves derivative works of the
+     Document.
+
+     If the Cover Text requirement of section 3 is applicable to these
+     copies of the Document, then if the Document is less than one
+     half of the entire aggregate, the Document's Cover Texts may be
+     placed on covers that bracket the Document within the aggregate,
+     or the electronic equivalent of covers if the Document is in
+     electronic form.  Otherwise they must appear on printed covers
+     that bracket the whole aggregate.
+
+  8. TRANSLATION
+
+     Translation is considered a kind of modification, so you may
+     distribute translations of the Document under the terms of
+     section 4.  Replacing Invariant Sections with translations
+     requires special permission from their copyright holders, but you
+     may include translations of some or all Invariant Sections in
+     addition to the original versions of these Invariant Sections.
+     You may include a translation of this License, and all the
+     license notices in the Document, and any Warranty Disclaimers,
+     provided that you also include the original English version of
+     this License and the original versions of those notices and
+     disclaimers.  In case of a disagreement between the translation
+     and the original version of this License or a notice or
+     disclaimer, the original version will prevail.
+
+     If a section in the Document is Entitled "Acknowledgements,"
+     Dedications," or "History," the requirement (section 4) to
+     Preserve its Title (section 1) will typically require changing
+     the actual title.
+
+  9. TERMINATION
+
+     You may not copy, modify, sublicense, or distribute the Document
+     except as expressly provided for under this License.  Any other
+     attempt to copy, modify, sublicense or distribute the Document is
+     void, and will automatically terminate your rights under this
+     License.  However, parties who have received copies, or rights,
+     from you under this License will not have their licenses
+     terminated so long as such parties remain in full compliance.
+
+ 10. FUTURE REVISIONS OF THIS LICENSE
+
+     The Free Software Foundation may publish new, revised versions of
+     the GNU Free Documentation License from time to time.  Such new
+     versions will be similar in spirit to the present version, but
+     may differ in detail to address new problems or concerns.  See
+     http://www.gnu.org/copyleft/.
+
+     Each version of the License is given a distinguishing version
+     number.  If the Document specifies that a particular numbered
+     version of this License "or any later version" applies to it, you
+     have the option of following the terms and conditions either of
+     that specified version or of any later version that has been
+     published (not as a draft) by the Free Software Foundation.  If
+     the Document does not specify a version number of this License,
+     you may choose any version ever published (not as a draft) by the
+     Free Software Foundation.
+
+
+
+ADDENDUM: How to use this License for your documents
+====================================================
+
+To use this License in a document you have written, include a copy of
+the License in the document and put the following copyright and
+license notices just after the title page:
+
+     Copyright (C)  YEAR  YOUR NAME.
+     Permission is granted to copy, distribute and/or modify this document
+     under the terms of the GNU Free Documentation License, Version 1.2
+     or any later version published by the Free Software Foundation;
+     with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+     A copy of the license is included in the section entitled "GNU
+     Free Documentation License."
+
+If you have Invariant Sections, Front-Cover Texts and Back-Cover
+Texts, replace the "with...Texts." line with this:
+
+     with the Invariant Sections being LIST THEIR TITLES, with the
+     Front-Cover Texts being LIST, and with the Back-Cover Texts being
+     LIST.
+
+If you have Invariant Sections without Cover Texts, or some other
+combination of the three, merge those two alternatives to suit the
+situation.
+
+If your document contains nontrivial examples of program code, we
+recommend releasing these examples in parallel under your choice of
+free software license, such as the GNU General Public License, to
+permit their use in free software.
+
+
+
+
