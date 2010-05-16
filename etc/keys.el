@@ -2,10 +2,21 @@
 ;;; put all global key bindings here (so as to avoid binding
 ;;; conflicts)
 
-;; GLOBAL ONLY -- mode-specific in mode-specific files
-(global-set-key (kbd "C-x =") 'genehack/diff-current-buffer-with-file)
-(global-set-key (kbd "C-%")   'genehack/paren-bounce)
-(global-set-key (kbd "C-a")   'genehack/bol-toggle)
+;;; GLOBAL ONLY -- mode-specific in mode-specific files
+(global-set-key (kbd "C-`")     'other-window)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x =")   'genehack/diff-current-buffer-with-file)
+(global-set-key (kbd "C-%")     'genehack/paren-bounce)
+(global-set-key (kbd "C-a")     'genehack/bol-toggle)
+(global-set-key (kbd "M-D")     'perldoc)
+(global-set-key (kbd "M-g")     'goto-line)
+(global-set-key (kbd "M-L")     'perl-find-file)
+(global-set-key (kbd "M-p")     'ps-print-buffer)
+(global-set-key (kbd "M-s")     'imenu-goto-symbol)
+(global-set-key (kbd "RET")     'reindent-then-newline-and-indent)
+
+;;;; by default this is bound to tmm-menubar
+(global-unset-key (kbd "M-`"))
 
 ;;; F keys
 (global-set-key (kbd "<f1>")      'disk)
