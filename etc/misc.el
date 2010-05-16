@@ -175,3 +175,13 @@
 ;;; YAML-MODE
 (autoload 'yaml-mode "yaml-mode" "YAML" t)
 (add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
+
+;;; YASNIPPET
+(require 'yasnippet)
+(setq yas/root-directory (concat genehack/emacs-dir "share/snippets"))
+(if (file-exists-p yas/root-directory)
+    (unless (file-directory-p yas/root-directory)
+      (error "Snippets directory creation blocked by file"))
+  (make-directory yas/root-directory))
+(yas/load-directory yas/root-directory)
+(yas/global-mode 1)
