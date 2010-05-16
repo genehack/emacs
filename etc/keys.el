@@ -5,6 +5,7 @@
 ;;; GLOBAL ONLY -- mode-specific in mode-specific files
 (global-set-key (kbd "C-`")     'other-window)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x C-f") 'ido-find-file)
 (global-set-key (kbd "C-x =")   'genehack/diff-current-buffer-with-file)
 (global-set-key (kbd "C-%")     'genehack/paren-bounce)
 (global-set-key (kbd "C-a")     'genehack/bol-toggle)
