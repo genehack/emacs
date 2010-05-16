@@ -107,6 +107,14 @@
 (autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.mrkd" . markdown-mode))
 
+;;; MAYBE-ERC
+(defun genehack/maybe-erc ()
+  "Run genehack/erc or give an error"
+  (interactive)
+  (if (boundp 'genehack/erc)
+      (genehack/erc)
+    (message "ERC config is not loaded.")))
+
 ;;; MAYBE-GNUS
 (defun genehack/maybe-gnus ()
   "Run genehack/gnus or give an error"
