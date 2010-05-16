@@ -140,6 +140,22 @@
 ;;       '((cperl-mode      . plcmp-cmd-smart-complete)
 ;;         (text-mode       . dabbrev-completion)))
 
+;;; STRIP TRAILING WHITESPACE
+(defvar genehack/strip-trailing-whitespace-in-these-modes
+  '(
+    cperl-mode
+    css-mode
+    emacs-lisp-mode
+    tt-mode
+    yaml-mode
+    )
+  "List of modes where trailing whitespace should be stripped when saving files.")
+
+(add-hook 'before-save-hook
+          (lambda ()
+            (if (find major-mode genehack/strip-trailing-whitespace-in-these-modes)
+              (delete-trailing-whitespace))))
+
 ;;; TEMPLATE
 (require 'template-mode)
 (add-hook 'html-mode-hook
