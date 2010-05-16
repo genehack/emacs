@@ -29,10 +29,9 @@
 ;;; COLOR-THEME
 (add-to-list 'load-path (concat genehack/emacs-libs-dir "color-theme"))
 (require 'color-theme)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-hober)))
+(color-theme-initialize)
+(require 'color-theme-twilight)
+(color-theme-twilight)
 
 ;;; CSS-HEXCOLOR
 (require 'css-hexcolor)
