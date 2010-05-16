@@ -140,6 +140,14 @@
 ;;       '((cperl-mode      . plcmp-cmd-smart-complete)
 ;;         (text-mode       . dabbrev-completion)))
 
+;;; SPLIT-VERTICALLY-OR-DELETE-OTHER-WINDOWS
+(defun genehack/split-vertically-or-delete-other-windows ()
+  "If one window, split vertically; otherwise, delete-other-windows"
+  (interactive)
+  (if (eq 1 (count-windows nil))
+      (split-window-vertically)
+    (delete-other-windows)))
+
 ;;; STRIP TRAILING WHITESPACE
 (defvar genehack/strip-trailing-whitespace-in-these-modes
   '(

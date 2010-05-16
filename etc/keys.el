@@ -23,6 +23,7 @@
 (global-set-key (kbd "<f2>")      'genehack/dired-right-here)
 (global-set-key (kbd "<f3>")      'genehack/magit-status-with-prompt)
 (global-set-key (kbd "<f4>")      'bury-buffer)
+(global-set-key (kbd "<f5>")      'genehack/split-vertically-or-delete-other-windows)
 (global-set-key (kbd "<f6>")      'genehack/switch-to-gnus)
 (global-set-key (kbd "<f7>")      'genehack/erc)
 (global-set-key (kbd "<f10>")     'menu-bar-open)
