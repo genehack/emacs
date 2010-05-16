@@ -4,9 +4,13 @@
 ;;; AUTO COMPLETE
 (add-to-list 'load-path (concat genehack/emacs-libs-dir "auto-complete"))
 (require 'auto-complete-config)
+(setq ac-comphist-file (concat genehack/emacs-config-dir "tmp/ac-comphist.dat"))
 (add-to-list 'ac-dictionary-directories (concat genehack/emacs-libs-dir "auto-complete/ac-dict"))
 (ac-config-default)
-(setq ac-comphist-file (concat genehack/emacs-config-dir "tmp/ac-comphist.dat"))
+(setq-default ac-sources '(ac-source-yasnippet
+                           ac-source-abbrev
+                           ac-source-dictionary
+                           ac-source-words-in-same-mode-buffers))
 
 ;;; AUTO CREATE DIRECTORIES
 ;;;; after <http://atomized.org/2008/12/emacs-create-directory-before-saving/>
@@ -106,6 +110,7 @@
 ;;; MARKDOWN
 (autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.mrkd" . markdown-mode))
+(add-hook 'markdown-mode-hook 'auto-complete-mode)
 
 ;;; MAYBE-ERC
 (defun genehack/maybe-erc ()
