@@ -118,7 +118,7 @@
 (defun genehack/maybe-erc ()
   "Run genehack/erc or give an error"
   (interactive)
-  (if (boundp 'genehack/erc)
+  (if (functionp 'genehack/erc)
       (genehack/erc)
     (message "ERC config is not loaded.")))
 
@@ -126,7 +126,7 @@
 (defun genehack/maybe-gnus ()
   "Run genehack/gnus or give an error"
   (interactive)
-  (if (boundp 'genehack/gnus)
+  (if (functionp 'genehack/gnus)
       (genehack/gnus)
     (message "GNUS config is not loaded.")))
 

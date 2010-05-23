@@ -58,9 +58,9 @@
 (defvar genehack/module-list
   '(
     "builtins"
-    ;; "erc"
-    ;; "gnus"
     "keys"
+    "my-erc"
+    "my-gnus"
     "misc"
     "perl"
     )

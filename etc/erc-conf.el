@@ -1,6 +1,6 @@
 ;; erc.el - ERC customizations
 (require 'erc)
-(require 'erc-nicklist)
+;;(require 'erc-nicklist)
 
 ;;; MODULES
 (setq erc-modules '(autoaway
@@ -45,7 +45,7 @@
 (setq erc-autojoin-channels-alist
       '((".*\\.freenode.net" "#dc-sage" "#emacs" "#openmelody")
         (".*\\.oftc.net" "#linode")
-        ("irc\\.perl\\.org\\|.+\\.shadowcat\\.co\\.uk\\|.*\\.llarian\\..net" "#catalyst" "#corehackers" "#dbix-class" "#moose" "#perl" "#ppw" "#yapc")))
+        ("irc\\.perl\\.org\\|.+\\.shadowcat\\.co\\.uk\\|.*\\.llarian\\..net" "#catalyst" "#corehackers" "#dbix-class" "#dcpm" "#dc.pm" "#moose" "#perl" "#ppw" "#yapc")))
 
 (erc-fill-mode t)
 (setq erc-fill-prefix "         ")
