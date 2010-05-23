@@ -40,28 +40,10 @@ END-INFO-DIR-ENTRY
 
 Indirect:
 gnus-1: 1362
-gnus-2: 50318
-gnus-3: 105686
-gnus-4: 157791
-gnus-5: 211216
-gnus-6: 262112
-gnus-7: 314336
-gnus-8: 364674
-gnus-9: 416046
-gnus-10: 468296
-gnus-11: 520122
-gnus-12: 570166
-gnus-13: 623782
-gnus-14: 678195
-gnus-15: 734991
-gnus-16: 786485
-gnus-17: 838690
-gnus-18: 888909
-gnus-19: 939386
-gnus-20: 990359
-gnus-21: 1040705
-gnus-22: 1095095
-gnus-23: 1264705
+gnus-2: 267201
+gnus-3: 529407
+gnus-4: 791785
+gnus-5: 1054094
 
 Tag table:
 (Indirect)
