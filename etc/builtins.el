@@ -91,7 +91,7 @@ remove-leading-whitespace-on-kil-line tricks")
 
 ;;; IDO
 (require 'ido)
-(ido-mode 1)
+(ido-mode t)
 (setq ido-enable-flex-matching t
       ido-create-new-buffer t)
 
