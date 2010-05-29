@@ -11,6 +11,7 @@
 (global-set-key (kbd "C-a")     'genehack/bol-toggle)
 (global-set-key (kbd "M-D")     'perldoc)
 (global-set-key (kbd "M-g")     'goto-line)
+(global-set-key (kbd "M-k")     'delim-kill)
 (global-set-key (kbd "M-L")     'perl-find-file)
 (global-set-key (kbd "M-p")     'ps-print-buffer)
 (global-set-key (kbd "M-s")     'imenu-goto-symbol)

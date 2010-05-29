@@ -42,6 +42,10 @@
   (interactive)
   (diff-buffer-with-file (current-buffer)))
 
+;;; DELIM-KILL
+;;;; <http://github.com/thomas11/delim-kill>
+(require 'delim-kill)
+
 ;;; DIRED-RIGHT-HERE
 (defun genehack/dired-right-here (arg)
   "Run ido-dired or, with prefix, dired on current active directory."
