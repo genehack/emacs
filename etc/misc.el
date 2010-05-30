@@ -31,7 +31,8 @@
 (require 'color-theme)
 (color-theme-initialize)
 (require 'color-theme-twilight)
-(color-theme-twilight)
+(require 'color-theme-hober2)
+(color-theme-hober2)
 
 ;;; CSS-HEXCOLOR
 (require 'css-hexcolor)
