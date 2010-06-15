@@ -163,8 +163,12 @@ This is a buffer-local variable.")
          (format (concat " %" (number-to-string genehack/linum-max-line-width) "d ") number)))
 
 ;;; MAC STUFF
-(if (eq system-type 'darwin)
-    (setq mac-command-modifier 'meta))
+(when (eq system-type 'darwin)
+  (setq mac-command-modifier 'meta)
+  (setq mac-option-modifier nil)
+  (add-to-list 'ido-ignore-files "\\.DS_Store")
+  (setq browse-url-browser-function 'browse-url-default-macosx-browser)
+  (setq delete-by-moving-to-trash t))
 
 ;;; MESSAGE LOG
 (setq message-log-max 5000)
