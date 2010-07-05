@@ -59,8 +59,8 @@
   '(
     "builtins"
     "keys"
-    "my-erc"
-    "my-gnus"
+    "erc-conf"
+    "gnus-conf"
     "misc"
     "perl"
     )
