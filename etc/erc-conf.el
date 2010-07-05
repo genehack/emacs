@@ -50,6 +50,8 @@
 (erc-fill-mode t)
 (setq erc-fill-prefix "         ")
 
+(erc-completion-mode 1)
+
 (setq erc-current-nick-highlight-type 'nick-or-keyword)
 
 (erc-match-mode 1)
