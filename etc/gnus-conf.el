@@ -10,6 +10,7 @@
 (require 'adv-random-sig)
 (require 'bbdb-autoloads)
 (require 'bbdb)
+(require 'bbdb-gnus)
 (require 'gnus)
 (require 'gnus-setup)
 (require 'message)
