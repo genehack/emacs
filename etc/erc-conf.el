@@ -43,9 +43,9 @@
 
 (erc-autojoin-mode 1)
 (setq erc-autojoin-channels-alist
-      '((".*\\.freenode.net" "#dc-sage" "#emacs" "#openmelody")
+      '((".*\\.freenode.net" "#bioperl" "#dc-sage" "#emacs" "#openmelody")
         (".*\\.oftc.net" "#linode")
-        ("irc\\.perl\\.org\\|.+\\.shadowcat\\.co\\.uk\\|.*\\.llarian\\.net\\|irc\\.eggebuh\\.com" "#catalyst" "#corehackers" "#dbix-class" "#dcpm" "#dc.pm" "#moose" "#perl" "#ppw" "#yapc")))
+        ("irc\\.perl\\.org\\|.+\\.shadowcat\\.co\\.uk\\|.*\\.llarian\\.net\\|irc\\.eggebuh\\.com" "#catalyst" "#corehackers" "#dbix-class" "#dcpm" "#dc.pm" "#moose" "#p5p" "#perl" "#ppw" "#yapc")))
 
 (erc-fill-mode t)
 (setq erc-fill-prefix "         ")
