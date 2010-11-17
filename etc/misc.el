@@ -152,7 +152,7 @@
 
 ;;; MARKDOWN
 (autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.mrkd" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.mr?kd" . markdown-mode))
 (add-hook 'markdown-mode-hook 'auto-complete-mode)
 
 ;;; MAYBE-ERC
