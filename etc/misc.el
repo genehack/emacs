@@ -155,6 +155,10 @@
 (add-to-list 'auto-mode-alist '("\\.mr?kd" . markdown-mode))
 (add-hook 'markdown-mode-hook 'auto-complete-mode)
 
+;;; MAXFRAME
+(require 'maxframe)
+(add-hook 'window-setup-hook 'maximize-frame t)
+
 ;;; MAYBE-ERC
 (defun genehack/maybe-erc ()
   "Run genehack/erc or give an error"
