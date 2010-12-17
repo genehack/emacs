@@ -69,6 +69,11 @@ smart-tab-using-hippie-expand"
                 :value-type (function :tag "Completion function to use in this mode"))
   :group 'smart-tab)
 
+(defcustom smart-tab-disabled-major-modes '(term-mode)
+  "List of major modes that should not use smart-tab"
+  :type 'sexp
+  :group 'smart-tab)
+
 ;;;###autoload
 (defun smart-tab (prefix)
   "Try to 'do the smart thing' when tab is pressed.
@@ -136,7 +141,8 @@ Null prefix argument turns off the mode."
         ;; Don't start `smart-tab-mode' when in the minibuffer or a read-only
         ;; buffer.
         (when (or (minibufferp)
-                  buffer-read-only)
+                  buffer-read-only
+                  (member major-mode smart-tab-disabled-major-modes))
           (smart-tab-mode-off)))))
 
 ;;;###autoload
