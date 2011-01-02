@@ -261,6 +261,9 @@ This is a buffer-local variable.")
 ;;; TRANSIENT MARK MODE
 (transient-mark-mode 1)
 
+;;; TRASH
+(setq delete-by-moving-to-trash t)
+
 ;;; UNIQUIFY
 (setq uniquify-buffer-name-style 'forward
       uniquify-after-kill-buffer-p t
