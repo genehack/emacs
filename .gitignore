@@ -1,4 +1,5 @@
 *.elc
+.org-id-locations
 elpa
 tmp
 tramp
