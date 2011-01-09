@@ -4,8 +4,10 @@
 
 ;;; GLOBAL ONLY -- mode-specific in mode-specific files
 (global-set-key (kbd "C-`")     'other-window)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x f")   'anything-recentf)
+(global-set-key (kbd "C-x C-b") 'anything-mini)  ;; 'ibuffer)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
+(global-set-key (kbd "C-x C-i") 'anything-imenu)
 (global-set-key (kbd "C-x =")   'genehack/diff-current-buffer-with-file)
 (global-set-key (kbd "C-%")     'genehack/paren-bounce)
 (global-set-key (kbd "C-a")     'genehack/bol-toggle)
@@ -15,6 +17,7 @@
 (global-set-key (kbd "M-L")     'perl-find-file)
 (global-set-key (kbd "M-p")     'ps-print-buffer)
 (global-set-key (kbd "M-s")     'imenu-goto-symbol)
+(global-set-key (kbd "M-C-SPC") 'genehack/anything)
 (global-set-key (kbd "RET")     'reindent-then-newline-and-indent)
 
 ;;;; by default this is bound to tmm-menubar
