@@ -56,7 +56,8 @@
 
 ;;; PERL COMPLETION
 (setq plcmp-extra-using-modules
-      '(("Digest" . "Digest::SHA1")))
+      '(("Digest" . "Digest::SHA1")
+        ("LWP::UserAgent" . "HTTP::Response")))
 
 ;;; PERLY_SENSE
 ;;;; commented out for now because it throws various errors with
