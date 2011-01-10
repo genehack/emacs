@@ -9,3 +9,5 @@
 (global-set-key "\C-cb" 'org-iswitchb)
 
 (setq org-log-done t)
+
+(setq org-agenda-files '("~/Dropbox/org/"))
