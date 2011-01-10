@@ -246,6 +246,7 @@ This is a buffer-local variable.")
 ;;; TEXT-MODE
 (add-hook 'text-mode-hook
           (lambda ()
+            (require 'filladapt)
             (auto-fill-mode 1)
             (filladapt-mode 1)
             (flyspell-mode 1)))
