@@ -4,8 +4,12 @@
 
 ;;; GLOBAL ONLY -- mode-specific in mode-specific files
 (global-set-key (kbd "C-`")     'other-window)
+(global-set-key (kbd "C-c l")   'org-store-link)
+(global-set-key (kbd "C-c a")   'org-agenda)
+(global-set-key (kbd "C-c b")   'org-iswitchb)
+(global-set-key (kbd "C-c c")   'org-capture)
 (global-set-key (kbd "C-x f")   'anything-recentf)
-(global-set-key (kbd "C-x C-b") 'anything-mini)  ;; 'ibuffer)
+(global-set-key (kbd "C-x C-b") 'anything-mini)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
 (global-set-key (kbd "C-x C-i") 'anything-imenu)
 (global-set-key (kbd "C-x =")   'genehack/diff-current-buffer-with-file)
