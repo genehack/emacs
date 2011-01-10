@@ -1,5 +1,6 @@
 *.elc
 .org-id-locations
+anything-c-adaptive-history
 elpa
 tmp
 tramp
