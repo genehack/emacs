@@ -8,5 +8,7 @@
       org-startup-indented 1
       org-agenda-files '("~/Dropbox/org/")
       org-directory (expand-file-name "~/Dropbox/org/")
-      org-default-notes-file (concat org-directory "/capture.org"))
+      org-default-notes-file (concat org-directory "/capture.org")
+      org-refile-targets '((org-agenda-files :level . 1))
+      )
 
