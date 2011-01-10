@@ -6,6 +6,7 @@
 
 ;;; ANYTHING
 (require 'anything-match-plugin)
+(setq anything-command-map-prefix-key "S-<F5>")
 (require 'anything-config)
 
 (defvar anything-c-source-git-project-files-cache nil
