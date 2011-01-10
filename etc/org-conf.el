@@ -10,4 +10,7 @@
 
 (setq org-log-done t)
 
+(setq org-startup-indented 1)
 (setq org-agenda-files '("~/Dropbox/org/"))
+(setq org-default-notes-file (concat org-directory "/capture.org"))
+(define-key global-map "\C-cc" 'org-capture)
