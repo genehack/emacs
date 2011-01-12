@@ -284,6 +284,11 @@
           (lambda ()
             (if (string-match "\\.tt2?$" buffer-file-name)
                 (template-minor-mode 1))))
+
+;;; TEXTILE
+(require 'textile-mode)
+(add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
+
 ;;; TOGGLE-BOL
 (defun genehack/bol-toggle ()
   "Toggle between beginning of indent and beginning of line"
