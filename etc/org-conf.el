@@ -12,3 +12,9 @@
       org-refile-targets '((org-agenda-files :level . 1))
       )
 
+
+(defun genehack/open-org-capture-file ()
+  "Open the default org file to capture something."
+  (interactive)
+  (find-file org-default-notes-file))
+

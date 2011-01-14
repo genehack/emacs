@@ -8,6 +8,7 @@
 (global-set-key (kbd "C-c a")   'org-agenda)
 (global-set-key (kbd "C-c b")   'org-iswitchb)
 (global-set-key (kbd "C-c c")   'org-capture)
+(global-set-key (kbd "C-c t")   'genehack/open-org-capture-file)
 (global-set-key (kbd "C-x f")   'anything-recentf)
 (global-set-key (kbd "C-x C-b") 'anything-mini)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
