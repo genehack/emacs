@@ -203,6 +203,7 @@
 (add-hook 'markdown-mode-hook 'auto-complete-mode)
 
 ;;; MAXFRAME
+(add-to-list 'load-path (concat genehack/emacs-libs-dir "maxframe"))
 (require 'maxframe)
 (add-hook 'window-setup-hook 'maximize-frame t)
 

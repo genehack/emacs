@@ -4,3 +4,6 @@
 [submodule "lib/cperl-mode"]
 	path = lib/cperl-mode
 	url = git://github.com/jrockway/cperl-mode.git
+[submodule "lib/maxframe"]
+	path = lib/maxframe
+	url = https://github.com/rmm5t/maxframe.el.git
