@@ -1,3 +1,6 @@
 [submodule "lib/js2-mode"]
 	path = lib/js2-mode
 	url = https://github.com/mooz/js2-mode.git
+[submodule "lib/cperl-mode"]
+	path = lib/cperl-mode
+	url = git://github.com/jrockway/cperl-mode.git
