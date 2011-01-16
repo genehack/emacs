@@ -1,0 +1,3 @@
+[submodule "lib/js2-mode"]
+	path = lib/js2-mode
+	url = https://github.com/mooz/js2-mode.git
