@@ -291,6 +291,11 @@
 (require 'textile-mode)
 (add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
 
+;;; TEXTMATE
+(add-to-list 'load-path (concat genehack/emacs-libs-dir "textmate"))
+(require 'textmate)
+(textmate-mode)
+
 ;;; TOGGLE-BOL
 (defun genehack/bol-toggle ()
   "Toggle between beginning of indent and beginning of line"

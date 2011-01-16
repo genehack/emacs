@@ -7,3 +7,6 @@
 [submodule "lib/maxframe"]
 	path = lib/maxframe
 	url = https://github.com/rmm5t/maxframe.el.git
+[submodule "lib/textmate"]
+	path = lib/textmate
+	url = https://github.com/defunkt/textmate.el.git

@@ -166,6 +166,7 @@ This is a buffer-local variable.")
 ;;; MAC STUFF
 (when (eq system-type 'darwin)
   (setq mac-command-modifier 'meta)
+  (setq mac-function-modifier 'super)
   (setq mac-option-modifier nil)
   (add-to-list 'ido-ignore-files "\\.DS_Store")
   (setq browse-url-browser-function 'browse-url-default-macosx-browser)
