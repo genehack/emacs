@@ -20,6 +20,8 @@
       org-return-follows-link t
       org-startup-folded nil
       org-startup-indented 1
+      org-todo-keywords '((sequence "TODO(t!)" "|" "DONE(!)")
+                          (sequence "WAITING(w!)" "|" "DONE(!)" ))
       org-M-RET-may-split-line '((headline nil)(item nil)(default t))
       )
 
