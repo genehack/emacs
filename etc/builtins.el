@@ -8,6 +8,9 @@
                                          "tmp/auto-save-list/.saves-")
       make-backup-files nil)
 
+;;; CALENDAR
+(setq mark-holidays-in-calendar t)
+
 ;;; CSS-MODE
 (require 'css-mode-autoloads)
 
