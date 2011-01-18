@@ -1,7 +1,7 @@
 ;; perl.el - perl-specific customizations and code
 
 ;;; LIBRARIES
-(add-to-list 'load-path (concat genehack/emacs-libs-dir "cperl-mode"))
+(genehack/add-emacs-lib-subdir-to-load-path "cperl-mode")
 (require 'cperl-mode)
 (require 'perl-completion)
 (require 'perl-find-library)

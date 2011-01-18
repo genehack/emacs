@@ -52,6 +52,14 @@
 (if (file-readable-p genehack/private-config-file)
     (load-library genehack/private-config-file))
 
+;; HELPER FUNCTIONS
+;;; This is here because it's used across several different config
+;;; files as a helper function and it needs to be defined before we
+;;; try to load those files.
+(defun genehack/add-emacs-lib-subdir-to-load-path (dir)
+  "Concat arg with genehack/emacs-libs-dir and add to load-path"
+  (add-to-list 'load-path (concat genehack/emacs-libs-dir dir)))
+
 ;; MODULES
 ;;; All the rest of the config is split out into individual files, for
 ;;; ease of use.
@@ -70,3 +78,4 @@
 (dolist (pkg genehack/module-list)
   (if (file-readable-p (concat genehack/emacs-config-dir pkg ".el"))
       (load-library pkg)))
+

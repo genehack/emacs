@@ -51,7 +51,7 @@
    "*genehack-anything*"))
 
 ;;; AUTO COMPLETE
-(add-to-list 'load-path (concat genehack/emacs-libs-dir "auto-complete"))
+(genehack/add-emacs-lib-subdir-to-load-path "auto-complete")
 (require 'auto-complete-config)
 (setq ac-comphist-file (concat genehack/emacs-config-dir "tmp/ac-comphist.dat"))
 (add-to-list 'ac-dictionary-directories (concat genehack/emacs-libs-dir "auto-complete/ac-dict"))
@@ -73,11 +73,11 @@
 (browse-kill-ring-default-keybindings)
 
 ;;; COFFEE-MODE
-(add-to-list 'load-path (concat genehack/emacs-libs-dir "coffee-mode"))
+(genehack/add-emacs-lib-subdir-to-load-path "coffee-mode")
 (require 'coffee-mode)
 
 ;;; COLOR-THEME
-(add-to-list 'load-path (concat genehack/emacs-libs-dir "color-theme"))
+(genehack/add-emacs-lib-subdir-to-load-path "color-theme")
 (require 'color-theme)
 (setq color-theme-load-all-themes nil)
 (color-theme-initialize)
@@ -176,7 +176,7 @@
 (autoload 'tidy-build-menu         "tidy" "Install an options menu for HTML Tidy." t)
 
 ;;; JS2
-(add-to-list 'load-path (concat genehack/emacs-libs-dir "js2-mode"))
+(genehack/add-emacs-lib-subdir-to-load-path "js2-mode")
 (autoload 'js2-mode "js2-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (setq-default js2-basic-offset 2)
@@ -207,7 +207,7 @@
 (add-hook 'markdown-mode-hook 'auto-complete-mode)
 
 ;;; MAXFRAME
-(add-to-list 'load-path (concat genehack/emacs-libs-dir "maxframe"))
+(genehack/add-emacs-lib-subdir-to-load-path "maxframe")
 (require 'maxframe)
 (add-hook 'window-setup-hook 'maximize-frame t)
 
@@ -296,7 +296,7 @@
 (add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
 
 ;;; TEXTMATE
-(add-to-list 'load-path (concat genehack/emacs-libs-dir "textmate"))
+(genehack/add-emacs-lib-subdir-to-load-path "textmate")
 (require 'textmate)
 (textmate-mode)
 

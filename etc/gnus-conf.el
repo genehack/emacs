@@ -1,8 +1,8 @@
 ;; gnus.el - gnus, bbdb, and related customizations
 
 ;;; INIT
-(add-to-list 'load-path (concat genehack/emacs-libs-dir "bbdb/lisp"))
-(add-to-list 'load-path (concat genehack/emacs-libs-dir "ngnus/lisp"))
+(genehack/add-emacs-lib-subdir-to-load-path "bbdb/lisp")
+(genehack/add-emacs-lib-subdir-to-load-path "ngnus/lisp")
 
 (add-to-list 'Info-default-directory-list (concat genehack/emacs-libs-dir "bbdb/texinfo"))
 (add-to-list 'Info-default-directory-list (concat genehack/emacs-libs-dir "ngnus/texi"))
