@@ -72,6 +72,10 @@
 (require 'browse-kill-ring)
 (browse-kill-ring-default-keybindings)
 
+;;; COFFEE-MODE
+(add-to-list 'load-path (concat genehack/emacs-libs-dir "coffee-mode"))
+(require 'coffee-mode)
+
 ;;; COLOR-THEME
 (add-to-list 'load-path (concat genehack/emacs-libs-dir "color-theme"))
 (require 'color-theme)

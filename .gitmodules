@@ -10,3 +10,6 @@
 [submodule "lib/textmate"]
 	path = lib/textmate
 	url = https://github.com/defunkt/textmate.el.git
+[submodule "lib/coffee-mode"]
+	path = lib/coffee-mode
+	url = git://github.com/defunkt/coffee-mode.git
