@@ -4,7 +4,9 @@
 
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
-(setq org-agenda-files '("~/Dropbox/org/")
+(setq org-agenda-files '("~/Dropbox/org/"
+                         "~/Dropbox/org/home/"
+                         "~/Dropbox/org/work/")
       org-agenda-skip-deadline-if-done t
       org-agenda-skip-scheduled-if-done t
       org-agenda-start-on-weekday 0
