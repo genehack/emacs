@@ -17,7 +17,7 @@
       org-log-done t
       org-mobile-inbox-for-pull "~/Dropbox/org/capture.org"
       org-mobile-directory "~/Dropbox/MobileOrg"
-      org-refile-targets '((org-agenda-files :level . 1))
+      org-refile-targets '((org-agenda-files :maxlevel . 2))
       org-refile-use-outline-path 'file
       org-return-follows-link t
       org-startup-folded nil
