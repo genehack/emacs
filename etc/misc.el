@@ -310,6 +310,18 @@
           ((equal last-command genehack/bol-command-name) (move-beginning-of-line nil))
           (t (back-to-indentation)))))
 
+;;; URL ENCODING
+;; based on http://twitter.com/#!/OvidPerl/status/28076709865586688
+(defun genehack/unescape_uri (b e)
+  (interactive "r")
+  (shell-command-on-region
+   b e
+   "perl -MURI::Escape -e 'print URI::Escape::uri_unescape(do { local $/; <STDIN> })'"
+   'current-buffer t))
+
+
+
+
 ;;; YAML-MODE
 (autoload 'yaml-mode "yaml-mode" "YAML" t)
 (add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
