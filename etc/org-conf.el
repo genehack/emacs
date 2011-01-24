@@ -20,6 +20,7 @@
       org-refile-targets '((org-agenda-files :maxlevel . 2))
       org-refile-use-outline-path 'file
       org-return-follows-link t
+      org-src-fontify-natively t
       org-startup-folded nil
       org-startup-indented 1
       org-todo-keywords '((sequence "TODO(t!)" "|" "DONE(!)")
