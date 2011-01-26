@@ -13,3 +13,6 @@
 [submodule "lib/coffee-mode"]
 	path = lib/coffee-mode
 	url = git://github.com/defunkt/coffee-mode.git
+[submodule "lib/gnus"]
+	path = lib/gnus
+	url = http://git.gnus.org/gnus.git/

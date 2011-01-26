@@ -2,10 +2,10 @@
 
 ;;; INIT
 (genehack/add-emacs-lib-subdir-to-load-path "bbdb/lisp")
-(genehack/add-emacs-lib-subdir-to-load-path "ngnus/lisp")
+(genehack/add-emacs-lib-subdir-to-load-path "gnus/lisp")
 
 (add-to-list 'Info-default-directory-list (concat genehack/emacs-libs-dir "bbdb/texinfo"))
-(add-to-list 'Info-default-directory-list (concat genehack/emacs-libs-dir "ngnus/texi"))
+(add-to-list 'Info-default-directory-list (concat genehack/emacs-libs-dir "gnus/texi"))
 
 (require 'adv-random-sig)
 (require 'bbdb-autoloads)
