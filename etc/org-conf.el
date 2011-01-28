@@ -23,7 +23,7 @@
       org-src-fontify-natively t
       org-startup-folded nil
       org-startup-indented 1
-      org-todo-keywords '((sequence "TODO(t!)" "|" "DONE(!)")
+      org-todo-keywords '((sequence "TODO(t!)" "NEXT(n!)" "|" "DONE(!)")
                           (sequence "WAITING(w!)" "|" "DONE(!)" ))
       org-M-RET-may-split-line '((headline nil)(item nil)(default t))
       )
