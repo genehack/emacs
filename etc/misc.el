@@ -131,6 +131,7 @@
 
 ;;; DELIM-KILL
 ;;;; <http://github.com/thomas11/delim-kill>
+(genehack/add-emacs-lib-subdir-to-load-path "delim-kill")
 (require 'delim-kill)
 
 ;;; DIRED-RIGHT-HERE
