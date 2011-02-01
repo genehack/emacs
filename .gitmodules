@@ -16,3 +16,6 @@
 [submodule "lib/gnus"]
 	path = lib/gnus
 	url = http://git.gnus.org/gnus.git/
+[submodule "lib/auto-complete"]
+	path = lib/auto-complete
+	url = https://github.com/m2ym/auto-complete.git
