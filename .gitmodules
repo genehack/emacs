@@ -22,3 +22,6 @@
 [submodule "lib/delim-kill"]
 	path = lib/delim-kill
 	url = http://github.com/thomas11/delim-kill.git
+[submodule "lib/smart-tab"]
+	path = lib/smart-tab
+	url = git@github.com:genehack/smart-tab.git

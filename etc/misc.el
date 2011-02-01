@@ -255,6 +255,7 @@
 ;;; SMART-TAB
 ;;;; disabled until i figure out the best way to integrate smart-tab
 ;;;; with auto-complete-mode
+;; (genehack/add-emacs-lib-subdir-to-load-path "smart-tab")
 ;; (require 'smart-tab)
 ;; (global-smart-tab-mode 1)
 ;; (setq smart-tab-completion-functions-alist
