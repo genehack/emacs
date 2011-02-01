@@ -25,3 +25,6 @@
 [submodule "lib/smart-tab"]
 	path = lib/smart-tab
 	url = git@github.com:genehack/smart-tab.git
+[submodule "lib/markdown-mode"]
+	path = lib/markdown-mode
+	url = git://jblevins.org/git/markdown-mode.git
