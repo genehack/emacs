@@ -34,3 +34,14 @@
   (interactive)
   (find-file org-default-notes-file))
 
+
+(defun genehack/kill-all-org-buffers ()
+  "Kill all open buffers that have names ending in '.org'."
+  (interactive)
+  (dolist (buffer (buffer-list))
+    (with-current-buffer buffer
+      (let ((name (buffer-name)))
+        (if (string-match "\\.org$" name)
+            (progn
+              (save-buffer)
+              (kill-buffer buffer)))))))
