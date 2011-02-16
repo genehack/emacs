@@ -261,7 +261,8 @@
 (global-smart-tab-mode 1)
 (setq smart-tab-completion-functions-alist
       '((cperl-mode      . plcmp-cmd-smart-complete)
-        (text-mode       . dabbrev-completion)))
+        (text-mode       . dabbrev-completion))
+      smart-tab-disabled-major-modes '(term-mode org-mode))
 
 ;;; SPLIT-VERTICALLY-OR-DELETE-OTHER-WINDOWS
 (defun genehack/split-vertically-or-delete-other-windows ()
