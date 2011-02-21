@@ -45,3 +45,12 @@
             (progn
               (save-buffer)
               (kill-buffer buffer)))))))
+
+(defun genehack/insert-org-date (&optional prefix)
+  "Insert current day in org-timestamp format
+Or, with prefix, prompt for day to insert."
+  (interactive "p")
+  (if (eq prefix 1)
+      (org-insert-time-stamp (current-time))
+    (org-time-stamp nil)))
+(define-key org-mode-map (kbd "C-c .") 'genehack/insert-org-date)
