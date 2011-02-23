@@ -1,6 +1,7 @@
 (genehack/add-emacs-lib-subdir-to-load-path "org/lisp")
 (genehack/add-emacs-lib-subdir-to-load-path "org/contrib/lisp")
 (require 'org-install)
+(require 'org)
 
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
