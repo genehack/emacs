@@ -1,0 +1,4 @@
+#! /bin/bash
+
+cd ~/proj/emacs
+emacs -batch -l lib/rebuild-elc.el -kill
