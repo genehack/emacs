@@ -1278,7 +1278,9 @@ The action is to call FUNCTION with arguments ARGS."
 DOC is displayed in `anything-type-attributes' docstring.
 
 Use this function is better than setting `anything-type-attributes' directly."
-  (loop for i in definition do (setf i (delete nil i)))
+  (loop for i in definition do
+        ;; without `ignore-errors', error at emacs22
+        (ignore-errors (setf i (delete nil i))))
   (anything-add-type-attribute type definition)
   (and doc (anything-document-type-attribute type doc))
   nil)
@@ -1707,24 +1709,24 @@ It is needed because restoring position when `anything' is keyboard-quitted.")
     (anything-update))
   (select-frame-set-input-focus (window-frame (minibuffer-window)))
   (anything-preselect any-preselect)
-  (let ((minibuffer-local-map
-         (with-current-buffer (anything-buffer-get)
-           (and any-keymap (set (make-local-variable 'anything-map) any-keymap))
-           anything-map)))
-    (anything-log-eval (anything-approximate-candidate-number)
-                       anything-execute-action-at-once-if-one
-                       anything-quit-if-no-candidate)
-    (cond ((and anything-execute-action-at-once-if-one
-                (= (anything-approximate-candidate-number) 1))
-           (ignore))
-          ((and anything-quit-if-no-candidate
-                (= (anything-approximate-candidate-number) 0))
-           (setq anything-quit t)
-           (and (functionp anything-quit-if-no-candidate)
-                (funcall anything-quit-if-no-candidate)))
-          (t
-           (let ((anything-reading-pattern t))
-             (read-string (or any-prompt "pattern: ") any-input))))))
+  (with-current-buffer (anything-buffer-get)
+    (and any-keymap (set (make-local-variable 'anything-map) any-keymap))
+    (let ((minibuffer-local-map
+           anything-map))
+      (anything-log-eval (anything-approximate-candidate-number)
+                         anything-execute-action-at-once-if-one
+                         anything-quit-if-no-candidate)
+      (cond ((and anything-execute-action-at-once-if-one
+                  (= (anything-approximate-candidate-number) 1))
+             (ignore))
+            ((and anything-quit-if-no-candidate
+                  (= (anything-approximate-candidate-number) 0))
+             (setq anything-quit t)
+             (and (functionp anything-quit-if-no-candidate)
+                  (funcall anything-quit-if-no-candidate)))
+            (t
+             (let ((anything-reading-pattern t))
+               (read-string (or any-prompt "pattern: ") any-input)))))))
 
 (defun anything-create-anything-buffer (&optional test-mode)
   "Create newly created `anything-buffer'.
@@ -2010,18 +2012,19 @@ if ITEM-COUNT reaches LIMIT, exit from inner loop."
     matches))
 
 (defun anything-compute-matches-internal (source)
-  (let ((matchfns (anything-match-functions source))
-        (anything-source-name (assoc-default 'name source))
-        (limit (anything-candidate-number-limit source))
-        (anything-pattern (anything-process-pattern-transformer
-                           anything-pattern source)))
-    (anything-process-filtered-candidate-transformer
-     (if (or (equal anything-pattern "") (equal matchfns '(identity)))
-         (anything-take-first-elements
-          (anything-get-cached-candidates source) limit)
-       (anything-match-from-candidates
-        (anything-get-cached-candidates source) matchfns limit))
-     source)))
+  (save-current-buffer
+    (let ((matchfns (anything-match-functions source))
+          (anything-source-name (assoc-default 'name source))
+          (limit (anything-candidate-number-limit source))
+          (anything-pattern (anything-process-pattern-transformer
+                             anything-pattern source)))
+      (anything-process-filtered-candidate-transformer
+       (if (or (equal anything-pattern "") (equal matchfns '(identity)))
+           (anything-take-first-elements
+            (anything-get-cached-candidates source) limit)
+         (anything-match-from-candidates
+          (anything-get-cached-candidates source) matchfns limit))
+       source))))
 
 ;; (anything '(((name . "error")(candidates . (lambda () (hage))) (action . identity))))
 
