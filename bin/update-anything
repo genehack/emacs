@@ -1,9 +1,13 @@
 #! /bin/bash
 cd ~/proj/emacs/lib
+
 wget -nd -np -N \
 http://www.emacswiki.org/emacs/download/anything.el \
 http://www.emacswiki.org/emacs/download/anything-config.el \
 http://www.emacswiki.org/emacs/download/anything-match-plugin.el
+
+~/proj/emacs/bin/rebuild-elc
+
 # http://www.emacswiki.org/emacs/download/anything-extension.el \
 # http://www.emacswiki.org/emacs/download/descbinds-anything.el \
 # http://www.emacswiki.org/emacs/download/anything-complete.el \
