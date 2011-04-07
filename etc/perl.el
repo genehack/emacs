@@ -60,6 +60,18 @@
       '(("Digest" . "Digest::SHA1")
         ("LWP::UserAgent" . "HTTP::Response")))
 
+;;; FIX INDENTATION
+;;;; from http://www.emacswiki.org/emacs-en/IndentingPerl
+(load-library "cperl-mode")
+(defun cperl-backward-to-start-of-continued-exp (lim)
+  (if (memq (preceding-char) (append ")]}\"'`" nil))
+      (forward-sexp -1))
+  (beginning-of-line)
+  (if (or (<= (point) lim) (< 0 cperl-continued-statement-offset))
+      (goto-char (1+ lim)))
+  (skip-chars-forward " \t"))
+
+
 ;;; PERLY_SENSE
 ;;;; commented out for now because it throws various errors with
 ;;;; perl-5.12, and the stuff going to STDERR really bollixes up
