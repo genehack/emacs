@@ -78,6 +78,7 @@
 
 ;; ;;; COLOR-THEME
 (genehack/add-emacs-lib-subdir-to-load-path "color-theme")
+(genehack/add-emacs-lib-subdir-to-load-path "solarized/emacs-color-theme-solarized")
 (require 'color-theme)
 (setq color-theme-load-all-themes nil)
 (color-theme-initialize)
@@ -85,11 +86,12 @@
 (require 'color-theme-twilight)
 (require 'color-theme-hober2)
 (require 'color-theme-tangotango)
+(require 'color-theme-solarized)
 
 ;; select theme - first list element is for windowing system, second is for console/terminal
 ;; Source : http://www.emacswiki.org/emacs/ColorTheme#toc9
 (setq color-theme-choices
-      '(color-theme-tangotango color-theme-tangotango))
+      '(color-theme-solarized-dark color-theme-solarized-dark))
 
 ;; default-start
 (funcall (lambda (cols)
@@ -118,7 +120,7 @@
 ;; hook on after-make-frame-functions
 (add-hook 'after-make-frame-functions 'test-win-sys)
 
-(color-theme-tangotango)
+(color-theme-solarized-dark)
 
 ;;; CSS-HEXCOLOR
 (require 'css-hexcolor)
@@ -305,8 +307,8 @@
 (textmate-mode)
 
 ;;; THEME
-(if (custom-theme-p 'naquadah)
-    (load-theme 'naquadah))
+;;(if (custom-theme-p 'naquadah)
+;;    (load-theme 'naquadah))
 
 ;;; TOGGLE-BOL
 (defun genehack/bol-toggle ()
