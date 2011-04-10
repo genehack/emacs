@@ -76,51 +76,51 @@
 (genehack/add-emacs-lib-subdir-to-load-path "coffee-mode")
 (require 'coffee-mode)
 
-;; ;;; COLOR-THEME
-(genehack/add-emacs-lib-subdir-to-load-path "color-theme")
-(genehack/add-emacs-lib-subdir-to-load-path "solarized/emacs-color-theme-solarized")
-(require 'color-theme)
-(setq color-theme-load-all-themes nil)
-(color-theme-initialize)
-(require 'color-theme)
-(require 'color-theme-twilight)
-(require 'color-theme-hober2)
-(require 'color-theme-tangotango)
-(require 'color-theme-solarized)
+;;; COLOR-THEME
+;; (genehack/add-emacs-lib-subdir-to-load-path "color-theme")
+;; (genehack/add-emacs-lib-subdir-to-load-path "solarized/emacs-color-theme-solarized")
+;; (require 'color-theme)
+;; (setq color-theme-load-all-themes nil)
+;; (color-theme-initialize)
+;; (require 'color-theme)
+;; (require 'color-theme-twilight)
+;; (require 'color-theme-hober2)
+;; (require 'color-theme-tangotango)
+;; (require 'color-theme-solarized)
 
-;; select theme - first list element is for windowing system, second is for console/terminal
-;; Source : http://www.emacswiki.org/emacs/ColorTheme#toc9
-(setq color-theme-choices
-      '(color-theme-solarized-dark color-theme-solarized-dark))
+;; ;; select theme - first list element is for windowing system, second is for console/terminal
+;; ;; Source : http://www.emacswiki.org/emacs/ColorTheme#toc9
+;; (setq color-theme-choices
+;;       '(color-theme-solarized-dark color-theme-solarized-dark))
 
-;; default-start
-(funcall (lambda (cols)
-           (let ((color-theme-is-global nil))
-             (eval
-              (append '(if (window-system))
-                      (mapcar (lambda (x) (cons x nil))
-                              cols)))))
-         color-theme-choices)
+;; ;; default-start
+;; (funcall (lambda (cols)
+;;            (let ((color-theme-is-global nil))
+;;              (eval
+;;               (append '(if (window-system))
+;;                       (mapcar (lambda (x) (cons x nil))
+;;                               cols)))))
+;;          color-theme-choices)
 
-;; test for each additional frame or console
-(require 'cl)
-(fset 'test-win-sys
-      (funcall (lambda (cols)
- (lexical-let ((cols cols))
- (lambda (frame)
-   (let ((color-theme-is-global nil))
-     ;; must be current for local ctheme
-     (select-frame frame)
-     ;; test winsystem
-     (eval
-      (append '(if (window-system frame))
-              (mapcar (lambda (x) (cons x nil))
-                      cols)))))))
-               color-theme-choices ))
-;; hook on after-make-frame-functions
-(add-hook 'after-make-frame-functions 'test-win-sys)
+;; ;; test for each additional frame or console
+;; (require 'cl)
+;; (fset 'test-win-sys
+;;       (funcall (lambda (cols)
+;;  (lexical-let ((cols cols))
+;;  (lambda (frame)
+;;    (let ((color-theme-is-global nil))
+;;      ;; must be current for local ctheme
+;;      (select-frame frame)
+;;      ;; test winsystem
+;;      (eval
+;;       (append '(if (window-system frame))
+;;               (mapcar (lambda (x) (cons x nil))
+;;                       cols)))))))
+;;                color-theme-choices ))
+;; ;; hook on after-make-frame-functions
+;; (add-hook 'after-make-frame-functions 'test-win-sys)
 
-(color-theme-solarized-dark)
+;; (color-theme-solarized-dark)
 
 ;;; CSS-HEXCOLOR
 (require 'css-hexcolor)
@@ -307,8 +307,8 @@
 (textmate-mode)
 
 ;;; THEME
-;;(if (custom-theme-p 'naquadah)
-;;    (load-theme 'naquadah))
+(if (custom-theme-p 'naquadah)
+    (load-theme 'naquadah))
 
 ;;; TOGGLE-BOL
 (defun genehack/bol-toggle ()
