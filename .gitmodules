@@ -28,3 +28,6 @@
 [submodule "lib/markdown-mode"]
 	path = lib/markdown-mode
 	url = git://jblevins.org/git/markdown-mode.git
+[submodule "lib/solarized"]
+	path = lib/solarized
+	url = https://github.com/sellout/solarized/
