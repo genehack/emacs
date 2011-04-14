@@ -68,7 +68,7 @@
     "builtins"
     "keys"
     "erc-conf"
-    "gnus-conf"
+    ;;"gnus-conf"
     "misc"
     "org-conf"
     "perl"
