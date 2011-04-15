@@ -70,7 +70,7 @@
     "erc-conf"
     ;;"gnus-conf"
     "misc"
-    "org-conf"
+    ;;"org-conf"
     "perl"
     )
   "list of modules to load on startup.")
