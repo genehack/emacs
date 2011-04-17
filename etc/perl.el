@@ -36,7 +36,7 @@
                ac-source-abbrev
                ac-source-words-in-buffer)))))
 
-;(add-hook 'cperl-mode-hook 'flymake-mode)
+(add-hook 'cperl-mode-hook 'flymake-mode)
 (add-hook 'cperl-mode-hook 'linum-mode)
 
 ;;; CONFIG
