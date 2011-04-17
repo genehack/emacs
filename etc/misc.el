@@ -93,15 +93,6 @@
 (setq color-theme-choices
       '(color-theme-solarized-dark color-theme-tangotango))
 
-;; default-start
-(funcall (lambda (cols)
-           (let ((color-theme-is-global nil))
-             (eval
-              (append '(if (window-system))
-                      (mapcar (lambda (x) (cons x nil))
-                              cols)))))
-         color-theme-choices)
-
 ;; test for each additional frame or console
 (require 'cl)
 (fset 'test-win-sys
@@ -120,7 +111,16 @@
 ;; hook on after-make-frame-functions
 (add-hook 'after-make-frame-functions 'test-win-sys)
 
-(color-theme-solarized-dark)
+;; default-start
+(funcall (lambda (cols)
+           (let ((color-theme-is-global nil))
+             (eval
+              (append '(if (window-system))
+                      (mapcar (lambda (x) (cons x nil))
+                              cols)))))
+         color-theme-choices)
+
+(if (window-system) (color-theme-solarized-dark))
 
 ;;; CSS-HEXCOLOR
 (require 'css-hexcolor)
