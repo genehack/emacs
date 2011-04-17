@@ -82,8 +82,8 @@ remove-leading-whitespace-on-kil-line tricks")
                  (backward-char 1)))))
 
 ;;; HIGHLIGHTING
-(set-face-foreground 'highlight "gray10")
-(set-face-background 'highlight "yellow")
+;(set-face-foreground 'highlight "gray10")
+;(set-face-background 'highlight "yellow")
 
 ;;; HTML
 (add-to-list 'auto-mode-alist '("\\.tt2?$" . html-mode))
@@ -140,8 +140,8 @@ remove-leading-whitespace-on-kil-line tricks")
 (setq ispell-extra-args '("-W" "3"))
 
 ;;; ISEARCH
-(set-face-foreground 'isearch "white")
-(set-face-background 'isearch "red")
+;(set-face-foreground 'isearch "white")
+;(set-face-background 'isearch "red")
 
 ;;; ISWITCH
 (require 'iswitchb)
@@ -184,8 +184,8 @@ This is a buffer-local variable.")
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
 ;;; MODE LINE FACES
-(set-face-background 'mode-line "black")
-(set-face-foreground 'mode-line "yellow2")
+;(set-face-background 'mode-line "black")
+;(set-face-foreground 'mode-line "yellow2")
 
 ;;; NXML-MODE
 (fset 'xml-mode 'nxml-mode)
