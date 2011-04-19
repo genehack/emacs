@@ -102,6 +102,14 @@
       (eval (cdr color-theme-choices)))))
 (add-hook 'after-make-frame-functions 'jsja/load-scheme)
 
+(defun jsja/solarize-this-frame ()
+  (interactive)
+  (let ((color-theme-is-global nil))
+    ;; not sure why i have to do this twice, but the first time
+    ;; doesn't get the mode line switched.
+    (color-theme-solarized 'dark)
+    (color-theme-solarized 'dark)))
+
 ;;; CSS-HEXCOLOR
 (require 'css-hexcolor)
 
