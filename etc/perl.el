@@ -60,6 +60,12 @@
       '(("Digest" . "Digest::SHA1")
         ("LWP::UserAgent" . "HTTP::Response")))
 
+;;; UTILITIES
+(defun jsja/jump-from-test-to-lib ()
+  (interactive)
+  (let ((test-file buffer-file-name))
+    (find-file (shell-command-to-string (format "map-test-lib %s" test-file)))))
+
 ;;; FIX INDENTATION
 ;;;; from http://www.emacswiki.org/emacs-en/IndentingPerl
 ;; (load-library "cperl-mode")
