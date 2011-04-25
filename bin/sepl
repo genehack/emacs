@@ -1,0 +1,39 @@
+#!/usr/bin/env perl
+
+use Sepia::ReadLine;
+use Getopt::Long;
+
+sub usage
+{
+    print STDERR <<EOS;
+Usage: $0 [options]
+  -h,--help    Display help and exit.
+  -v,--version Display version information.
+EOS
+    exit;
+}
+
+GetOptions(help => \&usage,
+           version => sub {
+               print STDERR "Sepia version $Sepia::VERSION.\n"; exit },
+       ) or usage;
+repl();
+print "\n";
+
+__END__
+
+=head1 NAME
+
+sepl -- a Term::ReadLine-based Sepia interactive shell.
+
+=head1 SYNOPSIS
+
+    $ sepl
+    Type ",h" for help, or ",q" to quit.
+    main @> substr "hello, japh", 7
+    'japh'
+    main @>
+
+=head1 DESCRIPTION
+
+=cut
