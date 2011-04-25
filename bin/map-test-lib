@@ -1,0 +1,14 @@
+#! /opt/perl/bin/perl
+
+use strict;
+use warnings;
+use 5.010;
+
+my $file = shift
+  or die "NEED FILE NAME";
+
+if(    $file =~ s|/t/lib/Test/|/lib/| ) { print $file }
+elsif( $file =~ s|/lib/|/t/lib/Test/| ) { print $file }
+else { die "CAN'T MAP $file" }
+
+exit(0);
