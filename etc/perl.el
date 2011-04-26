@@ -17,25 +17,8 @@
 (add-to-list 'auto-mode-alist '("\\.pod$" . pod-mode))
 
 ;;; HOOK MODS
-(add-hook 'cperl-mode-hook
-  '(lambda ()
-     ;; allows 'M-x compile' for syntax checking of Perl scripts within Emacs
-     ;; from e.goerlach@computer.org (Ekkehard Görlach) in comp.emacs
-     (set (make-local-variable 'compile-command)
-          (concat "perl -cw  " buffer-file-name))
-     (font-lock-add-keywords nil '(("^[^\n]\\{90\\}\\(.*\\)$" 1 font-lock-warning-face t)))
-     (setq fill-column 78)
-     (turn-on-font-lock)
-     (perl-completion-mode t)
-     (when (require 'auto-complete nil t) ; no error whatever auto-complete.el is not installed.
-       (auto-complete-mode t)
-       (make-variable-buffer-local 'ac-sources)
-       (setq ac-sources
-             '(ac-source-yasnippet
-               ac-source-perl-completion
-               ac-source-abbrev
-               ac-source-words-in-buffer)))))
-
+(add-hook 'cperl-mode-hook 'genehack/cperl-mode-setup)
+(add-hook 'cperl-mode-hook 'genehack/perl-auto-complete-setup)
 (add-hook 'cperl-mode-hook 'flymake-mode)
 (add-hook 'cperl-mode-hook 'linum-mode)
 
@@ -65,6 +48,26 @@
   (interactive)
   (let ((test-file buffer-file-name))
     (find-file (shell-command-to-string (format "map-test-lib %s" test-file)))))
+
+(defun genehack/cperl-mode-setup ()
+  ;; allows 'M-x compile' for syntax checking of Perl scripts within Emacs
+  ;; from e.goerlach@computer.org (Ekkehard Görlach) in comp.emacs
+  (set (make-local-variable 'compile-command)
+       (concat "perl -cw  " buffer-file-name))
+  (font-lock-add-keywords nil '(("^[^\n]\\{90\\}\\(.*\\)$" 1 font-lock-warning-face t)))
+  (setq fill-column 78)
+  ;;(turn-on-font-lock)
+  )
+
+(defun genehack/perl-auto-complete-setup ()
+  (perl-completion-mode t)
+  (when (require 'auto-complete nil t) ; no error whatever auto-complete.el is not installed.
+    (auto-complete-mode t)
+    (setq ac-sources
+          '(ac-source-perl-completion
+            ac-source-yasnippet
+            ac-source-abbrev
+            ac-source-words-in-buffer))))
 
 ;;; FIX INDENTATION
 ;;;; from http://www.emacswiki.org/emacs-en/IndentingPerl
