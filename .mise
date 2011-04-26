@@ -3,4 +3,3 @@ create:
   links:
     - DIR: ~/.emacs.d
     - bin/map-test-lib: BIN
-    - bin/sepl: BIN

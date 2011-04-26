@@ -104,7 +104,3 @@
 
 ;; (setq ps/use-prepare-shell-command t)
 
-;;; SEPIA
-(genehack/add-emacs-lib-subdir-to-load-path "sepia")
-(defalias 'perl-mode 'sepia-mode)
-(require 'sepia)
