@@ -53,8 +53,8 @@
 ;;; AUTO COMPLETE
 (genehack/add-emacs-lib-subdir-to-load-path "auto-complete")
 (require 'auto-complete-config)
-(setq ac-comphist-file (concat genehack/emacs-config-dir "tmp/ac-comphist.dat"))
-(add-to-list 'ac-dictionary-directories (concat genehack/emacs-libs-dir "auto-complete/ac-dict"))
+(setq ac-comphist-file (concat genehack/emacs-dir "tmp/ac-comphist.dat"))
+(add-to-list 'ac-dictionary-directories (concat genehack/emacs-libs-dir "auto-complete/dict"))
 (ac-config-default)
 (setq-default ac-sources '(ac-source-yasnippet
                            ac-source-abbrev
