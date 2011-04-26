@@ -92,7 +92,7 @@
 (setq color-theme-choices
       '(color-theme-solarized-dark color-theme-hober2))
 
-(defun jsja/load-scheme (&optional frame)
+(defun genehack/load-scheme (&optional frame)
   (interactive)
   (let ((color-theme-is-global nil))
     (if (framep frame)
@@ -100,9 +100,9 @@
     (if (window-system (selected-frame))
         (eval (list (car color-theme-choices)))
       (eval (cdr color-theme-choices)))))
-(add-hook 'after-make-frame-functions 'jsja/load-scheme)
+(add-hook 'after-make-frame-functions 'genehack/load-scheme)
 
-(defun jsja/solarize-this-frame ()
+(defun genehack/solarize-this-frame ()
   (interactive)
   (let ((color-theme-is-global nil))
     ;; not sure why i have to do this twice, but the first time
