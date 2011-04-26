@@ -82,28 +82,26 @@
 
 
 ;;; PERLY_SENSE
-;;;; commented out for now because it throws various errors with
-;;;; perl-5.12, and the stuff going to STDERR really bollixes up
-;;;; Emacs...
-;; (global-unset-key "\C-o")
-;; (setq ps/key-prefix "\C-o")
+(global-unset-key "\C-o")
+(setq ps/key-prefix "\C-o")
 
-;; (setq ps/load-flymake nil)
-;; (setq flymake-start-syntax-check-on-find-file nil)
-;; (setq flymake-start-syntax-check-on-newline t)
+(setq ps/load-flymake nil)
+(setq flymake-start-syntax-check-on-find-file nil)
+(setq flymake-start-syntax-check-on-newline t)
 
-;; (setq ps/external-dir (shell-command-to-string "perly_sense external_dir"))
-;; (if (string-match "Devel.PerlySense.external" ps/external-dir)
-;;     (progn
-;;       (message "Loading PerlySense elisp from '%s'..." ps/external-dir)
-;;       (add-to-list 'load-path (format "%s/%s" ps/external-dir "emacs"))
-;;       (require 'perly-sense))
-;;   (message
-;;    "Could not identify PerlySense install dir.
-;; Is Devel::PerlySense installed properly?
-;; Does 'perly_sense external_dir' give you a proper directory?
-;;  (%s)"
-;;    ps/external-dir))
+(setq ps/external-dir (shell-command-to-string "perly_sense external_dir"))
 
-;; (setq ps/use-prepare-shell-command t)
+(if (string-match "Devel.PerlySense.external" ps/external-dir)
+    (progn
+      (message "Loading PerlySense elisp from '%s'..." ps/external-dir)
+      (add-to-list 'load-path (format "%s/%s" ps/external-dir "emacs"))
+      (require 'perly-sense))
+  (message
+   "Could not identify PerlySense install dir.
+Is Devel::PerlySense installed properly?
+Does 'perly_sense external_dir' give you a proper directory?
+ (%s)"
+   ps/external-dir))
+
+;;(setq ps/use-prepare-shell-command nil)
 
