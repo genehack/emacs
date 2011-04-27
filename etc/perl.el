@@ -82,8 +82,9 @@
 
 
 ;;; PERLY_SENSE
-(global-unset-key "\C-'")
-(setq ps/key-prefix "\C-'")
+(global-unset-key "\C-z")
+(setq ps/key-prefix "\C-z")
+(define-key cperl-mode-map (kbd "C-z C-z") 'ps/class-overview-for-class-at-point)
 
 (setq ps/load-flymake nil)
 (setq flymake-start-syntax-check-on-find-file nil)
