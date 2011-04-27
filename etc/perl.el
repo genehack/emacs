@@ -86,8 +86,9 @@
 (setq ps/key-prefix "\C-z")
 (define-key cperl-mode-map (kbd "C-z C-z") 'ps/class-overview-for-class-at-point)
 
-(setq ps/load-flymake nil)
-(setq flymake-start-syntax-check-on-find-file nil)
+(setq perly-sense-load-flymake t)
+(setq ps/load-flymake t)
+(setq flymake-start-syntax-check-on-find-file t)
 (setq flymake-start-syntax-check-on-newline t)
 
 (setq ps/external-dir (shell-command-to-string "perly_sense external_dir"))
