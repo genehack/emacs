@@ -82,8 +82,8 @@
 
 
 ;;; PERLY_SENSE
-(global-unset-key "\C-o")
-(setq ps/key-prefix "\C-o")
+(global-unset-key "\C-'")
+(setq ps/key-prefix "\C-'")
 
 (setq ps/load-flymake nil)
 (setq flymake-start-syntax-check-on-find-file nil)
