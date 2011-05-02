@@ -61,6 +61,7 @@
 
 (defun genehack/perl-auto-complete-setup ()
   (perl-completion-mode t)
+  (define-key cperl-mode-map (kbd "C-c C-3") 'comment-region)
   (when (require 'auto-complete nil t) ; no error whatever auto-complete.el is not installed.
     (auto-complete-mode t)
     (setq ac-sources
