@@ -2,12 +2,14 @@
 
 (defvar genehack/rebuild-elc-el-files-list
   '(
-    "lib/smart-tab/smart-tab.el"
-    "lib/anything.el"
     "lib/anything-config.el"
     "lib/anything-match-plugin.el"
+    "lib/anything.el"
+    "lib/coffee-mode/coffee-mode.el"
     "lib/cperl-mode/cperl-mode.el"
     "lib/js2-mode/js2-mode.el"
+    "lib/smart-tab/smart-tab.el"
+    "lib/textmate/textmate.el"
     )
   "list of files to rebuild." )
 
