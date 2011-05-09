@@ -6,6 +6,8 @@
     "lib/anything.el"
     "lib/anything-config.el"
     "lib/anything-match-plugin.el"
+    "lib/cperl-mode/cperl-mode.el"
+    "lib/js2-mode/js2-mode.el"
     )
   "list of files to rebuild." )
 
