@@ -3,6 +3,9 @@
 ;;; for standard stuff where one or two options get frobbed, this is
 ;;; the place.
 
+;; ANSI-MODE FOR SHELLS
+(ansi-color-for-comint-mode-on)
+
 ;; AUTO-SAVE BACKUPS
 (setq auto-save-list-file-prefix (concat genehack/emacs-dir
                                          "tmp/auto-save-list/.saves-")
