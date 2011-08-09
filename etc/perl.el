@@ -81,14 +81,52 @@
 ;;       (goto-char (1+ lim)))
 ;;   (skip-chars-forward " \t"))
 
+;;; FLYMAKE
+;;;; from http://blog.urth.org/2011/06/flymake-versus-the-catalyst-restarter.html
+(defun flymake-perl-init ()
+  (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                     'flymake-create-temp-intemp))
+         (local-file (file-relative-name
+                      temp-file
+                      (file-name-directory buffer-file-name))))
+    (list "/opt/perl/perl" (list "-MProject::Libs" "-wc" local-file))))
+
+(defun flymake-create-temp-intemp (file-name prefix)
+  "Return file name in temporary directory for checking
+   FILE-NAME. This is a replacement for
+   `flymake-create-temp-inplace'. The difference is that it gives
+   a file name in `temporary-file-directory' instead of the same
+   directory as FILE-NAME.
+
+   For the use of PREFIX see that function.
+
+   Note that not making the temporary file in another directory
+   \(like here) will not if the file you are checking depends on
+   relative paths to other files \(for the type of checks flymake
+   makes)."
+  (unless (stringp file-name)
+    (error "Invalid file-name"))
+  (or prefix
+      (setq prefix "flymake"))
+  (let* ((name (concat
+                (file-name-nondirectory
+                 (file-name-sans-extension file-name))
+                "_" prefix))
+         (ext  (concat "." (file-name-extension file-name)))
+         (temp-name (make-temp-file name nil ext))
+         )
+    (flymake-log 3 "create-temp-intemp: file=%s temp=%s" file-name temp-name)
+    temp-name))
+
+(setq temporary-file-directory "~/.emacs.d/tmp/")
 
 ;;; PERLY_SENSE
 (global-unset-key "\C-z")
 (setq ps/key-prefix "\C-z")
 (define-key cperl-mode-map (kbd "C-z C-z") 'ps/class-overview-for-class-at-point)
 
-(setq perly-sense-load-flymake t)
-(setq ps/load-flymake t)
+;(setq perly-sense-load-flymake t)
+;(setq ps/load-flymake t)
 (setq flymake-start-syntax-check-on-find-file t)
 (setq flymake-start-syntax-check-on-newline t)
 
