@@ -1,0 +1,120 @@
+#! /opt/perl/bin/perl
+
+use strict;
+use warnings;
+use 5.010;
+
+$|++;
+
+use File::Fetch;
+use File::Temp      qw /tempdir/;
+use LWP::UserAgent;
+use Sort::Versions;
+
+my $EMACS_DIR     = '/opt';
+my $EMACS_FTP_URL = 'ftp://alpha.gnu.org/gnu/emacs/pretest';
+my $VERBOSE       = 1;
+
+
+my $tarball = find_most_recent_emacs_version();
+my( $version ) = $tarball =~ /^emacs-(.*).tar.gz$/;
+say "MOST RECENT EMACS IS: $version" if $VERBOSE;
+
+if ( -e "$EMACS_DIR/emacs-$version" ) {
+  say "already up-to-date. bye!";
+  exit(0);
+}
+
+say "BUILDING $version. (go get some coffe, this'll take a bit.)";
+
+my $tarball_file = "/tmp/$tarball";
+if ( -e $tarball_file ) {
+  say "* FOUND EXISTING $tarball_file..." if $VERBOSE;
+}
+else {
+  print "* FETCHING $tarball..." if $VERBOSE;
+  fetch_emacs_tarball( "$EMACS_FTP_URL/$tarball" );
+  say "done!" if $VERBOSE;
+}
+
+say '';
+
+build_emacs( $tarball_file , $version );
+
+say '';
+
+build_mac_emacs( $tarball_file , $version ) if $^O eq 'darwin';
+
+say "\n* CLEANING UP..." if $VERBOSE;
+unlink( $tarball_file );
+
+say "done.";
+
+sub build_emacs {
+  my( $tarball , $version ) = @_;
+
+  my $dir = tempdir(); #FIXME CLEANUP => 1 );
+  say "TEMPDIR: $dir\n";
+
+  chdir $dir or die "Can't chdir($dir) : $!\n";
+
+  print "EXTRACT..." if $VERBOSE;
+  system("tar xvf $tarball 2>/dev/null") == 0
+    or die "Tar extract failed?! : $!";
+
+  my $dir_version = $version;
+  $dir_version =~ s/-rc(.*)$//;
+
+  chdir "$dir/emacs-$dir_version"
+    or die "Can't chdir($dir/emacs-$dir_version) : $!\n";
+
+  print "CONFIGURE..." if $VERBOSE;
+  system("./configure --prefix=/opt/emacs-$version --without-x >/dev/null") == 0
+    or die "Configure failed : $!\n";
+
+  print "MAKE BOOSTRAP..." if $VERBOSE;
+  system("make bootstrap >/dev/null") == 0
+    or die "Make bookstrap failed : $!\n";
+
+  print "MAKE..." if $VERBOSE;
+  system("make >/dev/null") == 0
+    or die "Make failed : $!\n";
+
+  print "MAKE INSTALL..." if $VERBOSE;
+  system("make install >/dev/null" ) == 0
+    or die "Make install failed : $!\n";
+  say "done." if $VERBOSE;
+
+  return 1;
+}
+
+sub fetch_emacs_tarball {
+  my $uri = shift;
+
+  my $ff = File::Fetch->new( uri => $uri )
+    or die $!;
+
+  my $fetch = $ff->fetch( to => '/tmp' )
+    or die "Couldn't fetch: ". $ff->error . "\n";
+}
+
+sub find_most_recent_emacs_version {
+  my $ua = LWP::UserAgent->new;
+
+  my $response = $ua->get($EMACS_FTP_URL);
+
+  die "Couldn't list FTP directory"
+    unless $response->is_success;
+
+  my @versions;
+  foreach ( split /\n/ , $response->content ) {
+    next unless /emacs-.*\.tar\.gz$/;
+    my @parts = split / / , $_;
+    push @versions , $parts[-1];
+  }
+
+  @versions = ( sort { versioncmp $a , $b } @versions );
+
+  return $versions[-1];
+}
+
