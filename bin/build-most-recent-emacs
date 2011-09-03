@@ -8,16 +8,18 @@ $|++;
 
 use File::Fetch;
 use File::Temp      qw /tempdir/;
+use FindBin;
 use LWP::UserAgent;
 use Sort::Versions;
 
-my $EMACS_DIR     = '/opt';
-my $EMACS_FTP_URL = 'ftp://alpha.gnu.org/gnu/emacs/pretest';
-my $VERBOSE       = 1;
+my $EMACS_DIR      = '/opt';
+my $EMACS_FTP_URLS = [ 'ftp://alpha.gnu.org/gnu/emacs/pretest' ,
+                       'ftp://ftp.gnu.org/gnu/emacs/' ];
+my $VERBOSE        = 1;
 
 
-my $tarball = find_most_recent_emacs_version();
-my( $version ) = $tarball =~ /^emacs-(.*).tar.gz$/;
+my( $tarball ) = find_most_recent_emacs_version();
+my( $version ) = $tarball =~ /emacs-(.*).tar.gz$/;
 say "MOST RECENT EMACS IS: $version" if $VERBOSE;
 
 if ( -e "$EMACS_DIR/emacs-$version" ) {
@@ -27,13 +29,13 @@ if ( -e "$EMACS_DIR/emacs-$version" ) {
 
 say "BUILDING $version. (go get some coffe, this'll take a bit.)";
 
-my $tarball_file = "/tmp/$tarball";
+my $tarball_file = "/tmp/emacs-${version}.tar.gz";
 if ( -e $tarball_file ) {
   say "* FOUND EXISTING $tarball_file..." if $VERBOSE;
 }
 else {
-  print "* FETCHING $tarball..." if $VERBOSE;
-  fetch_emacs_tarball( "$EMACS_FTP_URL/$tarball" );
+  print "* FETCHING $tarball_file..." if $VERBOSE;
+  fetch_emacs_tarball( "$tarball" );
   say "done!" if $VERBOSE;
 }
 
@@ -53,20 +55,9 @@ say "done.";
 sub build_emacs {
   my( $tarball , $version ) = @_;
 
-  my $dir = tempdir(); #FIXME CLEANUP => 1 );
-  say "TEMPDIR: $dir\n";
+  print "[BUILD EMACS] " if $VERBOSE;
 
-  chdir $dir or die "Can't chdir($dir) : $!\n";
-
-  print "EXTRACT..." if $VERBOSE;
-  system("tar xvf $tarball 2>/dev/null") == 0
-    or die "Tar extract failed?! : $!";
-
-  my $dir_version = $version;
-  $dir_version =~ s/-rc(.*)$//;
-
-  chdir "$dir/emacs-$dir_version"
-    or die "Can't chdir($dir/emacs-$dir_version) : $!\n";
+  _extract_tarball_and_get_ready_to_build( $tarball , $version );
 
   print "CONFIGURE..." if $VERBOSE;
   system("./configure --prefix=/opt/emacs-$version --without-x >/dev/null") == 0
@@ -77,17 +68,49 @@ sub build_emacs {
     or die "Make bookstrap failed : $!\n";
 
   print "MAKE..." if $VERBOSE;
-  system("make >/dev/null") == 0
+  system("make >/dev/null 2>/dev/null") == 0
     or die "Make failed : $!\n";
 
   print "MAKE INSTALL..." if $VERBOSE;
-  system("make install >/dev/null" ) == 0
+  system("make install >/dev/null 2>/dev/null" ) == 0
     or die "Make install failed : $!\n";
 
   print "UPDATING SYMLINK..." if $VERBOSE;
   unlink( '/opt/emacs' ) if -e '/opt/emacs';
   symlink( "/opt/emacs-$version" , '/opt/emacs' )
     or die "Failed to create symlink : $!";
+
+  say "done." if $VERBOSE;
+
+  return 1;
+}
+
+sub build_mac_emacs {
+  my( $tarball , $version ) = @_;
+
+  _extract_tarball_and_get_ready_to_build( $tarball , $version );
+
+  ### FIXME
+  # print "CONFIGURE..." if $VERBOSE;
+  # system("./configure --prefix=/opt/emacs-$version --without-x >/dev/null") == 0
+  #   or die "Configure failed : $!\n";
+
+  # print "MAKE BOOSTRAP..." if $VERBOSE;
+  # system("make bootstrap >/dev/null") == 0
+  #   or die "Make bookstrap failed : $!\n";
+
+  # print "MAKE..." if $VERBOSE;
+  # system("make >/dev/null") == 0
+  #   or die "Make failed : $!\n";
+
+  # print "MAKE INSTALL..." if $VERBOSE;
+  # system("make install >/dev/null" ) == 0
+  #   or die "Make install failed : $!\n";
+
+  # print "UPDATING SYMLINK..." if $VERBOSE;
+  # unlink( '/opt/emacs' ) if -e '/opt/emacs';
+  # symlink( "/opt/emacs-$version" , '/opt/emacs' )
+  #   or die "Failed to create symlink : $!";
 
   say "done." if $VERBOSE;
 
@@ -105,22 +128,51 @@ sub fetch_emacs_tarball {
 }
 
 sub find_most_recent_emacs_version {
-  my $ua = LWP::UserAgent->new;
+  my %versions;
 
-  my $response = $ua->get($EMACS_FTP_URL);
+  foreach my $url ( @$EMACS_FTP_URLS ) {
+    my $ua = LWP::UserAgent->new;
 
-  die "Couldn't list FTP directory"
-    unless $response->is_success;
+    my $response = $ua->get($url);
 
-  my @versions;
-  foreach ( split /\n/ , $response->content ) {
-    next unless /emacs-.*\.tar\.gz$/;
-    my @parts = split / / , $_;
-    push @versions , $parts[-1];
+    die "Couldn't list FTP directory"
+      unless $response->is_success;
+
+    foreach ( split /\n/ , $response->content ) {
+      next unless /emacs-([0123456789rca.-]+).tar\.gz$/;
+      my @parts = split / / , $_;
+      $versions{$parts[-1]} = "$url/$parts[-1]";
+    }
+
   }
 
-  @versions = ( sort { versioncmp $a , $b } @versions );
+  my @versions = ( sort { versioncmp $a , $b } keys %versions );
 
-  return $versions[-1];
+  return $versions{$versions[-1]};
 }
 
+sub _extract_tarball_and_get_ready_to_build {
+  my( $tarball , $version ) = @_;
+
+  my $dir = tempdir( CLEANUP => 1 );
+  say "TEMPDIR: $dir\n";
+
+  chdir $dir or die "Can't chdir($dir) : $!\n";
+
+  say "EXTRACT..." if $VERBOSE;
+  system("tar xvf $tarball 2>/dev/null") == 0
+    or die "Tar extract failed?! : $!";
+
+  my $dir_version = $version;
+  $dir_version =~ s/(-rc(.*))|(a)$//;
+
+  chdir "$dir/emacs-$dir_version"
+    or die "Can't chdir ($dir/emacs-$dir_version) : $!\n";
+
+  foreach my $patch ( <$FindBin::Bin/../patches/*.diff> ) {
+    print "APPLYING PATCH $patch ..." if $VERBOSE;
+    system("patch -p0 < $patch") == 0
+      or die "Failed to apply $patch";
+    say "DONE";
+  }
+}
