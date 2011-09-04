@@ -263,7 +263,7 @@ This is a buffer-local variable.")
         (progn
           (setq-default ispell-program-name "ispell")
           (setq genehack/found-spelling-programs t))))
-  (if '(genehack/found-spelling-program)
+  (if (eq genehack/found-spelling-program t)
       (progn
         (setq ispell-extra-args '("--sug-mode=ultra")))
 
