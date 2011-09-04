@@ -133,15 +133,6 @@ remove-leading-whitespace-on-kil-line tricks")
       (if (markerp position)
 	  (goto-char position) (goto-char (overlay-start position))))))
 
-;;; ISPELL
-(autoload 'ispell-word   "ispell" "check word spelling."   t)
-(autoload 'ispell-region "ispell" "check region spelling." t)
-(autoload 'ispell-buffer "ispell" "check buffer spelling." t)
-(require 'flyspell)
-
-;; consider all 1-3 letter words as correct
-(setq ispell-extra-args '("-W" "3"))
-
 ;;; ISEARCH
 ;(set-face-foreground 'isearch "white")
 ;(set-face-background 'isearch "red")
@@ -249,6 +240,42 @@ This is a buffer-local variable.")
 
 ;;; SIZE INDICATION MODE
 (size-indication-mode t)
+
+;;; SPELL CHECKING
+;;  (note that exec-path probably needs to be munged before this is run)
+(defun genehack/find-in-exec-path (program)
+  (let ((found nil))
+    (dolist (path exec-path)
+      (if (file-exists-p (concat path "/" program))
+          (setq found t)))
+    found))
+
+(defun genehack/spelling-not-found ()
+  (interactive)
+  (message "Spell check not enabled; neither aspell nor ispell found in path."))
+
+(let ((genehack/found-spelling-program nil))
+  (if (genehack/find-in-exec-path "aspell")
+      (progn
+        (setq-default ispell-program-name "aspell")
+        (setq genehack/found-spelling-program t))
+    (if (genehack/find-in-exec-path "ispell")
+        (progn
+          (setq-default ispell-program-name "ispell")
+          (set genehack/found-spelling-programs t))))
+  (if '(genehack/found-spelling-program)
+      (progn
+        (setq ispell-extra-args '("--sug-mode=ultra")))
+
+    (autoload 'ispell-word   "ispell" "check word spelling."   t)
+    (autoload 'ispell-region "ispell" "check region spelling." t)
+    (autoload 'ispell-buffer "ispell" "check buffer spelling." t)
+    (require 'flyspell)
+
+    (defalias 'ispell-word   'genehack/spelling-not-found)
+    (defalias 'ispell-region 'genehack/spelling-not-found)
+    (defalias 'ispell-buffer 'genehack/spelling-not-found)))
+
 
 ;;; TEXT-MODE
 (add-hook 'text-mode-hook
