@@ -254,7 +254,10 @@ This is a buffer-local variable.")
   (interactive)
   (message "Spell check not enabled; neither aspell nor ispell found in path."))
 
-(let ((genehack/found-spelling-program nil))
+(defvar genehack/found-spelling-program nil
+  "Boolean indicating whether or not a spelling program was found in exec-path")
+
+(let ()
   (if (genehack/find-in-exec-path "aspell")
       (progn
         (setq-default ispell-program-name "aspell")
@@ -282,7 +285,8 @@ This is a buffer-local variable.")
             (require 'filladapt)
             (auto-fill-mode 1)
             (filladapt-mode 1)
-            (flyspell-mode 1)))
+            (if (eq genehack/found-spelling-program t)
+                (flyspell-mode 1))))
 
 ;;; TIME DISPLAY
 (setq display-time-24hr-format t)
