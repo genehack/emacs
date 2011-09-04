@@ -7,6 +7,7 @@ use 5.010;
 $|++;
 
 use File::Fetch;
+use File::Path      qw/ make_path remove_tree /;
 use File::Temp      qw /tempdir/;
 use FindBin;
 use LWP::UserAgent;
@@ -43,12 +44,13 @@ say '';
 
 build_emacs( $tarball_file , $version );
 
-say '';
-
-build_mac_emacs( $tarball_file , $version ) if $^O eq 'darwin';
+build_mac_emacs( $tarball_file , $version )
+  if $^O eq 'darwin';
 
 say "\n* CLEANING UP..." if $VERBOSE;
 unlink( $tarball_file );
+
+chdir('/'); # so File::Temp can clean up on exit
 
 say "done.";
 
@@ -63,54 +65,36 @@ sub build_emacs {
   system("./configure --prefix=/opt/emacs-$version --without-x >/dev/null") == 0
     or die "Configure failed : $!\n";
 
-  print "MAKE BOOSTRAP..." if $VERBOSE;
-  system("make bootstrap >/dev/null") == 0
-    or die "Make bookstrap failed : $!\n";
+  _make_bootstrap_make_make_install();
 
-  print "MAKE..." if $VERBOSE;
-  system("make >/dev/null 2>/dev/null") == 0
-    or die "Make failed : $!\n";
-
-  print "MAKE INSTALL..." if $VERBOSE;
-  system("make install >/dev/null 2>/dev/null" ) == 0
-    or die "Make install failed : $!\n";
-
-  print "UPDATING SYMLINK..." if $VERBOSE;
-  unlink( '/opt/emacs' ) if -e '/opt/emacs';
-  symlink( "/opt/emacs-$version" , '/opt/emacs' )
-    or die "Failed to create symlink : $!";
-
-  say "done." if $VERBOSE;
-
-  return 1;
+  _update_symlink($version);
 }
 
 sub build_mac_emacs {
   my( $tarball , $version ) = @_;
 
+  print "[BUILD MAC EMACS] " if $VERBOSE;
+
   _extract_tarball_and_get_ready_to_build( $tarball , $version );
 
-  ### FIXME
-  # print "CONFIGURE..." if $VERBOSE;
-  # system("./configure --prefix=/opt/emacs-$version --without-x >/dev/null") == 0
-  #   or die "Configure failed : $!\n";
+  print "CONFIGURE..." if $VERBOSE;
+  system("./configure --with-ns >/dev/null") == 0
+    or die "Configure failed : $!\n";
 
-  # print "MAKE BOOSTRAP..." if $VERBOSE;
-  # system("make bootstrap >/dev/null") == 0
-  #   or die "Make bookstrap failed : $!\n";
+  _make_bootstrap_make_make_install();
 
-  # print "MAKE..." if $VERBOSE;
-  # system("make >/dev/null") == 0
-  #   or die "Make failed : $!\n";
+  if ( -e '/Applications/Emacs.OLD.app' ) {
+    remove_path( '/Applications/Emacs.OLD.app' )
+      or die "Failed to remove old backup Emacs : $!\n";
+  }
 
-  # print "MAKE INSTALL..." if $VERBOSE;
-  # system("make install >/dev/null" ) == 0
-  #   or die "Make install failed : $!\n";
+  if ( -e '/Applications/Emacs.app' ) {
+    rename '/Applications/Emacs.app' , '/Applications/Emacs.OLD.app'
+      or die "Failed to move Emacs.app to backup location : $!\n";
+  }
 
-  # print "UPDATING SYMLINK..." if $VERBOSE;
-  # unlink( '/opt/emacs' ) if -e '/opt/emacs';
-  # symlink( "/opt/emacs-$version" , '/opt/emacs' )
-  #   or die "Failed to create symlink : $!";
+  rename './nextstep/Emacs.app' , '/Applications/Emacs.app'
+    or die "Failed to move Emacs.app to /Applications : $!\n";
 
   say "done." if $VERBOSE;
 
@@ -175,4 +159,30 @@ sub _extract_tarball_and_get_ready_to_build {
       or die "Failed to apply $patch";
     say "DONE";
   }
+}
+
+sub _make_bootstrap_make_make_install {
+  print "MAKE BOOSTRAP..." if $VERBOSE;
+  system("make bootstrap >/dev/null ") == 0
+    or die "Make bookstrap failed : $?\n";
+
+  print "MAKE..." if $VERBOSE;
+  system("make >/dev/null 2>/dev/null") == 0
+    or die "Make failed : $?\n";
+
+  print "MAKE INSTALL..." if $VERBOSE;
+  system("make install >/dev/null 2>/dev/null" ) == 0
+    or die "Make install failed : $?\n";
+
+  say "done." if $VERBOSE;
+
+}
+
+sub _update_symlink {
+  my $version = shift;
+
+  print "UPDATING SYMLINK..." if $VERBOSE;
+  unlink( '/opt/emacs' ) if -e '/opt/emacs';
+  symlink( "/opt/emacs-$version" , '/opt/emacs' )
+    or die "Failed to create symlink : $!";
 }

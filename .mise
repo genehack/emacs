@@ -2,4 +2,6 @@
 create:
   links:
     - DIR: ~/.emacs.d
+    - bin/build-most-recent-emacs: BIN
     - bin/map-test-lib: BIN
+    
