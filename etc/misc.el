@@ -5,50 +5,50 @@
 (require 'ack)
 
 ;;; ANYTHING
-(require 'anything-match-plugin)
-(setq anything-command-map-prefix-key "S-<F5>")
-(require 'anything-config)
+;; (require 'anything-match-plugin)
+;; (setq anything-command-map-prefix-key "S-<F5>")
+;; (require 'anything-config)
 
-(defvar anything-c-source-git-project-files-cache nil
-  "path signature cached-buffer")
-(defvar anything-c-source-git-project-files
-  '((name . "Files from Current GIT Project")
-    (init . (lambda ()
-              (let* ((top-dir (file-truename (magit-get-top-dir (if (buffer-file-name)
-                                                                    (file-name-directory (buffer-file-name))
-                                                                  default-directory))))
-                     (default-directory top-dir)
-                     (signature (magit-shell (magit-format-git-command "rev-parse --verify HEAD" nil))))
+;; (defvar anything-c-source-git-project-files-cache nil
+;;   "path signature cached-buffer")
+;; (defvar anything-c-source-git-project-files
+;;   '((name . "Files from Current GIT Project")
+;;     (init . (lambda ()
+;;               (let* ((top-dir (file-truename (magit-get-top-dir (if (buffer-file-name)
+;;                                                                     (file-name-directory (buffer-file-name))
+;;                                                                   default-directory))))
+;;                      (default-directory top-dir)
+;;                      (signature (magit-shell (magit-format-git-command "rev-parse --verify HEAD" nil))))
 
-                (unless (and anything-c-source-git-project-files-cache
-                             (third anything-c-source-git-project-files-cache)
-                             (equal (first anything-c-source-git-project-files-cache) top-dir)
-                             (equal (second anything-c-source-git-project-files-cache) signature))
-                  (if (third anything-c-source-git-project-files-cache)
-                      (kill-buffer (third anything-c-source-git-project-files-cache)))
-                  (setq anything-c-source-git-project-files-cache
-                        (list top-dir
-                              signature
-                              (anything-candidate-buffer 'global)))
-                  (with-current-buffer (third anything-c-source-git-project-files-cache)
-                    (dolist (filename (mapcar (lambda (file) (concat default-directory file))
-                                              (magit-shell-lines (magit-format-git-command "ls-files" nil))))
-                      (insert filename)
-                      (newline))))
-                (anything-candidate-buffer (third anything-c-source-git-project-files-cache)))))
+;;                 (unless (and anything-c-source-git-project-files-cache
+;;                              (third anything-c-source-git-project-files-cache)
+;;                              (equal (first anything-c-source-git-project-files-cache) top-dir)
+;;                              (equal (second anything-c-source-git-project-files-cache) signature))
+;;                   (if (third anything-c-source-git-project-files-cache)
+;;                       (kill-buffer (third anything-c-source-git-project-files-cache)))
+;;                   (setq anything-c-source-git-project-files-cache
+;;                         (list top-dir
+;;                               signature
+;;                               (anything-candidate-buffer 'global)))
+;;                   (with-current-buffer (third anything-c-source-git-project-files-cache)
+;;                     (dolist (filename (mapcar (lambda (file) (concat default-directory file))
+;;                                               (magit-shell-lines (magit-format-git-command "ls-files" nil))))
+;;                       (insert filename)
+;;                       (newline))))
+;;                 (anything-candidate-buffer (third anything-c-source-git-project-files-cache)))))
 
-    (type . file)
-    (candidates-in-buffer)))
+;;     (type . file)
+;;     (candidates-in-buffer)))
 
-(defun genehack/anything ()
-  "custom anything function"
-  (interactive)
-  (anything-other-buffer
-   '(anything-c-source-buffers
-     anything-c-source-files-in-current-dir
-     anything-c-source-git-project-files
-     anything-c-source-file-name-history)
-   "*genehack-anything*"))
+;; (defun genehack/anything ()
+;;   "custom anything function"
+;;   (interactive)
+;;   (anything-other-buffer
+;;    '(anything-c-source-buffers
+;;      anything-c-source-files-in-current-dir
+;;      anything-c-source-git-project-files
+;;      anything-c-source-file-name-history)
+;;    "*genehack-anything*"))
 
 ;;; AUTO COMPLETE
 (genehack/add-emacs-lib-subdir-to-load-path "auto-complete")
