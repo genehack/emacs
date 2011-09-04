@@ -258,24 +258,23 @@ This is a buffer-local variable.")
   (if (genehack/find-in-exec-path "aspell")
       (progn
         (setq-default ispell-program-name "aspell")
+        (setq ispell-extra-args '("--sug-mode=ultra"))
         (setq genehack/found-spelling-program t))
     (if (genehack/find-in-exec-path "ispell")
         (progn
           (setq-default ispell-program-name "ispell")
-          (setq genehack/found-spelling-programs t))))
+          (setq ispell-extra-args '("-W 3"))
+          (setq genehack/found-spelling-program t))))
   (if (eq genehack/found-spelling-program t)
       (progn
-        (setq ispell-extra-args '("--sug-mode=ultra")))
-
-    (autoload 'ispell-word   "ispell" "check word spelling."   t)
-    (autoload 'ispell-region "ispell" "check region spelling." t)
-    (autoload 'ispell-buffer "ispell" "check buffer spelling." t)
-    (require 'flyspell)
+        (autoload 'ispell-word   "ispell" "check word spelling."   t)
+        (autoload 'ispell-region "ispell" "check region spelling." t)
+        (autoload 'ispell-buffer "ispell" "check buffer spelling." t)
+        (require 'flyspell))
 
     (defalias 'ispell-word   'genehack/spelling-not-found)
     (defalias 'ispell-region 'genehack/spelling-not-found)
     (defalias 'ispell-buffer 'genehack/spelling-not-found)))
-
 
 ;;; TEXT-MODE
 (add-hook 'text-mode-hook
