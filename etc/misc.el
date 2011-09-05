@@ -52,14 +52,21 @@
 
 ;;; AUTO COMPLETE
 (genehack/add-emacs-lib-subdir-to-load-path "auto-complete")
+(require 'auto-complete)
 (require 'auto-complete-config)
 (setq ac-comphist-file (concat genehack/emacs-dir "tmp/ac-comphist.dat"))
 (add-to-list 'ac-dictionary-directories (concat genehack/emacs-libs-dir "auto-complete/dict"))
 (ac-config-default)
-(setq-default ac-sources '(ac-source-yasnippet
+(setq ac-auto-start nil)
+(setq tab-always-indent 'complete)
+(add-to-list 'completion-styles 'initials t)
+(setq-default ac-sources '(ac-source-dictionary
                            ac-source-abbrev
-                           ac-source-dictionary
-                           ac-source-words-in-same-mode-buffers))
+                           ac-source-words-in-buffer
+                           ac-source-words-in-same-mode-buffers
+                           ac-source-words-in-all-buffer
+                           ac-source-yasnippet))
+
 
 ;;; AUTO CREATE DIRECTORIES
 ;;;; after <http://atomized.org/2008/12/emacs-create-directory-before-saving/>
@@ -253,6 +260,10 @@
       '((cperl-mode      . plcmp-cmd-smart-complete)
         (text-mode       . dabbrev-completion)))
 
+
+;;; SMEX
+(require 'smex)
+(smex-initialize)
 
 ;;; SPLIT-VERTICALLY-OR-DELETE-OTHER-WINDOWS
 (defun genehack/split-vertically-or-delete-other-windows ()

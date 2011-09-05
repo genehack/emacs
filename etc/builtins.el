@@ -98,8 +98,10 @@ remove-leading-whitespace-on-kil-line tricks")
 ;;; IDO
 (require 'ido)
 (setq ido-enable-flex-matching t
-      ido-everywhere t
-      ido-create-new-buffer t)
+      ido-create-new-buffer 'always
+      ido-use-filename-at-point 'guess
+      ido-file-extensions-order '(".pm" ".pl" ".tt" ".tt2" ".html" ".css" t))
+(ido-everywhere)
 (ido-mode 1)
 
 ;;; IMENU
