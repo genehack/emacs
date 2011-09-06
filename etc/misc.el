@@ -167,6 +167,10 @@
 
       (add-hook 'css-mode-hook 'flymake-mode)))
 
+;;; FLYMAKE CURSOR
+(require 'flymake)
+(require 'flymake-cursor)
+
 ;;; HTML TIDY
 (autoload 'tidy-buffer             "tidy" "Run Tidy HTML parser on current buffer" t)
 (autoload 'tidy-parse-config-file  "tidy" "Parse the `tidy-config-file'"           t)
