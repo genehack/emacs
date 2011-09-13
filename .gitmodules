@@ -31,3 +31,6 @@
 [submodule "lib/solarized"]
 	path = lib/solarized
 	url = https://github.com/sellout/solarized/
+[submodule "lib/anything"]
+	path = lib/anything
+	url = git://repo.or.cz/anything-config.git
