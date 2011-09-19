@@ -91,7 +91,7 @@
          (local-file (file-relative-name
                       temp-file
                       (file-name-directory buffer-file-name))))
-    (list "/opt/perl/perl" (list "-MProject::Libs" "-wc" local-file))))
+    (list "/opt/perl/bin/perl" (list "-MProject::Libs" "-wc" local-file))))
 
 (defun flymake-create-temp-intemp (file-name prefix)
   "Return file name in temporary directory for checking
