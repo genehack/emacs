@@ -59,7 +59,9 @@
   (font-lock-add-keywords nil '(("^[^\n]\\{90\\}\\(.*\\)$" 1 font-lock-warning-face t)))
   (setq fill-column 78)
   ;;(turn-on-font-lock)
-  )
+  (require 'elide-head)
+  (add-to-list 'elide-head-headers-to-hide '("######" . "######"))
+  (elide-head))
 
 (defun genehack/perl-auto-complete-setup ()
   (perl-completion-mode t)
