@@ -71,8 +71,6 @@
     (auto-complete-mode t)
     (setq ac-sources
           '(ac-source-perl-completion
-            ac-source-yasnippet
-            ac-source-abbrev
             ac-source-words-in-buffer))))
 
 ;;; FIX INDENTATION

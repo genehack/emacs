@@ -220,7 +220,7 @@
 (require 'smart-tab)
 (global-smart-tab-mode 1)
 (setq smart-tab-completion-functions-alist
-      '((cperl-mode      . plcmp-cmd-smart-complete)
+      '((cperl-mode      . auto-complete)
         (text-mode       . dabbrev-completion)))
 
 
