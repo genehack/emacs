@@ -2,9 +2,9 @@
 
 (defvar genehack/rebuild-elc-el-files-list
   '(
-    "lib/anything-config.el"
-    "lib/anything-match-plugin.el"
-    "lib/anything.el"
+    "lib/anything/anything-config.el"
+    "lib/anything/anything-match-plugin.el"
+    "lib/anything/anything.el"
     "lib/coffee-mode/coffee-mode.el"
     "lib/cperl-mode/cperl-mode.el"
     "lib/js2-mode/js2-mode.el"
