@@ -84,6 +84,9 @@ remove-leading-whitespace-on-kil-line tricks")
                  (just-one-space 0)
                  (backward-char 1)))))
 
+;;; GLOBAL AUTO-REVERT
+(global-auto-revert-mode t)
+
 ;;; HIGHLIGHTING
 ;(set-face-foreground 'highlight "gray10")
 ;(set-face-background 'highlight "yellow")
