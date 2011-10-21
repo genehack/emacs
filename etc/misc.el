@@ -197,6 +197,9 @@
 (setq multi-term-dedicated-select-after-open-p t
       multi-term-dedicated-window-height 24)
 
+;;; PACKAGE
+(eval-after-load "package" '(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
+
 ;;; PAREN-BOUNCE
 ;;;; ganked from <http://elfs.livejournal.com/1216037.html>
 (defun genehack/paren-bounce ()
