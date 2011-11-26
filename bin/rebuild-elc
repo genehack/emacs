@@ -9,9 +9,4 @@ make
 cd ../gnus
 ./configure && make
 
-cd ../org
-make
-
-cd ../color-theme
-make
 
