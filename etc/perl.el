@@ -23,6 +23,7 @@
 (add-hook 'cperl-mode-hook 'flyspell-prog-mode)
 (add-hook 'cperl-mode-hook 'flymake-mode)
 (add-hook 'cperl-mode-hook 'linum-mode)
+(add-hook 'cperl-mode-hook 'which-func-mode)
 
 ;;; CONFIG
 (setq
