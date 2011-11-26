@@ -49,11 +49,8 @@
 (require 'coffee-mode)
 
 ;;; COLOR-THEME
-(genehack/add-emacs-lib-subdir-to-load-path "color-theme")
-(genehack/add-emacs-lib-subdir-to-load-path "solarized/emacs-color-theme-solarized")
-(require 'color-theme)
+(require 'color-theme-autoloads)
 (setq color-theme-load-all-themes nil)
-(color-theme-initialize)
 (require 'color-theme)
 (require 'color-theme-twilight)
 (require 'color-theme-hober2)
