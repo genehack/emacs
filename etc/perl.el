@@ -30,7 +30,7 @@
  cperl-auto-indent-on-semi t
  cperl-close-paren-offset -2
  cperl-continued-statement-offset 2
- cperl-hairy t
+ ;cperl-hairy t
  cperl-highlight-variables-indiscriminately t
  cperl-indent-level 2
  cperl-indent-parens-as-block t
@@ -38,9 +38,17 @@
  cperl-tab-always-indent t
  cperl-electric-lbrace-space nil ; must needs be after cperl-hairy
  cperl-clobber-lisp-bindings nil ; must needs be after cperl-hairy
+
+ cperl-electric-parens nil
+ cperl-font-lock t
+ cperl-electric-linefeed t
+ cperl-electric-keywords t
+ cperl-info-on-command-no-prompt t
+ cperl-clobber-lisp-bindings t
+ cperl-lazy-help-time 5
  )
 
-;;; PERL COMPLETION
+;;; perl COMPLETION
 (setq plcmp-extra-using-modules
       '(("Digest" . "Digest::SHA1")
         ("LWP::UserAgent" . "HTTP::Response")))

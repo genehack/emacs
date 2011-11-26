@@ -36,6 +36,10 @@
              (or (file-exists-p (file-name-directory buffer-file-name))
                  (make-directory (file-name-directory buffer-file-name) t))))
 
+;;; AUTOPAIR
+(require 'autopair)
+(autopair-global-mode)
+
 ;;; BROWSE-KILL-RING
 (require 'browse-kill-ring)
 (browse-kill-ring-default-keybindings)
