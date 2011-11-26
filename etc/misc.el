@@ -212,39 +212,6 @@
 (setq multi-term-dedicated-select-after-open-p t
       multi-term-dedicated-window-height 24)
 
-;;; PACKAGE
-(eval-after-load "package" '(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
-(eval-after-load "package" '(add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/")))
-
-
-(defvar genehack/package-list
-  '(
-    autopair
-    coffee-mode
-    color-theme
-    color-theme-solarized
-    css-mode
-    erc
-    flymake-cursor
-    js2-mode
-    magit
-    markdown-mode
-    maxframe
-    multi-term
-    org
-    perlcritic
-    pretty-lambdada
-    smex
-    textmate
-    yaml-mode
-    yasnippet-bundle
-    )
-  "list of packages to automatically install")
-
-(dolist (pkg genehack/package-list)
-  (if (not (package-installed-p pkg))
-      (package-install pkg)))
-
 ;;; PAREN-BOUNCE
 ;;;; ganked from <http://elfs.livejournal.com/1216037.html>
 (defun genehack/paren-bounce ()
