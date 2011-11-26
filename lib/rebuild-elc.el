@@ -2,16 +2,19 @@
 
 (defvar genehack/rebuild-elc-el-files-list
   '(
+    "lib/auto-complete/auto-complete-config.el"
+    "lib/auto-complete/auto-complete.el"
+    "lib/auto-complete/fuzzy.el"
+    "lib/auto-complete/popup.el"
     "lib/anything/anything-config.el"
     "lib/anything/anything-match-plugin.el"
     "lib/anything/anything.el"
-    "lib/coffee-mode/coffee-mode.el"
     "lib/cperl-mode/cperl-mode.el"
+    "lib/delim-kill/delim-kill.el"
     "lib/flymake/flymake.el"
     "lib/flymake-perlcritic/flymake-perlcritic.el"
     "lib/js2-mode/js2-mode.el"
     "lib/smart-tab/smart-tab.el"
-    "lib/textmate/textmate.el"
     )
   "list of files to rebuild." )
 
