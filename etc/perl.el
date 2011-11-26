@@ -20,6 +20,7 @@
 ;;; HOOK MODS
 (add-hook 'cperl-mode-hook 'genehack/cperl-mode-setup)
 (add-hook 'cperl-mode-hook 'genehack/perl-auto-complete-setup)
+(add-hook 'cperl-mode-hook 'autopair-mode)
 (add-hook 'cperl-mode-hook 'flyspell-prog-mode)
 (add-hook 'cperl-mode-hook 'flymake-mode)
 (add-hook 'cperl-mode-hook 'linum-mode)
