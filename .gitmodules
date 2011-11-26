@@ -37,3 +37,6 @@
 [submodule "lib/flymake"]
 	path = lib/flymake
 	url = https://github.com/illusori/emacs-flymake
+[submodule "lib/flymake-perlcritic"]
+	path = lib/flymake-perlcritic
+	url = git@github.com:genehack/emacs-flymake-perlcritic.git
