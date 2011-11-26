@@ -144,6 +144,12 @@
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (setq-default js2-basic-offset 2)
 
+;;; KILL THIS BUFFER
+(defun genehack/kill-this-buffer ()
+  "Kill the current buffer without prompting."
+  (interactive)
+  (kill-buffer nil))
+
 ;;; MACRO
 (autoload 'macro-dwim "macro" "DWIM macro recording and playback." t)
 (autoload 'macro-clear "macro" "Clear last keyboard macro" t)
