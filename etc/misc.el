@@ -128,9 +128,17 @@
 
       (add-hook 'css-mode-hook 'flymake-mode)))
 
-;;; FLYMAKE CURSOR
+;;; FLYMAKE
+(genehack/add-emacs-lib-subdir-to-load-path "flymake")
 (require 'flymake)
 (require 'flymake-cursor)
+(setq flymake-no-changes-timeout 5)
+(setq temporary-file-directory "~/.emacs.d/tmp/")
+(setq flymake-run-in-place nil)
+;; I want to see all errors for the line.
+(setq flymake-number-of-errors-to-display nil)
+(set-face-foreground 'flymake-warnline "DarkBlue")
+(set-face-background 'flymake-warnline "LightGray")
 
 ;;; HTML TIDY
 (autoload 'tidy-buffer             "tidy" "Run Tidy HTML parser on current buffer" t)
