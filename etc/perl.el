@@ -49,7 +49,7 @@
 (defun genehack/jump-from-test-to-lib ()
   (interactive)
   (let ((test-file buffer-file-name))
-    (find-file (shell-command-to-string (format "map-test-lib %s" test-file)))))
+    (find-file (shell-command-to-string (format "~/bin/map-test-lib %s" test-file)))))
 
 (defun genehack/cperl-mode-setup ()
   ;; allows 'M-x compile' for syntax checking of Perl scripts within Emacs
