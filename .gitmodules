@@ -34,3 +34,6 @@
 [submodule "lib/anything"]
 	path = lib/anything
 	url = git://repo.or.cz/anything-config.git
+[submodule "lib/flymake"]
+	path = lib/flymake
+	url = https://github.com/illusori/emacs-flymake
