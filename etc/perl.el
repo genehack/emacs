@@ -85,14 +85,29 @@
 ;;   (skip-chars-forward " \t"))
 
 ;;; FLYMAKE
-;;;; from http://blog.urth.org/2011/06/flymake-versus-the-catalyst-restarter.html
+;;;; based on a modified version of code found at
+;;;; http://blog.urth.org/2011/06/flymake-versus-the-catalyst-restarter.html
 (defun flymake-perl-init ()
   (let* ((temp-file (flymake-init-create-temp-buffer-copy
                      'flymake-create-temp-intemp))
          (local-file (file-relative-name
                       temp-file
-                      (file-name-directory buffer-file-name))))
-    (list "/opt/perl/bin/perl" (list "-MProject::Libs" "-wc" local-file))))
+                      (file-name-directory buffer-file-name)))
+         ;;; this gives path to base project directory or nothing if
+         ;;; we're not in a git tree.
+         (include-path (shell-command-to-string
+                        (format "cd %s && git rev-parse --show-cdup 2>/dev/null"
+                                (file-name-directory buffer-file-name)))))
+    (if (string-equal include-path "")
+        (setq perl-args "-wc")
+      ;; remove the trailing newline
+      (setq include-path
+            (and include-path
+                 (substring include-path 0
+                            (- (length include-path) 1))))
+      (setq perl-args (format "-wc -I%slib" include-path)))
+    ;(message "PERL ARGS = '%s'" perl-args)
+    (list "/opt/perl/bin/perl" (list perl-args local-file))))
 
 (defun flymake-create-temp-intemp (file-name prefix)
   "Return file name in temporary directory for checking
@@ -148,4 +163,3 @@ Does 'perly_sense external_dir' give you a proper directory?
    ps/external-dir))
 
 ;;(setq ps/use-prepare-shell-command nil)
-
