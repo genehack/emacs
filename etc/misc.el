@@ -36,6 +36,10 @@
              (or (file-exists-p (file-name-directory buffer-file-name))
                  (make-directory (file-name-directory buffer-file-name) t))))
 
+;;; AUTOPAIR
+(require 'autopair)
+;;(autopair-global-mode)
+
 ;;; BROWSE-KILL-RING
 (require 'browse-kill-ring)
 (browse-kill-ring-default-keybindings)
@@ -45,11 +49,8 @@
 (require 'coffee-mode)
 
 ;;; COLOR-THEME
-(genehack/add-emacs-lib-subdir-to-load-path "color-theme")
-(genehack/add-emacs-lib-subdir-to-load-path "solarized/emacs-color-theme-solarized")
-(require 'color-theme)
+(require 'color-theme-autoloads)
 (setq color-theme-load-all-themes nil)
-(color-theme-initialize)
 (require 'color-theme)
 (require 'color-theme-twilight)
 (require 'color-theme-hober2)
@@ -128,9 +129,17 @@
 
       (add-hook 'css-mode-hook 'flymake-mode)))
 
-;;; FLYMAKE CURSOR
+;;; FLYMAKE
+(genehack/add-emacs-lib-subdir-to-load-path "flymake")
 (require 'flymake)
 (require 'flymake-cursor)
+(setq flymake-no-changes-timeout 5)
+(setq temporary-file-directory "~/.emacs.d/tmp/")
+(setq flymake-run-in-place nil)
+;; I want to see all errors for the line.
+(setq flymake-number-of-errors-to-display nil)
+(set-face-foreground 'flymake-warnline "DarkBlue")
+(set-face-background 'flymake-warnline "LightGray")
 
 ;;; HTML TIDY
 (autoload 'tidy-buffer             "tidy" "Run Tidy HTML parser on current buffer" t)
@@ -202,10 +211,6 @@
 (defalias 'term 'multi-term)
 (setq multi-term-dedicated-select-after-open-p t
       multi-term-dedicated-window-height 24)
-
-;;; PACKAGE
-(eval-after-load "package" '(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
-(eval-after-load "package" '(add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/")))
 
 ;;; PAREN-BOUNCE
 ;;;; ganked from <http://elfs.livejournal.com/1216037.html>

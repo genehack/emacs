@@ -2,3 +2,11 @@
 
 cd ~/proj/emacs
 emacs -batch -l lib/rebuild-elc.el -kill
+
+cd lib/bbdb
+make
+
+cd ../gnus
+./configure && make
+
+

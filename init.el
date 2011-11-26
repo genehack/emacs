@@ -60,6 +60,40 @@
   "Concat arg with genehack/emacs-libs-dir and add to load-path"
   (add-to-list 'load-path (concat genehack/emacs-libs-dir dir)))
 
+;;; PACKAGES
+(eval-after-load "package" '(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
+(eval-after-load "package" '(add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/")))
+
+(defvar genehack/package-list
+  '(
+    autopair
+    coffee-mode
+    color-theme
+    color-theme-solarized
+    css-mode
+    erc
+    flymake-cursor
+    js2-mode
+    magit
+    markdown-mode
+    maxframe
+    multi-term
+    org
+    perlcritic
+    pretty-lambdada
+    smex
+    textmate
+    yaml-mode
+    yasnippet-bundle
+    ) "list of packages to automatically install" )
+
+;; update list of available packages
+(package-refresh-contents)
+;; and then install anything that's missing
+(dolist (pkg genehack/package-list)
+  (if (not (package-installed-p pkg))
+      (package-install pkg)))
+
 ;; MODULES
 ;;; All the rest of the config is split out into individual files, for
 ;;; ease of use.
@@ -78,4 +112,3 @@
 (dolist (pkg genehack/module-list)
   (if (file-readable-p (concat genehack/emacs-config-dir pkg ".el"))
       (load-library pkg)))
-

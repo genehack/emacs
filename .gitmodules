@@ -4,15 +4,6 @@
 [submodule "lib/cperl-mode"]
 	path = lib/cperl-mode
 	url = git://github.com/jrockway/cperl-mode.git
-[submodule "lib/maxframe"]
-	path = lib/maxframe
-	url = https://github.com/rmm5t/maxframe.el.git
-[submodule "lib/textmate"]
-	path = lib/textmate
-	url = https://github.com/defunkt/textmate.el.git
-[submodule "lib/coffee-mode"]
-	path = lib/coffee-mode
-	url = git://github.com/defunkt/coffee-mode.git
 [submodule "lib/gnus"]
 	path = lib/gnus
 	url = http://git.gnus.org/gnus.git/
@@ -25,12 +16,12 @@
 [submodule "lib/smart-tab"]
 	path = lib/smart-tab
 	url = git@github.com:genehack/smart-tab.git
-[submodule "lib/markdown-mode"]
-	path = lib/markdown-mode
-	url = git://jblevins.org/git/markdown-mode.git
-[submodule "lib/solarized"]
-	path = lib/solarized
-	url = https://github.com/sellout/solarized/
 [submodule "lib/anything"]
 	path = lib/anything
 	url = git://repo.or.cz/anything-config.git
+[submodule "lib/flymake-perlcritic"]
+	path = lib/flymake-perlcritic
+	url = git@github.com:genehack/emacs-flymake-perlcritic.git
+[submodule "lib/flymake"]
+	path = lib/flymake
+	url = git@github.com:genehack/emacs-flymake.git
