@@ -38,7 +38,7 @@
 
 ;;; AUTOPAIR
 (require 'autopair)
-(autopair-global-mode)
+;;(autopair-global-mode)
 
 ;;; BROWSE-KILL-RING
 (require 'browse-kill-ring)
