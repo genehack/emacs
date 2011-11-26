@@ -38,6 +38,7 @@
 (global-set-key (kbd "<f5>")      'genehack/split-vertically-or-delete-other-windows)
 (global-set-key (kbd "<f6>")      'genehack/maybe-gnus)
 (global-set-key (kbd "<f7>")      'genehack/maybe-erc)
+(global-set-key (kbd "<f9>")      'genehack/kill-this-buffer)
 (global-set-key (kbd "<f10>")     'menu-bar-open)
 (global-set-key (kbd "<f11>")     'multi-term-dedicated-toggle)
 (global-set-key (kbd "<f12>")     'macro-dwim)
