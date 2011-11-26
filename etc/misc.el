@@ -199,6 +199,7 @@
 
 ;;; PACKAGE
 (eval-after-load "package" '(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
+(eval-after-load "package" '(add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/")))
 
 ;;; PAREN-BOUNCE
 ;;;; ganked from <http://elfs.livejournal.com/1216037.html>
