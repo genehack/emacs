@@ -98,7 +98,7 @@
 ;;;; based on a modified version of code found at
 ;;;; http://blog.urth.org/2011/06/flymake-versus-the-catalyst-restarter.html
 (genehack/add-emacs-lib-subdir-to-load-path "flymake-perlcritic")
-(setq flymake-perlcritic-severity 4)
+(setq flymake-perlcritic-severity 5)
 (setq flymake-perlcritic-command "~/proj/emacs/lib/flymake-perlcritic/bin/flymake_perlcritic")
 (require 'flymake-perlcritic)
 
