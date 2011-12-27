@@ -2,6 +2,9 @@
 
 (defvar genehack/rebuild-elc-el-files-list
   '(
+    "lib/anything/anything-config.el"
+    "lib/anything/anything.el"
+    "lib/anything/anything-match-plugin.el"
     "lib/auto-complete/auto-complete-config.el"
     "lib/auto-complete/auto-complete.el"
     "lib/auto-complete/fuzzy.el"
