@@ -14,7 +14,7 @@
 (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
 (global-set-key (kbd "C-x M-b") 'ibuffer)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
-(global-set-key (kbd "C-x C-i") 'anything-imenu)
+;(global-set-key (kbd "C-x C-i") 'anything-imenu)
 (global-set-key (kbd "C-x k")   'genehack/kill-this-buffer)
 (global-set-key (kbd "C-x =")   'genehack/diff-current-buffer-with-file)
 (global-set-key (kbd "C-%")     'genehack/paren-bounce)
