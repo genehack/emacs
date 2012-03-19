@@ -101,10 +101,7 @@
   '(
     "builtins"
     "keys"
-    "erc-conf"
-    ;;"gnus-conf"
     "misc"
-    ;;"org-conf"
     "perl"
     )
   "list of modules to load on startup.")
