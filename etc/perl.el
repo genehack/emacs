@@ -7,7 +7,6 @@
 (require 'perl-find-library)
 (require 'pod-mode)
 (require 'prove)
-(require 'tt-mode)
 (require 'perlcritic)
 (require 'perltidy)
 
