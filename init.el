@@ -62,7 +62,8 @@
 
 ;;; PACKAGES
 (eval-after-load "package" '(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
-(eval-after-load "package" '(add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/")))
+(eval-after-load "package" '(add-to-list 'package-archives '("ELPA"      . "http://tromey.com/elpa/")))
+(eval-after-load "package" '(add-to-list 'package-archives '("melpa"     . "http://melpa.genehack.net/packages/")))
 
 (defvar genehack/package-list
   '(
