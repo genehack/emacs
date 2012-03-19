@@ -17,7 +17,6 @@
 
 ;;; HOOK MODS
 (add-hook 'cperl-mode-hook 'genehack/cperl-mode-setup)
-(add-hook 'cperl-mode-hook 'genehack/perl-auto-complete-setup)
 (add-hook 'cperl-mode-hook 'autopair-mode)
 (add-hook 'cperl-mode-hook 'flyspell-prog-mode)
 (add-hook 'cperl-mode-hook 'flymake-mode)
@@ -70,16 +69,6 @@
   (require 'elide-head)
   (add-to-list 'elide-head-headers-to-hide '("######" . "######"))
   (elide-head))
-
-(defun genehack/perl-auto-complete-setup ()
-  (perl-completion-mode t)
-  (define-key cperl-mode-map (kbd "C-c #") 'comment-region)
-  (define-key cperl-mode-map (kbd "M-RET") 'auto-complete)
-  (when (require 'auto-complete nil t) ; no error whatever auto-complete.el is not installed.
-    (auto-complete-mode t)
-    (setq ac-sources
-          '(ac-source-perl-completion
-            ac-source-words-in-buffer))))
 
 ;;; FIX INDENTATION
 ;;;; from http://www.emacswiki.org/emacs-en/IndentingPerl
