@@ -274,10 +274,6 @@
             (if (string-match "\\.tt2?$" buffer-file-name)
                 (template-minor-mode 1))))
 
-;;; TEXTILE
-(require 'textile-mode)
-(add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
-
 ;;; TEXTMATE
 (genehack/add-emacs-lib-subdir-to-load-path "textmate")
 (require 'textmate)
