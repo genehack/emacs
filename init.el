@@ -67,13 +67,18 @@
 
 (defvar genehack/package-list
   '(
+    auto-complete
     autopair
     coffee-mode
     color-theme
     color-theme-solarized
+    cperl-mode
     css-mode
+    delim-kill
     erc
+    flymake
     flymake-cursor
+    flymake-perlcritic
     js2-mode
     magit
     markdown-mode
@@ -82,6 +87,7 @@
     org
     perlcritic
     pretty-lambdada
+    smart-tab
     smex
     textmate
     yaml-mode
