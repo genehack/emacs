@@ -70,17 +70,6 @@
   (add-to-list 'elide-head-headers-to-hide '("######" . "######"))
   (elide-head))
 
-;;; FIX INDENTATION
-;;;; from http://www.emacswiki.org/emacs-en/IndentingPerl
-;; (load-library "cperl-mode")
-;; (defun cperl-backward-to-start-of-continued-exp (lim)
-;;   (if (memq (preceding-char) (append ")]}\"'`" nil))
-;;       (forward-sexp -1))
-;;   (beginning-of-line)
-;;   (if (or (<= (point) lim) (< 0 cperl-continued-statement-offset))
-;;       (goto-char (1+ lim)))
-;;   (skip-chars-forward " \t"))
-
 ;;; FLYMAKE
 ;;;; based on a modified version of code found at
 ;;;; http://blog.urth.org/2011/06/flymake-versus-the-catalyst-restarter.html
@@ -94,7 +83,6 @@
 (setq ps/key-prefix "\C-z")
 (define-key cperl-mode-map (kbd "C-z C-z") 'ps/class-overview-for-class-at-point)
 
-;(setq perly-sense-load-flymake t)
 (setq ps/load-flymake nil)
 (setq flymake-start-syntax-check-on-find-file t)
 (setq flymake-start-syntax-check-on-newline t)
@@ -112,5 +100,3 @@ Is Devel::PerlySense installed properly?
 Does 'perly_sense external_dir' give you a proper directory?
  (%s)"
    ps/external-dir))
-
-;;(setq ps/use-prepare-shell-command nil)
