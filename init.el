@@ -87,12 +87,21 @@
     yasnippet-bundle
     ) "list of packages to automatically install" )
 
-;; update list of available packages
-(package-refresh-contents)
-;; and then install anything that's missing
+;; prevent long installs from borking overall process
+(setq url-http-attempt-keepalives nil)
+
+(defvar genehack/packages-refreshed nil
+  "flag for whether package lists have been refreshed yet")
+
+;; install anything that's missing
 (dolist (pkg genehack/package-list)
   (if (not (package-installed-p pkg))
-      (package-install pkg)))
+      (progn
+	(if (not (eq genehack/packages-refreshed t))
+		 (progn
+		   (package-refresh-contents)
+		   (setq genehack/packages-refreshed t)))
+	(package-install pkg))))
 
 ;; MODULES
 ;;; All the rest of the config is split out into individual files, for
