@@ -70,8 +70,6 @@
     auto-complete
     autopair
     coffee-mode
-    color-theme
-    color-theme-solarized
     cperl-mode
     css-mode
     delim-kill

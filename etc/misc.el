@@ -48,37 +48,6 @@
 (genehack/add-emacs-lib-subdir-to-load-path "coffee-mode")
 (require 'coffee-mode)
 
-;;; COLOR-THEME
-(require 'color-theme-autoloads)
-(setq color-theme-load-all-themes nil)
-(require 'color-theme)
-(require 'color-theme-twilight)
-(require 'color-theme-hober2)
-(require 'color-theme-tangotango)
-(require 'color-theme-solarized)
-
-;; select theme - first list element is for windowing system, second is for console/terminal
-(setq color-theme-choices
-      '(color-theme-solarized-dark color-theme-hober2))
-
-(defun genehack/load-scheme (&optional frame)
-  (interactive)
-  (let ((color-theme-is-global nil))
-    (if (framep frame)
-        (select-frame frame))
-    (if (window-system (selected-frame))
-        (eval (list (car color-theme-choices)))
-      (eval (cdr color-theme-choices)))))
-(add-hook 'after-make-frame-functions 'genehack/load-scheme)
-
-(defun genehack/solarize-this-frame ()
-  (interactive)
-  (let ((color-theme-is-global nil))
-    ;; not sure why i have to do this twice, but the first time
-    ;; doesn't get the mode line switched.
-    (color-theme-solarized 'dark)
-    (color-theme-solarized 'dark)))
-
 ;;; CSS-HEXCOLOR
 (require 'css-hexcolor)
 
@@ -280,8 +249,8 @@
 (textmate-mode)
 
 ;;; THEME
-;;(if (custom-theme-p 'naquadah)
-;;    (load-theme 'naquadah))
+(require 'solarized-theme)
+(load-theme 'solarized-dark t)
 
 ;;; TOGGLE-BOL
 (defun genehack/bol-toggle ()
