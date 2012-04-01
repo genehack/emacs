@@ -4,13 +4,6 @@
 ;;; ACK
 (require 'ack)
 
-;;; ANYTHING
-;(genehack/add-emacs-lib-subdir-to-load-path "anything")
-;(setq anything-command-map-prefix-key "S-<F5>")
-;(setq anything-c-adaptive-history-file "~/.emacs.d/tmp/anything-c-adaptive-history")
-                                        ;(require 'anything-config)
-
-
 ;;; AUTO COMPLETE
 (genehack/add-emacs-lib-subdir-to-load-path "auto-complete")
 (require 'auto-complete)
