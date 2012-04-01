@@ -21,7 +21,6 @@
                            ac-source-words-in-all-buffer
                            ac-source-yasnippet))
 
-
 ;;; AUTO CREATE DIRECTORIES
 ;;;; after <http://atomized.org/2008/12/emacs-create-directory-before-saving/>
 (add-hook 'before-save-hook
@@ -31,7 +30,6 @@
 
 ;;; AUTOPAIR
 (require 'autopair)
-;;(autopair-global-mode)
 
 ;;; BROWSE-KILL-RING
 (require 'browse-kill-ring)
@@ -200,7 +198,6 @@
       '((cperl-mode      . auto-complete)
         (text-mode       . dabbrev-completion)))
 
-
 ;;; SMEX
 (require 'smex)
 (smex-initialize)
@@ -263,9 +260,6 @@
    b e
    "perl -MURI::Escape -e 'print URI::Escape::uri_unescape(do { local $/; <STDIN> })'"
    'current-buffer t))
-
-
-
 
 ;;; YAML-MODE
 (autoload 'yaml-mode "yaml-mode" "YAML" t)
