@@ -84,7 +84,7 @@ sub build_mac_emacs {
   _make_bootstrap_make_make_install();
 
   if ( -e '/Applications/Emacs.OLD.app' ) {
-    remove_path( '/Applications/Emacs.OLD.app' )
+    remove_tree( '/Applications/Emacs.OLD.app' )
       or die "Failed to remove old backup Emacs : $!\n";
   }
 
