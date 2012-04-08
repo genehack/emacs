@@ -87,6 +87,7 @@
     pretty-lambdada
     smart-tab
     smex
+    solarized-theme
     textmate
     yaml-mode
     yasnippet-bundle
