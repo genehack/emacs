@@ -29,6 +29,10 @@
   (interactive)
   (dired default-directory))
 
+(autoload 'dired-jump "dired-x"
+  "Jump to Dired buffer corresponding to current buffer." t)
+(define-key global-map "\C-x\C-j" 'dired-jump)
+
 ;;; DISABLE
 (put 'overwrite-mode 'disabled t)
 
