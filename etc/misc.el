@@ -240,7 +240,11 @@
 
 ;;; THEME
 (require 'solarized-theme)
-(load-theme 'solarized-dark t)
+(defun genehack/solarize-this ()
+  "Enable solarized theme"
+  (interactive)
+  (load-theme 'solarized-dark t))
+(genehack/solarize-this)
 
 ;;; TOGGLE-BOL
 (defun genehack/bol-toggle ()
