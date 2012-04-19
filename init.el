@@ -84,7 +84,6 @@
     gh
     gist
     git-blame
-    htmlize
     js2-mode
     magit
     markdown-mode
@@ -93,7 +92,6 @@
     multi-term
     perlcritic
     pretty-lambdada
-    project-local-variables
     smart-tab
     smex
     solarized-theme
