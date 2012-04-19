@@ -1,9 +1,6 @@
 ;; misc.el -- various customizations and additions
 ;;; This is for stuff that _isn't_ built-in to Emacs
 
-;;; ACK
-(require 'ack)
-
 ;;; AUTO COMPLETE
 (genehack/add-emacs-lib-subdir-to-load-path "auto-complete")
 (require 'auto-complete)
