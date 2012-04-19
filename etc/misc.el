@@ -244,6 +244,10 @@
   "Enable solarized theme"
   (interactive)
   (load-theme 'solarized-dark t))
+(defun genehack/solarize-this-light ()
+  "Enable solarized theme"
+  (interactive)
+  (load-theme 'solarized-light t))
 (genehack/solarize-this)
 
 ;;; TOGGLE-BOL

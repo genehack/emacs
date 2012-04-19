@@ -2,23 +2,20 @@
 ;;; put all global key bindings here (so as to avoid binding
 ;;; conflicts)
 
+;;;; by default this is bound to tmm-menubar
+(global-unset-key (kbd "M-`"))
+
 ;;; GLOBAL ONLY -- mode-specific in mode-specific files
-(global-set-key (kbd "C-`")     'other-window)
-(global-set-key (kbd "C-c l")   'org-store-link)
-(global-set-key (kbd "C-c a")   'org-agenda)
-(global-set-key (kbd "C-c b")   'org-iswitchb)
-(global-set-key (kbd "C-c c")   'org-capture)
-(global-set-key (kbd "C-c t")   'genehack/open-org-capture-file)
 (global-set-key (kbd "C-c M-x") 'execute-extended-command)
 (global-set-key (kbd "C-x b")   'ido-switch-buffer)
 (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
 (global-set-key (kbd "C-x M-b") 'ibuffer)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
-;(global-set-key (kbd "C-x C-i") 'anything-imenu)
 (global-set-key (kbd "C-x K")   'genehack/kill-this-buffer)
 (global-set-key (kbd "C-x =")   'genehack/diff-current-buffer-with-file)
 (global-set-key (kbd "C-%")     'genehack/paren-bounce)
 (global-set-key (kbd "C-a")     'genehack/bol-toggle)
+(global-set-key (kbd "M-`")     'other-window)
 (global-set-key (kbd "M-D")     'perldoc)
 (global-set-key (kbd "M-g")     'goto-line)
 (global-set-key (kbd "M-k")     'delim-kill)
@@ -28,10 +25,8 @@
 (global-set-key (kbd "M-x")     'smex)
 (global-set-key (kbd "RET")     'reindent-then-newline-and-indent)
 
-;;;; by default this is bound to tmm-menubar
-(global-unset-key (kbd "M-`"))
-
 ;;; F keys
+;; FIXME need to rework these to accomodate kinesis bindings...
 (global-set-key (kbd "<f1>")      'disk)
 (global-set-key (kbd "<f2>")      'genehack/dired-right-here)
 (global-set-key (kbd "<f3>")      'genehack/magit-status-with-prompt)

@@ -60,37 +60,49 @@
   "Concat arg with genehack/emacs-libs-dir and add to load-path"
   (add-to-list 'load-path (concat genehack/emacs-libs-dir dir)))
 
-;;; PACKAGES
-(eval-after-load "package" '(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
-(eval-after-load "package" '(add-to-list 'package-archives '("ELPA"      . "http://tromey.com/elpa/")))
-(eval-after-load "package" '(add-to-list 'package-archives '("melpa"     . "http://melpa.genehack.net/packages/")))
+;; PACKAGES
+;;; if it's not in my melpa, i don't care.
+(eval-after-load "package" '(setq package-archives '(("melpa" . "http://melpa.genehack.net/packages/"))))
 
 (defvar genehack/package-list
   '(
     auto-complete
     autopair
+    browse-kill-ring
     coffee-mode
     cperl-mode
     css-mode
     delim-kill
+    disk
     erc
+    find-file-in-project
     flymake
     flymake-cursor
     flymake-perlcritic
+    flymake-shell
+    full-ack
+    gh
+    gist
+    git-blame
+    htmlize
     js2-mode
     magit
     markdown-mode
+    markdown-mode+
     maxframe
     multi-term
-    org
     perlcritic
     pretty-lambdada
+    project-local-variables
     smart-tab
     smex
     solarized-theme
     textmate
+    twilight-theme
     yaml-mode
+    yasnippet
     yasnippet-bundle
+    zenburn-theme
     ) "list of packages to automatically install" )
 
 ;; prevent long installs from borking overall process
