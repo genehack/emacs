@@ -96,6 +96,7 @@
     smex
     solarized-theme
     textmate
+    tidy
     twilight-theme
     yaml-mode
     yasnippet
