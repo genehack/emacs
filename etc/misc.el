@@ -1,9 +1,6 @@
 ;; misc.el -- various customizations and additions
 ;;; This is for stuff that _isn't_ built-in to Emacs
 
-;;; ACK
-(require 'ack)
-
 ;;; AUTO COMPLETE
 (genehack/add-emacs-lib-subdir-to-load-path "auto-complete")
 (require 'auto-complete)
@@ -244,6 +241,10 @@
   "Enable solarized theme"
   (interactive)
   (load-theme 'solarized-dark t))
+(defun genehack/solarize-this-light ()
+  "Enable solarized theme"
+  (interactive)
+  (load-theme 'solarized-light t))
 (require 'twilight-theme)
 (defun genehack/twilight-this ()
   "Enable twilight theme"
