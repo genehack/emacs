@@ -81,6 +81,7 @@
     flymake-perlcritic
     flymake-shell
     full-ack
+    genehack-misc-elisp
     gh
     gist
     git-blame
