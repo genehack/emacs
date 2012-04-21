@@ -21,11 +21,17 @@
 
 ;; DEFAULT FACE
 ;;; If you don't set this early on, sometimes things get wonky.
-(set-face-attribute 'default t
-                    :background "#000000"
-                    :foreground "#ffffff"
-                    :family "Consolas"
-                    :height 161)
+(if (eq system-type 'darwin)
+    (set-face-attribute 'default t
+                        :background "#000000"
+                        :foreground "#ffffff"
+                        :family "Menlo"
+                        :height 161)
+  (set-face-attribute 'default t
+                      :background "#000000"
+                      :foreground "#ffffff"
+                      :family "Mono"
+                      :height 161))
 
 ;; CL
 ;;; most everything uses this so let's just get it out of the way...
