@@ -82,6 +82,7 @@
     flymake-shell
     full-ack
     genehack-misc-elisp
+    genehack-perl-elisp
     gh
     gist
     git-blame
