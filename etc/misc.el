@@ -2,7 +2,6 @@
 ;;; This is for stuff that _isn't_ built-in to Emacs
 
 ;;; AUTO COMPLETE
-(genehack/add-emacs-lib-subdir-to-load-path "auto-complete")
 (require 'auto-complete)
 (require 'auto-complete-config)
 (setq ac-comphist-file (concat genehack/emacs-dir "tmp/ac-comphist.dat"))
@@ -33,7 +32,6 @@
 (browse-kill-ring-default-keybindings)
 
 ;;; COFFEE-MODE
-(genehack/add-emacs-lib-subdir-to-load-path "coffee-mode")
 (require 'coffee-mode)
 
 ;;; CSS-HEXCOLOR
@@ -47,7 +45,6 @@
 
 ;;; DELIM-KILL
 ;;;; <http://github.com/thomas11/delim-kill>
-(genehack/add-emacs-lib-subdir-to-load-path "delim-kill")
 (require 'delim-kill)
 
 ;;; DIRED-RIGHT-HERE
@@ -59,7 +56,7 @@
     (dired default-directory)))
 
 ;;; DISK
-(autoload 'disk "disk" "Save, revert, or find file." t)
+(require 'disk)
 
 ;;; FILLADAPT -- WTF isn't this part of emacs by default by now?!
 (require 'filladapt)
@@ -87,7 +84,6 @@
       (add-hook 'css-mode-hook 'flymake-mode)))
 
 ;;; FLYMAKE
-(genehack/add-emacs-lib-subdir-to-load-path "flymake")
 (require 'flymake)
 (require 'flymake-cursor)
 (setq flymake-no-changes-timeout 5)
@@ -113,7 +109,6 @@
 (autoload 'tidy-build-menu         "tidy" "Install an options menu for HTML Tidy." t)
 
 ;;; JS2
-(genehack/add-emacs-lib-subdir-to-load-path "js2-mode")
 (autoload 'js2-mode "js2-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (setq-default js2-basic-offset 2)
@@ -145,13 +140,11 @@
     (message "Unable to find a git binary; magit is unavailable.")))
 
 ;;; MARKDOWN
-(genehack/add-emacs-lib-subdir-to-load-path "markdown-mode")
 (autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.mr?kd" . markdown-mode))
 (add-hook 'markdown-mode-hook 'auto-complete-mode)
 
 ;;; MAXFRAME
-(genehack/add-emacs-lib-subdir-to-load-path "maxframe")
 (require 'maxframe)
 (add-hook 'window-setup-hook 'maximize-frame t)
 
@@ -196,7 +189,6 @@
   (lisp-interaction-mode))
 
 ;;; SMART-TAB
-(genehack/add-emacs-lib-subdir-to-load-path "smart-tab")
 (require 'smart-tab)
 (global-smart-tab-mode 1)
 (setq smart-tab-completion-functions-alist
@@ -239,7 +231,6 @@
                 (template-minor-mode 1))))
 
 ;;; TEXTMATE
-(genehack/add-emacs-lib-subdir-to-load-path "textmate")
 (require 'textmate)
 (textmate-mode)
 
