@@ -1,6 +1,9 @@
 ;; misc.el -- various customizations and additions
 ;;; This is for stuff that _isn't_ built-in to Emacs
 
+;;; ACK
+(require 'full-ack)
+
 ;;; AUTO COMPLETE
 (require 'auto-complete)
 (require 'auto-complete-config)
@@ -179,6 +182,9 @@
     (cond ((string-match "[[{(<]" next-char) (forward-sexp 1))
           ((string-match "[\]})>]" prev-char) (backward-sexp 1))
           (t (error "%s" "Not an expression boundary.")))))
+
+;;; PROJECTILE
+(require 'projectile)
 
 ;;; SCRATCH-BUFFER
 (defun genehack/create-scratch-buffer nil

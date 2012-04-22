@@ -100,6 +100,7 @@
     multi-term
     perlcritic
     pretty-lambdada
+    projectile
     smart-tab
     smex
     solarized-theme
