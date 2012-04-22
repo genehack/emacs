@@ -98,6 +98,14 @@
 (set-face-foreground 'flymake-warnline "DarkBlue")
 (set-face-background 'flymake-warnline "LightGray")
 
+;;; GIT BLAME FOR LINE
+(defun genehack/git-blame-for-line ()
+  (interactive)
+  (let ((blame-line (line-number-at-pos (point)))
+        (blame-file (buffer-file-name)))
+    (setq blame-out (shell-command-to-string (format "~/bin/git-blame-from-line-num %s %s" blame-line blame-file)))
+    (with-output-to-temp-buffer "*git blame*" (princ blame-out))))
+
 ;;; HTML TIDY
 (autoload 'tidy-buffer             "tidy" "Run Tidy HTML parser on current buffer" t)
 (autoload 'tidy-parse-config-file  "tidy" "Parse the `tidy-config-file'"           t)

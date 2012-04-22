@@ -3,5 +3,6 @@ create:
   links:
     - DIR: ~/.emacs.d
     - bin/build-most-recent-emacs: BIN
+    - bin/git-blame-from-line-num: BIN
     - bin/map-test-lib: BIN
     
