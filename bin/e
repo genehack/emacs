@@ -1,0 +1,14 @@
+#! /bin/sh
+
+if [ $OS_TYPE = 'darwin' ]; then
+    EMACSCLIENT='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
+else
+    EMACSCLIENT='/opt/emacs/bin/emacsclient'
+fi
+
+if [ ! -e $EMACSCLIENT ]; then
+    echo "Can't find Emacs! Oh, the humanity!"
+    exit 1;
+fi
+
+$EMACSCLIENT -a "" -t "$@"
