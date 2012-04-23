@@ -80,13 +80,13 @@
     css-mode
     delim-kill
     disk
-    erc
     find-file-in-project
     flymake
     flymake-cursor
     flymake-perlcritic
     flymake-shell
     full-ack
+    fuzzy-match
     genehack-misc-elisp
     genehack-perl-elisp
     gh
@@ -107,6 +107,7 @@
     textmate
     tidy
     twilight-theme
+    unbound
     yaml-mode
     yasnippet
     yasnippet-bundle
