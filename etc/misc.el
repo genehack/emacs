@@ -158,22 +158,6 @@
 (require 'maxframe)
 (add-hook 'window-setup-hook 'maximize-frame t)
 
-;;; MAYBE-ERC
-(defun genehack/maybe-erc ()
-  "Run genehack/erc or give an error"
-  (interactive)
-  (if (functionp 'genehack/erc)
-      (genehack/erc)
-    (message "ERC config is not loaded.")))
-
-;;; MAYBE-GNUS
-(defun genehack/maybe-gnus ()
-  "Run genehack/gnus or give an error"
-  (interactive)
-  (if (functionp 'genehack/gnus)
-      (genehack/gnus)
-    (message "GNUS config is not loaded.")))
-
 ;;; MULTI-TERM
 (require 'multi-term)
 (defalias 'term 'multi-term)
