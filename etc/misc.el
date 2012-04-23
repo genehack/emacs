@@ -142,6 +142,13 @@
     (interactive)
     (message "Unable to find a git binary; magit is unavailable.")))
 
+(defun genehack/magit-key (arg)
+  "Call magit-status, or with prefix call genehack/magit-status-with-prompt"
+  (interactive "P")
+  (if arg
+      (call-interactively 'genehack/magit-status-with-prompt)
+    (call-interactively 'magit-status)))
+
 ;;; MARKDOWN
 (autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.mr?kd" . markdown-mode))
@@ -173,6 +180,9 @@
 (setq multi-term-dedicated-select-after-open-p t
       multi-term-dedicated-window-height 24)
 
+;;; NOOP
+(defun genehack/noop nil "..." (interactive))
+
 ;;; PAREN-BOUNCE
 ;;;; ganked from <http://elfs.livejournal.com/1216037.html>
 (defun genehack/paren-bounce ()
@@ -185,6 +195,13 @@
 
 ;;; PROJECTILE
 (require 'projectile)
+
+;;; SAVE-AND-KILL
+(defun genehack/save-and-kill ()
+  "Save current buffer and then kill it."
+  (interactive)
+  (save-buffer)
+  (kill-buffer))
 
 ;;; SCRATCH-BUFFER
 (defun genehack/create-scratch-buffer nil
@@ -205,7 +222,14 @@
 (require 'smex)
 (smex-initialize)
 
-;;; SPLIT-VERTICALLY-OR-DELETE-OTHER-WINDOWS
+;;; SPLIT-(HORIZONT|VERTIC)ALLY-OR-DELETE-OTHER-WINDOWS
+(defun genehack/split-horizontally-or-delete-other-windows ()
+  "If one window, split horizontally; otherwise, delete-other-windows"
+  (interactive)
+  (if (eq 1 (count-windows nil))
+      (split-window-horizontally)
+    (delete-other-windows)))
+
 (defun genehack/split-vertically-or-delete-other-windows ()
   "If one window, split vertically; otherwise, delete-other-windows"
   (interactive)
