@@ -184,7 +184,8 @@
 (defun genehack/save-and-kill ()
   "Save current buffer and then kill it."
   (interactive)
-  (save-buffer)
+  (if (buffer-file-name)
+      (save-buffer))
   (kill-buffer))
 
 ;;; SCRATCH-BUFFER
