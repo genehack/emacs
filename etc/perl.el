@@ -53,10 +53,26 @@
         ("LWP::UserAgent" . "HTTP::Response")))
 
 ;;; UTILITIES
+(defun genehack/get-test-or-lib-for-current-file ()
+  "Given a lib file, create and return a buffer for the corresponding test lib file,
+or vice versa."
+  (let ((file-target (shell-command-to-string (format "~/bin/map-test-lib %s" buffer-file-name))))
+    (if (file-exists-p file-target)
+        (find-file-noselect file-target)
+      (make-directory (file-name-directory file-target) t)
+      (find-file-noselect file-target t))))
+
 (defun genehack/jump-from-test-to-lib ()
   (interactive)
-  (let ((test-file buffer-file-name))
-    (find-file (shell-command-to-string (format "~/bin/map-test-lib %s" test-file)))))
+  "Toggle between a Perl class and the Test class for that class."
+  (switch-to-buffer (genehack/get-test-or-lib-for-current-file)))
+
+(defun genehack/split-into-lib-and-test ()
+  (interactive)
+  "When looking at a lib, convert to horizontal split with lib and test lib."
+  (delete-other-windows)
+  (split-window-horizontally)
+  (switch-to-buffer (genehack/get-test-or-lib-for-current-file)))
 
 (defun genehack/cperl-mode-setup ()
   ;; allows 'M-x compile' for syntax checking of Perl scripts within Emacs
