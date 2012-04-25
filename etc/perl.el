@@ -47,6 +47,21 @@
  cperl-lazy-help-time 5
  )
 
+(defvar genehack/cperl-keybindings-to-remove
+  '(
+     "\C-c\C-a"
+     "\C-c\C-b"
+     "\C-c\C-d"
+     "\C-c\C-hP"
+     "\C-c\C-ha"
+     "\C-c\C-hp"
+     "\C-c\C-j"
+     "\C-c\C-t"
+     "\C-c\C-v"
+     "\C-c\C-x"
+  ) "list of keybindings to unset in cperl-mode buffers
+since cperl-mode steps on a lot of the C-c C-* bindings I use globallly..." )
+
 ;;; perl COMPLETION
 (setq plcmp-extra-using-modules
       '(("Digest" . "Digest::SHA1")
@@ -66,6 +81,10 @@
   (font-lock-add-keywords nil '(("^[^\n]\\{90\\}\\(.*\\)$" 1 font-lock-warning-face t)))
   (setq fill-column 78)
   ;;(turn-on-font-lock)
+  (dolist (binding genehack/cperl-keybindings-to-remove)
+    (local-unset-key (edmacro-parse-keys test)))
+  (local-set-key "C-c C-i" 'cperl-invert-if-unless)
+  (local-set-key "C-c $" 'cperl-pod-spell)
   (require 'elide-head)
   (add-to-list 'elide-head-headers-to-hide '("######" . "######"))
   (elide-head))
