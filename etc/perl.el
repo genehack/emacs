@@ -68,10 +68,26 @@ since cperl-mode steps on a lot of the C-c C-* bindings I use globallly..." )
         ("LWP::UserAgent" . "HTTP::Response")))
 
 ;;; UTILITIES
+(defun genehack/get-test-or-lib-for-current-file ()
+  "Given a lib file, create and return a buffer for the corresponding test lib file,
+or vice versa."
+  (let ((file-target (shell-command-to-string (format "~/bin/map-test-lib %s" buffer-file-name))))
+    (if (file-exists-p file-target)
+        (find-file-noselect file-target)
+      (make-directory (file-name-directory file-target) t)
+      (find-file-noselect file-target t))))
+
 (defun genehack/jump-from-test-to-lib ()
   (interactive)
-  (let ((test-file buffer-file-name))
-    (find-file (shell-command-to-string (format "~/bin/map-test-lib %s" test-file)))))
+  "Toggle between a Perl class and the Test class for that class."
+  (switch-to-buffer (genehack/get-test-or-lib-for-current-file)))
+
+(defun genehack/split-into-lib-and-test ()
+  (interactive)
+  "When looking at a lib, convert to horizontal split with lib and test lib."
+  (delete-other-windows)
+  (split-window-horizontally)
+  (switch-to-buffer (genehack/get-test-or-lib-for-current-file)))
 
 (defun genehack/cperl-mode-setup ()
   ;; allows 'M-x compile' for syntax checking of Perl scripts within Emacs
@@ -82,9 +98,9 @@ since cperl-mode steps on a lot of the C-c C-* bindings I use globallly..." )
   (setq fill-column 78)
   ;;(turn-on-font-lock)
   (dolist (binding genehack/cperl-keybindings-to-remove)
-    (local-unset-key (edmacro-parse-keys test)))
-  (local-set-key "C-c C-i" 'cperl-invert-if-unless)
-  (local-set-key "C-c $" 'cperl-pod-spell)
+    (local-unset-key (edmacro-parse-keys binding)))
+  (define-key cperl-mode-map (kbd "C-c C-i") 'cperl-invert-if-unless)
+  (define-key cperl-mode-map (kbd "C-c C-s") 'cperl-pod-spell)
   (require 'elide-head)
   (add-to-list 'elide-head-headers-to-hide '("######" . "######"))
   (elide-head))
