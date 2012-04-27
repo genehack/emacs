@@ -91,6 +91,7 @@
     gh
     gist
     git-blame
+    ido-hacks
     js2-mode
     magit
     markdown-mode
