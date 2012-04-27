@@ -101,6 +101,7 @@ or vice versa."
     (local-unset-key (edmacro-parse-keys binding)))
   (define-key cperl-mode-map (kbd "C-c C-i") 'cperl-invert-if-unless)
   (define-key cperl-mode-map (kbd "C-c C-s") 'cperl-pod-spell)
+  (define-key cperl-mode-map (kbd "C-c C-\\") 'cperl-lineup)
   (require 'elide-head)
   (add-to-list 'elide-head-headers-to-hide '("######" . "######"))
   (elide-head))
