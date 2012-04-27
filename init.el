@@ -86,7 +86,7 @@
     flymake-perlcritic
     flymake-shell
     full-ack
-    fuzzy-match
+    fuzzy
     genehack-misc-elisp
     genehack-perl-elisp
     gh
