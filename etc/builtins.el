@@ -17,6 +17,9 @@
 ;;; CSS-MODE
 (require 'css-mode-autoloads)
 
+;;; CURSOR
+(setq-default cursor-type 'bar)
+
 ;;; DEBUGGING
 (setq debug-on-error t)
 
