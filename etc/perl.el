@@ -68,6 +68,13 @@ since cperl-mode steps on a lot of the C-c C-* bindings I use globallly..." )
         ("LWP::UserAgent" . "HTTP::Response")))
 
 ;;; UTILITIES
+(defun genehack/perl-repl ()
+  (interactive)
+  "Start or show an re.pl in an ansi-term shell"
+  (if (get-buffer "*re.pl*")
+      (switch-to-buffer "*re.pl*")
+    (ansi-term "re.pl" "re.pl")))
+
 (defun genehack/get-test-or-lib-for-current-file ()
   "Given a lib file, create and return a buffer for the corresponding test lib file,
 or vice versa."
