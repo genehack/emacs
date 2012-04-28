@@ -66,6 +66,12 @@
   "Concat arg with genehack/emacs-libs-dir and add to load-path"
   (add-to-list 'load-path (concat genehack/emacs-libs-dir dir)))
 
+;; PATH FIX FOR MACOS X
+(if (eq system-type 'darwin)
+    (progn
+      (setq path (concat "/opt/perl/bin:/opt/emacs/bin:/opt/git/bin:/optlocal/bin:" (getenv "PATH")))
+      (setenv "PATH" path)))
+
 ;; PACKAGES
 ;;; if it's not in my melpa, i don't care.
 (eval-after-load "package" '(setq package-archives '(("melpa" . "http://melpa.genehack.net/packages/"))))
