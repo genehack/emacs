@@ -161,6 +161,9 @@
 ;;; MULTI-TERM
 (require 'multi-term)
 (defalias 'term 'multi-term)
+(custom-set-variables
+ '(term-default-bg-color "#000000")
+ '(term-default-fg-color "#cccccc"))
 (setq multi-term-dedicated-select-after-open-p t
       multi-term-dedicated-window-height 24)
 
