@@ -187,9 +187,13 @@
 (defun genehack/save-and-kill ()
   "Save current buffer and then kill it."
   (interactive)
-  (if (buffer-file-name)
+  (if (and (buffer-file-name)
+           (buffer-modified-p))
       (save-buffer))
-  (kill-buffer))
+  (if (or (string-equal (buffer-name) "*scratch*")
+          (string-equal (buffer-name) "*Messages*"))
+      (bury-buffer)
+    (kill-buffer)))
 
 ;;; SCRATCH-BUFFER
 (defun genehack/create-scratch-buffer nil
