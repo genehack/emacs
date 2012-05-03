@@ -116,7 +116,6 @@
     unbound
     yaml-mode
     yasnippet
-    yasnippet-bundle
     zenburn-theme
     ) "list of packages to automatically install" )
 
