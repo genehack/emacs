@@ -17,8 +17,7 @@
                            ac-source-abbrev
                            ac-source-words-in-buffer
                            ac-source-words-in-same-mode-buffers
-                           ac-source-words-in-all-buffer
-                           ac-source-yasnippet))
+                           ac-source-words-in-all-buffer))
 
 ;;; AUTO CREATE DIRECTORIES
 ;;;; after <http://atomized.org/2008/12/emacs-create-directory-before-saving/>
