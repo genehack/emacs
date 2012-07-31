@@ -69,7 +69,7 @@
 ;; PATH FIX FOR MACOS X
 (if (eq system-type 'darwin)
     (progn
-      (setq path (concat "/opt/perl/bin:/opt/emacs/bin:/opt/git/bin:/optlocal/bin:" (getenv "PATH")))
+      (setq path (concat "/opt/perl/bin:/opt/emacs/bin:/opt/git/bin:/opt/local/bin:" (getenv "PATH")))
       (setenv "PATH" path)))
 
 ;; PACKAGES
