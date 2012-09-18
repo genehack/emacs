@@ -256,7 +256,7 @@
 (textmate-mode)
 
 ;;; THEME
-(require 'solarized-theme)
+(require 'solarized)
 (defun genehack/solarize-this ()
   "Enable solarized theme"
   (interactive)
