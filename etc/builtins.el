@@ -250,6 +250,10 @@ This is a buffer-local variable.")
 ;;; SERVER
 (server-start)
 
+;;; SGML-MODE
+(require 'sgml-mode)
+(define-key sgml-mode-map "\C-c\C-b" nil)
+
 ;;; SIZE INDICATION MODE
 (size-indication-mode t)
 
