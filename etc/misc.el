@@ -153,10 +153,6 @@
 (add-to-list 'auto-mode-alist '("\\.mr?kd" . markdown-mode))
 (add-hook 'markdown-mode-hook 'auto-complete-mode)
 
-;;; MAXFRAME
-(require 'maxframe)
-(add-hook 'window-setup-hook 'maximize-frame t)
-
 ;;; MULTI-TERM
 (require 'multi-term)
 (defalias 'term 'multi-term)

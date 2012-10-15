@@ -175,6 +175,7 @@ This is a buffer-local variable.")
   (setq mac-function-modifier 'super)
   (setq mac-option-modifier nil)
   (add-to-list 'ido-ignore-files "\\.DS_Store")
+  (ns-toggle-fullscreen)
   (setq browse-url-browser-function 'browse-url-default-macosx-browser)
   (setq delete-by-moving-to-trash t))
 

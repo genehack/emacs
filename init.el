@@ -102,7 +102,6 @@
     magit
     markdown-mode
     markdown-mode+
-    maxframe
     multi-term
     perlcritic
     pretty-lambdada
