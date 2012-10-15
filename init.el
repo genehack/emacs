@@ -67,10 +67,8 @@
   (add-to-list 'load-path (concat genehack/emacs-libs-dir dir)))
 
 ;; PATH FIX FOR MACOS X
-(if (eq system-type 'darwin)
-    (progn
-      (setq path (concat "/opt/perl/bin:/opt/emacs/bin:/opt/git/bin:/opt/local/bin:" (getenv "PATH")))
-      (setenv "PATH" path)))
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
 
 ;; PACKAGES
 ;;; if it's not in my melpa, i don't care.
@@ -86,6 +84,7 @@
     css-mode
     delim-kill
     disk
+    exec-path-from-shell
     find-file-in-project
     flymake
     flymake-cursor
