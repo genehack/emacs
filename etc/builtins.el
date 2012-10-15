@@ -14,9 +14,6 @@
 ;;; CALENDAR
 (setq mark-holidays-in-calendar t)
 
-;;; CSS-MODE
-(require 'css-mode-autoloads)
-
 ;;; CURSOR
 (setq-default cursor-type 'bar)
 
