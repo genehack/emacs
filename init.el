@@ -25,8 +25,8 @@
     (set-face-attribute 'default t
                         :background "#000000"
                         :foreground "#ffffff"
-                        :family "Menlo"
-                        :height 161)
+                        :family "Source Code Pro"
+                        :height 180)
   (set-face-attribute 'default t
                       :background "#000000"
                       :foreground "#ffffff"
