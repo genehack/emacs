@@ -66,10 +66,6 @@
   "Concat arg with genehack/emacs-libs-dir and add to load-path"
   (add-to-list 'load-path (concat genehack/emacs-libs-dir dir)))
 
-;; PATH FIX FOR MACOS X
-(when (memq window-system '(mac ns))
-  (exec-path-from-shell-initialize))
-
 ;; PACKAGES
 ;;; if it's not in my melpa, i don't care.
 (eval-after-load "package" '(setq package-archives '(("melpa" . "http://melpa.genehack.net/packages/"))))
@@ -132,6 +128,10 @@
 		   (package-refresh-contents)
 		   (setq genehack/packages-refreshed t)))
 	(package-install pkg))))
+
+;; PATH FIX FOR MACOS X
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
 
 ;; MODULES
 ;;; All the rest of the config is split out into individual files, for
