@@ -94,6 +94,7 @@
     git-blame
     ido-hacks
     js2-mode
+    kolon-mode
     magit
     markdown-mode
     markdown-mode+
