@@ -121,6 +121,10 @@
   (interactive)
   (kill-buffer nil))
 
+;;; KOLON-MODE
+(autoload 'kolon-mode "kolon-mode" "kolon-mode")
+(add-to-list 'auto-mode-alist '("\\.tx" . kolon-mode))
+
 ;;; MACRO
 (autoload 'macro-dwim "macro" "DWIM macro recording and playback." t)
 (autoload 'macro-clear "macro" "Clear last keyboard macro" t)
