@@ -60,6 +60,9 @@
 ;;; DISK
 (require 'disk)
 
+;;; EXPAND-REGION
+(require 'expand-region)
+
 ;;; FILLADAPT -- WTF isn't this part of emacs by default by now?!
 (require 'filladapt)
 

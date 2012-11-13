@@ -24,6 +24,7 @@
 (global-set-key (kbd "C-x C-f")   'ido-find-file)
 (global-set-key (kbd "C-x K")     'genehack/kill-this-buffer)
 (global-set-key (kbd "C-x =")     'genehack/diff-current-buffer-with-file)
+(global-set-key (kbd "C-=")       'er/expand-region)
 (global-set-key (kbd "C-%")       'genehack/paren-bounce)
 (global-set-key (kbd "C-a")       'genehack/bol-toggle)
 (global-set-key (kbd "M-`")       'other-window)

@@ -81,6 +81,7 @@
     delim-kill
     disk
     exec-path-from-shell
+    expand-region
     find-file-in-project
     flymake
     flymake-cursor
