@@ -141,6 +141,7 @@
 (defvar genehack/module-list
   '(
     "builtins"
+    "cc"
     "keys"
     "misc"
     "perl"
