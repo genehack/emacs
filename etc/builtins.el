@@ -97,6 +97,7 @@ remove-leading-whitespace-on-kil-line tricks")
 
 ;;; HTML
 (add-to-list 'auto-mode-alist '("\\.tt2?$" . html-mode))
+(add-hook 'html-mode-hook (lambda () (auto-fill-mode -1)))
 
 ;;; IBUFFER
 (require 'ibuffer)
