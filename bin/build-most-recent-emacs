@@ -123,9 +123,10 @@ sub find_most_recent_emacs_version {
       unless $response->is_success;
 
     foreach ( split /\n/ , $response->content ) {
-      next unless /emacs-([0123456789rca.-]+).tar\.gz$/;
+      next unless /emacs-([0123456789rca.-]+)\.tar\.gz$/;
+      my $version = $1;
       my @parts = split / / , $_;
-      $versions{$parts[-1]} = "$url/$parts[-1]";
+      $versions{$version} = "$url/$parts[-1]";
     }
 
   }
