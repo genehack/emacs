@@ -42,10 +42,9 @@ else {
 
 say '';
 
-build_emacs( $tarball_file , $version );
-
-build_mac_emacs( $tarball_file , $version )
-  if $^O eq 'darwin';
+$^O eq 'darwin'
+  ? build_mac_emacs( $tarball_file , $version )
+  : build_emacs( $tarball_file , $version );
 
 say "\n* CLEANING UP..." if $VERBOSE;
 unlink( $tarball_file );
@@ -95,6 +94,19 @@ sub build_mac_emacs {
 
   rename './nextstep/Emacs.app' , '/Applications/Emacs.app'
     or die "Failed to move Emacs.app to /Applications : $!\n";
+
+  print "SYMLINKS..." if $VERBOSE;
+  make_path "/opt/emacs-$version/bin";
+
+  opendir( my $DIR , '/Applications/Emacs.app/Contents/MacOS/bin' );
+  while ( readdir $DIR ) {
+    my $file = "/Applications/Emacs.app/Contents/MacOS/bin/$_";
+    next unless -f -x $file;
+    symlink $file , "/opt/emacs-$version/bin/$_" or die $!;
+  }
+  closedir $DIR;
+
+  _update_symlink($version);
 
   say "done." if $VERBOSE;
 
