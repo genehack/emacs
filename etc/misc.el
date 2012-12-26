@@ -4,6 +4,10 @@
 ;;; ACK
 (require 'full-ack)
 
+;;; ANNOYING ARROWS
+(require 'annoying-arrows-mode)
+(global-annoying-arrows-mode)
+
 ;;; AUTO COMPLETE
 (require 'auto-complete)
 (require 'auto-complete-config)

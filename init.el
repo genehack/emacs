@@ -76,6 +76,7 @@
 
 (defvar genehack/package-list
   '(
+    annoying-arrows-mode
     auto-complete
     autopair
     browse-kill-ring
