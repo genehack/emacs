@@ -53,6 +53,12 @@
 ;;;; <http://github.com/thomas11/delim-kill>
 (require 'delim-kill)
 
+;;; DIMINISH
+;; from http://whattheemacsd.com/init.el-04.html
+(require 'diminish)
+(diminish 'yas-minor-mode)
+(diminish 'textmate-mode)
+
 ;;; DIRED-RIGHT-HERE
 (defun genehack/dired-right-here (arg)
   "Run ido-dired or, with prefix, dired on current active directory."

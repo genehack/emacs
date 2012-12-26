@@ -80,6 +80,7 @@
     cperl-mode
     css-mode
     delim-kill
+    diminish
     disk
     exec-path-from-shell
     expand-region
