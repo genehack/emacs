@@ -227,6 +227,8 @@
 
 ;;; PROJECTILE
 (require 'projectile)
+(projectile-global-mode)
+(setq projectile-cache-file ".projectile.cache")
 
 ;;; SAVE-AND-KILL
 (defun genehack/save-and-kill ()

@@ -1,5 +1,6 @@
 *.elc
 .org-id-locations
+.projectile.cache
 anything-c-adaptive-history
 elpa
 tmp
