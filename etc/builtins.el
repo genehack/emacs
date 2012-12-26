@@ -90,6 +90,9 @@ remove-leading-whitespace-on-kil-line tricks")
 
 ;;; GLOBAL AUTO-REVERT
 (global-auto-revert-mode t)
+;; Also auto refresh dired, but be quiet about it
+(setq global-auto-revert-non-file-buffers t)
+(setq auto-revert-verbose nil)
 
 ;;; HIGHLIGHTING
 ;(set-face-foreground 'highlight "gray10")
