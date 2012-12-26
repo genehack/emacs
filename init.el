@@ -103,6 +103,7 @@
     markdown-mode+
     multi-term
     perlcritic
+    powerline
     pretty-lambdada
     projectile
     smart-tab

@@ -221,6 +221,10 @@
           ((string-match "[\]})>]" prev-char) (backward-sexp 1))
           (t (error "%s" "Not an expression boundary.")))))
 
+;;; POWERLINE
+(require 'powerline)
+(powerline-default)
+
 ;;; PROJECTILE
 (require 'projectile)
 
