@@ -64,6 +64,9 @@
 ;;; DISK
 (require 'disk)
 
+;;; EXPAND-REGION
+(require 'expand-region)
+
 ;;; FILLADAPT -- WTF isn't this part of emacs by default by now?!
 (require 'filladapt)
 
@@ -124,6 +127,10 @@
   "Kill the current buffer without prompting."
   (interactive)
   (kill-buffer nil))
+
+;;; KOLON-MODE
+(autoload 'kolon-mode "kolon-mode" "kolon-mode")
+(add-to-list 'auto-mode-alist '("\\.tx" . kolon-mode))
 
 ;;; MACRO
 (autoload 'macro-dwim "macro" "DWIM macro recording and playback." t)

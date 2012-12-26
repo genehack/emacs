@@ -97,6 +97,7 @@ remove-leading-whitespace-on-kil-line tricks")
 
 ;;; HTML
 (add-to-list 'auto-mode-alist '("\\.tt2?$" . html-mode))
+(add-hook 'html-mode-hook (lambda () (auto-fill-mode -1)))
 
 ;;; IBUFFER
 (require 'ibuffer)
@@ -175,7 +176,7 @@ This is a buffer-local variable.")
   (setq mac-function-modifier 'super)
   (setq mac-option-modifier nil)
   (add-to-list 'ido-ignore-files "\\.DS_Store")
-  (ns-toggle-fullscreen)
+;;  (ns-toggle-fullscreen)
   (setq browse-url-browser-function 'browse-url-default-macosx-browser)
   (setq delete-by-moving-to-trash t))
 
