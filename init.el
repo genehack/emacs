@@ -101,6 +101,7 @@
     magit
     markdown-mode
     markdown-mode+
+    move-text
     multi-term
     perlcritic
     powerline

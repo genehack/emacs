@@ -199,6 +199,10 @@
 (add-to-list 'auto-mode-alist '("\\.mr?kd" . markdown-mode))
 (add-hook 'markdown-mode-hook 'auto-complete-mode)
 
+;;; MOVE TEXT
+(require 'move-text)
+(move-text-default-bindings)
+
 ;;; MULTI-TERM
 (require 'multi-term)
 (defalias 'term 'multi-term)
