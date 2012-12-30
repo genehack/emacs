@@ -53,12 +53,6 @@
 ;;;; <http://github.com/thomas11/delim-kill>
 (require 'delim-kill)
 
-;;; DIMINISH
-;; from http://whattheemacsd.com/init.el-04.html
-(require 'diminish)
-(diminish 'yas-minor-mode)
-(diminish 'textmate-mode)
-
 ;;; DIRED-RIGHT-HERE
 (defun genehack/dired-right-here (arg)
   "Run ido-dired or, with prefix, dired on current active directory."
@@ -367,3 +361,12 @@
   (make-directory yas/root-directory))
 (yas/load-directory yas/root-directory)
 (yas/global-mode 1)
+
+;; put this at the end so that everything is loaded...
+;;; DIMINISH
+;; from http://whattheemacsd.com/init.el-04.html
+(require 'diminish)
+(diminish 'auto-complete-mode)
+(diminish 'projectile-mode)
+(diminish 'smart-tab-mode)
+(diminish 'yas-minor-mode)
