@@ -215,6 +215,21 @@
 ;;; NOOP
 (defun genehack/noop nil "..." (interactive))
 
+;;; OPEN LINE
+;;;; from http://whattheemacsd.com//editing-defuns.el-01.html
+(defun open-line-below ()
+  (interactive)
+  (end-of-line)
+  (newline)
+  (indent-for-tab-command))
+
+(defun open-line-above ()
+  (interactive)
+  (beginning-of-line)
+  (newline)
+  (forward-line -1)
+  (indent-for-tab-command))
+
 ;;; PAREN-BOUNCE
 ;;;; ganked from <http://elfs.livejournal.com/1216037.html>
 (defun genehack/paren-bounce ()
