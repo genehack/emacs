@@ -110,7 +110,6 @@
     smart-tab
     smex
     solarized-theme
-    textmate
     tidy
     twilight-theme
     unbound

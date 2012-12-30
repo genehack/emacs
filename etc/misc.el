@@ -318,10 +318,6 @@
             (if (string-match "\\.tt2?$" buffer-file-name)
                 (template-minor-mode 1))))
 
-;;; TEXTMATE
-(require 'textmate)
-(textmate-mode)
-
 ;;; THEME
 (require 'solarized)
 (defun genehack/solarize-this ()
