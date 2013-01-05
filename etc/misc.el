@@ -300,10 +300,24 @@
     )
   "List of modes where trailing whitespace should be stripped when saving files.")
 
+;;;; inspired by http://whattheemacsd.com/buffer-defuns.el-01.html
+(defun genehack/strip-whitespace ()
+  "Untabify, strip white space, set file coding to UTF8"
+  (interactive)
+  (untabify (point-min) (point-max))
+  (delete-trailing-whitespace)
+  (set-buffer-file-coding-system 'utf-8))
+
+(defun genehack/strip-whitespace-and-indent ()
+  "Strip various whitespaces and reindent whole file"
+  (interactive)
+  (genehack/strip-whitespace)
+  (indent-region (point-min) (point-max)))
+
 (add-hook 'before-save-hook
           (lambda ()
             (if (find major-mode genehack/strip-trailing-whitespace-in-these-modes)
-              (delete-trailing-whitespace))))
+                (genehack/strip-whitespace))))
 
 ;;; TEMPLATE
 (require 'template-mode)
