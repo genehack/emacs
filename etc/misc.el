@@ -354,13 +354,14 @@
 
 ;;; YASNIPPET
 (require 'yasnippet)
-(setq yas/root-directory (concat genehack/emacs-dir "share/snippets"))
-(if (file-exists-p yas/root-directory)
-    (unless (file-directory-p yas/root-directory)
+(yas--initialize)
+(setq yas-snippet-dirs (concat genehack/emacs-dir "share/snippets"))
+(if (file-exists-p yas-snippet-dirs)
+    (unless (file-directory-p yas-snippet-dirs)
       (error "Snippets directory creation blocked by file"))
-  (make-directory yas/root-directory))
-(yas/load-directory yas/root-directory)
-(yas/global-mode 1)
+  (make-directory yas-snippet-dirs))
+(yas-load-directory yas-snippet-dirs)
+(yas-global-mode)
 
 ;; put this at the end so that everything is loaded...
 ;;; DIMINISH
