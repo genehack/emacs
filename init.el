@@ -96,6 +96,7 @@
     gist
     git-blame
     ido-hacks
+    ido-ubiquitous
     js2-mode
     kolon-mode
     magit
