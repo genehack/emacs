@@ -282,6 +282,7 @@
 ;;; SMART-TAB
 (require 'smart-tab)
 (global-smart-tab-mode 1)
+(setq smart-tab-using-hippie-expand t)
 (setq smart-tab-completion-functions-alist
       '((cperl-mode      . auto-complete)
         (text-mode       . dabbrev-completion)))
