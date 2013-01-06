@@ -246,7 +246,7 @@
 (defun genehack/paren-bounce ()
   (interactive)
   (let ((prev-char (char-to-string (preceding-char)))
-	(next-char (char-to-string (following-char))))
+        (next-char (char-to-string (following-char))))
     (cond ((string-match "[[{(<]" next-char) (forward-sexp 1))
           ((string-match "[\]})>]" prev-char) (backward-sexp 1))
           (t (error "%s" "Not an expression boundary.")))))

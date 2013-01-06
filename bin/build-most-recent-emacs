@@ -49,7 +49,7 @@ $^O eq 'darwin'
 say "\n* CLEANING UP..." if $VERBOSE;
 unlink( $tarball_file );
 
-chdir('/'); # so File::Temp can clean up on exit
+chdir('/');                     # so File::Temp can clean up on exit
 
 say "done.";
 
