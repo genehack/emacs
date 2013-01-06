@@ -23,7 +23,9 @@ my( $tarball ) = find_most_recent_emacs_version();
 my( $version ) = $tarball =~ /emacs-(.*).tar.gz$/;
 say "MOST RECENT EMACS IS: $version" if $VERBOSE;
 
-if ( -e "$EMACS_DIR/emacs-$version" ) {
+my $emacs_version_dir  = "$EMACS_DIR/emacs-$version";
+
+if ( -e $emacs_version_dir ) {
   say "already up-to-date. bye!";
   exit(0);
 }
@@ -61,7 +63,7 @@ sub build_emacs {
   _extract_tarball_and_get_ready_to_build( $tarball , $version );
 
   print "CONFIGURE..." if $VERBOSE;
-  system("./configure --prefix=/opt/emacs-$version --without-x >/dev/null") == 0
+  system("./configure --prefix=$emacs_version_dir --without-x >/dev/null") == 0
     or die "Configure failed : $!\n";
 
   _make_bootstrap_make_make_install();
@@ -71,6 +73,11 @@ sub build_emacs {
 
 sub build_mac_emacs {
   my( $tarball , $version ) = @_;
+
+  my $old_emacs_app_path = '/Applications/Emacs_OLD.app';
+  my $new_emacs_app_path = '/Applications/Emacs.app';
+  my $emacs_app_bin_dir  = "$new_emacs_app_path/Contents/MacOS/bin";
+  my $emacs_opt_bin_dir  = "$emacs_version_dir/bin";
 
   print "[BUILD MAC EMACS] " if $VERBOSE;
 
@@ -82,27 +89,27 @@ sub build_mac_emacs {
 
   _make_bootstrap_make_make_install();
 
-  if ( -e '/Applications/Emacs.OLD.app' ) {
-    remove_tree( '/Applications/Emacs.OLD.app' )
+  if ( -e $old_emacs_app_path ) {
+    remove_tree( $old_emacs_app_path )
       or die "Failed to remove old backup Emacs : $!\n";
   }
 
-  if ( -e '/Applications/Emacs.app' ) {
-    rename '/Applications/Emacs.app' , '/Applications/Emacs.OLD.app'
+  if ( -e $new_emacs_app_path ) {
+    rename $new_emacs_app_path , $old_emacs_app_path
       or die "Failed to move Emacs.app to backup location : $!\n";
   }
 
-  rename './nextstep/Emacs.app' , '/Applications/Emacs.app'
+  rename './nextstep/Emacs.app' , $new_emacs_app_path
     or die "Failed to move Emacs.app to /Applications : $!\n";
 
   print "SYMLINKS..." if $VERBOSE;
-  make_path "/opt/emacs-$version/bin";
+  make_path $emacs_opt_bin_dir;
 
-  opendir( my $DIR , '/Applications/Emacs.app/Contents/MacOS/bin' );
+  opendir( my $DIR ,  $emacs_app_bin_dir );
   while ( readdir $DIR ) {
-    my $file = "/Applications/Emacs.app/Contents/MacOS/bin/$_";
+    my $file = "$emacs_app_bin_dir/$_";
     next unless -f -x $file;
-    symlink $file , "/opt/emacs-$version/bin/$_" or die $!;
+    symlink $file , "$emacs_opt_bin_dir/$_" or die $!;
   }
   closedir $DIR;
 
@@ -194,8 +201,10 @@ sub _make_bootstrap_make_make_install {
 sub _update_symlink {
   my $version = shift;
 
+  my $emacs_symlink = "$EMACS_DIR/emacs";
+
   print "UPDATING SYMLINK..." if $VERBOSE;
-  unlink( '/opt/emacs' ) if -e '/opt/emacs';
-  symlink( "/opt/emacs-$version" , '/opt/emacs' )
+  unlink( $emacs_symlink ) if -e $emacs_symlink;
+  symlink( $emacs_version_dir , $emacs_symlink )
     or die "Failed to create symlink : $!";
 }
