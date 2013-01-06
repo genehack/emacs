@@ -96,6 +96,7 @@
     gist
     git-blame
     ido-hacks
+    ido-ubiquitous
     js2-mode
     kolon-mode
     magit
@@ -128,11 +129,11 @@
 (dolist (pkg genehack/package-list)
   (if (not (package-installed-p pkg))
       (progn
-	(if (not (eq genehack/packages-refreshed t))
-		 (progn
-		   (package-refresh-contents)
-		   (setq genehack/packages-refreshed t)))
-	(package-install pkg))))
+        (if (not (eq genehack/packages-refreshed t))
+            (progn
+              (package-refresh-contents)
+              (setq genehack/packages-refreshed t)))
+        (package-install pkg))))
 
 ;; PATH FIX FOR MACOS X
 (when (memq window-system '(mac ns))

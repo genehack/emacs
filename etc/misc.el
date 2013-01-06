@@ -117,6 +117,23 @@
 (autoload 'tidy-save-settings      "tidy" "Save settings to `tidy-config-file'"    t)
 (autoload 'tidy-build-menu         "tidy" "Install an options menu for HTML Tidy." t)
 
+;;; IDO-UBI
+;;;; from http://whattheemacsd.com//setup-ido.el-01.html
+;; Use ido everywhere
+(require 'ido-ubiquitous)
+(ido-ubiquitous-mode 1)
+
+;; Fix ido-ubiquitous for newer packages
+(defmacro ido-ubiquitous-use-new-completing-read (cmd package)
+  `(eval-after-load ,package
+     '(defadvice ,cmd (around ido-ubiquitous-new activate)
+        (let ((ido-ubiquitous-enable-compatibility nil))
+          ad-do-it))))
+
+(ido-ubiquitous-use-new-completing-read webjump 'webjump)
+(ido-ubiquitous-use-new-completing-read yas/expand 'yasnippet)
+(ido-ubiquitous-use-new-completing-read yas/visit-snippet-file 'yasnippet)
+
 ;;; JS2
 (autoload 'js2-mode "js2-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
@@ -229,7 +246,7 @@
 (defun genehack/paren-bounce ()
   (interactive)
   (let ((prev-char (char-to-string (preceding-char)))
-	(next-char (char-to-string (following-char))))
+        (next-char (char-to-string (following-char))))
     (cond ((string-match "[[{(<]" next-char) (forward-sexp 1))
           ((string-match "[\]})>]" prev-char) (backward-sexp 1))
           (t (error "%s" "Not an expression boundary.")))))
@@ -300,10 +317,24 @@
     )
   "List of modes where trailing whitespace should be stripped when saving files.")
 
+;;;; inspired by http://whattheemacsd.com/buffer-defuns.el-01.html
+(defun genehack/strip-whitespace ()
+  "Untabify, strip white space, set file coding to UTF8"
+  (interactive)
+  (untabify (point-min) (point-max))
+  (delete-trailing-whitespace)
+  (set-buffer-file-coding-system 'utf-8))
+
+(defun genehack/strip-whitespace-and-indent ()
+  "Strip various whitespaces and reindent whole file"
+  (interactive)
+  (genehack/strip-whitespace)
+  (indent-region (point-min) (point-max)))
+
 (add-hook 'before-save-hook
           (lambda ()
             (if (find major-mode genehack/strip-trailing-whitespace-in-these-modes)
-              (delete-trailing-whitespace))))
+                (genehack/strip-whitespace))))
 
 ;;; TEMPLATE
 (require 'template-mode)
@@ -354,13 +385,14 @@
 
 ;;; YASNIPPET
 (require 'yasnippet)
-(setq yas/root-directory (concat genehack/emacs-dir "share/snippets"))
-(if (file-exists-p yas/root-directory)
-    (unless (file-directory-p yas/root-directory)
+(yas--initialize)
+(setq yas-snippet-dirs (concat genehack/emacs-dir "share/snippets"))
+(if (file-exists-p yas-snippet-dirs)
+    (unless (file-directory-p yas-snippet-dirs)
       (error "Snippets directory creation blocked by file"))
-  (make-directory yas/root-directory))
-(yas/load-directory yas/root-directory)
-(yas/global-mode 1)
+  (make-directory yas-snippet-dirs))
+(yas-load-directory yas-snippet-dirs)
+(yas-global-mode)
 
 ;; put this at the end so that everything is loaded...
 ;;; DIMINISH

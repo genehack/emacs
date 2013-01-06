@@ -1,4 +1,5 @@
-#name : #! `which perl`
+#name : shebang + usual use
+#key: #!perl
 # --
 #! `(executable-find "perl")`
 

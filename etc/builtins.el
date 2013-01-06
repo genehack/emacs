@@ -48,7 +48,7 @@
 (require 'font-lock)
 (global-font-lock-mode 1)
 (setq-default font-lock-maximum-decoration t
-	      font-lock-maximum-size nil)
+              font-lock-maximum-size nil)
 (setq jit-lock-stealth-time 5
       jit-lock-defer-contextually t
       jit-lock-stealth-nice 0.5)
@@ -95,8 +95,8 @@ remove-leading-whitespace-on-kil-line tricks")
 (setq auto-revert-verbose nil)
 
 ;;; HIGHLIGHTING
-;(set-face-foreground 'highlight "gray10")
-;(set-face-background 'highlight "yellow")
+;;(set-face-foreground 'highlight "gray10")
+;;(set-face-background 'highlight "yellow")
 
 ;;; HTML
 (add-to-list 'auto-mode-alist '("\\.tt2?$" . html-mode))
@@ -123,32 +123,32 @@ remove-leading-whitespace-on-kil-line tricks")
   (interactive)
   (imenu--make-index-alist)
   (let ((name-and-pos '())
-	(symbol-names '()))
+        (symbol-names '()))
     (flet ((addsymbols (symbol-list)
-		       (when (listp symbol-list)
-			 (dolist (symbol symbol-list)
-			   (let ((name nil) (position nil))
-			     (cond
-			      ((and (listp symbol) (imenu--subalist-p symbol))
-			       (addsymbols symbol))
-			      ((listp symbol)
-			       (setq name (car symbol))
-			       (setq position (cdr symbol)))
-			      ((stringp symbol)
-			       (setq name symbol)
-			       (setq position (get-text-property 1 'org-imenu-marker symbol))))
-			     (unless (or (null position) (null name))
-			       (add-to-list 'symbol-names name)
-			       (add-to-list 'name-and-pos (cons name position))))))))
+                       (when (listp symbol-list)
+                         (dolist (symbol symbol-list)
+                           (let ((name nil) (position nil))
+                             (cond
+                              ((and (listp symbol) (imenu--subalist-p symbol))
+                               (addsymbols symbol))
+                              ((listp symbol)
+                               (setq name (car symbol))
+                               (setq position (cdr symbol)))
+                              ((stringp symbol)
+                               (setq name symbol)
+                               (setq position (get-text-property 1 'org-imenu-marker symbol))))
+                             (unless (or (null position) (null name))
+                               (add-to-list 'symbol-names name)
+                               (add-to-list 'name-and-pos (cons name position))))))))
       (addsymbols imenu--index-alist))
     (let* ((selected-symbol (ido-completing-read "Symbol? " symbol-names))
-	   (position (cdr (assoc selected-symbol name-and-pos))))
+           (position (cdr (assoc selected-symbol name-and-pos))))
       (if (markerp position)
-	  (goto-char position) (goto-char (overlay-start position))))))
+          (goto-char position) (goto-char (overlay-start position))))))
 
 ;;; ISEARCH
-;(set-face-foreground 'isearch "white")
-;(set-face-background 'isearch "red")
+;;(set-face-foreground 'isearch "white")
+;;(set-face-background 'isearch "red")
 
 ;;; ISWITCH
 (require 'iswitchb)
@@ -179,7 +179,7 @@ This is a buffer-local variable.")
   (setq mac-function-modifier 'super)
   (setq mac-option-modifier nil)
   (add-to-list 'ido-ignore-files "\\.DS_Store")
-;;  (ns-toggle-fullscreen)
+  ;;  (ns-toggle-fullscreen)
   (setq browse-url-browser-function 'browse-url-default-macosx-browser)
   (setq delete-by-moving-to-trash t))
 
@@ -192,8 +192,8 @@ This is a buffer-local variable.")
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
 ;;; MODE LINE FACES
-;(set-face-background 'mode-line "black")
-;(set-face-foreground 'mode-line "yellow2")
+;;(set-face-background 'mode-line "black")
+;;(set-face-foreground 'mode-line "yellow2")
 
 ;;; NXML-MODE
 (fset 'xml-mode 'nxml-mode)
@@ -217,7 +217,7 @@ This is a buffer-local variable.")
                                "/opt/git/bin"
                                "/opt/perl/bin"
                                "/usr/local/bin"
-                           )
+                               )
   "extra elements to add to exec-path")
 (dolist (path genehack/extra-paths)
   (message path)
@@ -247,7 +247,7 @@ This is a buffer-local variable.")
 
 ;;; SCRATCH BUFFER
 (setq initial-scratch-message
-  "welcome to john's emacs.\n\nput additional stuff in initial-scratch-message to have it show up here.\n\n")
+      "welcome to john's emacs.\n\nput additional stuff in initial-scratch-message to have it show up here.\n\n")
 
 ;;; SERVER
 (server-start)

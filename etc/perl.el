@@ -24,41 +24,39 @@
 
 ;;; CONFIG
 (setq
- cperl-auto-newline t
  cperl-auto-indent-on-semi t
+ cperl-auto-newline t
+ cperl-clobber-lisp-bindings t
  cperl-close-paren-offset -2
  cperl-continued-statement-offset 2
- ;cperl-hairy t
+ cperl-electric-keywords t
+ cperl-electric-lbrace-space nil
+ cperl-electric-linefeed t
+ cperl-electric-parens nil
+ cperl-font-lock t
  cperl-highlight-variables-indiscriminately t
  cperl-indent-level 2
  cperl-indent-parens-as-block t
- cperl-invalid-face nil
- cperl-tab-always-indent t
- cperl-electric-lbrace-space nil ; must needs be after cperl-hairy
- cperl-clobber-lisp-bindings nil ; must needs be after cperl-hairy
-
- cperl-electric-parens nil
- cperl-font-lock t
- cperl-electric-linefeed t
- cperl-electric-keywords t
+ cperl-indent-region-fix-constructs nil
  cperl-info-on-command-no-prompt t
- cperl-clobber-lisp-bindings t
+ cperl-invalid-face nil
  cperl-lazy-help-time 5
+ cperl-tab-always-indent t
  )
 
 (defvar genehack/cperl-keybindings-to-remove
   '(
-     "\C-c\C-a"
-     "\C-c\C-b"
-     "\C-c\C-d"
-     "\C-c\C-hP"
-     "\C-c\C-ha"
-     "\C-c\C-hp"
-     "\C-c\C-j"
-     "\C-c\C-t"
-     "\C-c\C-v"
-     "\C-c\C-x"
-  ) "list of keybindings to unset in cperl-mode buffers
+    "\C-c\C-a"
+    "\C-c\C-b"
+    "\C-c\C-d"
+    "\C-c\C-hP"
+    "\C-c\C-ha"
+    "\C-c\C-hp"
+    "\C-c\C-j"
+    "\C-c\C-t"
+    "\C-c\C-v"
+    "\C-c\C-x"
+    ) "list of keybindings to unset in cperl-mode buffers
 since cperl-mode steps on a lot of the C-c C-* bindings I use globallly..." )
 
 ;;; perl COMPLETION
@@ -97,7 +95,7 @@ or vice versa."
 
 (defun genehack/cperl-mode-setup ()
   ;; allows 'M-x compile' for syntax checking of Perl scripts within Emacs
-  ;; from e.goerlach@computer.org (Ekkehard Görlach) in comp.emacs
+  ;; from e.goerlach@computer.org (Ekkehard GÃ¶rlach) in comp.emacs
   (set (make-local-variable 'compile-command)
        (concat "perl -cw  " buffer-file-name))
   (font-lock-add-keywords nil '(("^[^\n]\\{90\\}\\(.*\\)$" 1 font-lock-warning-face t)))
