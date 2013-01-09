@@ -370,6 +370,12 @@
           ((equal last-command genehack/bol-command-name) (move-beginning-of-line nil))
           (t (back-to-indentation)))))
 
+;;; UNICODE
+(defun genehack/unicode (char)
+  "Insert Unicode character at point"
+  (interactive "MCharacter name? ")
+  (insert (shell-command-to-string (format "u %s" char))))
+
 ;;; URL ENCODING
 ;; based on http://twitter.com/#!/OvidPerl/status/28076709865586688
 (defun genehack/unescape_uri (b e)
