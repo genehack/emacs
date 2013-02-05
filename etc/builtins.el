@@ -24,6 +24,7 @@
 (desktop-save-mode 1)
 
 ;;; DIRED
+(require 'dired)
 (defun jsja-dired-right-here ()
   "Run dired on current active directory."
   (interactive)
@@ -32,6 +33,23 @@
 (autoload 'dired-jump "dired-x"
   "Jump to Dired buffer corresponding to current buffer." t)
 (define-key global-map "\C-x\C-j" 'dired-jump)
+
+;;;; http://whattheemacsd.com//setup-dired.el-02.html
+(defun dired-back-to-top ()
+  (interactive)
+  (beginning-of-buffer)
+  (dired-next-line 4))
+
+(define-key dired-mode-map
+  (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
+
+(defun dired-jump-to-bottom ()
+  (interactive)
+  (end-of-buffer)
+  (dired-next-line -1))
+
+(define-key dired-mode-map
+  (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom)
 
 ;;; DISABLE
 (put 'overwrite-mode 'disabled t)
