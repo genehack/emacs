@@ -400,6 +400,42 @@
 (yas-load-directory yas-snippet-dirs)
 (yas-global-mode)
 
+;;;; UPDATE CURSOR COLOR BASED ON YASNIPPET STATUS
+;;; http://stackoverflow.com/questions/14264228/how-can-i-trigger-an-event-when-a-yasnippet-macro-can-fire
+;;; https://gist.github.com/4506396
+(setq default-cursor-color "red")
+(setq default-cursor-type 'bar)
+(setq yasnippet-can-fire-cursor-color "green")
+(setq yasnippet-can-fire-cursor-type 'box)
+
+;; It will test whether it can expand, if yes, cursor color -> green.
+(defun yasnippet-can-fire-p (&optional field)
+  (interactive)
+  (setq yas--condition-cache-timestamp (current-time))
+  (let (templates-and-pos)
+    (unless (and yas-expand-only-for-last-commands
+                 (not (member last-command yas-expand-only-for-last-commands)))
+      (setq templates-and-pos
+            (if field
+                (save-restriction
+                  (narrow-to-region (yas--field-start field)
+                                    (yas--field-end field))
+                  (yas--current-key))
+              (yas--current-key))))
+    (and templates-and-pos (first templates-and-pos))))
+
+(defun yasnippet-change-cursor-color-when-can-fire (&optional field)
+  (interactive)
+  (if (yasnippet-can-fire-p)
+      (progn
+        (set-cursor-color yasnippet-can-fire-cursor-color)
+        (setq cursor-type yasnippet-can-fire-cursor-type))
+    (set-cursor-color default-cursor-color)
+    (setq cursor-type default-cursor-type)))
+
+;; As pointed out by Dmitri, this will make sure it will update color when needed.
+(add-hook 'post-command-hook 'yasnippet-change-cursor-color-when-can-fire)
+
 ;; put this at the end so that everything is loaded...
 ;;; DIMINISH
 ;; from http://whattheemacsd.com/init.el-04.html
