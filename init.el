@@ -108,6 +108,7 @@
     powerline
     pretty-lambdada
     projectile
+    scala-mode2
     smart-tab
     smex
     solarized-theme
