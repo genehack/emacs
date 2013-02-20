@@ -81,6 +81,9 @@
     css-mode
     delim-kill
     diminish
+    dired+
+    dired-details
+    dired-details+
     disk
     exec-path-from-shell
     expand-region
