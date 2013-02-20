@@ -353,8 +353,7 @@ This is a buffer-local variable.")
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'reverse
       uniquify-separator "/"
-      uniquify-after-kill-buffer-p t
-      uniquify-ignore-buffers-re "^\\*")
+      uniquify-after-kill-buffer-p t)
 
 ;;; UTF8
 (setq locale-coding-system 'utf-8)
