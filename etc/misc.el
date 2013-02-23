@@ -404,6 +404,7 @@
 
 ;;; YASNIPPET
 (require 'yasnippet)
+(setq yas-use-menu nil)
 (yas--initialize)
 (setq yas-snippet-dirs (concat genehack/emacs-dir "share/snippets"))
 (if (file-exists-p yas-snippet-dirs)
