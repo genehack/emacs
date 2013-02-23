@@ -52,11 +52,9 @@
   (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom)
 
 ;;;; http://www.reddit.com/r/emacs/comments/18qa15/dired_discussion/
-(add-hook 'dired-load-hook
-          (lambda ()
-            (require 'dired-details)
-            (require 'dired-details+)
-            (dired-details-install)))
+(require 'dired-details)
+(require 'dired-details+)
+(dired-details-install)
 (add-hook 'dired-mode-hook
           (lambda () (local-set-key (kbd "E") 'wdired-change-to-wdired-mode)))
 (setq-default dired-listing-switches "-alhv --time-style=long-iso")
