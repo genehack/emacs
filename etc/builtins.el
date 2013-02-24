@@ -14,7 +14,7 @@
 (setq mark-holidays-in-calendar t)
 
 ;;; CURSOR
-(setq-default cursor-type 'bar)
+(setq-default cursor-type 'box)
 
 ;;; DEBUGGING
 (setq debug-on-error t)
