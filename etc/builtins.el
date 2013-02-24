@@ -7,8 +7,7 @@
 (ansi-color-for-comint-mode-on)
 
 ;; AUTO-SAVE BACKUPS
-(setq auto-save-list-file-prefix (concat genehack/emacs-dir
-                                         "tmp/auto-save-list/.saves-")
+(setq auto-save-list-file-prefix (concat genehack/emacs-dir "tmp/auto-save-list/.saves-")
       make-backup-files nil)
 
 ;;; CALENDAR
@@ -173,14 +172,6 @@ remove-leading-whitespace-on-kil-line tricks")
       (if (markerp position)
           (goto-char position) (goto-char (overlay-start position))))))
 
-;;; ISEARCH
-;;(set-face-foreground 'isearch "white")
-;;(set-face-background 'isearch "red")
-
-;;; ISWITCH
-(require 'iswitchb)
-(iswitchb-mode 1)
-
 ;;; KEYSTROKE ECHO
 (setq echo-keystrokes 0.1)
 
@@ -218,13 +209,8 @@ This is a buffer-local variable.")
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
-;;; MODE LINE FACES
-;;(set-face-background 'mode-line "black")
-;;(set-face-foreground 'mode-line "yellow2")
-
 ;;; NXML-MODE
 (fset 'xml-mode 'nxml-mode)
-
 (add-to-list 'auto-mode-alist '("\\.rng'"  . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.rss'"  . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.xml'"  . nxml-mode))

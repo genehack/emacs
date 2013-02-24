@@ -57,7 +57,7 @@
     "\C-c\C-v"
     "\C-c\C-x"
     ) "list of keybindings to unset in cperl-mode buffers
-since cperl-mode steps on a lot of the C-c C-* bindings I use globallly..." )
+since cperl-mode steps on a lot of the C-c C-* bindings I use globally..." )
 
 ;;; perl COMPLETION
 (setq plcmp-extra-using-modules
