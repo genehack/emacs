@@ -226,21 +226,6 @@ This is a buffer-local variable.")
 (setq nxml-bind-meta-tab-to-complete-flag nil
       nxml-syntax-highlight-flag t)
 
-;;; PATH MUNGE
-(defvar genehack/extra-paths '("/opt/local/bin"
-                               "/opt/git/bin"
-                               "/opt/perl/bin"
-                               "/usr/local/bin"
-                               )
-  "extra elements to add to exec-path")
-(dolist (path genehack/extra-paths)
-  (message path)
-  (if (file-exists-p path)
-      (progn
-        (message "%s FOUND" path)
-        (add-to-list 'exec-path path))))
-
-
 ;;; PAREN MATCH
 (require 'paren)
 (show-paren-mode t)

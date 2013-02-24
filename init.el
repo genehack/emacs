@@ -139,9 +139,8 @@
               (setq genehack/packages-refreshed t)))
         (package-install pkg))))
 
-;; PATH FIX FOR MACOS X
-(when (memq window-system '(mac ns))
-  (exec-path-from-shell-initialize))
+;; MAKE EMACS PATH MATCH SHELL PATH
+(exec-path-from-shell-initialize)
 
 ;; MODULES
 ;;; All the rest of the config is split out into individual files, for
