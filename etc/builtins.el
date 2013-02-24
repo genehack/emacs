@@ -90,7 +90,8 @@
     objc-mode
     python-mode
     rspec-mode
-    ruby-mode)
+    ruby-mode
+    scala-mode)
   "List of modes to set up to do indent-on-paste and
 remove-leading-whitespace-on-kil-line tricks")
 
