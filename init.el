@@ -98,6 +98,9 @@
     gh
     gist
     git-blame
+    git-commit-mode
+    gitconfig-mode
+    gitignore-mode
     ido-hacks
     ido-ubiquitous
     js2-mode
