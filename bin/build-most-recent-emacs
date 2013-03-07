@@ -20,7 +20,8 @@ my $VERBOSE        = 1;
 
 
 my( $tarball ) = find_most_recent_emacs_version();
-my( $version ) = $tarball =~ /emacs-(.*).tar.gz$/;
+
+my( $version , $ext ) = $tarball =~ /emacs-(.*).tar.([gx]z)$/;
 say "MOST RECENT EMACS IS: $version" if $VERBOSE;
 
 my $emacs_version_dir  = "$EMACS_DIR/emacs-$version";
@@ -32,7 +33,7 @@ if ( -e $emacs_version_dir ) {
 
 say "BUILDING $version. (go get some coffe, this'll take a bit.)";
 
-my $tarball_file = "/tmp/emacs-${version}.tar.gz";
+my $tarball_file = "/tmp/emacs-${version}.tar.${ext}";
 if ( -e $tarball_file ) {
   say "* FOUND EXISTING $tarball_file..." if $VERBOSE;
 }
@@ -142,7 +143,7 @@ sub find_most_recent_emacs_version {
       unless $response->is_success;
 
     foreach ( split /\n/ , $response->content ) {
-      next unless /emacs-([0123456789rca.-]+)\.tar\.gz$/;
+      next unless /emacs-([0123456789rca.-]+)\.tar\.[gx]z$/;
       my $version = $1;
       my @parts = split / / , $_;
       $versions{$version} = "$url/$parts[-1]";
