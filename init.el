@@ -98,6 +98,7 @@
     gh
     gist
     git-blame
+    git-gutter
     ido-hacks
     ido-ubiquitous
     js2-mode
