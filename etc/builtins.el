@@ -7,15 +7,14 @@
 (ansi-color-for-comint-mode-on)
 
 ;; AUTO-SAVE BACKUPS
-(setq auto-save-list-file-prefix (concat genehack/emacs-dir
-                                         "tmp/auto-save-list/.saves-")
+(setq auto-save-list-file-prefix (concat genehack/emacs-dir "tmp/auto-save-list/.saves-")
       make-backup-files nil)
 
 ;;; CALENDAR
 (setq mark-holidays-in-calendar t)
 
 ;;; CURSOR
-(setq-default cursor-type 'bar)
+(setq-default cursor-type 'box)
 
 ;;; DEBUGGING
 (setq debug-on-error t)
@@ -91,7 +90,8 @@
     objc-mode
     python-mode
     rspec-mode
-    ruby-mode)
+    ruby-mode
+    scala-mode)
   "List of modes to set up to do indent-on-paste and
 remove-leading-whitespace-on-kil-line tricks")
 
@@ -173,14 +173,6 @@ remove-leading-whitespace-on-kil-line tricks")
       (if (markerp position)
           (goto-char position) (goto-char (overlay-start position))))))
 
-;;; ISEARCH
-;;(set-face-foreground 'isearch "white")
-;;(set-face-background 'isearch "red")
-
-;;; ISWITCH
-(require 'iswitchb)
-(iswitchb-mode 1)
-
 ;;; KEYSTROKE ECHO
 (setq echo-keystrokes 0.1)
 
@@ -218,13 +210,8 @@ This is a buffer-local variable.")
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
-;;; MODE LINE FACES
-;;(set-face-background 'mode-line "black")
-;;(set-face-foreground 'mode-line "yellow2")
-
 ;;; NXML-MODE
 (fset 'xml-mode 'nxml-mode)
-
 (add-to-list 'auto-mode-alist '("\\.rng'"  . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.rss'"  . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.xml'"  . nxml-mode))
@@ -238,21 +225,6 @@ This is a buffer-local variable.")
 
 (setq nxml-bind-meta-tab-to-complete-flag nil
       nxml-syntax-highlight-flag t)
-
-;;; PATH MUNGE
-(defvar genehack/extra-paths '("/opt/local/bin"
-                               "/opt/git/bin"
-                               "/opt/perl/bin"
-                               "/usr/local/bin"
-                               )
-  "extra elements to add to exec-path")
-(dolist (path genehack/extra-paths)
-  (message path)
-  (if (file-exists-p path)
-      (progn
-        (message "%s FOUND" path)
-        (add-to-list 'exec-path path))))
-
 
 ;;; PAREN MATCH
 (require 'paren)
