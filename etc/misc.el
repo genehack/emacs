@@ -114,6 +114,9 @@
     (setq blame-out (shell-command-to-string (format "~/bin/git-blame-from-line-num %s %s" blame-line blame-file)))
     (with-output-to-temp-buffer "*git blame*" (princ blame-out))))
 
+;;; GIT - misc
+(require 'git-commit-mode)
+
 ;;; HTML TIDY
 (autoload 'tidy-buffer             "tidy" "Run Tidy HTML parser on current buffer" t)
 (autoload 'tidy-parse-config-file  "tidy" "Parse the `tidy-config-file'"           t)
