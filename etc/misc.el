@@ -2,7 +2,11 @@
 ;;; This is for stuff that _isn't_ built-in to Emacs
 
 ;;; ACK
-(require 'full-ack)
+;(require 'full-ack) ;; commented out while i try ag for a bit...
+
+;;; AG
+(require 'ag)
+(setq ag-highlight-search t)
 
 ;;; ANNOYING ARROWS
 (require 'annoying-arrows-mode)

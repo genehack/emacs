@@ -72,6 +72,7 @@
 
 (defvar genehack/package-list
   '(
+    ag
     annoying-arrows-mode
     auto-complete
     autopair

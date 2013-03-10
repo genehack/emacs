@@ -7,7 +7,9 @@
 
 ;;; GLOBAL ONLY -- mode-specific in mode-specific files
 (global-set-key (kbd "C-c C-SPC")    'just-one-space)
-(global-set-key (kbd "C-c C-a")      'ack)
+;;(global-set-key (kbd "C-c C-a")      'ack) ;; commented out while i take ag for a spin...
+(global-set-key (kbd "C-c C-a")      'ag-project-at-point)
+(global-set-key (kbd "C-c C-A")      'ag-regexp-project-at-point)
 (global-set-key (kbd "C-c C-b")      'bury-buffer)
 (global-set-key (kbd "C-c C-d")      'genehack/dired-right-here)
 (global-set-key (kbd "C-c C-g")      'genehack/magit-key)
