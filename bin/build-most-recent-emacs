@@ -19,15 +19,33 @@ my $EMACS_FTP_URLS = [ 'ftp://alpha.gnu.org/gnu/emacs/pretest' ,
 my $VERBOSE        = 1;
 
 
-my( $tarball ) = find_most_recent_emacs_version();
+my( $version , $ext , $tarball );
+if ( my $selected_version = shift ) {
+  my %versions = find_available_emacs_versions();
 
-my( $version , $ext ) = $tarball =~ /emacs-(.*).tar.([gx]z)$/;
-say "MOST RECENT EMACS IS: $version" if $VERBOSE;
+  if ( $tarball = $versions{$selected_version} ) {
+    ( $version , $ext ) = $tarball =~ /emacs-(.*).tar.([gx]z)$/;
+
+    say "BUILDING REQUESTED VERSION: $version" if $VERBOSE;
+  }
+  else {
+    warn "UNABLE TO LOCATE VERSION $selected_version\n";
+    exit(1);
+  }
+}
+else {
+  $tarball = find_most_recent_emacs_version();
+
+  ( $version , $ext ) = $tarball =~ /emacs-(.*).tar.([gx]z)$/;
+
+  say "MOST RECENT EMACS IS: $version" if $VERBOSE;
+}
+
 
 my $emacs_version_dir  = "$EMACS_DIR/emacs-$version";
 
 if ( -e $emacs_version_dir ) {
-  say "already up-to-date. bye!";
+  say "already exists. bye!";
   exit(0);
 }
 
@@ -131,7 +149,7 @@ sub fetch_emacs_tarball {
     or die "Couldn't fetch: ". $ff->error . "\n";
 }
 
-sub find_most_recent_emacs_version {
+sub find_available_emacs_versions {
   my %versions;
 
   foreach my $url ( @$EMACS_FTP_URLS ) {
@@ -148,8 +166,13 @@ sub find_most_recent_emacs_version {
       my @parts = split / / , $_;
       $versions{$version} = "$url/$parts[-1]";
     }
-
   }
+
+  return %versions;
+}
+
+sub find_most_recent_emacs_version {
+  my %versions = find_available_emacs_versions();
 
   my @versions = ( sort { versioncmp $a , $b } keys %versions );
 
