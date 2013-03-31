@@ -5,6 +5,7 @@
 ;;;; by default this is bound to tmm-menubar
 (global-unset-key (kbd "M-`"))
 
+(global-set-key (kbd "C-c o")        'open-with)
 ;;; GLOBAL ONLY -- mode-specific in mode-specific files
 (global-set-key (kbd "C-c C-SPC")    'just-one-space)
 ;;(global-set-key (kbd "C-c C-a")      'ack) ;; commented out while i take ag for a spin...

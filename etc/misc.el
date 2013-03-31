@@ -246,6 +246,20 @@
   (forward-line -1)
   (indent-for-tab-command))
 
+;;; OPEN WITH
+;;;; from http://emacsredux.com/blog/2013/03/27/open-file-in-external-program/
+(defun open-with ()
+  "Simple function that allows us to open the underlying
+file of a buffer in an external program."
+  (interactive)
+  (when buffer-file-name
+    (shell-command (concat
+                    (if (eq system-type 'darwin)
+                        "open"
+                      (read-shell-command "Open current file with: "))
+                    " "
+                    buffer-file-name))))
+
 ;;; PAREN-BOUNCE
 ;;;; ganked from <http://elfs.livejournal.com/1216037.html>
 (defun genehack/paren-bounce ()
