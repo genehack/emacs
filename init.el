@@ -112,6 +112,7 @@
     markdown-mode+
     move-text
     multi-term
+    paredit
     perlcritic
     powerline
     pretty-lambdada

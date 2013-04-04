@@ -260,6 +260,18 @@ file of a buffer in an external program."
                     " "
                     buffer-file-name))))
 
+;;; PAREDIT
+(autoload 'paredit-mode "paredit"
+  "Minor mode for pseudo-structurally editing Lisp code." t)
+(add-hook 'clojure-mode               (lambda () (paredit-mode +1)))
+(add-hook 'emacs-lisp-mode-hook       (lambda () (paredit-mode +1)))
+(add-hook 'lisp-mode-hook             (lambda () (paredit-mode +1)))
+(add-hook 'lisp-interaction-mode-hook (lambda () (paredit-mode +1)))
+(add-hook 'scheme-mode-hook           (lambda () (paredit-mode +1)))
+
+(defun foo (bar baz))
+
+
 ;;; PAREN-BOUNCE
 ;;;; ganked from <http://elfs.livejournal.com/1216037.html>
 (defun genehack/paren-bounce ()
