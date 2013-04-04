@@ -72,11 +72,15 @@
 
 (defvar genehack/package-list
   '(
+    ac-nrepl
     ag
     annoying-arrows-mode
     auto-complete
     autopair
     browse-kill-ring
+    clojure-mode
+    clojure-snippets
+    clojure-test-mode
     coffee-mode
     cperl-mode
     css-mode
@@ -112,6 +116,7 @@
     markdown-mode+
     move-text
     multi-term
+    nrepl
     paredit
     perlcritic
     powerline
