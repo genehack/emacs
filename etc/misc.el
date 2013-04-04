@@ -342,9 +342,11 @@ file of a buffer in an external program."
 ;;; STRIP TRAILING WHITESPACE
 (defvar genehack/strip-trailing-whitespace-in-these-modes
   '(
+    clojure-mode
     cperl-mode
     css-mode
     emacs-lisp-mode
+    scala-mode
     tt-mode
     yaml-mode
     )
