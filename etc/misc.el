@@ -284,7 +284,7 @@ file of a buffer in an external program."
 
 ;;; POWERLINE
 (require 'powerline)
-(powerline-default)
+(powerline-default-theme)
 
 ;;; PROJECTILE
 (require 'projectile)
