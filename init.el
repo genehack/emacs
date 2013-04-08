@@ -106,6 +106,7 @@
     git-commit-mode
     git-gutter
     gitconfig-mode
+    github-browse-file
     gitignore-mode
     ido-hacks
     ido-ubiquitous

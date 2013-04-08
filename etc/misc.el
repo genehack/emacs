@@ -117,6 +117,9 @@
 ;;; GIT - misc
 (require 'git-commit-mode)
 
+;;; GITHUB-BROWSE-FILE
+(autoload 'github-browse-file "github-browse-file" "browse lines in current file on github")
+
 ;;; HTML TIDY
 (autoload 'tidy-buffer             "tidy" "Run Tidy HTML parser on current buffer" t)
 (autoload 'tidy-parse-config-file  "tidy" "Parse the `tidy-config-file'"           t)

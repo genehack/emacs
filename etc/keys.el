@@ -16,6 +16,7 @@
 (global-set-key (kbd "C-c C-g")      'genehack/magit-key)
 (global-set-key (kbd "C-c C-h")      'genehack/split-horizontally-or-delete-other-windows)
 (global-set-key (kbd "C-c C-j")      'projectile-jump-to-project-file)
+(global-set-key (kbd "C-c C-l")      'github-browse-file)
 (global-set-key (kbd "C-c C-o")      'projectile-multi-occur)
 (global-set-key (kbd "C-c C-t")      'genehack/strip-whitespace-and-indent)
 (global-set-key (kbd "C-c C-u")      'genehack/unicode)
