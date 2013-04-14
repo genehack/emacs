@@ -296,6 +296,9 @@ This is a buffer-local variable.")
     (defalias 'ispell-region 'genehack/spelling-not-found)
     (defalias 'ispell-buffer 'genehack/spelling-not-found)))
 
+;;; TERM-MODE
+(add-hook 'term-mode-hook (lambda () (yas/minor-mode -1)))
+
 ;;; TEXT-MODE
 (add-hook 'text-mode-hook
           (lambda ()
