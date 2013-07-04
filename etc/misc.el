@@ -293,6 +293,7 @@ file of a buffer in an external program."
 (require 'projectile)
 (projectile-global-mode)
 (setq projectile-cache-file ".projectile.cache")
+(setq projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" genehack/emacs-tmp-dir))
 
 ;;; SAVE-AND-KILL
 (defun genehack/save-and-kill ()

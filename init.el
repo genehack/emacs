@@ -14,6 +14,9 @@
   "sub-directory containing third-party emacs libs")
 (add-to-list 'load-path genehack/emacs-libs-dir)
 
+(defvar genehack/emacs-tmp-dir (concat genehack/emacs-dir "tmp/")
+  "scratch space for stuff...")
+
 ;;; I generally don't use the Customize interface, but sometimes
 ;;; things get added there. Setting this means the file is under
 ;;; revision control, so if something touches it, I'll notice.
