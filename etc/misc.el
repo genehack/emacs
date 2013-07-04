@@ -15,7 +15,7 @@
 ;;; AUTO COMPLETE
 (require 'auto-complete)
 (require 'auto-complete-config)
-(setq ac-comphist-file (concat genehack/emacs-dir "tmp/ac-comphist.dat"))
+(setq ac-comphist-file (expand-file-name "ac-comphist.dat" genehack/emacs-tmp-dir))
 (ac-config-default)
 (setq ac-auto-start nil)
 (setq tab-always-indent 'complete)
@@ -99,7 +99,7 @@
 (require 'flymake)
 (require 'flymake-cursor)
 (setq flymake-no-changes-timeout 5)
-(setq temporary-file-directory "~/.emacs.d/tmp/")
+(setq temporary-file-directory genehack/emacs-tmp-dir)
 (setq flymake-run-in-place nil)
 ;; I want to see all errors for the line.
 (setq flymake-number-of-errors-to-display nil)

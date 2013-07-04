@@ -7,8 +7,8 @@
 (ansi-color-for-comint-mode-on)
 
 ;; AUTO-SAVE BACKUPS
-(setq auto-save-list-file-prefix (concat genehack/emacs-dir "tmp/auto-save-list/.saves-")
-      make-backup-files nil)
+(setq auto-save-list-file-prefix (concat genehack/emacs-tmp-dir "auto-save-list/.saves-"))
+(setq make-backup-files nil)
 
 ;;; CALENDAR
 (setq mark-holidays-in-calendar t)
@@ -235,12 +235,12 @@ This is a buffer-local variable.")
 (setq ps-print-color-p nil)
 
 ;;; SAVE-HIST
-(setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring)
-      savehist-file (concat genehack/emacs-dir "tmp/savehist"))
+(setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
+(setq savehist-file (expand-file-name "savehist" genehack/emacs-tmp-dir))
 (savehist-mode t)
 
 ;;; SAVEPLACE
-(setq save-place-file (concat genehack/emacs-dir "tmp/saveplace"))
+(setq save-place-file (expand-file-name "saveplace" genehack/emacs-tmp-dir))
 (setq-default save-place t)
 (require 'saveplace)
 
