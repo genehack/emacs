@@ -125,6 +125,19 @@ remove-leading-whitespace-on-kil-line tricks")
 ;;(set-face-foreground 'highlight "gray10")
 ;;(set-face-background 'highlight "yellow")
 
+;;; HIPPY-EXPAND
+(setq hippie-expand-try-functions-list '(
+                                         try-expand-dabbrev
+                                         try-expand-dabbrev-all-buffers
+                                         try-expand-dabbrev-from-kill
+                                         try-complete-file-name-partially
+                                         try-complete-file-name
+                                         try-expand-all-abbrevs
+                                         try-complete-lisp-symbol-partially
+                                         try-complete-lisp-symbol
+                                         ))
+(setq hippie-expand-dabbrev-skip-space t)
+
 ;;; HTML
 (add-to-list 'auto-mode-alist '("\\.tt2?$" . html-mode))
 (add-hook 'html-mode-hook (lambda () (auto-fill-mode -1)))
