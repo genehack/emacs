@@ -3,6 +3,7 @@
 .projectile.cache
 anything-c-adaptive-history
 elpa
+projectile-bookmarks.eld
 tmp
 tramp
 url
