@@ -126,6 +126,23 @@
 (autoload 'tidy-save-settings      "tidy" "Save settings to `tidy-config-file'"    t)
 (autoload 'tidy-build-menu         "tidy" "Install an options menu for HTML Tidy." t)
 
+(defun genehack/scrub-win-to-html ()
+  "Scrub dumb quotes and other common Latin-1 stuff into HTML entities"
+  (interactive)
+  (save-excursion
+    (dolist (thing '(("’"  . "&#8127;")
+                     ("–" . "-" )
+                     ("—" . "&#8212;")
+                     ("“"  . "&#8220;")
+                     ("”"  . "&#8221;")
+                     ("™" . "&#8482;")
+                     ))
+      (let ((match (car thing))
+            (replace (cdr thing)))
+        (goto-char (point-min))
+        (while (re-search-forward match nil t)
+          (replace-match replace nil nil))))))
+
 ;;; IDO-UBI
 ;;;; from http://whattheemacsd.com//setup-ido.el-01.html
 ;; Use ido everywhere
