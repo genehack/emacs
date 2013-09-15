@@ -28,10 +28,11 @@
 
 ;;; AUTO CREATE DIRECTORIES
 ;;;; after <http://atomized.org/2008/12/emacs-create-directory-before-saving/>
-(add-hook 'before-save-hook
-          '(lambda ()
-             (or (file-exists-p (file-name-directory buffer-file-name))
-                 (make-directory (file-name-directory buffer-file-name) t))))
+(defun genehack/set-up-before-save-hook ()
+  "My customizations for before-save-hook"
+  (or (file-exists-p (file-name-directory buffer-file-name))
+      (make-directory (file-name-directory buffer-file-name) t)))
+(add-hook 'before-save-hook 'genehack/set-up-before-save-hook)
 
 ;;; AUTOPAIR
 (require 'autopair)
@@ -283,14 +284,14 @@ file of a buffer in an external program."
 ;;; PAREDIT
 (autoload 'paredit-mode "paredit"
   "Minor mode for pseudo-structurally editing Lisp code." t)
-(add-hook 'clojure-mode               (lambda () (paredit-mode +1)))
-(add-hook 'emacs-lisp-mode-hook       (lambda () (paredit-mode +1)))
-(add-hook 'lisp-mode-hook             (lambda () (paredit-mode +1)))
-(add-hook 'lisp-interaction-mode-hook (lambda () (paredit-mode +1)))
-(add-hook 'scheme-mode-hook           (lambda () (paredit-mode +1)))
-
-(defun foo (bar baz))
-
+(defun genehack/enable-paredit-mode ()
+  "Turn on paredit-mode"
+  (paredit-mode +1))
+(add-hook 'clojure-mode               'genehack/enable-paredit-mode)
+(add-hook 'emacs-lisp-mode-hook       'genehack/enable-paredit-mode)
+(add-hook 'lisp-mode-hook             'genehack/enable-paredit-mode)
+(add-hook 'lisp-interaction-mode-hook 'genehack/enable-paredit-mode)
+(add-hook 'scheme-mode-hook           'genehack/enable-paredit-mode)
 
 ;;; PAREN-BOUNCE
 ;;;; ganked from <http://elfs.livejournal.com/1216037.html>
@@ -398,18 +399,19 @@ file of a buffer in an external program."
   (interactive)
   (genehack/strip-whitespace)
   (indent-region (point-min) (point-max)))
-
-(add-hook 'before-save-hook
-          (lambda ()
-            (if (find major-mode genehack/strip-trailing-whitespace-in-these-modes)
-                (genehack/strip-whitespace))))
+(defun genehack/set-up-whitespace-strip-in-these-modes ()
+  "Set up whitespace stripping in the modes in genehack/strip-trailing-whitespace-in-these-modes"
+  (if (find major-mode genehack/strip-trailing-whitespace-in-these-modes)
+      (genehack/strip-whitespace)))
+(add-hook 'before-save-hook 'genehack/set-up-whitespace-strip-in-these-modes)
 
 ;;; TEMPLATE
 (require 'template-mode)
-(add-hook 'html-mode-hook
-          (lambda ()
-            (if (string-match "\\.tt2?$" buffer-file-name)
-                (template-minor-mode 1))))
+(defun genehack/enable-template-minor-mode ()
+  "Turn on template-minor-mode in *.tt files"
+  (if (string-match "\\.tt2?$" buffer-file-name)
+      (template-minor-mode 1)))
+(add-hook 'html-mode-hook 'genehack/enable-template-minor-mode)
 
 ;;; THEME
 (require 'solarized)

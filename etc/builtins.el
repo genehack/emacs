@@ -54,8 +54,10 @@
 (require 'dired-details)
 (require 'dired-details+)
 (dired-details-install)
-(add-hook 'dired-mode-hook
-          (lambda () (local-set-key (kbd "E") 'wdired-change-to-wdired-mode)))
+(defun genehack/bind-key-for-wdired ()
+  "Add a keybinding for wdired in dired-mode"
+  (local-set-key (kbd "E") 'wdired-change-to-wdired-mode))
+(add-hook 'dired-mode-hook 'genehack/bind-key-for-wdired)
 (setq-default dired-listing-switches "-alhv --time-style=long-iso")
 (setq dired-recursive-copies 'always)
 
@@ -140,7 +142,7 @@ remove-leading-whitespace-on-kil-line tricks")
 
 ;;; HTML
 (add-to-list 'auto-mode-alist '("\\.tt2?$" . html-mode))
-(add-hook 'html-mode-hook (lambda () (auto-fill-mode -1)))
+(add-hook 'html-mode-hook 'turn-off-auto-fill)
 
 ;;; IBUFFER
 (require 'ibuffer)
@@ -201,9 +203,10 @@ This is a buffer-local variable.")
     (goto-char (point-max))
     (setq genehack/linum-max-line-width (length (format "%s" (line-number-at-pos))))))
 (add-hook 'linum-before-numbering-hook 'genehack/linum-before-numbering)
-(setq linum-format
-      '(lambda (number)
-         (format (concat " %" (number-to-string genehack/linum-max-line-width) "d ") number)))
+(defun genehack/linum-format ()
+  "My linum format"
+  (format (concat " %" (number-to-string genehack/linum-max-line-width) "d ") number))
+(setq linum-format 'genehack/linum-format)
 
 ;;; MAC STUFF
 (when (eq system-type 'darwin)
@@ -310,16 +313,20 @@ This is a buffer-local variable.")
     (defalias 'ispell-buffer 'genehack/spelling-not-found)))
 
 ;;; TERM-MODE
-(add-hook 'term-mode-hook (lambda () (yas/minor-mode -1)))
+(defun genehack/turn-off-yas-mode ()
+  "Turn off yas-mode"
+  (yas-minor-mode -1))
+(add-hook 'term-mode-hook 'genehack/turn-off-yas-mode)
 
 ;;; TEXT-MODE
-(add-hook 'text-mode-hook
-          (lambda ()
-            (require 'filladapt)
-            (auto-fill-mode 1)
-            (filladapt-mode 1)
-            (if (eq genehack/found-spelling-program t)
-                (flyspell-mode 1))))
+(defun genehack/set-up-text-mode ()
+  "My customizations for text-mode"
+  (require 'filladapt)
+  (auto-fill-mode 1)
+  (filladapt-mode 1)
+  (if (eq genehack/found-spelling-program t)
+      (flyspell-mode 1)))
+(add-hook 'text-mode-hook 'genehack/set-up-text-mode)
 
 ;;; TIME DISPLAY
 (setq display-time-24hr-format t)
