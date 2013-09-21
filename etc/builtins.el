@@ -203,7 +203,7 @@ This is a buffer-local variable.")
     (goto-char (point-max))
     (setq genehack/linum-max-line-width (length (format "%s" (line-number-at-pos))))))
 (add-hook 'linum-before-numbering-hook 'genehack/linum-before-numbering)
-(defun genehack/linum-format ()
+(defun genehack/linum-format (number)
   "My linum format"
   (format (concat " %" (number-to-string genehack/linum-max-line-width) "d ") number))
 (setq linum-format 'genehack/linum-format)
