@@ -44,6 +44,16 @@
 ;;; COFFEE-MODE
 (require 'coffee-mode)
 
+;;; CONVERT LINE ENDINGS
+;;;; from http://www.emacswiki.org/emacs/EndOfLineTips
+(add-hook 'find-file-hook 'genehack/find-file-check-line-endings)
+(defun genehack/dos-file-endings-p ()
+  (string-match "dos" (symbol-name buffer-file-coding-system)))
+(defun genehack/find-file-check-line-endings ()
+  (when (dos-file-endings-p)
+    (set-buffer-file-coding-system 'undecided-unix)
+    (set-buffer-modified-p nil)))
+
 ;;; CSS-HEXCOLOR
 (require 'css-hexcolor)
 
