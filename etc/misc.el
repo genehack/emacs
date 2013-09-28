@@ -383,6 +383,7 @@ file of a buffer in an external program."
     scala-mode
     tt-mode
     yaml-mode
+    web-mode
     )
   "List of modes where trailing whitespace should be stripped when saving files.")
 
