@@ -77,35 +77,13 @@
 ;;; FIXME
 (require 'fixme)
 
-;;; FLYMAKE FOR CSS FILES
-;;;; after <http://www.emacswiki.org/emacs-en/FlymakeCSS>
-(if (file-exists-p "/opt/css-validator")
-    (progn
-      (require 'flymake)
-      (defconst css-validator "java -jar /opt/css-validator/css-validator.jar")
-
-      (defun flymake-css-init ()
-        (let* ((temp-file   (flymake-init-create-temp-buffer-copy 'flymake-create-temp-inplace))
-               (local-file  (file-relative-name
-                             temp-file
-                             (file-name-directory buffer-file-name))))
-          (list "java" (list "-jar" "/opt/css-validator/css-validator.jar" "-output" "gnu" (concat "file:" local-file)))))
-
-      (push '(".+\\.css$" flymake-css-init) flymake-allowed-file-name-masks)
-      (push '("^file:\\([^:]+\\):\\([^:]+\\):\\(.*\\)" 1 2 nil 3) flymake-err-line-patterns)
-
-      (add-hook 'css-mode-hook 'flymake-mode)))
-
-;;; FLYMAKE
-(require 'flymake)
-(require 'flymake-cursor)
-(setq flymake-no-changes-timeout 5)
-(setq temporary-file-directory genehack/emacs-tmp-dir)
-(setq flymake-run-in-place nil)
-;; I want to see all errors for the line.
-(setq flymake-number-of-errors-to-display nil)
-(set-face-foreground 'flymake-warnline "DarkBlue")
-(set-face-background 'flymake-warnline "LightGray")
+;;; FLYCHECK
+;;;; https://github.com/flycheck/flycheck
+(require 'flycheck)
+(require 'flycheck-color-mode-line)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(eval-after-load "flycheck"
+  '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
 
 ;;; GIT BLAME FOR LINE
 (defun genehack/git-blame-for-line ()
