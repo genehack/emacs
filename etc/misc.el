@@ -84,6 +84,19 @@
 ;;; FILLADAPT -- WTF isn't this part of emacs by default by now?!
 (require 'filladapt)
 
+;;; FIPLR
+(require 'fiplr)
+(defun genehack/find-file ()
+  "Find-file that switches between fiplr-find-find and ido-find-file
+depending on whether you're in a project or not."
+  (interactive)
+  (let ((cwd (if (buffer-file-name)
+                 (directory-file-name (file-name-directory (buffer-file-name)))
+               (file-truename "."))))
+    (if (fiplr-find-root cwd fiplr-root-markers)
+        (fiplr-find-file)
+      (ido-find-file))))
+
 ;;; FIXME
 (require 'fixme)
 

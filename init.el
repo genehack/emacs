@@ -96,6 +96,7 @@
     exec-path-from-shell
     expand-region
     find-file-in-project
+    fiplr
     flycheck
     flycheck-color-mode-line
     flymake
