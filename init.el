@@ -135,6 +135,7 @@
     tidy
     twilight-theme
     unbound
+    web-mode
     yaml-mode
     yasnippet
     zenburn-theme
