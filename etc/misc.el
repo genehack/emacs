@@ -50,7 +50,7 @@
 (defun genehack/dos-file-endings-p ()
   (string-match "dos" (symbol-name buffer-file-coding-system)))
 (defun genehack/find-file-check-line-endings ()
-  (when (dos-file-endings-p)
+  (when (genehack/dos-file-endings-p)
     (set-buffer-file-coding-system 'undecided-unix)
     (set-buffer-modified-p nil)))
 
