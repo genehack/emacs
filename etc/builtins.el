@@ -141,7 +141,6 @@ remove-leading-whitespace-on-kil-line tricks")
 (setq hippie-expand-dabbrev-skip-space t)
 
 ;;; HTML
-(add-to-list 'auto-mode-alist '("\\.tt2?$" . html-mode))
 (add-hook 'html-mode-hook 'turn-off-auto-fill)
 
 ;;; IBUFFER

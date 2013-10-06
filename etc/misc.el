@@ -175,7 +175,6 @@ depending on whether you're in a project or not."
 
 ;;; KOLON-MODE
 (autoload 'kolon-mode "kolon-mode" "kolon-mode")
-(add-to-list 'auto-mode-alist '("\\.tx" . kolon-mode))
 
 ;;; LINE NUMBERS WITH M-G
 ;; from http://whattheemacsd.com//key-bindings.el-01.html
@@ -508,6 +507,11 @@ file of a buffer in an external program."
 
 ;; As pointed out by Dmitri, this will make sure it will update color when needed.
 (add-hook 'post-command-hook 'yasnippet-change-cursor-color-when-can-fire)
+
+;;; WEB-MODE
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.p?html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tx\\'" . web-mode))
 
 ;; put this at the end so that everything is loaded...
 ;;; DIMINISH
