@@ -27,6 +27,7 @@
 (global-set-key (kbd "<C-S-return>") 'open-line-above)
 (global-set-key (kbd "C-x b")        'ido-switch-buffer)
 (global-set-key (kbd "C-x f")        'genehack/find-file)
+(global-set-key (kbd "C-x F")        'ido-find-file)
 (global-set-key (kbd "C-x C-b")      'ido-switch-buffer)
 (global-set-key (kbd "C-x M-b")      'ibuffer)
 (global-set-key (kbd "C-x C-f")      'genehack/find-file)
