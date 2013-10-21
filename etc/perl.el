@@ -98,6 +98,7 @@ or vice versa."
   ;; from e.goerlach@computer.org (Ekkehard Görlach) in comp.emacs
   (set (make-local-variable 'compile-command)
        (concat "perl -cw  " buffer-file-name))
+  (set (make-local-variable 'flycheck-checker) 'perl-with-lib-from-project-root)
   (font-lock-add-keywords nil '(("^[^\n]\\{90\\}\\(.*\\)$" 1 font-lock-warning-face t)))
   (setq fill-column 78)
   ;;(turn-on-font-lock)

@@ -104,9 +104,32 @@ depending on whether you're in a project or not."
 ;;;; https://github.com/flycheck/flycheck
 (require 'flycheck)
 (require 'flycheck-color-mode-line)
+(require 'projectile)
+(defun genehack/include-perl-lib-p ()
+  "Add 'lib' subdir to '-I' option of flycheck cmd if it exists"
+  (if (projectile-project-p)
+      (let ((root (projectile-project-root)))
+        (setq lib (concat root "lib"))
+        (if (and (file-exists-p lib)
+                 (file-directory-p lib))
+            (concat "-I" lib)))))
+
 (add-hook 'after-init-hook #'global-flycheck-mode)
-(eval-after-load "flycheck"
-  '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
+(eval-after-load "flycheck" '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
+
+(flycheck-define-checker perl-with-lib-from-project-root
+  "A Perl syntax checker using the Perl interpreter.
+
+Uses projectile to find the project root, and if there is a 'lib'
+directory there, adds it to PERL5LIB.
+
+See URL `http://www.perl.org'."
+  :command ("perl" "-w" "-c" (eval (genehack/include-perl-lib-p)) source)
+  :error-patterns
+  ((error line-start (minimal-match (message))
+          " at " (file-name) " line " line
+          (or "." (and ", " (zero-or-more not-newline))) line-end))
+  :modes (perl-mode cperl-mode))
 
 ;;; GIT BLAME FOR LINE
 (defun genehack/git-blame-for-line ()
