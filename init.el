@@ -81,6 +81,7 @@
     auto-complete
     autopair
     browse-kill-ring
+    cider
     clojure-mode
     clojure-snippets
     clojure-test-mode
@@ -123,7 +124,6 @@
     markdown-mode+
     move-text
     multi-term
-    nrepl
     paredit
     perlcritic
     powerline
