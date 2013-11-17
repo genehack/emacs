@@ -18,7 +18,6 @@
 ;;; HOOK MODS
 (add-hook 'cperl-mode-hook 'genehack/cperl-mode-setup)
 (add-hook 'cperl-mode-hook 'flyspell-prog-mode)
-;;(add-hook 'cperl-mode-hook 'flymake-mode)
 (add-hook 'cperl-mode-hook 'which-func-mode)
 
 ;;; CONFIG
@@ -110,21 +109,12 @@ or vice versa."
   (add-to-list 'elide-head-headers-to-hide '("######" . "######"))
   (elide-head))
 
-;;; FLYMAKE
-;;;; based on a modified version of code found at
-;;;; http://blog.urth.org/2011/06/flymake-versus-the-catalyst-restarter.html
-;; (genehack/add-emacs-lib-subdir-to-load-path "flymake-perlcritic")
-;; (setq flymake-perlcritic-severity 5)
-;; (require 'flymake-perlcritic)
-
 ;;; PERLY_SENSE
 (global-unset-key "\C-z")
 (setq ps/key-prefix "\C-z")
 (define-key cperl-mode-map (kbd "C-z C-z") 'ps/class-overview-for-class-at-point)
 
 (setq ps/load-flymake nil)
-(setq flymake-start-syntax-check-on-find-file t)
-(setq flymake-start-syntax-check-on-newline t)
 
 (setq ps/external-dir (shell-command-to-string "/opt/perl/bin/perly_sense external_dir"))
 

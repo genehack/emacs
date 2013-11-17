@@ -99,10 +99,6 @@
     fiplr
     flycheck
     flycheck-color-mode-line
-    flymake
-    flymake-cursor
-    flymake-perlcritic
-    flymake-shell
     full-ack
     genehack-misc-elisp
     genehack-perl-elisp
