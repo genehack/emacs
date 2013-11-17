@@ -79,7 +79,6 @@
     ag
     annoying-arrows-mode
     auto-complete
-    autopair
     browse-kill-ring
     cider
     clojure-mode
@@ -124,13 +123,13 @@
     markdown-mode+
     move-text
     multi-term
-    paredit
     perlcritic
     powerline
     pretty-lambdada
     projectile
     scala-mode2
     smart-tab
+    smartparens
     smex
     solarized-theme
     tidy

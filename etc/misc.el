@@ -34,9 +34,6 @@
       (make-directory (file-name-directory buffer-file-name) t)))
 (add-hook 'before-save-hook 'genehack/set-up-before-save-hook)
 
-;;; AUTOPAIR
-(require 'autopair)
-
 ;;; BROWSE-KILL-RING
 (require 'browse-kill-ring)
 (browse-kill-ring-default-keybindings)
@@ -304,18 +301,6 @@ file of a buffer in an external program."
                     " "
                     buffer-file-name))))
 
-;;; PAREDIT
-(autoload 'paredit-mode "paredit"
-  "Minor mode for pseudo-structurally editing Lisp code." t)
-(defun genehack/enable-paredit-mode ()
-  "Turn on paredit-mode"
-  (paredit-mode +1))
-(add-hook 'clojure-mode               'genehack/enable-paredit-mode)
-(add-hook 'emacs-lisp-mode-hook       'genehack/enable-paredit-mode)
-(add-hook 'lisp-mode-hook             'genehack/enable-paredit-mode)
-(add-hook 'lisp-interaction-mode-hook 'genehack/enable-paredit-mode)
-(add-hook 'scheme-mode-hook           'genehack/enable-paredit-mode)
-
 ;;; PAREN-BOUNCE
 ;;;; ganked from <http://elfs.livejournal.com/1216037.html>
 (defun genehack/paren-bounce ()
@@ -376,6 +361,10 @@ file of a buffer in an external program."
 (setq smart-tab-completion-functions-alist
       '((cperl-mode      . auto-complete)
         (text-mode       . dabbrev-completion)))
+
+;;; SMARTPARENS
+(smartparens-global-mode 1)
+(show-smartparens-global-mode t)
 
 ;;; SMEX
 (require 'smex)
