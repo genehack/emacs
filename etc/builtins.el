@@ -6,9 +6,16 @@
 ;; ANSI-MODE FOR SHELLS
 (ansi-color-for-comint-mode-on)
 
-;; AUTO-SAVE BACKUPS
+;; AUTO-SAVES AND BACKUPS
 (setq auto-save-list-file-prefix (concat genehack/emacs-tmp-dir "auto-save-list/.saves-"))
-(setq make-backup-files nil)
+(setq auto-save-file-name-transforms `((".*" ,genehack/emacs-tmp-dir t)))
+(setq backup-by-copying t)
+(setq genehack/backup-dir (concat genehack/emacs-tmp-dir "saves/" ))
+(setq backup-directory-alist `((".*" . ,genehack/backup-dir)))
+(setq delete-old-versions t)
+(setq kept-new-versions 6)
+(setq kept-old-versions 2)
+(setq version-control t)
 
 ;;; CALENDAR
 (setq mark-holidays-in-calendar t)
