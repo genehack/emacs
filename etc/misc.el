@@ -426,6 +426,12 @@ file of a buffer in an external program."
       (template-minor-mode 1)))
 (add-hook 'html-mode-hook 'genehack/enable-template-minor-mode)
 
+;;; TEXT-SCALE
+(defun genehack/text-scale-default ()
+  "Set text scale to default"
+  (interactive)
+  (text-scale-set 0))
+
 ;;; THEME
 (require 'solarized)
 (defun genehack/solarize-this ()
