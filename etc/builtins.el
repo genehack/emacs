@@ -319,10 +319,11 @@ This is a buffer-local variable.")
     (defalias 'ispell-buffer 'genehack/spelling-not-found)))
 
 ;;; TERM-MODE
-(defun genehack/turn-off-yas-mode ()
-  "Turn off yas-mode"
-  (yas-minor-mode -1))
-(add-hook 'term-mode-hook 'genehack/turn-off-yas-mode)
+(defun genehack/set-up-term-mode ()
+  "My customizations for term-mode"
+  (yas-minor-mode -1)
+  (setq term-buffer-maximum-size 10000))
+(add-hook 'term-mode-hook 'genehack/set-up-term-mode)
 
 ;;; TEXT-MODE
 (defun genehack/set-up-text-mode ()

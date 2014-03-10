@@ -261,6 +261,7 @@ See URL `http://www.perl.org'."
 (move-text-default-bindings)
 
 ;;; MULTI-TERM
+(setq system-uses-terminfo nil)
 (require 'multi-term)
 (defalias 'term 'multi-term)
 (custom-set-variables
