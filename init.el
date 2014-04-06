@@ -154,6 +154,8 @@
         (package-install pkg))))
 
 ;; MAKE EMACS PATH MATCH SHELL PATH
+(require 'exec-path-from-shell)
+(setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOROOT" "GOPATH"))
 (exec-path-from-shell-initialize)
 
 ;; MODULES
