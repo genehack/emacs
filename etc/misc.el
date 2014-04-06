@@ -142,6 +142,17 @@ See URL `http://www.perl.org'."
 ;;; GITHUB-BROWSE-FILE
 (autoload 'github-browse-file "github-browse-file" "browse lines in current file on github")
 
+;;; GO
+(require 'go-mode-load)
+(add-hook 'before-save-hook 'gofmt-before-save)
+(add-hook 'go-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
+            (local-set-key (kbd "C-c i")   'go-goto-imports)
+            (local-set-key (kbd "M-.")     'godef-jump)
+            ))
+
+
 ;;; HTML TIDY
 (autoload 'tidy-buffer             "tidy" "Run Tidy HTML parser on current buffer" t)
 (autoload 'tidy-parse-config-file  "tidy" "Parse the `tidy-config-file'"           t)
@@ -361,6 +372,7 @@ file of a buffer in an external program."
 (setq smart-tab-using-hippie-expand t)
 (setq smart-tab-completion-functions-alist
       '((cperl-mode      . auto-complete)
+        (go-mode         . auto-complete)
         (text-mode       . dabbrev-completion)))
 
 ;;; SMARTPARENS
