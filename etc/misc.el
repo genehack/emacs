@@ -126,7 +126,11 @@ See URL `http://www.perl.org'."
   ((error line-start (minimal-match (message))
           " at " (file-name) " line " line
           (or "." (and ", " (zero-or-more not-newline))) line-end))
-  :modes (perl-mode cperl-mode))
+  :modes (perl-mode cperl-mode)
+  :next-checkers (perl-perlcritic))
+
+(setq flycheck-perlcritic-verbosity "5")
+
 
 ;;; GIT BLAME FOR LINE
 (defun genehack/git-blame-for-line ()
