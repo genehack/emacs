@@ -495,7 +495,7 @@ file of a buffer in an external program."
 (require 'yasnippet)
 (setq yas-use-menu nil)
 (yas--initialize)
-(setq yas-snippet-dirs (concat genehack/emacs-dir "share/snippets"))
+(setq yas-snippet-dirs (list (concat genehack/emacs-dir "share/snippets")))
 (if (file-exists-p yas-snippet-dirs)
     (unless (file-directory-p yas-snippet-dirs)
       (error "Snippets directory creation blocked by file"))
