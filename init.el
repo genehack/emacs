@@ -113,6 +113,12 @@
     gitconfig-mode
     github-browse-file
     gitignore-mode
+    go-autocomplete
+    go-direx
+    go-eldoc
+    go-errcheck
+    go-mode
+    go-snippets
     ido-hacks
     ido-ubiquitous
     js2-mode
