@@ -1,21 +1,24 @@
 ;; init.el -- master configuration file
 
+;;; Commentary:
+
+;;; Code:
 ;; VARIABLES
 ;;; if you're not me, you probably want to change this to point to
 ;;; where you put your checkout of the github repo:
 (defvar genehack/emacs-dir (expand-file-name "~/proj/emacs/")
-  "directory containing working copy of 'emacs' repo")
+  "Directory containing working copy of 'emacs' repo.")
 
 (defvar genehack/emacs-config-dir (concat genehack/emacs-dir "etc/")
-  "sub-directory containing config files")
+  "Sub-directory containing config files.")
 (add-to-list 'load-path genehack/emacs-config-dir)
 
 (defvar genehack/emacs-libs-dir (concat genehack/emacs-dir "lib/")
-  "sub-directory containing third-party emacs libs")
+  "Sub-directory containing third-party Emacs libs.")
 (add-to-list 'load-path genehack/emacs-libs-dir)
 
 (defvar genehack/emacs-tmp-dir (concat genehack/emacs-dir "tmp/")
-  "scratch space for stuff...")
+  "Scratch space for stuff...")
 
 ;;; I generally don't use the Customize interface, but sometimes
 ;;; things get added there. Setting this means the file is under
@@ -57,7 +60,7 @@
 ;;; email addresses, and other stuff that you don't want in a public
 ;;; github repo...
 (defvar genehack/private-config-file "~/private/emacs-private.el"
-  "file with configuration info that can't be in public repository.")
+  "File with configuration info that can't be in public repository.")
 (if (file-readable-p genehack/private-config-file)
     (load-library genehack/private-config-file))
 
@@ -66,7 +69,7 @@
 ;;; files as a helper function and it needs to be defined before we
 ;;; try to load those files.
 (defun genehack/add-emacs-lib-subdir-to-load-path (dir)
-  "Concat arg with genehack/emacs-libs-dir and add to load-path"
+  "Concat DIR with genehack/emacs-libs-dir and add to 'load-path'."
   (add-to-list 'load-path (concat genehack/emacs-libs-dir dir)))
 
 ;; PACKAGES
@@ -135,13 +138,13 @@
     yaml-mode
     yasnippet
     zenburn-theme
-    ) "list of packages to automatically install" )
+    ) "List of packages to automatically install." )
 
 ;; prevent long installs from borking overall process
-(setq url-http-attempt-keepalives nil)
+;(setq url-http-attempt-keepalives nil)
 
 (defvar genehack/packages-refreshed nil
-  "flag for whether package lists have been refreshed yet")
+  "Flag for whether package lists have been refreshed yet.")
 
 ;; install anything that's missing
 (dolist (pkg genehack/package-list)
@@ -169,8 +172,11 @@
     "misc"
     "perl"
     )
-  "list of modules to load on startup.")
+  "List of modules to load on startup.")
 
 (dolist (pkg genehack/module-list)
   (if (file-readable-p (concat genehack/emacs-config-dir pkg ".el"))
       (load-library pkg)))
+
+(provide 'init)
+;;; init.el ends here
