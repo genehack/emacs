@@ -11,6 +11,7 @@
 ;;(global-set-key (kbd "C-c C-a")      'ack) ;; commented out while i take ag for a spin...
 (global-set-key (kbd "<C-S-return>") 'open-line-above)
 (global-set-key (kbd "<C-return>")   'open-line-below)
+(global-set-key (kbd "<C-tab>")      'yas-expand)
 (global-set-key (kbd "C-%")          'genehack/paren-bounce)
 (global-set-key (kbd "C-=")          'er/expand-region)
 (global-set-key (kbd "C-a")          'genehack/bol-toggle)
