@@ -502,12 +502,15 @@ file of a buffer in an external program."
 (require 'yasnippet)
 (setq yas-use-menu nil)
 (yas--initialize)
-(setq yas-snippet-dirs (list (concat genehack/emacs-dir "share/snippets")))
-(if (file-exists-p yas-snippet-dirs)
-    (unless (file-directory-p yas-snippet-dirs)
+(defvar genehack/yas-snippet-dir (concat genehack/emacs-dir "share/snippets")
+  "Directory with snippets"
+  )
+(if (file-exists-p genehack/yas-snippet-dir)
+    (unless (file-directory-p genehack/yas-snippet-dir)
       (error "Snippets directory creation blocked by file"))
-  (make-directory yas-snippet-dirs))
-(yas-load-directory yas-snippet-dirs)
+  (make-directory genehack/yas-snippet-dir))
+(yas-load-directory genehack/yas-snippet-dir)
+(add-to-list 'yas-snippet-dirs genehack/yas-snippet-dir)
 (yas-global-mode)
 
 ;;;; UPDATE CURSOR COLOR BASED ON YASNIPPET STATUS
