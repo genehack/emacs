@@ -43,7 +43,7 @@
 ;;;; http://whattheemacsd.com//setup-dired.el-02.html
 (defun dired-back-to-top ()
   (interactive)
-  (beginning-of-buffer)
+  (goto-char (point-min))
   (dired-next-line 4))
 
 (define-key dired-mode-map
@@ -51,7 +51,7 @@
 
 (defun dired-jump-to-bottom ()
   (interactive)
-  (end-of-buffer)
+  (goto-char (point-max))
   (dired-next-line -1))
 
 (define-key dired-mode-map
@@ -125,6 +125,7 @@ remove-leading-whitespace-on-kil-line tricks")
                  (backward-char 1)))))
 
 ;;; GLOBAL AUTO-REVERT
+(require 'autorevert)
 (global-auto-revert-mode t)
 ;; Also auto refresh dired, but be quiet about it
 (setq global-auto-revert-non-file-buffers t)
@@ -198,6 +199,7 @@ remove-leading-whitespace-on-kil-line tricks")
 (setq echo-keystrokes 0.1)
 
 ;;; LINE NUMBERS
+(require 'linum)
 (column-number-mode 1)
 (defvar genehack/linum-max-line-width "0"
   "number of digits in last line in current buffer.
@@ -233,6 +235,7 @@ This is a buffer-local variable.")
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
 ;;; NXML-MODE
+(require 'nxml-mode)
 (fset 'xml-mode 'nxml-mode)
 (add-to-list 'auto-mode-alist '("\\.rng'"  . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.rss'"  . nxml-mode))
@@ -257,14 +260,15 @@ This is a buffer-local variable.")
 (setq ps-print-color-p nil)
 
 ;;; SAVE-HIST
+(require 'savehist)
 (setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
 (setq savehist-file (expand-file-name "savehist" genehack/emacs-tmp-dir))
 (savehist-mode t)
 
 ;;; SAVEPLACE
-(setq save-place-file (expand-file-name "saveplace" genehack/emacs-tmp-dir))
 (setq-default save-place t)
 (require 'saveplace)
+(setq save-place-file (expand-file-name "saveplace" genehack/emacs-tmp-dir))
 
 ;;; SCRATCH BUFFER
 (setq initial-scratch-message
@@ -296,6 +300,7 @@ This is a buffer-local variable.")
 (defvar genehack/found-spelling-program nil
   "Boolean indicating whether or not a spelling program was found in exec-path")
 
+(require 'ispell)
 (let ()
   (if (genehack/find-in-exec-path "aspell")
       (progn
@@ -319,6 +324,7 @@ This is a buffer-local variable.")
     (defalias 'ispell-buffer 'genehack/spelling-not-found)))
 
 ;;; TERM-MODE
+(require 'term)
 (defun genehack/set-up-term-mode ()
   "My customizations for term-mode"
   (yas-minor-mode -1)
@@ -336,6 +342,7 @@ This is a buffer-local variable.")
 (add-hook 'text-mode-hook 'genehack/set-up-text-mode)
 
 ;;; TIME DISPLAY
+(require 'time)
 (setq display-time-24hr-format t)
 (setq display-time-day-and-date t)
 (display-time)
