@@ -146,7 +146,6 @@ remove-leading-whitespace-on-kil-line tricks")
                                          try-complete-lisp-symbol-partially
                                          try-complete-lisp-symbol
                                          ))
-(setq hippie-expand-dabbrev-skip-space t)
 
 ;;; HTML
 (add-hook 'html-mode-hook 'turn-off-auto-fill)
