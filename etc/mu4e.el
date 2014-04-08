@@ -1,3 +1,9 @@
+;;; mu4e --- mu4e stuff
+
+;;; Commentary:
+
+;;; Code:
+
 (add-to-list 'load-path "/opt/mu/share/emacs/site-lisp/mu4e")
 (require 'mu4e)
 (setq mu4e-debug t)
@@ -55,3 +61,6 @@
 ;;           (setq message-sendmail-extra-arguments (list '"-a" account))))))
 ;; (setq message-sendmail-envelope-from 'header)
 ;; (add-hook 'message-send-mail-hook 'choose-msmtp-account)
+
+(provide 'mu4e)
+;;; mu4e.el ends here

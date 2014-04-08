@@ -1,7 +1,11 @@
-;; builtins.el -- Customizations of built-in (non-third party) options.
-;;; large packages (eg Gnus, ERC, etc.) should get dedicated files but
+;;; builtins.el -- Customizations of built-in (non-third party) options.
+
+;;; Commentary:
+;;; Large packages (eg Gnus, ERC, etc.) should get dedicated files but
 ;;; for standard stuff where one or two options get frobbed, this is
 ;;; the place.
+
+;;; Code:
 
 ;; ANSI-MODE FOR SHELLS
 (ansi-color-for-comint-mode-on)
@@ -10,7 +14,8 @@
 (setq auto-save-list-file-prefix (concat genehack/emacs-tmp-dir "auto-save-list/.saves-"))
 (setq auto-save-file-name-transforms `((".*" ,genehack/emacs-tmp-dir t)))
 (setq backup-by-copying t)
-(setq genehack/backup-dir (concat genehack/emacs-tmp-dir "saves/" ))
+(defvar genehack/backup-dir (concat genehack/emacs-tmp-dir "saves/" )
+  "Place to put file backups.")
 (setq backup-directory-alist `((".*" . ,genehack/backup-dir)))
 (setq delete-old-versions t)
 (setq kept-new-versions 6)
@@ -18,7 +23,8 @@
 (setq version-control t)
 
 ;;; CALENDAR
-(setq mark-holidays-in-calendar t)
+(require 'calendar)
+(setq calendar-mark-holidays-flag t)
 
 ;;; CURSOR
 (setq-default cursor-type 'box)
@@ -42,6 +48,7 @@
 
 ;;;; http://whattheemacsd.com//setup-dired.el-02.html
 (defun dired-back-to-top ()
+  "Jump to the top file in a dired buffer."
   (interactive)
   (goto-char (point-min))
   (dired-next-line 4))
@@ -50,6 +57,7 @@
   (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
 
 (defun dired-jump-to-bottom ()
+  "Jump to the last file in a dired buffer."
   (interactive)
   (goto-char (point-max))
   (dired-next-line -1))
@@ -62,7 +70,7 @@
 (require 'dired-details+)
 (dired-details-install)
 (defun genehack/bind-key-for-wdired ()
-  "Add a keybinding for wdired in dired-mode"
+  "Add a keybinding for wdired in 'dired-mode'."
   (local-set-key (kbd "E") 'wdired-change-to-wdired-mode))
 (add-hook 'dired-mode-hook 'genehack/bind-key-for-wdired)
 (setq-default dired-listing-switches "-alhv --time-style=long-iso")
@@ -101,8 +109,8 @@
     rspec-mode
     ruby-mode
     scala-mode)
-  "List of modes to set up to do indent-on-paste and
-remove-leading-whitespace-on-kil-line tricks")
+  "List of modes to set up to do indent-on-paste.
+Also remove-leading-whitespace-on-kill-line tricks")
 
 ;; re-indent when pasting back into programming-related major modes
 ;; from <http://www.emacswiki.org/emacs-en/AutoIndentation>
@@ -114,10 +122,9 @@ remove-leading-whitespace-on-kil-line tricks")
                 (let ((mark-even-if-inactive transient-mark-mode))
                   (indent-region (region-beginning) (region-end) nil))))))
 
-;; remove excess white space when killing newlines in
-;; programming-related major modes
 ;; from <http://www.emacswiki.org/emacs-en/AutoIndentation>
 (defadvice kill-line (before check-position activate)
+  "Remove excess white space when killing newlines in programming-related major modes."
   (if (member major-mode modes-for-indentation-munging)
       (if (and (eolp) (not (bolp)))
           (progn (forward-char 1)
@@ -167,12 +174,12 @@ remove-leading-whitespace-on-kil-line tricks")
 (require 'imenu)
 (setq imenu-auto-rescan t)
 (defun imenu-goto-symbol ()
-  "Will update the imenu index and then use ido to select a symbol to navigate to"
+  "Will update the imenu index and then use ido to select a symbol to navigate to."
   (interactive)
   (imenu--make-index-alist)
   (let ((name-and-pos '())
         (symbol-names '()))
-    (flet ((addsymbols (symbol-list)
+    (cl-flet ((addsymbols (symbol-list)
                        (when (listp symbol-list)
                          (dolist (symbol symbol-list)
                            (let ((name nil) (position nil))
@@ -201,7 +208,7 @@ remove-leading-whitespace-on-kil-line tricks")
 (require 'linum)
 (column-number-mode 1)
 (defvar genehack/linum-max-line-width "0"
-  "number of digits in last line in current buffer.
+  "Number of digits in last line in current buffer.
 This is a buffer-local variable.")
 (defun genehack/linum-before-numbering ()
   "Small kludge to figure out the appropriate width for linum to use."
@@ -211,7 +218,7 @@ This is a buffer-local variable.")
     (setq genehack/linum-max-line-width (length (format "%s" (line-number-at-pos))))))
 (add-hook 'linum-before-numbering-hook 'genehack/linum-before-numbering)
 (defun genehack/linum-format (number)
-  "My linum format"
+  "My linum format, NUMBER digits wide."
   (format (concat " %" (number-to-string genehack/linum-max-line-width) "d ") number))
 (setq linum-format 'genehack/linum-format)
 
@@ -286,6 +293,7 @@ This is a buffer-local variable.")
 ;;; SPELL CHECKING
 ;;  (note that exec-path probably needs to be munged before this is run)
 (defun genehack/find-in-exec-path (program)
+  "Find PROGRAM in 'exec-path'."
   (let ((found nil))
     (dolist (path exec-path)
       (if (file-exists-p (concat path "/" program))
@@ -293,11 +301,12 @@ This is a buffer-local variable.")
     found))
 
 (defun genehack/spelling-not-found ()
+  "Display message when *spell program can't be found."
   (interactive)
   (message "Spell check not enabled; neither aspell nor ispell found in path."))
 
 (defvar genehack/found-spelling-program nil
-  "Boolean indicating whether or not a spelling program was found in exec-path")
+  "Boolean indicating whether or not a spelling program was found in 'exec-path'.")
 
 (require 'ispell)
 (let ()
@@ -325,14 +334,14 @@ This is a buffer-local variable.")
 ;;; TERM-MODE
 (require 'term)
 (defun genehack/set-up-term-mode ()
-  "My customizations for term-mode"
+  "My customizations for 'term-mode'."
   (yas-minor-mode -1)
   (setq term-buffer-maximum-size 10000))
 (add-hook 'term-mode-hook 'genehack/set-up-term-mode)
 
 ;;; TEXT-MODE
 (defun genehack/set-up-text-mode ()
-  "My customizations for text-mode"
+  "My customizations for 'text-mode'."
   (require 'filladapt)
   (auto-fill-mode 1)
   (filladapt-mode 1)
@@ -379,3 +388,6 @@ This is a buffer-local variable.")
 
 ;;; YES-OR-NO
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+(provide 'builtins)
+;;; builtins.el ends here

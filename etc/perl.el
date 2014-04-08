@@ -1,4 +1,8 @@
-;; perl.el - perl-specific customizations and code
+;; perl.el --- perl-specific customizations and code
+
+;;; Commentary:
+
+;;; Code:
 
 ;;; LIBRARIES
 (genehack/add-emacs-lib-subdir-to-load-path "cperl-mode")
@@ -54,25 +58,20 @@
     "\C-c\C-t"
     "\C-c\C-v"
     "\C-c\C-x"
-    ) "list of keybindings to unset in cperl-mode buffers
-since cperl-mode steps on a lot of the C-c C-* bindings I use globally..." )
-
-;;; perl COMPLETION
-(setq plcmp-extra-using-modules
-      '(("Digest" . "Digest::SHA1")
-        ("LWP::UserAgent" . "HTTP::Response")))
+    ) "List of keybindings to unset in 'cperl-mode' buffers.
+since 'cperl-mode' steps on a lot of the C-c C-* bindings I use globally..." )
 
 ;;; UTILITIES
 (defun genehack/perl-repl ()
+  "Start or show an re.pl in an 'ansi-term' shell."
   (interactive)
-  "Start or show an re.pl in an ansi-term shell"
   (if (get-buffer "*re.pl*")
       (switch-to-buffer "*re.pl*")
     (ansi-term "re.pl" "re.pl")))
 
 (defun genehack/get-test-or-lib-for-current-file ()
-  "Given a lib file, create and return a buffer for the corresponding test lib file,
-or vice versa."
+  "Given a lib file, create and return a buffer for the corresponding test lib.
+Or vice versa."
   (let ((file-target (shell-command-to-string (format "~/bin/map-test-lib %s" buffer-file-name))))
     (if (file-exists-p file-target)
         (find-file-noselect file-target)
@@ -80,20 +79,21 @@ or vice versa."
       (find-file-noselect file-target t))))
 
 (defun genehack/jump-from-test-to-lib ()
-  (interactive)
   "Toggle between a Perl class and the Test class for that class."
+  (interactive)
   (switch-to-buffer (genehack/get-test-or-lib-for-current-file)))
 
 (defun genehack/split-into-lib-and-test ()
-  (interactive)
   "When looking at a lib, convert to horizontal split with lib and test lib."
+  (interactive)
   (delete-other-windows)
   (split-window-horizontally)
   (switch-to-buffer (genehack/get-test-or-lib-for-current-file)))
 
+(require 'flycheck)
 (defun genehack/cperl-mode-setup ()
-  ;; allows 'M-x compile' for syntax checking of Perl scripts within Emacs
-  ;; from e.goerlach@computer.org (Ekkehard Görlach) in comp.emacs
+  "Munges 'compile' for syntax checking of Perl scripts within Emacs.
+From e.goerlach@computer.org (Ekkehard Görlach) in comp.emacs."
   (set (make-local-variable 'compile-command)
        (concat "perl -cw  " buffer-file-name))
   (set (make-local-variable 'flycheck-checker) 'perl-with-lib-from-project-root)
@@ -129,3 +129,5 @@ Is Devel::PerlySense installed properly?
 Does 'perly_sense external_dir' give you a proper directory?
  (%s)"
    ps/external-dir))
+(provide 'perl)
+;;; perl.el ends here

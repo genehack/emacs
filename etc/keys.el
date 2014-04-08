@@ -1,6 +1,9 @@
-;; keys.el
+;;; keys --- global key bindings
+;;; Commentary:
 ;;; put all global key bindings here (so as to avoid binding
 ;;; conflicts)
+
+;;; Code:
 
 ;;;; by default this is bound to tmm-menubar
 (global-unset-key (kbd "M-`"))
@@ -70,3 +73,6 @@
 (global-set-key (kbd "<f10>")     'genehack/noop)
 (global-set-key (kbd "<f11>")     'genehack/noop)
 (global-set-key (kbd "<f12>")     'genehack/noop)
+
+(provide 'keys)
+;;; keys.el ends here

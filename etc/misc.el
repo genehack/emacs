@@ -1,5 +1,8 @@
-;; misc.el -- various customizations and additions
+;; misc.el --- various customizations and additions
+;;; Commentary:
 ;;; This is for stuff that _isn't_ built-in to Emacs
+
+;;; Code:
 
 ;;; ACK
 ;(require 'full-ack) ;; commented out while i try ag for a bit...
@@ -30,7 +33,7 @@
 ;;; AUTO CREATE DIRECTORIES
 ;;;; after <http://atomized.org/2008/12/emacs-create-directory-before-saving/>
 (defun genehack/set-up-before-save-hook ()
-  "My customizations for before-save-hook"
+  "My customizations for 'before-save-hook'."
   (or (file-exists-p (file-name-directory buffer-file-name))
       (make-directory (file-name-directory buffer-file-name) t)))
 (add-hook 'before-save-hook 'genehack/set-up-before-save-hook)
@@ -46,8 +49,10 @@
 ;;;; from http://www.emacswiki.org/emacs/EndOfLineTips
 (add-hook 'find-file-hook 'genehack/find-file-check-line-endings)
 (defun genehack/dos-file-endings-p ()
+  "Predicate for whether current buffer is in DOS mode."
   (string-match "dos" (symbol-name buffer-file-coding-system)))
 (defun genehack/find-file-check-line-endings ()
+  "Convert DOS file to Unix."
   (when (genehack/dos-file-endings-p)
     (set-buffer-file-coding-system 'undecided-unix)
     (set-buffer-modified-p nil)))
@@ -57,7 +62,7 @@
 
 ;;; DIFF-CURRENT-BUFFER-WITH-FILE
 (defun genehack/diff-current-buffer-with-file ()
-  "Show diff between current buffer contents and file on disk"
+  "Show diff between current buffer contents and file on disk."
   (interactive)
   (diff-buffer-with-file (current-buffer)))
 
@@ -67,7 +72,7 @@
 
 ;;; DIRED-RIGHT-HERE
 (defun genehack/dired-right-here (arg)
-  "Run ido-dired or, with prefix, dired on current active directory."
+  "Run 'ido-dired' or, with ARG, 'dired' on current active directory."
   (interactive "p")
   (if (eq 1 arg)
       (ido-dired)
@@ -85,8 +90,7 @@
 ;;; FIPLR
 (require 'fiplr)
 (defun genehack/find-file ()
-  "Find-file that switches between fiplr-find-find and ido-find-file
-depending on whether you're in a project or not."
+  "Switch between 'fiplr-find-find' and 'ido-find-file' depending on whether you're in a project or not."
   (interactive)
   (let ((cwd (if (buffer-file-name)
                  (directory-file-name (file-name-directory (buffer-file-name)))
@@ -104,13 +108,14 @@ depending on whether you're in a project or not."
 (require 'flycheck-color-mode-line)
 (require 'projectile)
 (defun genehack/include-perl-lib-p ()
-  "Add 'lib' subdir to '-I' option of flycheck cmd if it exists"
+  "Add 'lib' subdir to '-I' option of flycheck cmd if it exists."
+  (defvar project/lib "")
   (if (projectile-project-p)
       (let ((root (projectile-project-root)))
-        (setq lib (concat root "lib"))
-        (if (and (file-exists-p lib)
-                 (file-directory-p lib))
-            (concat "-I" lib)))))
+        (setq project/lib (concat root "lib"))
+        (if (and (file-exists-p project/lib)
+                 (file-directory-p project/lib))
+            (concat "-I" project/lib)))))
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (eval-after-load "flycheck" '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
@@ -135,7 +140,9 @@ See URL `http://www.perl.org'."
 
 ;;; GIT BLAME FOR LINE
 (defun genehack/git-blame-for-line ()
+  "Show git blame for current line."
   (interactive)
+  (defvar blame-out "")
   (let ((blame-line (line-number-at-pos (point)))
         (blame-file (buffer-file-name)))
     (setq blame-out (shell-command-to-string (format "~/bin/git-blame-from-line-num %s %s" blame-line blame-file)))
@@ -168,7 +175,7 @@ See URL `http://www.perl.org'."
 (autoload 'tidy-build-menu         "tidy" "Install an options menu for HTML Tidy." t)
 
 (defun genehack/scrub-win-to-html ()
-  "Scrub dumb quotes and other common Latin-1 stuff into HTML entities"
+  "Scrub dumb quotes and other common Latin-1 stuff into HTML entities."
   (interactive)
   (save-excursion
     (dolist (thing '(("’"  . "&#8127;")
@@ -220,12 +227,15 @@ See URL `http://www.perl.org'."
 (global-set-key [remap goto-line] 'goto-line-with-feedback)
 
 (defun goto-line-with-feedback ()
-  "Show line numbers temporarily, while prompting for the line number input"
+  "Show line numbers temporarily, while prompting for the line number input."
   (interactive)
+  (defvar goto/line 0)
   (unwind-protect
       (progn
         (linum-mode 1)
-        (goto-line (read-number "Goto line: ")))
+        (setq goto/line (read-number "Goto line: "))
+        (goto-char (point-min))
+        (forward-line (1- goto/line)))
     (linum-mode -1)))
 
 ;;; MACRO
@@ -234,7 +244,7 @@ See URL `http://www.perl.org'."
 
 ;;; MAGIT
 (defvar genehack/git-executable (executable-find "git")
-  "Path to active git executable")
+  "Path to active git executable.")
 
 (if genehack/git-executable
     (progn
@@ -249,7 +259,7 @@ See URL `http://www.perl.org'."
     (message "Unable to find a git binary; magit is unavailable.")))
 
 (defun genehack/magit-key (arg)
-  "Call magit-status, or with prefix call genehack/magit-status-with-prompt"
+  "Call magit-status, or with ARG call genehack/magit-status-with-prompt."
   (interactive "P")
   (if arg
       (call-interactively 'genehack/magit-status-with-prompt)
@@ -263,11 +273,12 @@ See URL `http://www.perl.org'."
   (delete-other-windows))
 
 (defun magit-quit-session ()
-  "Restores the previous window configuration and kills the magit buffer"
+  "Restore the previous window configuration and kill the magit buffer."
   (interactive)
   (kill-buffer)
   (jump-to-register :magit-fullscreen))
 
+(require 'magit)
 (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
 
 ;;; MARKDOWN
@@ -295,12 +306,14 @@ See URL `http://www.perl.org'."
 ;;; OPEN LINE
 ;;;; from http://whattheemacsd.com//editing-defuns.el-01.html
 (defun open-line-below ()
+  "Open a line below the current line."
   (interactive)
   (end-of-line)
   (newline)
   (indent-for-tab-command))
 
 (defun open-line-above ()
+  "Open a line above the current line."
   (interactive)
   (beginning-of-line)
   (newline)
@@ -310,8 +323,7 @@ See URL `http://www.perl.org'."
 ;;; OPEN WITH
 ;;;; from http://emacsredux.com/blog/2013/03/27/open-file-in-external-program/
 (defun open-with ()
-  "Simple function that allows us to open the underlying
-file of a buffer in an external program."
+  "Open the underlying file of a buffer in an external program."
   (interactive)
   (when buffer-file-name
     (shell-command (concat
@@ -324,6 +336,7 @@ file of a buffer in an external program."
 ;;; PAREN-BOUNCE
 ;;;; ganked from <http://elfs.livejournal.com/1216037.html>
 (defun genehack/paren-bounce ()
+  "Bounce from one paren to the matching paren."
   (interactive)
   (let ((prev-char (char-to-string (preceding-char)))
         (next-char (char-to-string (following-char))))
@@ -368,7 +381,7 @@ file of a buffer in an external program."
 
 ;;; SCRATCH-BUFFER
 (defun genehack/create-scratch-buffer nil
-  "(re)create a scratch buffer"
+  "(re)create a scratch buffer."
   (interactive)
   (switch-to-buffer (get-buffer-create "*scratch*"))
   (insert initial-scratch-message)
@@ -393,14 +406,14 @@ file of a buffer in an external program."
 
 ;;; SPLIT-(HORIZONT|VERTIC)ALLY-OR-DELETE-OTHER-WINDOWS
 (defun genehack/split-horizontally-or-delete-other-windows ()
-  "If one window, split horizontally; otherwise, delete-other-windows"
+  "If one window, split horizontally; otherwise, 'delete-other-windows'."
   (interactive)
   (if (eq 1 (count-windows nil))
       (split-window-horizontally)
     (delete-other-windows)))
 
 (defun genehack/split-vertically-or-delete-other-windows ()
-  "If one window, split vertically; otherwise, delete-other-windows"
+  "If one window, split vertically; otherwise, 'delete-other-windows'."
   (interactive)
   (if (eq 1 (count-windows nil))
       (split-window-vertically)
@@ -422,19 +435,21 @@ file of a buffer in an external program."
 
 ;;;; inspired by http://whattheemacsd.com/buffer-defuns.el-01.html
 (defun genehack/strip-whitespace ()
-  "Untabify, strip white space, set file coding to UTF8"
+  "Untabify, strip white space, set file coding to UTF8."
   (interactive)
   (untabify (point-min) (point-max))
   (delete-trailing-whitespace)
   (set-buffer-file-coding-system 'utf-8))
 
 (defun genehack/strip-whitespace-and-indent ()
-  "Strip various whitespaces and reindent whole file"
+  "Strip various whitespaces and reindent whole file."
   (interactive)
   (genehack/strip-whitespace)
   (indent-region (point-min) (point-max)))
+
+(require 'cl)
 (defun genehack/set-up-whitespace-strip-in-these-modes ()
-  "Set up whitespace stripping in the modes in genehack/strip-trailing-whitespace-in-these-modes"
+  "Set up whitespace stripping in the modes in genehack/strip-trailing-whitespace-in-these-modes."
   (if (find major-mode genehack/strip-trailing-whitespace-in-these-modes)
       (genehack/strip-whitespace)))
 (add-hook 'before-save-hook 'genehack/set-up-whitespace-strip-in-these-modes)
@@ -442,37 +457,37 @@ file of a buffer in an external program."
 ;;; TEMPLATE
 (require 'template-mode)
 (defun genehack/enable-template-minor-mode ()
-  "Turn on template-minor-mode in *.tt files"
+  "Turn on 'template-minor-mode' in *.tt files."
   (if (string-match "\\.tt2?$" buffer-file-name)
       (template-minor-mode 1)))
 (add-hook 'html-mode-hook 'genehack/enable-template-minor-mode)
 
 ;;; TEXT-SCALE
 (defun genehack/text-scale-default ()
-  "Set text scale to default"
+  "Set text scale to default."
   (interactive)
   (text-scale-set 0))
 
 ;;; THEME
 (require 'solarized)
 (defun genehack/solarize-this ()
-  "Enable solarized theme"
+  "Enable solarized theme."
   (interactive)
   (load-theme 'solarized-dark t))
 (defun genehack/solarize-this-light ()
-  "Enable solarized theme"
+  "Enable solarized theme."
   (interactive)
   (load-theme 'solarized-light t))
 (require 'twilight-theme)
 (defun genehack/twilight-this ()
-  "Enable twilight theme"
+  "Enable twilight theme."
   (interactive)
   (load-theme 'twilight t))
 (genehack/solarize-this)
 
 ;;; TOGGLE-BOL
 (defun genehack/bol-toggle ()
-  "Toggle between beginning of indent and beginning of line"
+  "Toggle between beginning of indent and beginning of line."
   (interactive)
   (let ((genehack/bol-command-name "genehack/bol-toggle"))
     (setq this-command genehack/bol-command-name)
@@ -482,16 +497,17 @@ file of a buffer in an external program."
 
 ;;; UNICODE
 (defun genehack/unicode (char)
-  "Insert Unicode character at point"
+  "Insert Unicode character CHAR at point."
   (interactive "MCharacter name? ")
   (insert (shell-command-to-string (format "u %s" char))))
 
 ;;; URL ENCODING
 ;; based on http://twitter.com/#!/OvidPerl/status/28076709865586688
-(defun genehack/unescape_uri (b e)
+(defun genehack/unescape_uri (begin end)
+  "URI unescape region between BEGIN and END."
   (interactive "r")
   (shell-command-on-region
-   b e
+   begin end
    "perl -MURI::Escape -e 'print URI::Escape::uri_unescape(do { local $/; <STDIN> })'"
    'current-buffer t))
 
@@ -504,7 +520,7 @@ file of a buffer in an external program."
 (setq yas-use-menu nil)
 (yas--initialize)
 (defvar genehack/yas-snippet-dir (concat genehack/emacs-dir "share/snippets")
-  "Directory with snippets"
+  "Directory with snippets."
   )
 (if (file-exists-p genehack/yas-snippet-dir)
     (unless (file-directory-p genehack/yas-snippet-dir)
@@ -517,13 +533,15 @@ file of a buffer in an external program."
 ;;;; UPDATE CURSOR COLOR BASED ON YASNIPPET STATUS
 ;;; http://stackoverflow.com/questions/14264228/how-can-i-trigger-an-event-when-a-yasnippet-macro-can-fire
 ;;; https://gist.github.com/4506396
-(setq default-cursor-color "red")
-(setq default-cursor-type 'bar)
-(setq yasnippet-can-fire-cursor-color "green")
-(setq yasnippet-can-fire-cursor-type 'box)
+(defvar genehack/default-cursor-color "red")
+(defvar genehack/default-cursor-type 'box)
+(defvar genehack/yasnippet-can-fire-cursor-color "green")
+(defvar genehack/yasnippet-can-fire-cursor-type 'box)
 
 ;; It will test whether it can expand, if yes, cursor color -> green.
-(defun yasnippet-can-fire-p (&optional field)
+(defun genehack/yasnippet-can-fire-p (&optional field)
+  "Predicate for whether a yasnippet can fire.
+Not sure what FIELD is for ..."
   (interactive)
   (setq yas--condition-cache-timestamp (current-time))
   (let (templates-and-pos)
@@ -539,13 +557,15 @@ file of a buffer in an external program."
     (and templates-and-pos (first templates-and-pos))))
 
 (defun yasnippet-change-cursor-color-when-can-fire (&optional field)
+  "Change cursor color when a yasnippet could fire.
+Again, not sure what FIELD does..."
   (interactive)
-  (if (yasnippet-can-fire-p)
+  (if (genehack/yasnippet-can-fire-p)
       (progn
-        (set-cursor-color yasnippet-can-fire-cursor-color)
-        (setq cursor-type yasnippet-can-fire-cursor-type))
-    (set-cursor-color default-cursor-color)
-    (setq cursor-type default-cursor-type)))
+        (set-cursor-color genehack/yasnippet-can-fire-cursor-color)
+        (setq cursor-type genehack/yasnippet-can-fire-cursor-type))
+    (set-cursor-color genehack/default-cursor-color)
+    (setq cursor-type genehack/default-cursor-type)))
 
 ;; As pointed out by Dmitri, this will make sure it will update color when needed.
 (add-hook 'post-command-hook 'yasnippet-change-cursor-color-when-can-fire)
@@ -563,3 +583,6 @@ file of a buffer in an external program."
 (diminish 'projectile-mode)
 (diminish 'smart-tab-mode)
 (diminish 'yas-minor-mode)
+
+(provide 'misc)
+;;; misc.el ends here
