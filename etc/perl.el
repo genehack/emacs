@@ -104,30 +104,7 @@ From e.goerlach@computer.org (Ekkehard Görlach) in comp.emacs."
     (local-unset-key (edmacro-parse-keys binding)))
   (define-key cperl-mode-map (kbd "C-c C-i") 'cperl-invert-if-unless)
   (define-key cperl-mode-map (kbd "C-c C-s") 'cperl-pod-spell)
-  (define-key cperl-mode-map (kbd "C-c C-\\") 'cperl-lineup)
-  (require 'elide-head)
-  (add-to-list 'elide-head-headers-to-hide '("######" . "######"))
-  (elide-head))
+  (define-key cperl-mode-map (kbd "C-c C-\\") 'cperl-lineup))
 
-;;; PERLY_SENSE
-(global-unset-key "\C-z")
-(setq ps/key-prefix "\C-z")
-(define-key cperl-mode-map (kbd "C-z C-z") 'ps/class-overview-for-class-at-point)
-
-(setq ps/load-flymake nil)
-
-(setq ps/external-dir (shell-command-to-string "/opt/perl/bin/perly_sense external_dir"))
-
-(if (string-match "Devel.PerlySense.external" ps/external-dir)
-    (progn
-      (message "Loading PerlySense elisp from '%s'..." ps/external-dir)
-      (add-to-list 'load-path (format "%s/%s" ps/external-dir "emacs"))
-      (require 'perly-sense))
-  (message
-   "Could not identify PerlySense install dir.
-Is Devel::PerlySense installed properly?
-Does 'perly_sense external_dir' give you a proper directory?
- (%s)"
-   ps/external-dir))
 (provide 'perl)
 ;;; perl.el ends here
