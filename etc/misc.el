@@ -21,6 +21,7 @@
 (setq tab-always-indent 'complete)
 (add-to-list 'completion-styles 'initials t)
 (setq-default ac-sources '(ac-source-dictionary
+                           ac-source-yasnippet
                            ac-source-abbrev
                            ac-source-words-in-buffer
                            ac-source-words-in-same-mode-buffers
