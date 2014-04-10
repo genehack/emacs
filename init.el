@@ -82,6 +82,7 @@
     ag
     annoying-arrows-mode
     auto-complete
+    autopair
     browse-kill-ring
     cider
     clojure-mode
@@ -102,6 +103,10 @@
     fiplr
     flycheck
     flycheck-color-mode-line
+    flymake-cursor
+    flymake-easy
+    flymake-perlcritic
+    flymake-shell
     full-ack
     genehack-misc-elisp
     genehack-perl-elisp
@@ -126,6 +131,7 @@
     magit
     markdown-mode
     markdown-mode+
+    maxframe
     move-text
     multi-term
     perlcritic
