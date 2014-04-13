@@ -52,8 +52,8 @@
 (setq company-echo-delay 0
       company-idle-delay 0.3
       company-minimum-prefix-length 0)
-(setq-default company-backends '(company-yasnippet
-                                 company-capf
+(setq-default company-backends '(company-go
+                                 (company-capf :with company-yasnippet)
                                  company-nxml
                                  company-css
                                  (company-dabbrev-code company-gtags company-etags company-keywords)
