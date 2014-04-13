@@ -197,7 +197,7 @@ sub _extract_tarball_and_get_ready_to_build {
   chdir "$dir/emacs-$dir_version"
     or die "Can't chdir ($dir/emacs-$dir_version) : $!\n";
 
-  foreach my $patch ( <$FindBin::Bin/../patches/*.diff> ) {
+  foreach my $patch ( glob("$FindBin::Bin/../patches/*.diff)")) {
     print "APPLYING PATCH $patch ..." if $VERBOSE;
     system("patch -p0 < $patch") == 0
       or die "Failed to apply $patch";
