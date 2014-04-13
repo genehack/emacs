@@ -16,19 +16,19 @@
 (global-annoying-arrows-mode)
 
 ;;; AUTO COMPLETE
-(require 'auto-complete)
-(require 'auto-complete-config)
-(setq ac-comphist-file (expand-file-name "ac-comphist.dat" genehack/emacs-tmp-dir))
-(ac-config-default)
-(setq ac-auto-start nil)
+;(require 'auto-complete)
+;(require 'auto-complete-config)
+;(setq ac-comphist-file (expand-file-name "ac-comphist.dat" genehack/emacs-tmp-dir))
+;(ac-config-default)
+;(setq ac-auto-start nil)
 (setq tab-always-indent 'complete)
-(add-to-list 'completion-styles 'initials t)
-(setq-default ac-sources '(ac-source-dictionary
-                           ac-source-yasnippet
-                           ac-source-abbrev
-                           ac-source-words-in-buffer
-                           ac-source-words-in-same-mode-buffers
-                           ac-source-words-in-all-buffer))
+;(add-to-list 'completion-styles 'initials t)
+;(setq-default ac-sources '(ac-source-dictionary
+;                           ac-source-yasnippet
+;                           ac-source-abbrev
+;                           ac-source-words-in-buffer
+;                           ac-source-words-in-same-mode-buffers
+;                           ac-source-words-in-all-buffer))
 
 ;;; AUTO CREATE DIRECTORIES
 ;;;; after <http://atomized.org/2008/12/emacs-create-directory-before-saving/>
@@ -156,8 +156,8 @@ See URL `http://www.perl.org'."
 
 ;;; GO
 (require 'go-mode-load)
-(require 'go-autocomplete)
-(require 'auto-complete-config)
+;(require 'go-autocomplete)
+;(require 'auto-complete-config)
 (require 'go-snippets)
 (go-snippets-initialize)
 (add-hook 'before-save-hook 'gofmt-before-save)
@@ -284,7 +284,7 @@ See URL `http://www.perl.org'."
 ;;; MARKDOWN
 (autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.mr?kd" . markdown-mode))
-(add-hook 'markdown-mode-hook 'auto-complete-mode)
+;(add-hook 'markdown-mode-hook 'auto-complete-mode)
 
 ;;; MOVE TEXT
 (require 'move-text)
@@ -392,8 +392,6 @@ See URL `http://www.perl.org'."
 (global-smart-tab-mode 1)
 (setq smart-tab-using-hippie-expand t)
 (setq smart-tab-completion-functions-alist
-      '((cperl-mode      . auto-complete)
-        (go-mode         . auto-complete)
         (text-mode       . dabbrev-completion)))
 
 ;;; SMARTPARENS
@@ -579,7 +577,7 @@ Again, not sure what FIELD does..."
 ;;; DIMINISH
 ;; from http://whattheemacsd.com/init.el-04.html
 (require 'diminish)
-(diminish 'auto-complete-mode)
+;(diminish 'auto-complete-mode)
 (diminish 'projectile-mode)
 (diminish 'smart-tab-mode)
 (diminish 'yas-minor-mode)
