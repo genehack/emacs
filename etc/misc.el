@@ -224,8 +224,8 @@ See URL `http://www.perl.org'."
 (require 'ido-ubiquitous)
 (ido-ubiquitous-mode 1)
 
-;; Fix ido-ubiquitous for newer packages
 (defmacro ido-ubiquitous-use-new-completing-read (cmd package)
+  "Fix 'ido-ubiquitous' for CMD in PACKAGE."
   `(eval-after-load ,package
      '(defadvice ,cmd (around ido-ubiquitous-new activate)
         (let ((ido-ubiquitous-enable-compatibility nil))
@@ -292,9 +292,9 @@ See URL `http://www.perl.org'."
       (call-interactively 'genehack/magit-status-with-prompt)
     (call-interactively 'magit-status)))
 
-;;;; full screen magit-status
 ;;;; from http://whattheemacsd.com/setup-magit.el-01.html
 (defadvice magit-status (around magit-fullscreen activate)
+  "Full screen 'magit-status'."
   (window-configuration-to-register :magit-fullscreen)
   ad-do-it
   (delete-other-windows))
