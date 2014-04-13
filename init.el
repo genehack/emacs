@@ -89,6 +89,8 @@
     clojure-snippets
     clojure-test-mode
     coffee-mode
+    company
+    company-go
     cperl-mode
     css-mode
     delim-kill

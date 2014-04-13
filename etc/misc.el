@@ -45,6 +45,32 @@
 ;;; COFFEE-MODE
 (require 'coffee-mode)
 
+;;; COMPANY-MODE
+(require 'company)
+(require 'company-go)
+(global-company-mode)
+(setq company-echo-delay 0
+      company-idle-delay 0.3
+      company-minimum-prefix-length 0)
+(setq-default company-backends '(company-nxml
+                                 company-css company-capf
+                                 company-yasnippet
+                                 (company-dabbrev-code company-gtags company-etags company-keywords)
+                                 company-files
+                                 company-dabbrev))
+;; https://gist.github.com/nonsequitur/265010
+(require 'yasnippet)
+(defun genehack/company-yasnippet-or-completion ()
+  "Expand yasnippet if available, otherwise autocomplete."
+  (interactive)
+  (if (first (yas--current-key))
+      (progn (company-abort)
+             (yas-expand))
+    (company-complete-common)))
+(define-key company-active-map "\t" 'genehack/company-yasnippet-or-completion)
+
+
+
 ;;; CONVERT LINE ENDINGS
 ;;;; from http://www.emacswiki.org/emacs/EndOfLineTips
 (add-hook 'find-file-hook 'genehack/find-file-check-line-endings)
@@ -392,6 +418,9 @@ See URL `http://www.perl.org'."
 (global-smart-tab-mode 1)
 (setq smart-tab-using-hippie-expand t)
 (setq smart-tab-completion-functions-alist
+      '((cperl-mode      . company-complete)
+        (lisp-mode       . company-complete)
+        (go-mode         . company-complete)
         (text-mode       . dabbrev-completion)))
 
 ;;; SMARTPARENS
@@ -578,6 +607,7 @@ Again, not sure what FIELD does..."
 ;; from http://whattheemacsd.com/init.el-04.html
 (require 'diminish)
 ;(diminish 'auto-complete-mode)
+(diminish 'company-mode)
 (diminish 'projectile-mode)
 (diminish 'smart-tab-mode)
 (diminish 'yas-minor-mode)
