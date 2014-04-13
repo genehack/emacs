@@ -52,9 +52,10 @@
 (setq company-echo-delay 0
       company-idle-delay 0.3
       company-minimum-prefix-length 0)
-(setq-default company-backends '(company-nxml
-                                 company-css company-capf
-                                 company-yasnippet
+(setq-default company-backends '(company-yasnippet
+                                 company-capf
+                                 company-nxml
+                                 company-css
                                  (company-dabbrev-code company-gtags company-etags company-keywords)
                                  company-files
                                  company-dabbrev))
@@ -419,6 +420,7 @@ See URL `http://www.perl.org'."
 (setq smart-tab-using-hippie-expand t)
 (setq smart-tab-completion-functions-alist
       '((cperl-mode      . company-complete)
+        (emacs-lisp-mode . company-complete)
         (lisp-mode       . company-complete)
         (go-mode         . company-complete)
         (text-mode       . dabbrev-completion)))
