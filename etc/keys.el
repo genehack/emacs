@@ -11,7 +11,6 @@
 (global-set-key (kbd "C-c o")        'open-with)
 ;;; GLOBAL ONLY -- mode-specific in mode-specific files
 (global-set-key (kbd "C-c C-SPC")    'just-one-space)
-;;(global-set-key (kbd "C-c C-a")      'ack) ;; commented out while i take ag for a spin...
 (global-set-key (kbd "<C-S-return>") 'open-line-above)
 (global-set-key (kbd "<C-return>")   'open-line-below)
 (global-set-key (kbd "C-%")          'genehack/paren-bounce)
@@ -65,6 +64,7 @@
 (global-set-key (kbd "<f2>")      'genehack/save-and-kill)
 (global-set-key (kbd "<f3>")      'genehack/noop)
 (global-set-key (kbd "<f4>")      'flycheck-next-error)
+(global-set-key (kbd "C-<f4>")    'flycheck-previous-error)
 (global-set-key (kbd "<f5>")      'genehack/noop)
 (global-set-key (kbd "<f6>")      'macro-dwim)
 (global-set-key (kbd "<f7>")      'macro-clear)
