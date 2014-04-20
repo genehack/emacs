@@ -160,9 +160,36 @@ See URL `http://www.perl.org'."
           " at " (file-name) " line " line
           (or "." (and ", " (zero-or-more not-newline))) line-end))
   :modes (perl-mode cperl-mode)
-  :next-checkers (perl-perlcritic))
+  :next-checkers (genehack/perl-perlcritic))
 
+(flycheck-define-checker genehack/perl-perlcritic
+  "A Perl syntax checker using Perl::Critic.
+
+See URL `http://search.cpan.org/~thaljef/Perl-Critic/'.
+
+Modified to use original source file so that
+RequireFilenameMatchPackage policy works properly.
+"
+  :command ("perlcritic" "--no-color" "--verbose" "%f:%l:%c:%s:%m (%e)\n"
+            (option "--severity" flycheck-perlcritic-verbosity
+                    flycheck-option-int)
+            source-original)
+  :error-patterns
+  ((info line-start
+         (file-name) ":" line ":" column ":" (any "1") ":" (message)
+         line-end)
+   (warning line-start
+            (file-name) ":" line ":" column ":" (any "234") ":" (message)
+            line-end)
+   (error line-start
+          (file-name) ":" line ":" column ":" (any "5") ":" (message)
+          line-end))
+  :modes (cperl-mode perl-mode)
+  :predicate (lambda () (and (buffer-file-name)
+                             (not (buffer-modified-p)))))
 (setq flycheck-perlcritic-verbosity "5")
+(add-to-list 'flycheck-checkers 'genehack/perl-perlcritic)
+
 
 
 ;;; GIT BLAME FOR LINE
