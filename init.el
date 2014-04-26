@@ -81,7 +81,6 @@
     company-go
     cperl-mode
     css-mode
-    delim-kill
     diminish
     dired+
     dired-details
@@ -143,6 +142,7 @@
 
 (defvar genehack/packages-to-warn-about
   '(
+    delim-kill
     powerline
     ) "List of packages that should not be installed.  If seen, will cause warning." )
 

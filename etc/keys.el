@@ -46,7 +46,6 @@
 (global-set-key (kbd "M-L")          'perl-find-file)
 (global-set-key (kbd "M-`")          'other-window)
 (global-set-key (kbd "M-g")          'goto-line)
-(global-set-key (kbd "M-k")          'delim-kill)
 (global-set-key (kbd "M-p")          'ps-print-buffer)
 (global-set-key (kbd "M-s")          'imenu-goto-symbol)
 (global-set-key (kbd "M-x")          'smex)
