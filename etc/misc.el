@@ -191,8 +191,6 @@ RequireFilenameMatchPackage policy works properly.
 
 ;;; GO
 (require 'go-mode-load)
-;(require 'go-autocomplete)
-;(require 'auto-complete-config)
 (require 'go-snippets)
 (go-snippets-initialize)
 (add-hook 'before-save-hook 'gofmt-before-save)

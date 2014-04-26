@@ -139,10 +139,6 @@ Also remove-leading-whitespace-on-kill-line tricks")
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
-;;; HIGHLIGHTING
-;;(set-face-foreground 'highlight "gray10")
-;;(set-face-background 'highlight "yellow")
-
 ;;; HIPPY-EXPAND
 (setq hippie-expand-try-functions-list '(
                                          try-expand-dabbrev

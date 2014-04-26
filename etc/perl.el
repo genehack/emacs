@@ -98,7 +98,6 @@ From e.goerlach@computer.org (Ekkehard Görlach) in comp.emacs."
   (set (make-local-variable 'flycheck-checker) 'perl-with-lib-from-project-root)
   (font-lock-add-keywords nil '(("^[^\n]\\{90\\}\\(.*\\)$" 1 font-lock-warning-face t)))
   (setq fill-column 78)
-  ;;(turn-on-font-lock)
   (dolist (binding genehack/cperl-keybindings-to-remove)
     (local-unset-key (edmacro-parse-keys binding)))
   (define-key cperl-mode-map (kbd "C-c C-i") 'cperl-invert-if-unless)

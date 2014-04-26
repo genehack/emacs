@@ -146,9 +146,6 @@
     powerline
     ) "List of packages that should not be installed.  If seen, will cause warning." )
 
-;; prevent long installs from borking overall process
-;(setq url-http-attempt-keepalives nil)
-
 (defvar genehack/packages-refreshed nil
   "Flag for whether package lists have been refreshed yet.")
 
