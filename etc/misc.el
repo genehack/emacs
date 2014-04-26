@@ -4,9 +4,6 @@
 
 ;;; Code:
 
-;;; ACK
-;(require 'full-ack) ;; commented out while i try ag for a bit...
-
 ;;; AG
 (require 'ag)
 (setq ag-highlight-search t)

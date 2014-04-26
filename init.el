@@ -96,7 +96,6 @@
     flymake-easy
     flymake-perlcritic
     flymake-shell
-    full-ack
     genehack-misc-elisp
     genehack-perl-elisp
     gh
@@ -143,6 +142,7 @@
 (defvar genehack/packages-to-warn-about
   '(
     delim-kill
+    full-ack
     powerline
     ) "List of packages that should not be installed.  If seen, will cause warning." )
 
