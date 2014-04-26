@@ -31,11 +31,11 @@
 (setq company-echo-delay 0
       company-idle-delay 0.3
       company-minimum-prefix-length 0)
-(setq-default company-backends '(company-go
-                                 (company-capf :with company-yasnippet)
+(setq-default company-backends '((company-capf :with company-yasnippet)
+                                 (company-dabbrev-code company-keywords)
+                                 company-go
                                  company-nxml
                                  company-css
-                                 (company-dabbrev-code company-gtags company-etags company-keywords)
                                  company-files
                                  company-dabbrev))
 ;;;; inspired by https://gist.github.com/nonsequitur/265010
@@ -411,10 +411,10 @@ RequireFilenameMatchPackage policy works properly.
 (global-smart-tab-mode 1)
 (setq smart-tab-using-hippie-expand t)
 (setq smart-tab-completion-functions-alist
-      '((cperl-mode      . company-complete)
-        (emacs-lisp-mode . company-complete)
-        (lisp-mode       . company-complete)
-        (go-mode         . company-complete)
+      '((cperl-mode      . genehack/company-yasnippet-or-completion)
+        (emacs-lisp-mode . genehack/company-yasnippet-or-completion)
+        (lisp-mode       . genehack/company-yasnippet-or-completion)
+        (go-mode         . genehack/company-yasnippet-or-completion)
         (text-mode       . dabbrev-completion)))
 
 ;;; SMARTPARENS
