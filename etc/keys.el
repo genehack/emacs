@@ -40,6 +40,7 @@
 (global-set-key (kbd "C-x b")        'ido-switch-buffer)
 (global-set-key (kbd "C-x f")        'ido-find-file)
 (global-set-key (kbd "M-+")          'text-scale-increase)
+(global-set-key (kbd "M-=")          'text-scale-increase)
 (global-set-key (kbd "M--")          'text-scale-decrease)
 (global-set-key (kbd "M-0")          'genehack/text-scale-default)
 (global-set-key (kbd "M-D")          'perldoc)
