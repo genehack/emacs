@@ -379,6 +379,7 @@ RequireFilenameMatchPackage policy works properly.
 (require 'projectile)
 (projectile-global-mode)
 (setq projectile-cache-file ".projectile.cache")
+(setq projectile-globally-ignored-files '("TAGS" ".git"))
 (setq projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" genehack/emacs-tmp-dir))
 
 ;;; SAVE-AND-KILL
