@@ -137,7 +137,6 @@
     move-text
     multi-term
     perlcritic
-    powerline
     pretty-lambdada
     projectile
     scala-mode2
