@@ -76,7 +76,6 @@
     clojure-mode
     clojure-snippets
     clojure-test-mode
-    coffee-mode
     company
     company-go
     cperl-mode
@@ -141,6 +140,7 @@
 
 (defvar genehack/packages-to-warn-about
   '(
+    coffee-mode
     delim-kill
     full-ack
     powerline

@@ -24,9 +24,6 @@
 (require 'browse-kill-ring)
 (browse-kill-ring-default-keybindings)
 
-;;; COFFEE-MODE
-(require 'coffee-mode)
-
 ;;; COMPANY-MODE
 (require 'company)
 (require 'company-go)
