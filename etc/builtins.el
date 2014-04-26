@@ -98,6 +98,7 @@
 
 ;;; GENERAL INDENTATION RELATED OPTIONS
 (setq-default indent-tabs-mode nil)
+(setq tab-always-indent 'complete)
 
 (defvar modes-for-indentation-munging
   '(c++-mode

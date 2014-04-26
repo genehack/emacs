@@ -15,21 +15,6 @@
 (require 'annoying-arrows-mode)
 (global-annoying-arrows-mode)
 
-;;; AUTO COMPLETE
-;(require 'auto-complete)
-;(require 'auto-complete-config)
-;(setq ac-comphist-file (expand-file-name "ac-comphist.dat" genehack/emacs-tmp-dir))
-;(ac-config-default)
-;(setq ac-auto-start nil)
-(setq tab-always-indent 'complete)
-;(add-to-list 'completion-styles 'initials t)
-;(setq-default ac-sources '(ac-source-dictionary
-;                           ac-source-yasnippet
-;                           ac-source-abbrev
-;                           ac-source-words-in-buffer
-;                           ac-source-words-in-same-mode-buffers
-;                           ac-source-words-in-all-buffer))
-
 ;;; AUTO CREATE DIRECTORIES
 ;;;; after <http://atomized.org/2008/12/emacs-create-directory-before-saving/>
 (defun genehack/set-up-before-save-hook ()
@@ -333,7 +318,6 @@ RequireFilenameMatchPackage policy works properly.
 ;;; MARKDOWN
 (autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.mr?kd" . markdown-mode))
-;(add-hook 'markdown-mode-hook 'auto-complete-mode)
 
 ;;; MOVE TEXT
 (require 'move-text)
@@ -626,7 +610,6 @@ Again, not sure what FIELD does..."
 ;;; DIMINISH
 ;;;; from http://whattheemacsd.com/init.el-04.html
 (require 'diminish)
-;(diminish 'auto-complete-mode)
 (diminish 'company-mode)
 (diminish 'projectile-mode)
 (diminish 'smart-tab-mode)
