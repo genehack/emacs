@@ -158,7 +158,7 @@
 ;;; and warn about stuff that shouldn't be there
 (dolist (pkg genehack/packages-to-warn-about)
   (if (package-installed-p pkg)
-      (user-error "Package %s installed, please remove" pkg)))
+      (warn "Package %s installed, please remove" pkg)))
 
 ;; MAKE EMACS PATH MATCH SHELL PATH
 (require 'exec-path-from-shell)
