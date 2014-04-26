@@ -58,7 +58,7 @@
     "\C-c\C-v"
     "\C-c\C-x"
     ) "List of keybindings to unset in 'cperl-mode' buffers.
-since 'cperl-mode' steps on a lot of the C-c C-* bindings I use globally..." )
+since 'cperl-mode' steps on a lot of the bindings I use globally..." )
 
 ;;; UTILITIES
 (defun genehack/perl-repl ()

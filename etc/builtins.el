@@ -11,6 +11,7 @@
 (ansi-color-for-comint-mode-on)
 
 ;;; AUTO-SAVES AND BACKUPS
+(eval-when-compile (defvar genehack/emacs-tmp-dir))
 (setq auto-save-list-file-prefix (concat genehack/emacs-tmp-dir "auto-save-list/.saves-"))
 (setq auto-save-file-name-transforms `((".*" ,genehack/emacs-tmp-dir t)))
 (setq backup-by-copying t)
@@ -220,8 +221,7 @@ This is a buffer-local variable.")
   (defvar magic-mode-alist)
   (setq magic-mode-alist '("<\\?xml " . nxml-mode)))
 
-(setq nxml-bind-meta-tab-to-complete-flag nil
-      nxml-syntax-highlight-flag t)
+(setq nxml-bind-meta-tab-to-complete-flag nil)
 
 ;;; PAREN MATCH
 (require 'paren)
@@ -345,9 +345,6 @@ This is a buffer-local variable.")
 
 ;;; VC
 (setq vc-follow-symlinks t)
-
-;;; WGET
-(setq wget-download-directory "~/tmp")
 
 ;;; YANK
 (setq-default mouse-yank-at-point t)

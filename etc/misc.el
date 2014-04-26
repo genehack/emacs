@@ -9,7 +9,7 @@
 (setq ag-highlight-search t)
 
 ;;; ANNOYING ARROWS
-(require 'annoying-arrows-mode)
+(load "annoying-arrows-mode") ;; not require because linter bitches.
 (global-annoying-arrows-mode)
 
 ;;; AUTO CREATE DIRECTORIES
@@ -216,7 +216,7 @@ RequireFilenameMatchPackage policy works properly.
 ;;; IDO-UBI
 ;;;; from http://whattheemacsd.com//setup-ido.el-01.html
 ;;;; Use ido everywhere
-(require 'ido-ubiquitous)
+(load "ido-ubiquitous") ;; not require because linter bitches.
 (ido-ubiquitous-mode 1)
 
 (defmacro ido-ubiquitous-use-new-completing-read (cmd package)
@@ -366,6 +366,7 @@ RequireFilenameMatchPackage policy works properly.
           (t (error "%s" "Not an expression boundary.")))))
 
 ;;; PROJECTILE
+(eval-when-compile (defvar genehack/emacs-tmp-dir))
 (require 'projectile)
 (projectile-global-mode)
 (setq projectile-cache-file ".projectile.cache")
@@ -467,10 +468,9 @@ RequireFilenameMatchPackage policy works properly.
   (genehack/strip-whitespace)
   (indent-region (point-min) (point-max)))
 
-(require 'cl)
 (defun genehack/set-up-whitespace-strip-in-these-modes ()
   "Set up whitespace stripping in the modes in genehack/strip-trailing-whitespace-in-these-modes."
-  (if (find major-mode genehack/strip-trailing-whitespace-in-these-modes)
+  (if (member major-mode genehack/strip-trailing-whitespace-in-these-modes)
       (genehack/strip-whitespace)))
 (add-hook 'before-save-hook 'genehack/set-up-whitespace-strip-in-these-modes)
 
@@ -536,6 +536,7 @@ RequireFilenameMatchPackage policy works properly.
 (add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
 
 ;;; YASNIPPET
+(eval-when-compile (defvar genehack/emacs-dir))
 (require 'yasnippet)
 (setq yas-use-menu nil)
 (yas--initialize)

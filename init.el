@@ -7,7 +7,7 @@
 ;;; if you're not me, you probably want to change this to point to
 ;;; where you put your checkout of the github repo:
 (defvar genehack/emacs-dir (expand-file-name "~/proj/emacs/")
-  "Directory containing working copy of 'emacs' repo.")
+  "Directory containing working copy of Emacs config repo.")
 
 (defvar genehack/emacs-config-dir (concat genehack/emacs-dir "etc/")
   "Sub-directory containing config files.")
