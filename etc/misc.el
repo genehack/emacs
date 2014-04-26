@@ -447,6 +447,7 @@ RequireFilenameMatchPackage policy works properly.
     cperl-mode
     css-mode
     emacs-lisp-mode
+    lisp-mode
     scala-mode
     tt-mode
     yaml-mode
