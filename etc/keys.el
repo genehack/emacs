@@ -5,11 +5,11 @@
 
 ;;; Code:
 
+;;; GLOBAL ONLY -- mode-specific in mode-specific files
 ;;;; by default this is bound to tmm-menubar
 (global-unset-key (kbd "M-`"))
 
 (global-set-key (kbd "C-c o")        'open-with)
-;;; GLOBAL ONLY -- mode-specific in mode-specific files
 (global-set-key (kbd "C-c C-SPC")    'just-one-space)
 (global-set-key (kbd "<C-S-return>") 'open-line-above)
 (global-set-key (kbd "<C-return>")   'open-line-below)

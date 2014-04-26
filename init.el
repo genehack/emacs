@@ -152,7 +152,7 @@
 (defvar genehack/packages-refreshed nil
   "Flag for whether package lists have been refreshed yet.")
 
-;; install anything that's missing
+;;; install anything that's missing
 (dolist (pkg genehack/package-list)
   (if (not (package-installed-p pkg))
       (progn
@@ -162,7 +162,7 @@
               (setq genehack/packages-refreshed t)))
         (package-install pkg))))
 
-;; and warn about stuff that shouldn't be there
+;;; and warn about stuff that shouldn't be there
 (dolist (pkg genehack/packages-to-warn-about)
   (if (package-installed-p pkg)
       (user-error "Package %s installed, please remove" pkg)))
@@ -171,6 +171,7 @@
 (require 'exec-path-from-shell)
 (setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOROOT" "GOPATH"))
 (exec-path-from-shell-initialize)
+
 
 ;; MODULES
 ;;; All the rest of the config is split out into individual files, for

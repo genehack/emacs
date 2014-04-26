@@ -59,7 +59,7 @@
                                  (company-dabbrev-code company-gtags company-etags company-keywords)
                                  company-files
                                  company-dabbrev))
-;; https://gist.github.com/nonsequitur/265010
+;;;; inspired by https://gist.github.com/nonsequitur/265010
 (require 'yasnippet)
 (defun genehack/company-yasnippet-or-completion ()
   "Expand yasnippet if available, otherwise autocomplete."
@@ -69,8 +69,6 @@
              (yas-expand))
     (company-complete-common)))
 (define-key company-active-map "\t" 'genehack/company-yasnippet-or-completion)
-
-
 
 ;;; CONVERT LINE ENDINGS
 ;;;; from http://www.emacswiki.org/emacs/EndOfLineTips
@@ -190,8 +188,6 @@ RequireFilenameMatchPackage policy works properly.
 (setq flycheck-perlcritic-verbosity "5")
 (add-to-list 'flycheck-checkers 'genehack/perl-perlcritic)
 
-
-
 ;;; GIT BLAME FOR LINE
 (defun genehack/git-blame-for-line ()
   "Show git blame for current line."
@@ -221,7 +217,6 @@ RequireFilenameMatchPackage policy works properly.
             (local-set-key (kbd "C-c i")   'go-goto-imports)
             (local-set-key (kbd "M-.")     'godef-jump)))
 
-
 ;;; HTML TIDY
 (autoload 'tidy-buffer             "tidy" "Run Tidy HTML parser on current buffer" t)
 (autoload 'tidy-parse-config-file  "tidy" "Parse the `tidy-config-file'"           t)
@@ -247,7 +242,7 @@ RequireFilenameMatchPackage policy works properly.
 
 ;;; IDO-UBI
 ;;;; from http://whattheemacsd.com//setup-ido.el-01.html
-;; Use ido everywhere
+;;;; Use ido everywhere
 (require 'ido-ubiquitous)
 (ido-ubiquitous-mode 1)
 
@@ -554,7 +549,7 @@ RequireFilenameMatchPackage policy works properly.
   (insert (shell-command-to-string (format "u %s" char))))
 
 ;;; URL ENCODING
-;; based on http://twitter.com/#!/OvidPerl/status/28076709865586688
+;;;; based on http://twitter.com/#!/OvidPerl/status/28076709865586688
 (defun genehack/unescape_uri (begin end)
   "URI unescape region between BEGIN and END."
   (interactive "r")
@@ -582,15 +577,15 @@ RequireFilenameMatchPackage policy works properly.
 (add-to-list 'yas-snippet-dirs genehack/yas-snippet-dir)
 (yas-global-mode)
 
-;;;; UPDATE CURSOR COLOR BASED ON YASNIPPET STATUS
-;;; http://stackoverflow.com/questions/14264228/how-can-i-trigger-an-event-when-a-yasnippet-macro-can-fire
-;;; https://gist.github.com/4506396
+;;;; update cursor color based on yasnippet status
+;;;;; http://stackoverflow.com/questions/14264228/how-can-i-trigger-an-event-when-a-yasnippet-macro-can-fire
+;;;;; https://gist.github.com/4506396
 (defvar genehack/default-cursor-color "red")
 (defvar genehack/default-cursor-type 'box)
 (defvar genehack/yasnippet-can-fire-cursor-color "green")
 (defvar genehack/yasnippet-can-fire-cursor-type 'box)
 
-;; It will test whether it can expand, if yes, cursor color -> green.
+;;;;; It will test whether it can expand, if yes, cursor color -> green.
 (defun genehack/yasnippet-can-fire-p (&optional field)
   "Predicate for whether a yasnippet can fire.
 Not sure what FIELD is for ..."
@@ -619,7 +614,7 @@ Again, not sure what FIELD does..."
     (set-cursor-color genehack/default-cursor-color)
     (setq cursor-type genehack/default-cursor-type)))
 
-;; As pointed out by Dmitri, this will make sure it will update color when needed.
+;;;;; As pointed out by Dmitri, this will make sure it will update color when needed.
 (add-hook 'post-command-hook 'yasnippet-change-cursor-color-when-can-fire)
 
 ;;; WEB-MODE
@@ -627,9 +622,9 @@ Again, not sure what FIELD does..."
 (add-to-list 'auto-mode-alist '("\\.p?html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tx\\'" . web-mode))
 
-;; put this at the end so that everything is loaded...
+;;; put this at the end so that everything is loaded...
 ;;; DIMINISH
-;; from http://whattheemacsd.com/init.el-04.html
+;;;; from http://whattheemacsd.com/init.el-04.html
 (require 'diminish)
 ;(diminish 'auto-complete-mode)
 (diminish 'company-mode)

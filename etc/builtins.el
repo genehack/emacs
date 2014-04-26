@@ -1,16 +1,16 @@
 ;;; builtins.el -- Customizations of built-in (non-third party) options.
 
 ;;; Commentary:
-;;; Large packages (eg Gnus, ERC, etc.) should get dedicated files but
-;;; for standard stuff where one or two options get frobbed, this is
-;;; the place.
+;;;; Large packages (eg Gnus, ERC, etc.) should get dedicated files but
+;;;; for standard stuff where one or two options get frobbed, this is
+;;;; the place.
 
 ;;; Code:
 
-;; ANSI-MODE FOR SHELLS
+;;; ANSI-MODE FOR SHELLS
 (ansi-color-for-comint-mode-on)
 
-;; AUTO-SAVES AND BACKUPS
+;;; AUTO-SAVES AND BACKUPS
 (setq auto-save-list-file-prefix (concat genehack/emacs-tmp-dir "auto-save-list/.saves-"))
 (setq auto-save-file-name-transforms `((".*" ,genehack/emacs-tmp-dir t)))
 (setq backup-by-copying t)
@@ -80,7 +80,7 @@
 (put 'overwrite-mode 'disabled t)
 
 ;;; EXECUTABLE-UPON-SAVE MAGIC
-;;  from <http://www.emacswiki.org/cgi-bin/wiki/MakingScriptsExecutableOnSave>
+;;;; from <http://www.emacswiki.org/cgi-bin/wiki/MakingScriptsExecutableOnSave>
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 ;;; FFAP
@@ -112,8 +112,8 @@
   "List of modes to set up to do indent-on-paste.
 Also remove-leading-whitespace-on-kill-line tricks")
 
-;; re-indent when pasting back into programming-related major modes
-;; from <http://www.emacswiki.org/emacs-en/AutoIndentation>
+;;;; re-indent when pasting back into programming-related major modes
+;;;; from <http://www.emacswiki.org/emacs-en/AutoIndentation>
 (dolist (command '(yank yank-pop))
   (eval `(defadvice ,command
            (after indent-region activate)
@@ -122,7 +122,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
                 (let ((mark-even-if-inactive transient-mark-mode))
                   (indent-region (region-beginning) (region-end) nil))))))
 
-;; from <http://www.emacswiki.org/emacs-en/AutoIndentation>
+;;;; from <http://www.emacswiki.org/emacs-en/AutoIndentation>
 (defadvice kill-line (before check-position activate)
   "Remove excess white space when killing newlines in programming-related major modes."
   (if (member major-mode modes-for-indentation-munging)
@@ -134,7 +134,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
 ;;; GLOBAL AUTO-REVERT
 (require 'autorevert)
 (global-auto-revert-mode t)
-;; Also auto refresh dired, but be quiet about it
+;;;; Also auto refresh dired, but be quiet about it
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
@@ -291,7 +291,7 @@ This is a buffer-local variable.")
 (size-indication-mode t)
 
 ;;; SPELL CHECKING
-;;  (note that exec-path probably needs to be munged before this is run)
+;;;; (note that exec-path probably needs to be munged before this is run)
 (defun genehack/find-in-exec-path (program)
   "Find PROGRAM in 'exec-path'."
   (let ((found nil))
