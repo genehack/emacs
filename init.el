@@ -13,10 +13,6 @@
   "Sub-directory containing config files.")
 (add-to-list 'load-path genehack/emacs-config-dir)
 
-(defvar genehack/emacs-libs-dir (concat genehack/emacs-dir "lib/")
-  "Sub-directory containing third-party Emacs libs.")
-(add-to-list 'load-path genehack/emacs-libs-dir)
-
 (defvar genehack/emacs-tmp-dir (concat genehack/emacs-dir "tmp/")
   "Scratch space for stuff...")
 
@@ -63,14 +59,6 @@
   "File with configuration info that can't be in public repository.")
 (if (file-readable-p genehack/private-config-file)
     (load-library genehack/private-config-file))
-
-;; HELPER FUNCTIONS
-;;; This is here because it's used across several different config
-;;; files as a helper function and it needs to be defined before we
-;;; try to load those files.
-(defun genehack/add-emacs-lib-subdir-to-load-path (dir)
-  "Concat DIR with genehack/emacs-libs-dir and add to 'load-path'."
-  (add-to-list 'load-path (concat genehack/emacs-libs-dir dir)))
 
 ;; PACKAGES
 ;;; if it's not in my melpa, i don't care.

@@ -5,7 +5,6 @@
 ;;; Code:
 
 ;;; LIBRARIES
-(genehack/add-emacs-lib-subdir-to-load-path "cperl-mode")
 (require 'cperl-mode)
 (require 'perl-find-library)
 (require 'pod-mode)
