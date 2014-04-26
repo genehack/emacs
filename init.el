@@ -35,10 +35,6 @@
                       :family "Mono"
                       :height 161))
 
-;; CL
-;;; most everything uses this so let's just get it out of the way...
-(require 'cl)
-
 ;; ELPA
 (require 'package)
 (setq package-user-dir (concat genehack/emacs-dir "elpa"))
