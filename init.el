@@ -153,6 +153,11 @@
     zenburn-theme
     ) "List of packages to automatically install." )
 
+(defvar genehack/packages-to-warn-about
+  '(
+    powerline
+    ) "List of packages that should not be installed.  If seen, will cause warning." )
+
 ;; prevent long installs from borking overall process
 ;(setq url-http-attempt-keepalives nil)
 
@@ -168,6 +173,11 @@
               (package-refresh-contents)
               (setq genehack/packages-refreshed t)))
         (package-install pkg))))
+
+;; and warn about stuff that shouldn't be there
+(dolist (pkg genehack/packages-to-warn-about)
+  (if (package-installed-p pkg)
+      (user-error "Package %s installed, please remove" pkg)))
 
 ;; MAKE EMACS PATH MATCH SHELL PATH
 (require 'exec-path-from-shell)
