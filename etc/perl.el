@@ -25,7 +25,7 @@
 
 ;;; CONFIG
 (setq
- cperl-auto-indent-on-semi t
+ cperl-autoindent-on-semi t
  cperl-auto-newline t
  cperl-clobber-lisp-bindings t
  cperl-close-paren-offset -2
