@@ -22,8 +22,6 @@ chomp $line;
 (my $sha = $line) =~ s/^(\S+).*/$1/;
 say "SHA: $sha" if $debug;
 
-if ( $sha eq '00000000') { say $line }
-else {
-  # Show the commit for that SHA
-  system("git show $sha");
-}
+( $sha eq '00000000')
+  ? say $line
+  : system("git show $sha");
