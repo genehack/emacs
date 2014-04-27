@@ -1,8 +1,1 @@
 This is my Emacs config. There are many like it, but this one is mine.
-
-I've got several third-party libraries included whole within this
-repo; the license terms for those files are whatever the licenses in
-the files say thay are.
-
-Unless otherwise noted, all other files in this repository are GPLv2
-or later.
