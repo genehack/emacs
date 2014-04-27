@@ -30,7 +30,7 @@
 (global-company-mode)
 (setq company-echo-delay 0
       company-idle-delay 0.3
-      company-minimum-prefix-length 0)
+      company-minimum-prefix-length 1)
 (setq-default company-backends '((company-capf :with company-yasnippet)
                                  (company-dabbrev-code company-keywords)
                                  company-go
