@@ -441,6 +441,7 @@ RequireFilenameMatchPackage policy works properly.
     (delete-other-windows)))
 
 ;;; STRIP TRAILING WHITESPACE
+(setq-default show-trailing-whitespace t)
 (defvar genehack/strip-trailing-whitespace-in-these-modes
   '(
     clojure-mode
