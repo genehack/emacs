@@ -180,7 +180,7 @@ RequireFilenameMatchPackage policy works properly.
 (autoload 'github-browse-file "github-browse-file" "browse lines in current file on github")
 
 ;;; GO
-(require 'go-mode-load)
+(require 'go-mode)
 (require 'go-snippets)
 (go-snippets-initialize)
 (add-hook 'before-save-hook 'gofmt-before-save)
