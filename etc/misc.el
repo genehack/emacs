@@ -233,7 +233,17 @@ RequireFilenameMatchPackage policy works properly.
 ;;; JS2
 (autoload 'js2-mode "js2-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-hook 'js2-init-hook 'genehack/js2-mode-setup)
 (setq-default js2-basic-offset 2)
+(defvar genehack/js2-keybindings-to-remove
+  '(
+    "\C-c\C-a"
+    ) "List of keybindings to unset in 'js2-mode' buffers.
+since 'js2-mode' steps on bindings I use globally..." )
+(defun genehack/js2-mode-setup ()
+  "Set up my js2-mode buffers"
+  (dolist (binding genehack/js2-keybindings-to-remove)
+    (local-unset-key (edmacro-parse-keys binding))))
 
 ;;; KILL THIS BUFFER
 (defun genehack/kill-this-buffer ()
