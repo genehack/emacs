@@ -105,5 +105,11 @@ From e.goerlach@computer.org (Ekkehard Görlach) in comp.emacs."
   (define-key cperl-mode-map (kbd "C-c C-s") 'cperl-pod-spell)
   (define-key cperl-mode-map (kbd "C-c C-\\") 'cperl-lineup))
 
+(defun genehack/perl-find-file-at-point ()
+  "Find a perl library by module name"
+  (interactive)
+  (find-file (perl-library-path (cperl-word-at-point))))
+
+
 (provide 'perl)
 ;;; perl.el ends here
