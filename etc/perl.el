@@ -15,6 +15,7 @@
 (defalias 'perl-mode 'cperl-mode)
 
 (add-to-list 'auto-mode-alist '("\\.cgi$" . cperl-mode))
+(add-to-list 'auto-mode-alist '("\\.psgi$" . cperl-mode))
 (add-to-list 'auto-mode-alist '("\\.t$" . cperl-mode))
 (add-to-list 'auto-mode-alist '("\\.pod$" . pod-mode))
 
@@ -103,6 +104,12 @@ From e.goerlach@computer.org (Ekkehard Görlach) in comp.emacs."
   (define-key cperl-mode-map (kbd "C-c C-i") 'cperl-invert-if-unless)
   (define-key cperl-mode-map (kbd "C-c C-s") 'cperl-pod-spell)
   (define-key cperl-mode-map (kbd "C-c C-\\") 'cperl-lineup))
+
+(defun genehack/perl-find-file-at-point ()
+  "Find a perl library by module name"
+  (interactive)
+  (find-file (perl-library-path (cperl-word-at-point))))
+
 
 (provide 'perl)
 ;;; perl.el ends here

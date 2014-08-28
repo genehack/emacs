@@ -607,6 +607,7 @@ Again, not sure what FIELD does..."
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.p?html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tx\\'" . web-mode))
+(add-to-list 'safe-local-variable-values '(web-mode-markup-indent-offset . 4))
 
 ;;; put this at the end so that everything is loaded...
 ;;; DIMINISH
