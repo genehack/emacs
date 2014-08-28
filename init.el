@@ -62,10 +62,8 @@
 
 (defvar genehack/package-list
   '(
-    ac-nrepl
     ag
     annoying-arrows-mode
-    auto-complete
     autopair
     browse-kill-ring
     cider
