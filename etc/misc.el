@@ -43,7 +43,7 @@
 (defun genehack/company-yasnippet-or-completion ()
   "Expand yasnippet if available, otherwise autocomplete."
   (interactive)
-  (if (first (yas--current-key))
+  (if (first (yas--templates-for-key-at-point))
       (progn (company-abort)
              (yas-expand))
     (company-complete-common)))
