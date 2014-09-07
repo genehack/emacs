@@ -599,8 +599,8 @@ Not sure what FIELD is for ..."
                 (save-restriction
                   (narrow-to-region (yas--field-start field)
                                     (yas--field-end field))
-                  (yas--current-key))
-              (yas--current-key))))
+                  (yas--templates-for-key-at-point))
+              (yas--templates-for-key-at-point))))
     (and templates-and-pos (first templates-and-pos))))
 
 (defun yasnippet-change-cursor-color-when-can-fire (&optional field)
