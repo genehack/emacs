@@ -19,7 +19,7 @@
 (global-set-key (kbd "C-a")          'genehack/bol-toggle)
 (global-set-key (kbd "C-c l")        'genehack/git-blame-for-line)
 (global-set-key (kbd "C-c C-A")      'ag-regexp-project-at-point)
-(global-set-key (kbd "C-c C-a")      'ag-project-at-point)
+(global-set-key (kbd "C-c C-a")      'ag-project)
 (global-set-key (kbd "C-c C-b")      'bury-buffer)
 (global-set-key (kbd "C-c C-d")      'genehack/dired-right-here)
 (global-set-key (kbd "C-c C-g")      'genehack/magit-key)
