@@ -89,15 +89,6 @@
 
 ;;; FIPLR
 (require 'fiplr)
-(defun genehack/find-file ()
-  "Switch between 'fiplr-find-find' and 'ido-find-file' depending on whether you're in a project or not."
-  (interactive)
-  (let ((cwd (if (buffer-file-name)
-                 (directory-file-name (file-name-directory (buffer-file-name)))
-               (file-truename "."))))
-    (if (fiplr-find-root cwd fiplr-root-markers)
-        (fiplr-find-file)
-      (ido-find-file))))
 
 ;;; FIXME
 (require 'fixme)
@@ -190,6 +181,46 @@ RequireFilenameMatchPackage policy works properly.
             (local-set-key (kbd "C-c i")   'go-goto-imports)
             (local-set-key (kbd "M-.")     'godef-jump)))
 
+;;; HELM
+(require 'helm)
+(require 'helm-config)
+(require 'helm-files)
+(require 'helm-grep)
+(require 'helm-projectile)
+
+(setq
+ helm-google-suggest-use-curl-p t
+ helm-scroll-amount 4
+ helm-quick-update t
+ helm-idle-delay 0.01
+ helm-input-idle-delay 0.01
+ helm-ff-search-library-in-sexp t
+ helm-split-window-default-side 'other
+ helm-split-window-in-side-p t
+ helm-candidate-number-limit 200
+ helm-M-x-requires-pattern 0
+ helm-ff-file-name-history-use-recentf t
+ helm-move-to-line-cycle-in-source t
+ helm-buffers-fuzzy-matching t
+ helm-projectile-sources-list '(helm-source-projectile-files-list helm-source-projectile-buffers-list helm-source-projectile-recentf-list helm-source-projectile-projects )
+ )
+
+;; Save current position to mark ring when jumping to a different place
+(add-hook 'helm-goto-line-before-hook 'helm-save-current-pos-to-mark-ring)
+
+(helm-mode 1)
+
+(defun genehack/find-file ()
+  "Switch between 'helm-projectile' and 'helm-for-files' depending on whether you're in a project or not."
+  (interactive)
+  (if (fiplr-find-root
+       (if (buffer-file-name)
+           (directory-file-name (file-name-directory (buffer-file-name)))
+         (file-truename "."))
+       fiplr-root-markers)
+      (helm-projectile)
+    (helm-for-files)))
+
 ;;; HTML TIDY
 (autoload 'tidy-buffer             "tidy" "Run Tidy HTML parser on current buffer" t)
 (autoload 'tidy-parse-config-file  "tidy" "Parse the `tidy-config-file'"           t)
@@ -212,23 +243,6 @@ RequireFilenameMatchPackage policy works properly.
         (goto-char (point-min))
         (while (re-search-forward match nil t)
           (replace-match replace nil nil))))))
-
-;;; IDO-UBI
-;;;; from http://whattheemacsd.com//setup-ido.el-01.html
-;;;; Use ido everywhere
-(load "ido-ubiquitous") ;; not require because linter bitches.
-(ido-ubiquitous-mode 1)
-
-(defmacro ido-ubiquitous-use-new-completing-read (cmd package)
-  "Fix 'ido-ubiquitous' for CMD in PACKAGE."
-  `(eval-after-load ,package
-     '(defadvice ,cmd (around ido-ubiquitous-new activate)
-        (let ((ido-ubiquitous-enable-compatibility nil))
-          ad-do-it))))
-
-(ido-ubiquitous-use-new-completing-read webjump 'webjump)
-(ido-ubiquitous-use-new-completing-read yas/expand 'yasnippet)
-(ido-ubiquitous-use-new-completing-read yas/visit-snippet-file 'yasnippet)
 
 ;;; JS2
 (autoload 'js2-mode "js2-mode" nil t)

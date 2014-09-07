@@ -105,8 +105,8 @@
     go-errcheck
     go-mode
     go-snippets
-    ido-hacks
-    ido-ubiquitous
+    helm
+    helm-projectile
     js2-mode
     kolon-mode
     magit
@@ -137,6 +137,8 @@
     coffee-mode
     delim-kill
     full-ack
+    ido
+    ido-ubiquitous
     powerline
     ) "List of packages that should not be installed.  If seen, will cause warning." )
 

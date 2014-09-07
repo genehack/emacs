@@ -159,15 +159,6 @@ Also remove-leading-whitespace-on-kill-line tricks")
 (require 'ibuffer)
 (setq ibuffer-default-sorting-mode 'major-mode)
 
-;;; IDO
-(require 'ido)
-(setq ido-enable-flex-matching t
-      ido-create-new-buffer 'always
-      ido-use-filename-at-point 'guess
-      ido-file-extensions-order '(".pm" ".pl" ".tt" ".tt2" ".html" ".css" t))
-(ido-everywhere)
-(ido-mode 1)
-
 ;;; KEYSTROKE ECHO
 (setq echo-keystrokes 0.1)
 
@@ -194,7 +185,6 @@ This is a buffer-local variable.")
   (setq mac-command-modifier 'meta)
   (setq mac-function-modifier 'super)
   (setq mac-option-modifier nil)
-  (add-to-list 'ido-ignore-files "\\.DS_Store")
   ;;  (ns-toggle-fullscreen)
   (setq browse-url-browser-function 'browse-url-default-macosx-browser)
   (setq delete-by-moving-to-trash t))
