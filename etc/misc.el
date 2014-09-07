@@ -574,6 +574,7 @@ since 'js2-mode' steps on bindings I use globally..." )
       (error "Snippets directory creation blocked by file"))
   (make-directory genehack/yas-snippet-dir))
 (yas-load-directory genehack/yas-snippet-dir)
+(setq yas-snippet-dirs (delete "~/.emacs.d/snippets" yas-snippet-dirs))
 (add-to-list 'yas-snippet-dirs genehack/yas-snippet-dir)
 (yas-global-mode)
 
