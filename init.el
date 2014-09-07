@@ -137,7 +137,7 @@
     coffee-mode
     delim-kill
     full-ack
-    ido
+    ido-hacks
     ido-ubiquitous
     powerline
     ) "List of packages that should not be installed.  If seen, will cause warning." )
