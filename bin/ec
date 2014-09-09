@@ -1,4 +1,6 @@
-#! /bin/sh
+#! /bin/bash
+set -euo pipefail
+IFS=$'\n\t'
 
 if [ $OS_TYPE = 'darwin' ]; then
     EMACSCLIENT='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
