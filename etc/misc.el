@@ -237,6 +237,7 @@ RequireFilenameMatchPackage policy works properly.
                      ("“"  . "&#8220;")
                      ("”"  . "&#8221;")
                      ("™" . "&#8482;")
+                     ("…" . "&#8230;")
                      ))
       (let ((match (car thing))
             (replace (cdr thing)))
