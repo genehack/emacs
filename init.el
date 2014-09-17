@@ -66,10 +66,8 @@
     annoying-arrows-mode
     autopair
     browse-kill-ring
-    cider
     clojure-mode
     clojure-snippets
-    clojure-test-mode
     company
     company-go
     cperl-mode
