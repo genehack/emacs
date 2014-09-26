@@ -223,7 +223,7 @@ RequireFilenameMatchPackage policy works properly.
          (file-truename "."))
        fiplr-root-markers)
       (helm-projectile)
-    (helm-for-files)))
+    (helm-find-files nil)))
 
 ;;; HTML TIDY
 (autoload 'tidy-buffer             "tidy" "Run Tidy HTML parser on current buffer" t)
