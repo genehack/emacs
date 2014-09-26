@@ -36,6 +36,7 @@
 (global-set-key (kbd "C-c M-x")      'execute-extended-command)
 (global-set-key (kbd "C-x =")        'genehack/diff-current-buffer-with-file)
 (global-set-key (kbd "C-x C-b")      'helm-buffers-list)
+(global-set-key (kbd "C-x C-f")      'genehack/find-file)
 (global-set-key (kbd "C-x F")        'genehack/find-file)
 (global-set-key (kbd "C-x K")        'genehack/kill-this-buffer)
 (global-set-key (kbd "C-x M-b")      'ibuffer)
