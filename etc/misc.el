@@ -455,6 +455,9 @@ since 'js2-mode' steps on bindings I use globally..." )
 (require 'smex)
 (smex-initialize)
 
+;;; SML
+(require 'sml-mode)
+
 ;;; SPLIT-(HORIZONT|VERTIC)ALLY-OR-DELETE-OTHER-WINDOWS
 (defun genehack/split-horizontally-or-delete-other-windows ()
   "If one window, split horizontally; otherwise, 'delete-other-windows'."
