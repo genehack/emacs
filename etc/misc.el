@@ -261,7 +261,7 @@ RequireFilenameMatchPackage policy works properly.
     ) "List of keybindings to unset in 'js2-mode' buffers.
 since 'js2-mode' steps on bindings I use globally..." )
 (defun genehack/js2-mode-setup ()
-  "Set up my js2-mode buffers"
+  "Set up my js2-mode buffers."
   (dolist (binding genehack/js2-keybindings-to-remove)
     (local-unset-key (edmacro-parse-keys binding))))
 
