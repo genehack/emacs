@@ -490,6 +490,7 @@ since 'js2-mode' steps on bindings I use globally..." )
     emacs-lisp-mode
     lisp-mode
     scala-mode
+    sml-mode
     tt-mode
     yaml-mode
     web-mode
