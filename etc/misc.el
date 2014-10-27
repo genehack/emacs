@@ -463,7 +463,7 @@ since 'js2-mode' steps on bindings I use globally..." )
 (defun genehack/run-sml nil
   "run SML without prompting"
   (interactive)
-  (run-sml "sml" ""))
+  (sml-run "sml" ""))
 
 ;;; SPLIT-(HORIZONT|VERTIC)ALLY-OR-DELETE-OTHER-WINDOWS
 (defun genehack/split-horizontally-or-delete-other-windows ()
