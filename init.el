@@ -71,6 +71,7 @@
 (defvar genehack/package-list
   '(
     ag
+    aggressive-indent
     annoying-arrows-mode
     autopair
     browse-kill-ring

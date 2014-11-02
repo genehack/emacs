@@ -8,6 +8,10 @@
 (require 'ag)
 (setq ag-highlight-search t)
 
+;;; AGGRESSIVE-INDENT
+(global-aggressive-indent-mode 1)
+;; (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
+
 ;;; ANNOYING ARROWS
 (load "annoying-arrows-mode") ;; not require because linter bitches.
 (global-annoying-arrows-mode)
