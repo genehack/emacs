@@ -66,7 +66,8 @@
 
 ;; PACKAGES
 ;;; if it's not in my melpa, i don't care.
-(eval-after-load "package" '(setq package-archives '(("melpa" . "http://melpa.genehack.net/packages/"))))
+(eval-after-load "package" '(setq package-archives '(("my-melpa" . "http://melpa.genehack.net/packages/")
+                                                     ("melpa"    . "http://melpa.org/packages/"))))
 
 (defvar genehack/package-list
   '(
