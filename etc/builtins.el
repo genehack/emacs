@@ -7,6 +7,8 @@
 
 ;;; Code:
 
+(require 'use-package)
+
 ;;; ANSI-MODE FOR SHELLS
 (ansi-color-for-comint-mode-on)
 
@@ -24,8 +26,8 @@
 (setq version-control t)
 
 ;;; CALENDAR
-(require 'calendar)
-(setq calendar-mark-holidays-flag t)
+(use-package calendar
+  :config (setq calendar-mark-holidays-flag t))
 
 ;;; CURSOR
 (setq-default cursor-type 'box)
@@ -37,45 +39,55 @@
 (desktop-save-mode 1)
 
 ;;; DIRED
-(require 'dired)
+(defun genehack/bind-key-for-wdired ()
+  "Add a keybinding for wdired in 'dired-mode'."
+  (local-set-key (kbd "E") 'wdired-change-to-wdired-mode))
+
+(use-package dired
+  :commands dired
+  :config (progn
+            (define-key dired-mode-map
+              (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
+            (define-key dired-mode-map
+              (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom)
+            (add-hook 'dired-mode-hook 'genehack/bind-key-for-wdired)
+            (setq-default dired-listing-switches "-alhv --time-style=long-iso")
+            (setq dired-recursive-copies 'always)))
+
+;;;; http://www.reddit.com/r/emacs/comments/18qa15/dired_discussion/
+(use-package dired-details+
+  :ensure dired-details+)
+
+(use-package dired-details
+  :commands dired-details-install
+  :ensure dired-details
+  :init (dired-details-install))
+
+(use-package dired-x
+  :bind ("C-x C-j" . dired-jump)
+  :commands dired-jump)
+
 (defun jsja-dired-right-here ()
   "Run dired on current active directory."
   (interactive)
   (dired default-directory))
-
-(autoload 'dired-jump "dired-x"
-  "Jump to Dired buffer corresponding to current buffer." t)
-(define-key global-map "\C-x\C-j" 'dired-jump)
 
 ;;;; http://whattheemacsd.com//setup-dired.el-02.html
 (defun dired-back-to-top ()
   "Jump to the top file in a dired buffer."
   (interactive)
   (goto-char (point-min))
-  (dired-next-line 4))
-
-(define-key dired-mode-map
-  (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
+  ;; because the number of header lines varies depending on whether
+  ;; mode info is shown or hidden, find the double-dot directory entry
+  ;; and go forward one line -- heuristic, but will always work.
+  (search-forward "..")
+  (dired-next-line 1))
 
 (defun dired-jump-to-bottom ()
   "Jump to the last file in a dired buffer."
   (interactive)
   (goto-char (point-max))
   (dired-next-line -1))
-
-(define-key dired-mode-map
-  (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom)
-
-;;;; http://www.reddit.com/r/emacs/comments/18qa15/dired_discussion/
-(require 'dired-details)
-(require 'dired-details+)
-(dired-details-install)
-(defun genehack/bind-key-for-wdired ()
-  "Add a keybinding for wdired in 'dired-mode'."
-  (local-set-key (kbd "E") 'wdired-change-to-wdired-mode))
-(add-hook 'dired-mode-hook 'genehack/bind-key-for-wdired)
-(setq-default dired-listing-switches "-alhv --time-style=long-iso")
-(setq dired-recursive-copies 'always)
 
 ;;; DISABLE
 (put 'overwrite-mode 'disabled t)
@@ -85,17 +97,18 @@
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 ;;; FFAP
-(require 'ffap)
-(ffap-bindings)
+(use-package ffap
+  :init (ffap-bindings))
 
 ;;; FONT-LOCK
-(require 'font-lock)
-(global-font-lock-mode 1)
-(setq-default font-lock-maximum-decoration t
-              font-lock-maximum-size nil)
-(setq jit-lock-stealth-time 5
-      jit-lock-defer-contextually t
-      jit-lock-stealth-nice 0.5)
+(use-package font-lock
+  :config (progn
+            (setq-default font-lock-maximum-decoration t
+                          font-lock-maximum-size nil)
+            (setq jit-lock-stealth-time 5
+                  jit-lock-defer-contextually t
+                  jit-lock-stealth-nice 0.5))
+  :init (global-font-lock-mode 1))
 
 ;;; GENERAL INDENTATION RELATED OPTIONS
 (setq-default indent-tabs-mode nil)
@@ -134,11 +147,12 @@ Also remove-leading-whitespace-on-kill-line tricks")
                  (backward-char 1)))))
 
 ;;; GLOBAL AUTO-REVERT
-(require 'autorevert)
-(global-auto-revert-mode t)
-;;;; Also auto refresh dired, but be quiet about it
-(setq global-auto-revert-non-file-buffers t)
-(setq auto-revert-verbose nil)
+(use-package autorevert
+  :config (progn
+            ;; Also auto refresh dired, but be quiet about it
+            (setq global-auto-revert-non-file-buffers t)
+            (setq auto-revert-verbose nil))
+  :init (global-auto-revert-mode t))
 
 ;;; HIPPY-EXPAND
 (setq hippie-expand-try-functions-list '(
@@ -156,29 +170,33 @@ Also remove-leading-whitespace-on-kill-line tricks")
 (add-hook 'html-mode-hook 'turn-off-auto-fill)
 
 ;;; IBUFFER
-(require 'ibuffer)
-(setq ibuffer-default-sorting-mode 'major-mode)
+(use-package ibuffer
+  :config (setq ibuffer-default-sorting-mode 'major-mode))
 
 ;;; KEYSTROKE ECHO
 (setq echo-keystrokes 0.1)
 
 ;;; LINE NUMBERS
-(require 'linum)
-(column-number-mode 1)
+(use-package linum
+  :config (progn
+            (add-hook 'linum-before-numbering-hook 'genehack/linum-before-numbering)
+            (setq linum-format 'genehack/linum-format))
+  :init (column-number-mode 1))
+
 (defvar genehack/linum-max-line-width "0"
   "Number of digits in last line in current buffer.
 This is a buffer-local variable.")
+
 (defun genehack/linum-before-numbering ()
   "Small kludge to figure out the appropriate width for linum to use."
   (make-local-variable 'genehack/linum-max-line-width)
   (save-excursion
     (goto-char (point-max))
     (setq genehack/linum-max-line-width (length (format "%s" (line-number-at-pos))))))
-(add-hook 'linum-before-numbering-hook 'genehack/linum-before-numbering)
+
 (defun genehack/linum-format (number)
   "My linum format, NUMBER digits wide."
   (format (concat " %" (number-to-string genehack/linum-max-line-width) "d ") number))
-(setq linum-format 'genehack/linum-format)
 
 ;;; MAC STUFF
 (when (eq system-type 'darwin)
@@ -198,39 +216,37 @@ This is a buffer-local variable.")
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
 ;;; NXML-MODE
-(require 'nxml-mode)
-(fset 'xml-mode 'nxml-mode)
-(add-to-list 'auto-mode-alist '("\\.rng'"  . nxml-mode))
-(add-to-list 'auto-mode-alist '("\\.rss'"  . nxml-mode))
-(add-to-list 'auto-mode-alist '("\\.xml'"  . nxml-mode))
-(add-to-list 'auto-mode-alist '("\\.xsd'"  . nxml-mode))
-(add-to-list 'auto-mode-alist '("\\.xslt'" . nxml-mode))
-
-(if (boundp 'magic-mode-alist)
-    (setq magic-mode-alist (cons '("<\\?xml " . nxml-mode) magic-mode-alist))
-  (defvar magic-mode-alist)
-  (setq magic-mode-alist '("<\\?xml " . nxml-mode)))
-
-(setq nxml-bind-meta-tab-to-complete-flag nil)
+(use-package nxml-mode
+  :config (progn
+            (fset 'xml-mode 'nxml-mode)
+            (add-to-list 'auto-mode-alist '("\\.rng'"  . nxml-mode))
+            (add-to-list 'auto-mode-alist '("\\.rss'"  . nxml-mode))
+            (add-to-list 'auto-mode-alist '("\\.xml'"  . nxml-mode))
+            (add-to-list 'auto-mode-alist '("\\.xsd'"  . nxml-mode))
+            (add-to-list 'auto-mode-alist '("\\.xslt'" . nxml-mode))
+            (setq magic-mode-alist (cons '("<\\?xml " . nxml-mode) magic-mode-alist))
+            (setq nxml-bind-meta-tab-to-complete-flag nil)))
 
 ;;; PAREN MATCH
-(require 'paren)
-(show-paren-mode t)
-(setq show-paren-style 'expression)
+(use-package paren
+  :config (progn
+            (show-paren-mode t)
+            (setq show-paren-style 'expression)))
 
 ;;; PS PRINT
 (setq ps-print-color-p nil)
 
 ;;; SAVE-HIST
-(require 'savehist)
-(setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
-(setq savehist-file (expand-file-name "savehist" genehack/emacs-tmp-dir))
-(savehist-mode t)
+(use-package savehist
+  :config (progn
+            (setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
+            (setq savehist-file (expand-file-name "savehist" genehack/emacs-tmp-dir)))
+  :init (savehist-mode t))
 
 ;;; SAVEPLACE
-(setq-default save-place t)
-(require 'saveplace)
-(setq save-place-file (expand-file-name "saveplace" genehack/emacs-tmp-dir))
+(use-package saveplace
+  :config (setq save-place-file (expand-file-name "saveplace" genehack/emacs-tmp-dir))
+  :init (setq-default save-place t))
 
 ;;; SCRATCH BUFFER
 (setq initial-scratch-message
@@ -240,8 +256,8 @@ This is a buffer-local variable.")
 (server-start)
 
 ;;; SGML-MODE
-(require 'sgml-mode)
-(define-key sgml-mode-map "\C-c\C-b" nil)
+(use-package sgml-mode
+  :config (define-key sgml-mode-map "\C-c\C-b" nil))
 
 ;;; SIZE INDICATION MODE
 (size-indication-mode t)
@@ -264,36 +280,37 @@ This is a buffer-local variable.")
 (defvar genehack/found-spelling-program nil
   "Boolean indicating whether or not a spelling program was found in 'exec-path'.")
 
-(require 'ispell)
-(let ()
-  (if (genehack/find-in-exec-path "aspell")
-      (progn
-        (setq-default ispell-program-name "aspell")
-        (setq ispell-extra-args '("--sug-mode=ultra"))
-        (setq genehack/found-spelling-program t))
-    (if (genehack/find-in-exec-path "ispell")
-        (progn
-          (setq-default ispell-program-name "ispell")
-          (setq ispell-extra-args '("-W 3"))
-          (setq genehack/found-spelling-program t))))
-  (if (eq genehack/found-spelling-program t)
-      (progn
-        (autoload 'ispell-word   "ispell" "check word spelling."   t)
-        (autoload 'ispell-region "ispell" "check region spelling." t)
-        (autoload 'ispell-buffer "ispell" "check buffer spelling." t)
-        (require 'flyspell))
+(use-package ispell
+  :config (progn
+            (if (genehack/find-in-exec-path "aspell")
+                (progn
+                  (setq-default ispell-program-name "aspell")
+                  (setq ispell-extra-args '("--sug-mode=ultra"))
+                  (setq genehack/found-spelling-program t))
+              (if (genehack/find-in-exec-path "ispell")
+                  (progn
+                    (setq-default ispell-program-name "ispell")
+                    (setq ispell-extra-args '("-W 3"))
+                    (setq genehack/found-spelling-program t))))
+            (if (eq genehack/found-spelling-program t)
+                (progn
+                  (autoload 'ispell-word   "ispell" "check word spelling."   t)
+                  (autoload 'ispell-region "ispell" "check region spelling." t)
+                  (autoload 'ispell-buffer "ispell" "check buffer spelling." t)
+                  (require 'flyspell))
 
-    (defalias 'ispell-word   'genehack/spelling-not-found)
-    (defalias 'ispell-region 'genehack/spelling-not-found)
-    (defalias 'ispell-buffer 'genehack/spelling-not-found)))
+              (defalias 'ispell-word   'genehack/spelling-not-found)
+              (defalias 'ispell-region 'genehack/spelling-not-found)
+              (defalias 'ispell-buffer 'genehack/spelling-not-found))))
 
 ;;; TERM-MODE
-(require 'term)
+(use-package term
+  :config (add-hook 'term-mode-hook 'genehack/set-up-term-mode))
+
 (defun genehack/set-up-term-mode ()
   "My customizations for 'term-mode'."
   (yas-minor-mode -1)
   (setq term-buffer-maximum-size 10000))
-(add-hook 'term-mode-hook 'genehack/set-up-term-mode)
 
 ;;; TEXT-MODE
 (defun genehack/set-up-text-mode ()
@@ -306,10 +323,11 @@ This is a buffer-local variable.")
 (add-hook 'text-mode-hook 'genehack/set-up-text-mode)
 
 ;;; TIME DISPLAY
-(require 'time)
-(setq display-time-24hr-format t)
-(setq display-time-day-and-date t)
-(display-time)
+(use-package time
+  :init (progn
+          (setq display-time-24hr-format t)
+          (setq display-time-day-and-date t)
+          (display-time)))
 
 ;;; TITLE BARS
 (setq frame-title-format "<%b> == (%f) [mode: %m]")
@@ -321,10 +339,11 @@ This is a buffer-local variable.")
 (setq delete-by-moving-to-trash t)
 
 ;;; UNIQUIFY
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'reverse
-      uniquify-separator "/"
-      uniquify-after-kill-buffer-p t)
+(use-package uniquify
+  :config (progn
+            (setq uniquify-buffer-name-style 'reverse
+                  uniquify-separator "/"
+                  uniquify-after-kill-buffer-p t)))
 
 ;;; UTF8
 (setq locale-coding-system 'utf-8)

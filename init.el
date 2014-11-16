@@ -69,110 +69,76 @@
 (eval-after-load "package" '(setq package-archives '(("my-melpa" . "http://melpa.genehack.net/packages/")
                                                      ("melpa"    . "http://melpa.org/packages/"))))
 
-(defvar genehack/package-list
-  '(
-    ag
-    aggressive-indent
-    annoying-arrows-mode
-    autopair
-    browse-kill-ring
-    clojure-mode
-    clojure-snippets
-    company
-    company-go
-    cperl-mode
-    css-mode
-    diminish
-    dired+
-    dired-details
-    dired-details+
-    disk
-    exec-path-from-shell
-    expand-region
-    find-file-in-project
-    fiplr
-    flycheck
-    flycheck-color-mode-line
-    flymake-cursor
-    flymake-easy
-    flymake-perlcritic
-    flymake-shell
-    genehack-misc-elisp
-    genehack-perl-elisp
-    gh
-    gist
-    git-blame
-    git-commit-mode
-    git-gutter
-    gitconfig-mode
-    github-browse-file
-    gitignore-mode
-    go-autocomplete
-    go-direx
-    go-eldoc
-    go-errcheck
-    go-mode
-    go-snippets
-    helm
-    helm-projectile
-    js2-mode
-    kolon-mode
-    magit
-    markdown-mode
-    markdown-mode+
-    maxframe
-    move-text
-    multi-term
-    perlcritic
-    pretty-lambdada
-    projectile
-    scala-mode2
-    smart-tab
-    smartparens
-    smex
-    solarized-theme
-    tidy
-    twilight-theme
-    unbound
-    web-mode
-    yaml-mode
-    yasnippet
-    zenburn-theme
-    ) "List of packages to automatically install." )
+(require 'use-package)
 
-(defvar genehack/packages-to-warn-about
-  '(
-    coffee-mode
-    delim-kill
-    full-ack
-    ido-hacks
-    ido-ubiquitous
-    powerline
-    ) "List of packages that should not be installed.  If seen, will cause warning." )
+;; (defvar genehack/package-list
+;;   '(
+;;     clojure-mode
+;;     clojure-snippets
+;;     cperl-mode
+;;     css-mode
+;;     diminish
+;;     exec-path-from-shell
+;;     find-file-in-project
+;;     flymake-cursor
+;;     flymake-easy
+;;     flymake-perlcritic
+;;     flymake-shell
+;;     genehack-perl-elisp
+;;     gh
+;;     gist
+;;     git-blame
+;;     git-gutter
+;;     gitconfig-mode
+;;     gitignore-mode
+;;     go-autocomplete
+;;     go-direx
+;;     go-eldoc
+;;     go-errcheck
+;;     ;; helm
+;;     ;; helm-projectile
+;;     maxframe
+;;     perlcritic
+;;     pretty-lambdada
+;;     scala-mode2
+;;     unbound
+;;     use-package
+;;     zenburn-theme
+;;     ) "List of packages to automatically install." )
 
-(defvar genehack/packages-refreshed nil
-  "Flag for whether package lists have been refreshed yet.")
+;; (defvar genehack/packages-to-warn-about
+;;   '(
+;;     coffee-mode
+;;     delim-kill
+;;     full-ack
+;;     ido-hacks
+;;     ido-ubiquitous
+;;     powerline
+;;     ) "List of packages that should not be installed.  If seen, will cause warning." )
 
-;;; install anything that's missing
-(dolist (pkg genehack/package-list)
-  (if (not (package-installed-p pkg))
-      (progn
-        (if (not (eq genehack/packages-refreshed t))
-            (progn
-              (package-refresh-contents)
-              (setq genehack/packages-refreshed t)))
-        (package-install pkg))))
+;; (defvar genehack/packages-refreshed nil
+;;   "Flag for whether package lists have been refreshed yet.")
 
-;;; and warn about stuff that shouldn't be there
-(dolist (pkg genehack/packages-to-warn-about)
-  (if (package-installed-p pkg)
-      (warn "Package %s installed, please remove" pkg)))
+;; ;;; install anything that's missing
+;; (dolist (pkg genehack/package-list)
+;;   (if (not (package-installed-p pkg))
+;;       (progn
+;;         (if (not (eq genehack/packages-refreshed t))
+;;             (progn
+;;               (package-refresh-contents)
+;;               (setq genehack/packages-refreshed t)))
+;;         (package-install pkg))))
+
+;; ;;; and warn about stuff that shouldn't be there
+;; (dolist (pkg genehack/packages-to-warn-about)
+;;   (if (package-installed-p pkg)
+;;       (warn "Package %s installed, please remove" pkg)))
 
 ;; MAKE EMACS PATH MATCH SHELL PATH
-(require 'exec-path-from-shell)
-(setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOROOT" "GOPATH"))
-(exec-path-from-shell-initialize)
-
+(use-package exec-path-from-shell
+  :config (setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOROOT" "GOPATH"))
+  :ensure exec-path-from-shell
+  :init (exec-path-from-shell-initialize))
 
 ;; MODULES
 ;;; All the rest of the config is split out into individual files, for
@@ -188,8 +154,8 @@
   "List of modules to load on startup.")
 
 (dolist (pkg genehack/module-list)
-  (if (file-readable-p (concat genehack/emacs-config-dir pkg ".el"))
-      (load-library pkg)))
+   (if (file-readable-p (concat genehack/emacs-config-dir pkg ".el"))
+       (load-library pkg)))
 
 (provide 'init)
 ;;; init.el ends here

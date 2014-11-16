@@ -4,17 +4,27 @@
 
 ;;; Code:
 
+(require 'use-package)
+
 ;;; AG
-(require 'ag)
-(setq ag-highlight-search t)
+(use-package ag
+  :ensure ag
+  :init (setq ag-highlight-search t))
 
 ;;; AGGRESSIVE-INDENT
-(global-aggressive-indent-mode 1)
-;; (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
+(use-package aggressive-indent
+  :commands global-aggressive-indent-mode
+  :diminish aggressive-indent-mode
+  :ensure aggressive-indent
+  :init (progn
+          ;; (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
+          (global-aggressive-indent-mode 1)))
 
 ;;; ANNOYING ARROWS
-(load "annoying-arrows-mode") ;; not require because linter bitches.
-(global-annoying-arrows-mode)
+(use-package annoying-arrows-mode
+  :commands global-annoying-arrows-mode
+  :ensure annoying-arrows-mode
+  :init (global-annoying-arrows-mode))
 
 ;;; AUTO CREATE DIRECTORIES
 ;;;; after <http://atomized.org/2008/12/emacs-create-directory-before-saving/>
@@ -25,25 +35,34 @@
 (add-hook 'before-save-hook 'genehack/set-up-before-save-hook)
 
 ;;; BROWSE-KILL-RING
-(require 'browse-kill-ring)
-(browse-kill-ring-default-keybindings)
+(use-package browse-kill-ring
+  :commands browse-kill-ring-default-keybindings
+  :ensure browse-kill-ring
+  :init (browse-kill-ring-default-keybindings))
 
 ;;; COMPANY-MODE
-(require 'company)
-(require 'company-go)
-(global-company-mode)
-(setq company-echo-delay 0
-      company-idle-delay 0.3
-      company-minimum-prefix-length 1)
-(setq-default company-backends '((company-capf :with company-yasnippet)
-                                 (company-dabbrev-code company-keywords)
-                                 company-go
-                                 company-nxml
-                                 company-css
-                                 company-files
-                                 company-dabbrev))
-;;;; inspired by https://gist.github.com/nonsequitur/265010
-(require 'yasnippet)
+(use-package company
+  :bind ("\t" . genehack/company-yasnippet-or-completion)
+  :commands global-company-mode
+  :config (progn
+            (setq company-echo-delay 0
+                  company-idle-delay 0.3
+                  company-minimum-prefix-length 1)
+            (setq-default company-backends
+                          '((company-capf :with company-yasnippet)
+                            (company-dabbrev-code company-keywords)
+                            company-go
+                            company-nxml
+                            company-css
+                            company-files
+                            company-dabbrev)))
+  :diminish company-mode
+  :ensure company
+  :init (progn
+          (require 'company-go)
+          (global-company-mode)))
+
+;; inspired by https://gist.github.com/nonsequitur/265010
 (defun genehack/company-yasnippet-or-completion ()
   "Expand yasnippet if available, otherwise autocomplete."
   (interactive)
@@ -51,7 +70,6 @@
       (progn (company-abort)
              (yas-expand))
     (company-complete-common)))
-(define-key company-active-map "\t" 'genehack/company-yasnippet-or-completion)
 
 ;;; CONVERT LINE ENDINGS
 ;;;; from http://www.emacswiki.org/emacs/EndOfLineTips
@@ -66,13 +84,19 @@
     (set-buffer-modified-p nil)))
 
 ;;; CSS-HEXCOLOR
-(require 'css-hexcolor)
+(use-package css-hexcolor
+  :ensure genehack-misc-elisp)
 
 ;;; DIFF-CURRENT-BUFFER-WITH-FILE
 (defun genehack/diff-current-buffer-with-file ()
   "Show diff between current buffer contents and file on disk."
   (interactive)
   (diff-buffer-with-file (current-buffer)))
+
+;;; DIMINISH
+;;;; from http://whattheemacsd.com/init.el-04.html
+(use-package diminish
+  :ensure diminish)
 
 ;;; DIRED-RIGHT-HERE
 (defun genehack/dired-right-here (arg)
@@ -83,80 +107,94 @@
     (dired default-directory)))
 
 ;;; DISK
-(require 'disk)
+(use-package disk
+  :commands disk
+  :ensure disk)
 
 ;;; EXPAND-REGION
-(require 'expand-region)
+(use-package expand-region
+  :ensure expand-region)
 
 ;;; FILLADAPT -- WTF isn't this part of emacs by default by now?!
-(require 'filladapt)
+(use-package filladapt
+  :ensure genehack-misc-elisp)
 
 ;;; FIPLR
-(require 'fiplr)
+;; TODO do you actually use this?
+(use-package fiplr
+  :defer t
+  :ensure fiplr)
 
 ;;; FIXME
-(require 'fixme)
+(use-package fixme
+  :ensure genehack-misc-elisp)
 
 ;;; FLYCHECK
 ;;;; https://github.com/flycheck/flycheck
-(require 'flycheck)
-(require 'flycheck-color-mode-line)
-(require 'projectile)
-(defun genehack/include-perl-lib-p ()
-  "Add 'lib' subdir to '-I' option of flycheck cmd if it exists."
-  (defvar project/lib "")
-  (if (projectile-project-p)
-      (let ((root (projectile-project-root)))
-        (setq project/lib (concat root "lib"))
-        (if (and (file-exists-p project/lib)
-                 (file-directory-p project/lib))
-            (concat "-I" project/lib)))))
+(use-package flycheck-color-mode-line
+  :commands flycheck-color-mode-line-mode
+  :ensure flycheck-color-mode-line)
 
-(add-hook 'after-init-hook #'global-flycheck-mode)
-(eval-after-load "flycheck" '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
+(use-package flycheck
+  :commands flycheck-define-checker global-flycheck-mode
+  :config (progn
+            (require 'projectile)
+            (add-hook 'after-init-hook #'global-flycheck-mode)
+            (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
+            (defun genehack/include-perl-lib-p ()
+              "Add 'lib' subdir to '-I' option of flycheck cmd if it exists."
+              (defvar project/lib "")
+              (if (projectile-project-p)
+                  (let ((root (projectile-project-root)))
+                    (setq project/lib (concat root "lib"))
+                    (if (and (file-exists-p project/lib)
+                             (file-directory-p project/lib))
+                        (concat "-I" project/lib)))))
+            (setq flycheck-perlcritic-verbosity "5")
+            (add-to-list 'flycheck-checkers 'genehack/perl-perlcritic))
+  :defer t
+  :ensure flycheck)
 
 (flycheck-define-checker perl-with-lib-from-project-root
-  "A Perl syntax checker using the Perl interpreter.
+                         "A Perl syntax checker using the Perl interpreter.
 
 Uses projectile to find the project root, and if there is a 'lib'
 directory there, adds it to PERL5LIB.
 
 See URL `http://www.perl.org'."
-  :command ("perl" "-w" "-c" (eval (genehack/include-perl-lib-p)) source)
-  :error-patterns
-  ((error line-start (minimal-match (message))
-          " at " (file-name) " line " line
-          (or "." (and ", " (zero-or-more not-newline))) line-end))
-  :modes (perl-mode cperl-mode)
-  :next-checkers (genehack/perl-perlcritic))
+                         :command ("perl" "-w" "-c" (eval (genehack/include-perl-lib-p)) source)
+                         :error-patterns
+                         ((error line-start (minimal-match (message))
+                                 " at " (file-name) " line " line
+                                 (or "." (and ", " (zero-or-more not-newline))) line-end))
+                         :modes (perl-mode cperl-mode)
+                         :next-checkers (genehack/perl-perlcritic))
 
 (flycheck-define-checker genehack/perl-perlcritic
-  "A Perl syntax checker using Perl::Critic.
+                         "A Perl syntax checker using Perl::Critic.
 
 See URL `http://search.cpan.org/~thaljef/Perl-Critic/'.
 
 Modified to use original source file so that
 RequireFilenameMatchPackage policy works properly.
 "
-  :command ("perlcritic" "--no-color" "--verbose" "%f:%l:%c:%s:%m (%e)\n"
-            (option "--severity" flycheck-perlcritic-verbosity
-                    flycheck-option-int)
-            source-original)
-  :error-patterns
-  ((info line-start
-         (file-name) ":" line ":" column ":" (any "1") ":" (message)
-         line-end)
-   (warning line-start
-            (file-name) ":" line ":" column ":" (any "234") ":" (message)
-            line-end)
-   (error line-start
-          (file-name) ":" line ":" column ":" (any "5") ":" (message)
-          line-end))
-  :modes (cperl-mode perl-mode)
-  :predicate (lambda () (and (buffer-file-name)
-                             (not (buffer-modified-p)))))
-(setq flycheck-perlcritic-verbosity "5")
-(add-to-list 'flycheck-checkers 'genehack/perl-perlcritic)
+                         :command ("perlcritic" "--no-color" "--verbose" "%f:%l:%c:%s:%m (%e)\n"
+                                   (option "--severity" flycheck-perlcritic-verbosity
+                                           flycheck-option-int)
+                                   source-original)
+                         :error-patterns
+                         ((info line-start
+                                (file-name) ":" line ":" column ":" (any "1") ":" (message)
+                                line-end)
+                          (warning line-start
+                                   (file-name) ":" line ":" column ":" (any "234") ":" (message)
+                                   line-end)
+                          (error line-start
+                                 (file-name) ":" line ":" column ":" (any "5") ":" (message)
+                                 line-end))
+                         :modes (cperl-mode perl-mode)
+                         :predicate (lambda () (and (buffer-file-name)
+                                                    (not (buffer-modified-p)))))
 
 ;;; GIT BLAME FOR LINE
 (defun genehack/git-blame-for-line ()
@@ -165,76 +203,86 @@ RequireFilenameMatchPackage policy works properly.
   (defvar blame-out "")
   (let ((blame-line (line-number-at-pos (point)))
         (blame-file (buffer-file-name)))
-    (setq blame-out (shell-command-to-string (format "~/bin/git-blame-from-line-num %s %s" blame-line blame-file)))
+    (setq blame-out (shell-command-to-string
+                     (format "~/bin/git-blame-from-line-num %s %s" blame-line blame-file)))
     (with-output-to-temp-buffer "*git blame*" (princ blame-out))))
 
-;;; GIT - misc
-(require 'git-commit-mode)
+;;; GIT COMMIT MODE
+(use-package git-commit-mode
+  :commands git-commit-mode
+  :ensure git-commit-mode)
 
 ;;; GITHUB-BROWSE-FILE
-(autoload 'github-browse-file "github-browse-file" "browse lines in current file on github")
+(use-package github-browse-file
+  :commands github-browse-file
+  :ensure github-browse-file)
 
 ;;; GO
-(require 'go-mode)
-(require 'go-snippets)
-(go-snippets-initialize)
-(setq gofmt-command "goimports")
-(add-hook 'before-save-hook 'gofmt-before-save)
-(add-hook 'go-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
-            (local-set-key (kbd "C-c i")   'go-goto-imports)
-            (local-set-key (kbd "M-.")     'godef-jump)))
+(use-package go-mode
+  :commands go-mode
+  :config (progn
+            (setq gofmt-command "goimports")
+            (add-hook 'before-save-hook 'gofmt-before-save)
+            (add-hook 'go-mode-hook
+                      (lambda ()
+                        (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
+                        (local-set-key (kbd "C-c i")   'go-goto-imports)
+                        (local-set-key (kbd "M-.")     'godef-jump))))
+  :ensure go-mode)
+
+;; (use-package go-snippets
+;;   :disabled t
+;;   :ensure go-snippets
+;;   :init (go-snippets-initialize))
 
 ;;; HELM
-(require 'helm)
-(require 'helm-config)
-(require 'helm-files)
-(require 'helm-grep)
-(require 'helm-projectile)
+;; (require 'helm)
+;; (require 'helm-config)
+;; (require 'helm-files)
+;; (require 'helm-grep)
+;; (require 'helm-projectile)
 
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebihnd tab to do persistent action
-(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-(define-key helm-map (kbd "C-j")  'helm-select-action) ; list actions using C-j
+;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebihnd tab to do persistent action
+;; (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+;; (define-key helm-map (kbd "C-j")  'helm-select-action) ; list actions using C-j
 
-(setq
- helm-google-suggest-use-curl-p t
- helm-scroll-amount 4
- helm-quick-update t
- helm-idle-delay 0.01
- helm-input-idle-delay 0.01
- helm-ff-search-library-in-sexp t
- helm-split-window-default-side 'other
- helm-split-window-in-side-p t
- helm-candidate-number-limit 200
- helm-M-x-requires-pattern 0
- helm-ff-file-name-history-use-recentf t
- helm-move-to-line-cycle-in-source t
- helm-buffers-fuzzy-matching t
- helm-projectile-sources-list '(helm-source-projectile-files-list helm-source-projectile-buffers-list helm-source-projectile-recentf-list helm-source-projectile-projects )
- )
+;; (setq
+;;  helm-google-suggest-use-curl-p t
+;;  helm-scroll-amount 4
+;;  helm-quick-update t
+;;  helm-idle-delay 0.01
+;;  helm-input-idle-delay 0.01
+;;  helm-ff-search-library-in-sexp t
+;;  helm-split-window-default-side 'other
+;;  helm-split-window-in-side-p t
+;;  helm-candidate-number-limit 200
+;;  helm-M-x-requires-pattern 0
+;;  helm-ff-file-name-history-use-recentf t
+;;  helm-move-to-line-cycle-in-source t
+;;  helm-buffers-fuzzy-matching t
+;;  helm-projectile-sources-list '(helm-source-projectile-files-list helm-source-projectile-buffers-list helm-source-projectile-recentf-list helm-source-projectile-projects )
+;;  )
 
 ;; Save current position to mark ring when jumping to a different place
-(add-hook 'helm-goto-line-before-hook 'helm-save-current-pos-to-mark-ring)
+;; (add-hook 'helm-goto-line-before-hook 'helm-save-current-pos-to-mark-ring)
 
-(helm-mode 1)
+;; (helm-mode 1)
 
-(defun genehack/find-file ()
-  "Switch between 'helm-projectile' and 'helm-for-files' depending on whether you're in a project or not."
-  (interactive)
-  (if (fiplr-find-root
-       (if (buffer-file-name)
-           (directory-file-name (file-name-directory (buffer-file-name)))
-         (file-truename "."))
-       fiplr-root-markers)
-      (helm-projectile)
-    (helm-find-files nil)))
+;; (defun genehack/find-file ()
+;;   "Switch between 'helm-projectile' and 'helm-for-files' depending on whether you're in a project or not."
+;;   (interactive)
+;;   (if (fiplr-find-root
+;;        (if (buffer-file-name)
+;;            (directory-file-name (file-name-directory (buffer-file-name)))
+;;          (file-truename "."))
+;;        fiplr-root-markers)
+;;       (helm-projectile)
+;;     (helm-find-files nil)))
 
 ;;; HTML TIDY
-(autoload 'tidy-buffer             "tidy" "Run Tidy HTML parser on current buffer" t)
-(autoload 'tidy-parse-config-file  "tidy" "Parse the `tidy-config-file'"           t)
-(autoload 'tidy-save-settings      "tidy" "Save settings to `tidy-config-file'"    t)
-(autoload 'tidy-build-menu         "tidy" "Install an options menu for HTML Tidy." t)
+(use-package tidy
+  :commands tidy-buffer tidy-parse-config-file tidy-save-settings tidy-build-menu
+  :ensure tidy)
 
 (defun genehack/scrub-win-to-html ()
   "Scrub dumb quotes and other common Latin-1 stuff into HTML entities."
@@ -255,15 +303,20 @@ RequireFilenameMatchPackage policy works properly.
           (replace-match replace nil nil))))))
 
 ;;; JS2
-(autoload 'js2-mode "js2-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-hook 'js2-init-hook 'genehack/js2-mode-setup)
-(setq-default js2-basic-offset 2)
+(use-package js2-mode
+  :commands js2-mode
+  :config (progn
+            (add-hook 'js2-init-hook 'genehack/js2-mode-setup)
+            (setq-default js2-basic-offset 2))
+  :ensure js2-mode
+  :mode "\\.js$")
+
 (defvar genehack/js2-keybindings-to-remove
   '(
     "\C-c\C-a"
     ) "List of keybindings to unset in 'js2-mode' buffers.
 since 'js2-mode' steps on bindings I use globally..." )
+
 (defun genehack/js2-mode-setup ()
   "Set up my js2-mode buffers."
   (dolist (binding genehack/js2-keybindings-to-remove)
@@ -276,7 +329,9 @@ since 'js2-mode' steps on bindings I use globally..." )
   (kill-buffer nil))
 
 ;;; KOLON-MODE
-(autoload 'kolon-mode "kolon-mode" "kolon-mode")
+(use-package kolon-mode
+  :commands kolon-mode
+  :ensure kolon-mode)
 
 ;;; LINE NUMBERS WITH M-G
 ;; from http://whattheemacsd.com//key-bindings.el-01.html
@@ -295,20 +350,25 @@ since 'js2-mode' steps on bindings I use globally..." )
     (linum-mode -1)))
 
 ;;; MACRO
-(autoload 'macro-dwim "macro" "DWIM macro recording and playback." t)
-(autoload 'macro-clear "macro" "Clear last keyboard macro" t)
+(use-package macro
+  :commands macro-clear macro-dwim
+  :ensure genehack-misc-elisp)
 
 ;;; MAGIT
 (defvar genehack/git-executable (executable-find "git")
   "Path to active git executable.")
 
+(use-package magit
+  :if genehack/git-executable
+  :commands magit-status
+  :config (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
+  :ensure magit)
+
 (if genehack/git-executable
-    (progn
-      (require 'magit)
-      (defun genehack/magit-status-with-prompt (dir)
-        "Prompt for git repo path then call magit-status on it."
-        (interactive "Dgit repo: ")
-        (magit-status dir)))
+    (defun genehack/magit-status-with-prompt (dir)
+      "Prompt for git repo path then call magit-status on it."
+      (interactive "Dgit repo: ")
+      (magit-status dir))
   (defun genehack/magit-status-with-prompt ()
     "Stub function for when git isn't available"
     (interactive)
@@ -334,26 +394,28 @@ since 'js2-mode' steps on bindings I use globally..." )
   (kill-buffer)
   (jump-to-register :magit-fullscreen))
 
-(require 'magit)
-(define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
-
 ;;; MARKDOWN
-(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.mr?kd" . markdown-mode))
+(use-package markdown-mode
+  :commands markdown-mode
+  :ensure markdown-mode
+  :mode "\\.mr?kd")
 
 ;;; MOVE TEXT
-(require 'move-text)
-(move-text-default-bindings)
+(use-package move-text
+  :ensure move-text
+  :init (move-text-default-bindings))
 
 ;;; MULTI-TERM
 (setq system-uses-terminfo nil)
-(require 'multi-term)
-(defalias 'term 'multi-term)
-(custom-set-variables
- '(term-default-bg-color "#000000")
- '(term-default-fg-color "#cccccc"))
-(setq multi-term-dedicated-select-after-open-p t
-      multi-term-dedicated-window-height 24)
+(use-package multi-term
+  :config (progn
+            (defalias 'term 'multi-term)
+            (custom-set-variables
+             '(term-default-bg-color "#000000")
+             '(term-default-fg-color "#cccccc"))
+            (setq multi-term-dedicated-select-after-open-p t
+                  multi-term-dedicated-window-height 24))
+  :ensure multi-term)
 
 ;;; NOOP
 (defun genehack/noop nil "..." (interactive))
@@ -400,12 +462,17 @@ since 'js2-mode' steps on bindings I use globally..." )
           (t (error "%s" "Not an expression boundary.")))))
 
 ;;; PROJECTILE
-(eval-when-compile (defvar genehack/emacs-tmp-dir))
-(require 'projectile)
-(projectile-global-mode)
-(setq projectile-cache-file ".projectile.cache")
-(setq projectile-globally-ignored-files '("TAGS" ".git"))
-(setq projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" genehack/emacs-tmp-dir))
+(use-package projectile
+  :config (progn
+            (setq projectile-cache-file ".projectile.cache")
+            (setq projectile-globally-ignored-files '("TAGS" ".git"))
+            (setq projectile-known-projects-file
+                  (expand-file-name "projectile-bookmarks.eld" genehack/emacs-tmp-dir)))
+  :diminish projectile-mode
+  :ensure projectile
+  :init (progn
+          (eval-when-compile (defvar genehack/emacs-tmp-dir))
+          (projectile-global-mode)))
 
 ;;; SAVE-AND-KILL
 (defun genehack/save-and-kill ()
@@ -420,17 +487,10 @@ since 'js2-mode' steps on bindings I use globally..." )
     (kill-buffer)))
 
 ;;; SCALA
-(if (file-exists-p "/opt/ensime")
-    (progn
-      ;; load the ensime lisp code...
-      (add-to-list 'load-path "/opt/ensime/elisp")
-      (require 'ensime)
-
-      ;; This step causes the ensime-mode to be started whenever
-      ;; scala-mode is started for a buffer. You may have to customize
-      ;; this step if you're not using the standard scala mode.
-      (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)))
-
+(use-package ensime
+  :if (file-exists-p "/opt/ensime")
+  :config (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+  :init (add-to-list 'load-path "/opt/ensime/elisp"))
 
 ;;; SCRATCH-BUFFER
 (defun genehack/create-scratch-buffer nil
@@ -441,33 +501,31 @@ since 'js2-mode' steps on bindings I use globally..." )
   (lisp-interaction-mode))
 
 ;;; SMART-TAB
-(require 'smart-tab)
-(global-smart-tab-mode 1)
-(setq smart-tab-using-hippie-expand t)
-(setq smart-tab-completion-functions-alist
-      '((cperl-mode      . genehack/company-yasnippet-or-completion)
-        (emacs-lisp-mode . genehack/company-yasnippet-or-completion)
-        (lisp-mode       . genehack/company-yasnippet-or-completion)
-        (go-mode         . genehack/company-yasnippet-or-completion)
-        (text-mode       . dabbrev-completion)))
+(use-package smart-tab
+  :config (progn
+            (setq smart-tab-using-hippie-expand t)
+            (setq smart-tab-completion-functions-alist
+                  '((cperl-mode      . genehack/company-yasnippet-or-completion)
+                    (emacs-lisp-mode . genehack/company-yasnippet-or-completion)
+                    (lisp-mode       . genehack/company-yasnippet-or-completion)
+                    (go-mode         . genehack/company-yasnippet-or-completion)
+                    (text-mode       . dabbrev-completion))))
+  :diminish smart-tab-mode
+  :ensure smart-tab
+  :init (global-smart-tab-mode 1))
 
 ;;; SMARTPARENS
-(smartparens-global-mode 1)
-(show-smartparens-global-mode t)
+(use-package smartparens
+  :diminish smartparens-mode
+  :ensure smartparens
+  :init (progn
+          (smartparens-global-mode 1)
+          (show-smartparens-global-mode t)))
 
 ;;; SMEX
-(require 'smex)
-(smex-initialize)
-
-;;; SML
-(require 'sml-mode)
-(add-hook 'sml-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c C-s") 'genehack/run-sml)))
-(defun genehack/run-sml nil
-  "run SML without prompting"
-  (interactive)
-  (sml-run "sml" ""))
+(use-package smex
+  :ensure smex
+  :init (smex-initialize))
 
 ;;; SPLIT-(HORIZONT|VERTIC)ALLY-OR-DELETE-OTHER-WINDOWS
 (defun genehack/split-horizontally-or-delete-other-windows ()
@@ -522,12 +580,15 @@ since 'js2-mode' steps on bindings I use globally..." )
 (add-hook 'before-save-hook 'genehack/set-up-whitespace-strip-in-these-modes)
 
 ;;; TEMPLATE
-(require 'template-mode)
+(use-package template-mode
+  :commands template-minor-mode
+  :config (add-hook 'html-mode-hook 'genehack/enable-template-minor-mode)
+  :ensure genehack-perl-elisp)
+
 (defun genehack/enable-template-minor-mode ()
   "Turn on 'template-minor-mode' in *.tt files."
   (if (string-match "\\.tt2?$" buffer-file-name)
       (template-minor-mode 1)))
-(add-hook 'html-mode-hook 'genehack/enable-template-minor-mode)
 
 ;;; TEXT-SCALE
 (defun genehack/text-scale-default ()
@@ -536,21 +597,27 @@ since 'js2-mode' steps on bindings I use globally..." )
   (text-scale-set 0))
 
 ;;; THEME
-(require 'solarized)
 (defun genehack/solarize-this ()
   "Enable solarized theme."
   (interactive)
   (load-theme 'solarized-dark t))
+
+(use-package solarized-theme
+  :ensure solarized-theme
+  :init (genehack/solarize-this))
+
 (defun genehack/solarize-this-light ()
   "Enable solarized theme."
   (interactive)
   (load-theme 'solarized-light t))
-(require 'twilight-theme)
+
+(use-package twilight-theme
+  :ensure twilight-theme)
+
 (defun genehack/twilight-this ()
   "Enable twilight theme."
   (interactive)
   (load-theme 'twilight t))
-(genehack/solarize-this)
 
 ;;; TOGGLE-BOL
 (defun genehack/bol-toggle ()
@@ -578,26 +645,42 @@ since 'js2-mode' steps on bindings I use globally..." )
    "perl -MURI::Escape -e 'print URI::Escape::uri_unescape(do { local $/; <STDIN> })'"
    'current-buffer t))
 
+;;; WEB-MODE
+(use-package web-mode
+  :config (add-to-list 'safe-local-variable-values
+                       '(web-mode-markup-indent-offset . 4))
+  :ensure web-mode)
+  ;;   :mode (("\\.tx\\$")
+  ;;          ("\\.p?html\\$")))
+
 ;;; YAML-MODE
-(autoload 'yaml-mode "yaml-mode" "YAML" t)
-(add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
+  (use-package yaml-mode
+    :commands yaml-mode
+    :ensure yaml-mode
+    :mode "\\.ya?ml$")
 
 ;;; YASNIPPET
 (eval-when-compile (defvar genehack/emacs-dir))
-(require 'yasnippet)
-(setq yas-use-menu nil)
-(yas--initialize)
+
 (defvar genehack/yas-snippet-dir (concat genehack/emacs-dir "share/snippets")
-  "Directory with snippets."
-  )
+  "Directory with snippets.")
+
+(use-package yasnippet
+  :config (progn
+            (yas-load-directory genehack/yas-snippet-dir)
+            (setq yas-snippet-dirs (delete "~/.emacs.d/snippets" yas-snippet-dirs))
+            (add-to-list 'yas-snippet-dirs genehack/yas-snippet-dir)
+            (yas-global-mode))
+  :diminish yas-minor-mode
+  :ensure yasnippet
+  :init (progn
+          (setq yas-use-menu nil)
+          (yas--initialize)))
+
 (if (file-exists-p genehack/yas-snippet-dir)
     (unless (file-directory-p genehack/yas-snippet-dir)
       (error "Snippets directory creation blocked by file"))
   (make-directory genehack/yas-snippet-dir))
-(yas-load-directory genehack/yas-snippet-dir)
-(setq yas-snippet-dirs (delete "~/.emacs.d/snippets" yas-snippet-dirs))
-(add-to-list 'yas-snippet-dirs genehack/yas-snippet-dir)
-(yas-global-mode)
 
 ;;;; update cursor color based on yasnippet status
 ;;;;; http://stackoverflow.com/questions/14264228/how-can-i-trigger-an-event-when-a-yasnippet-macro-can-fire
@@ -638,21 +721,6 @@ Again, not sure what FIELD does..."
 
 ;;;;; As pointed out by Dmitri, this will make sure it will update color when needed.
 (add-hook 'post-command-hook 'yasnippet-change-cursor-color-when-can-fire)
-
-;;; WEB-MODE
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.p?html\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tx\\'" . web-mode))
-(add-to-list 'safe-local-variable-values '(web-mode-markup-indent-offset . 4))
-
-;;; put this at the end so that everything is loaded...
-;;; DIMINISH
-;;;; from http://whattheemacsd.com/init.el-04.html
-(require 'diminish)
-(diminish 'company-mode)
-(diminish 'projectile-mode)
-(diminish 'smart-tab-mode)
-(diminish 'yas-minor-mode)
 
 (provide 'misc)
 ;;; misc.el ends here
