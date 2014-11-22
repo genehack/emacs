@@ -69,6 +69,11 @@
 (eval-after-load "package" '(setq package-archives '(("my-melpa" . "http://melpa.genehack.net/packages/")
                                                      ("melpa"    . "http://melpa.org/packages/"))))
 
+;;; we need use-package
+(unless (package-installed-p 'use-package)
+  (progn
+    (package-refresh-contents)
+    (package-install 'use-package)))
 (require 'use-package)
 
 ;; (defvar genehack/package-list
