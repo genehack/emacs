@@ -31,13 +31,14 @@
                   cperl-lazy-help-time 5
                   cperl-tab-always-indent t))
   :init
-  :mode "\\.\\(cgi|psgi|t|pod\\)$")
+  :mode "\\.\\(cgi\\|psgi\\|t\\)$")
 
 (use-package perl-find-library
   :ensure genehack-perl-elisp)
 
 (use-package pod-mode
-  :ensure genehack-perl-elisp)
+  :ensure genehack-perl-elisp
+  :mode "\\.pod$")
 
 (use-package prove
   :ensure genehack-perl-elisp)

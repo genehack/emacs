@@ -606,7 +606,7 @@ since 'js2-mode' steps on bindings I use globally..." )
   :config (add-to-list 'safe-local-variable-values
                        '(web-mode-markup-indent-offset . 4))
   :ensure web-mode
-  :mode "\\.\\(p?html|tx\\)$")
+  :mode "\\.\\(html\\|tx\\)")
 
 ;;; YAML-MODE
 (use-package yaml-mode
