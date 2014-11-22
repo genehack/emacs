@@ -230,49 +230,6 @@ RequireFilenameMatchPackage policy works properly.
                         (local-set-key (kbd "M-.")     'godef-jump))))
   :ensure go-mode)
 
-;;; HELM
-;; (require 'helm)
-;; (require 'helm-config)
-;; (require 'helm-files)
-;; (require 'helm-grep)
-;; (require 'helm-projectile)
-
-;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebihnd tab to do persistent action
-;; (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-;; (define-key helm-map (kbd "C-j")  'helm-select-action) ; list actions using C-j
-
-;; (setq
-;;  helm-google-suggest-use-curl-p t
-;;  helm-scroll-amount 4
-;;  helm-quick-update t
-;;  helm-idle-delay 0.01
-;;  helm-input-idle-delay 0.01
-;;  helm-ff-search-library-in-sexp t
-;;  helm-split-window-default-side 'other
-;;  helm-split-window-in-side-p t
-;;  helm-candidate-number-limit 200
-;;  helm-M-x-requires-pattern 0
-;;  helm-ff-file-name-history-use-recentf t
-;;  helm-move-to-line-cycle-in-source t
-;;  helm-buffers-fuzzy-matching t
-;;  helm-projectile-sources-list '(helm-source-projectile-files-list helm-source-projectile-buffers-list helm-source-projectile-recentf-list helm-source-projectile-projects )
-;;  )
-
-;; Save current position to mark ring when jumping to a different place
-;; (add-hook 'helm-goto-line-before-hook 'helm-save-current-pos-to-mark-ring)
-
-;; (helm-mode 1)
-
-;; (defun genehack/find-file ()
-;;   "Switch between 'helm-projectile' and 'helm-for-files' depending on whether you're in a project or not."
-;;   (interactive)
-;;   (if (fiplr-find-root
-;;        (if (buffer-file-name)
-;;            (directory-file-name (file-name-directory (buffer-file-name)))
-;;          (file-truename "."))
-;;        fiplr-root-markers)
-;;       (helm-projectile)
-;;     (helm-find-files nil)))
 (use-package go-snippets
   :disabled t
   :ensure go-snippets
