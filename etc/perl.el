@@ -5,46 +5,48 @@
 ;;; Code:
 
 ;;; LIBRARIES
-(require 'cperl-mode)
-(require 'perl-find-library)
-(require 'pod-mode)
-(require 'prove)
-(require 'perlcritic)
-(require 'perltidy)
+(require 'use-package)
+(use-package cperl-mode
+  :config (progn
+            (defalias 'perl-mode 'cperl-mode)
+            (add-hook 'cperl-mode-hook 'genehack/cperl-mode-setup)
+            (add-hook 'cperl-mode-hook 'flyspell-prog-mode)
+            (add-hook 'cperl-mode-hook 'which-func-mode)
+            (setq cperl-autoindent-on-semi t
+                  cperl-auto-newline t
+                  cperl-clobber-lisp-bindings t
+                  cperl-close-paren-offset -2
+                  cperl-continued-statement-offset 2
+                  cperl-electric-keywords t
+                  cperl-electric-lbrace-space nil
+                  cperl-electric-linefeed t
+                  cperl-electric-parens nil
+                  cperl-font-lock t
+                  cperl-highlight-variables-indiscriminately t
+                  cperl-indent-level 2
+                  cperl-indent-parens-as-block t
+                  cperl-indent-region-fix-constructs nil
+                  cperl-info-on-command-no-prompt t
+                  cperl-invalid-face nil
+                  cperl-lazy-help-time 5
+                  cperl-tab-always-indent t))
+  :init
+  :mode "\\.\\(cgi|psgi|t|pod\\)$")
 
-(defalias 'perl-mode 'cperl-mode)
+(use-package perl-find-library
+  :ensure genehack-perl-elisp)
 
-(add-to-list 'auto-mode-alist '("\\.cgi$" . cperl-mode))
-(add-to-list 'auto-mode-alist '("\\.psgi$" . cperl-mode))
-(add-to-list 'auto-mode-alist '("\\.t$" . cperl-mode))
-(add-to-list 'auto-mode-alist '("\\.pod$" . pod-mode))
+(use-package pod-mode
+  :ensure genehack-perl-elisp)
 
-;;; HOOK MODS
-(add-hook 'cperl-mode-hook 'genehack/cperl-mode-setup)
-(add-hook 'cperl-mode-hook 'flyspell-prog-mode)
-(add-hook 'cperl-mode-hook 'which-func-mode)
+(use-package prove
+  :ensure genehack-perl-elisp)
 
-;;; CONFIG
-(setq
- cperl-autoindent-on-semi t
- cperl-auto-newline t
- cperl-clobber-lisp-bindings t
- cperl-close-paren-offset -2
- cperl-continued-statement-offset 2
- cperl-electric-keywords t
- cperl-electric-lbrace-space nil
- cperl-electric-linefeed t
- cperl-electric-parens nil
- cperl-font-lock t
- cperl-highlight-variables-indiscriminately t
- cperl-indent-level 2
- cperl-indent-parens-as-block t
- cperl-indent-region-fix-constructs nil
- cperl-info-on-command-no-prompt t
- cperl-invalid-face nil
- cperl-lazy-help-time 5
- cperl-tab-always-indent t
- )
+(use-package perlcritic
+  :ensure perlcritic)
+
+(use-package perltidy
+  :ensure genehack-perl-elisp)
 
 (defvar genehack/cperl-keybindings-to-remove
   '(
@@ -92,8 +94,7 @@ Or vice versa."
 
 (require 'flycheck)
 (defun genehack/cperl-mode-setup ()
-  "Munges 'compile' for syntax checking of Perl scripts within Emacs.
-From e.goerlach@computer.org (Ekkehard Görlach) in comp.emacs."
+  "Set up `cperl-mode` for genehack."
   (set (make-local-variable 'compile-command)
        (concat "perl -cw  " buffer-file-name))
   (set (make-local-variable 'flycheck-checker) 'perl-with-lib-from-project-root)
@@ -111,7 +112,6 @@ From e.goerlach@computer.org (Ekkehard Görlach) in comp.emacs."
   "Find a perl library by module name."
   (interactive)
   (find-file (perl-library-path (cperl-word-at-point))))
-
 
 (provide 'perl)
 ;;; perl.el ends here

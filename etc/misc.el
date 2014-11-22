@@ -41,6 +41,8 @@
   :init (browse-kill-ring-default-keybindings))
 
 ;;; COMPANY-MODE
+(use-package company-go
+  :ensure company-go)
 (use-package company
   :bind ("\t" . genehack/company-yasnippet-or-completion)
   :commands global-company-mode
@@ -58,9 +60,7 @@
                             company-dabbrev)))
   :diminish company-mode
   :ensure company
-  :init (progn
-          (require 'company-go)
-          (global-company-mode)))
+  :init (global-company-mode))
 
 ;; inspired by https://gist.github.com/nonsequitur/265010
 (defun genehack/company-yasnippet-or-completion ()
@@ -230,11 +230,6 @@ RequireFilenameMatchPackage policy works properly.
                         (local-set-key (kbd "M-.")     'godef-jump))))
   :ensure go-mode)
 
-;; (use-package go-snippets
-;;   :disabled t
-;;   :ensure go-snippets
-;;   :init (go-snippets-initialize))
-
 ;;; HELM
 ;; (require 'helm)
 ;; (require 'helm-config)
@@ -278,6 +273,10 @@ RequireFilenameMatchPackage policy works properly.
 ;;        fiplr-root-markers)
 ;;       (helm-projectile)
 ;;     (helm-find-files nil)))
+(use-package go-snippets
+  :disabled t
+  :ensure go-snippets
+  :init (go-snippets-initialize))
 
 ;;; HTML TIDY
 (use-package tidy
@@ -649,15 +648,14 @@ since 'js2-mode' steps on bindings I use globally..." )
 (use-package web-mode
   :config (add-to-list 'safe-local-variable-values
                        '(web-mode-markup-indent-offset . 4))
-  :ensure web-mode)
-  ;;   :mode (("\\.tx\\$")
-  ;;          ("\\.p?html\\$")))
+  :ensure web-mode
+  :mode "\\.\\(p?html|tx\\)$")
 
 ;;; YAML-MODE
-  (use-package yaml-mode
-    :commands yaml-mode
-    :ensure yaml-mode
-    :mode "\\.ya?ml$")
+(use-package yaml-mode
+  :commands yaml-mode
+  :ensure yaml-mode
+  :mode "\\.ya?ml$")
 
 ;;; YASNIPPET
 (eval-when-compile (defvar genehack/emacs-dir))
