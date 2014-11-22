@@ -41,8 +41,6 @@
   :init (browse-kill-ring-default-keybindings))
 
 ;;; COMPANY-MODE
-(use-package company-go
-  :ensure company-go)
 (use-package company
   :bind ("\t" . genehack/company-yasnippet-or-completion)
   :commands global-company-mode
@@ -138,7 +136,6 @@
 (use-package flycheck
   :commands flycheck-define-checker global-flycheck-mode
   :config (progn
-            (require 'projectile)
             (add-hook 'after-init-hook #'global-flycheck-mode)
             (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
             (defun genehack/include-perl-lib-p ()
@@ -229,7 +226,9 @@ RequireFilenameMatchPackage policy works properly.
                         (local-set-key (kbd "C-c i")   'go-goto-imports)
                         (local-set-key (kbd "M-.")     'godef-jump))))
   :ensure go-mode)
-
+;;;; depends on go-mode, so put this down here...
+(use-package company-go
+  :ensure company-go)
 (use-package go-snippets
   :disabled t
   :ensure go-snippets

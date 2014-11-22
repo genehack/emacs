@@ -26,7 +26,9 @@
 
 ;;; I generally don't use the Customize interface, but sometimes
 ;;; things get added there. Setting this means the file is under
-;;; revision control, so if something touches it, I'll notice.
+;;; revision control, so if something touches it, I'll notice (and
+;;; then I can move stuff to where it really goes and empty out
+;;; custom.el again...)
 (setq custom-file (concat genehack/emacs-config-dir "custom.el"))
 
 ;; DEFAULT FACE
@@ -65,79 +67,26 @@
     (load-library genehack/private-config-file))
 
 ;; PACKAGES
-;;; if it's not in my melpa, i don't care.
-(eval-after-load "package" '(setq package-archives '(("my-melpa" . "http://melpa.genehack.net/packages/")
-                                                     ("melpa"    . "http://melpa.org/packages/"))))
+(eval-after-load "package"
+  '(setq package-archives
+         '(("my-melpa" . "http://melpa.genehack.net/packages/")
+           ("melpa"    . "http://melpa.org/packages/"))))
 
-;;; we need use-package
+(defvar genehack/packages-refreshed nil
+  "Flag for whether package lists have been refreshed yet.")
+
+(defadvice package-install (before refresh activate)
+  "Call `package-refresh-contents` once before `package-install`."
+  (unless (eq genehack/packages-refreshed t)
+    (progn
+      (package-refresh-contents)
+      (setq genehack/packages-refreshed t))))
+
+;;; we need use-package -- it'll take care of installing everything
+;;; else
 (unless (package-installed-p 'use-package)
-  (progn
-    (package-refresh-contents)
-    (package-install 'use-package)))
+  (package-install 'use-package))
 (require 'use-package)
-
-;; (defvar genehack/package-list
-;;   '(
-;;     clojure-mode
-;;     clojure-snippets
-;;     cperl-mode
-;;     css-mode
-;;     diminish
-;;     exec-path-from-shell
-;;     find-file-in-project
-;;     flymake-cursor
-;;     flymake-easy
-;;     flymake-perlcritic
-;;     flymake-shell
-;;     genehack-perl-elisp
-;;     gh
-;;     gist
-;;     git-blame
-;;     git-gutter
-;;     gitconfig-mode
-;;     gitignore-mode
-;;     go-autocomplete
-;;     go-direx
-;;     go-eldoc
-;;     go-errcheck
-;;     ;; helm
-;;     ;; helm-projectile
-;;     maxframe
-;;     perlcritic
-;;     pretty-lambdada
-;;     scala-mode2
-;;     unbound
-;;     use-package
-;;     zenburn-theme
-;;     ) "List of packages to automatically install." )
-
-;; (defvar genehack/packages-to-warn-about
-;;   '(
-;;     coffee-mode
-;;     delim-kill
-;;     full-ack
-;;     ido-hacks
-;;     ido-ubiquitous
-;;     powerline
-;;     ) "List of packages that should not be installed.  If seen, will cause warning." )
-
-;; (defvar genehack/packages-refreshed nil
-;;   "Flag for whether package lists have been refreshed yet.")
-
-;; ;;; install anything that's missing
-;; (dolist (pkg genehack/package-list)
-;;   (if (not (package-installed-p pkg))
-;;       (progn
-;;         (if (not (eq genehack/packages-refreshed t))
-;;             (progn
-;;               (package-refresh-contents)
-;;               (setq genehack/packages-refreshed t)))
-;;         (package-install pkg))))
-
-;; ;;; and warn about stuff that shouldn't be there
-;; (dolist (pkg genehack/packages-to-warn-about)
-;;   (if (package-installed-p pkg)
-;;       (warn "Package %s installed, please remove" pkg)))
 
 ;; MAKE EMACS PATH MATCH SHELL PATH
 (use-package exec-path-from-shell
