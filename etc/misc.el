@@ -14,11 +14,10 @@
 ;;; AGGRESSIVE-INDENT
 (use-package aggressive-indent
   :commands global-aggressive-indent-mode
+  :config (add-to-list 'aggressive-indent-excluded-modes 'inf-ruby-mode)
   :diminish aggressive-indent-mode
   :ensure aggressive-indent
-  :init (progn
-          (add-to-list 'aggressive-indent-excluded-modes 'inf-ruby-mode)
-          (global-aggressive-indent-mode 1)))
+  :init (global-aggressive-indent-mode 1))
 
 ;;; ANNOYING ARROWS
 (use-package annoying-arrows-mode
