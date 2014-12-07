@@ -89,8 +89,9 @@
 (require 'use-package)
 
 ;; MAKE EMACS PATH MATCH SHELL PATH
+(setenv "PLENV_ROOT" "/opt/plenv")
 (use-package exec-path-from-shell
-  :config (setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOROOT" "GOPATH"))
+  :config (setq exec-path-from-shell-variables '("PLENV_ROOT" "PATH" "MANPATH" "GOROOT" "GOPATH"))
   :ensure exec-path-from-shell
   :init (exec-path-from-shell-initialize))
 

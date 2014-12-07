@@ -14,7 +14,9 @@
 ;;; AGGRESSIVE-INDENT
 (use-package aggressive-indent
   :commands global-aggressive-indent-mode
-  :config (add-to-list 'aggressive-indent-excluded-modes 'inf-ruby-mode)
+  :config (progn
+            (add-to-list 'aggressive-indent-excluded-modes 'inf-ruby-mode)
+            (add-to-list 'aggressive-indent-excluded-modes 'sml-mode))
   :diminish aggressive-indent-mode
   :ensure aggressive-indent
   :init (global-aggressive-indent-mode 1))
