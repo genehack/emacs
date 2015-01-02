@@ -70,7 +70,8 @@
 (eval-after-load "package"
   '(setq package-archives
          '(("my-melpa" . "http://melpa.genehack.net/packages/")
-           ("melpa"    . "http://melpa.org/packages/"))))
+           ("melpa"    . "http://melpa.org/packages/")
+           ("gnu" . "http://elpa.gnu.org/packages/"))))
 
 (defvar genehack/packages-refreshed nil
   "Flag for whether package lists have been refreshed yet.")
