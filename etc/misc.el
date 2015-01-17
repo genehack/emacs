@@ -630,8 +630,7 @@ since 'js2-mode' steps on bindings I use globally..." )
   :diminish yas-minor-mode
   :ensure yasnippet
   :init (progn
-          (setq yas-use-menu nil)
-          (yas--initialize)))
+          (setq yas-use-menu nil)))
 
 (if (file-exists-p genehack/yas-snippet-dir)
     (unless (file-directory-p genehack/yas-snippet-dir)
