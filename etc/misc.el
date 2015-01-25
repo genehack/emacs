@@ -259,6 +259,17 @@ RequireFilenameMatchPackage policy works properly.
         (while (re-search-forward match nil t)
           (replace-match replace nil nil))))))
 
+;;; IDO
+(use-package flx-ido)
+(use-package ido
+  :init (progn
+          (ido-mode t)
+          (ido-everywhere 1)
+          (flx-ido-mode 1))
+  :config (progn
+            (setq ido-enable-flex-matching 1)
+            (setq ido-use-faces nil)))
+
 ;;; JS2
 (use-package js2-mode
   :commands js2-mode
