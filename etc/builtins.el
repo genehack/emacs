@@ -203,7 +203,6 @@ This is a buffer-local variable.")
   (setq mac-command-modifier 'meta)
   (setq mac-function-modifier 'super)
   (setq mac-option-modifier nil)
-  ;;  (ns-toggle-fullscreen)
   (setq browse-url-browser-function 'browse-url-default-macosx-browser)
   (setq delete-by-moving-to-trash t))
 
