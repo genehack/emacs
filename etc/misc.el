@@ -260,7 +260,8 @@ RequireFilenameMatchPackage policy works properly.
           (replace-match replace nil nil))))))
 
 ;;; IDO
-(use-package flx-ido)
+(use-package flx-ido
+  :ensure flx-ido)
 (use-package ido
   :init (progn
           (ido-mode t)
@@ -268,7 +269,8 @@ RequireFilenameMatchPackage policy works properly.
           (flx-ido-mode 1))
   :config (progn
             (setq ido-enable-flex-matching 1)
-            (setq ido-use-faces nil)))
+            (setq ido-use-faces nil))
+  :ensure ido)
 
 ;;; JS2
 (use-package js2-mode
