@@ -149,8 +149,9 @@
                     (if (and (file-exists-p project/lib)
                              (file-directory-p project/lib))
                         (concat "-I" project/lib)))))
-            (setq flycheck-perlcritic-verbosity "5")
-            (add-to-list 'flycheck-checkers 'genehack/perl-perlcritic))
+            (setq flycheck-perlcritic-severity "5")
+            (add-to-list 'flycheck-checkers 'genehack/perl-perlcritic)
+            (add-to-list 'flycheck-checkers 'perl-with-lib-from-project-root))
   :defer t
   :ensure flycheck)
 
@@ -178,7 +179,7 @@ Modified to use original source file so that
 RequireFilenameMatchPackage policy works properly.
 "
                          :command ("perlcritic" "--no-color" "--verbose" "%f:%l:%c:%s:%m (%e)\n"
-                                   (option "--severity" flycheck-perlcritic-verbosity
+                                   (option "--severity" flycheck-perlcritic-severity
                                            flycheck-option-int)
                                    source-original)
                          :error-patterns
