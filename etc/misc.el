@@ -11,17 +11,6 @@
   :ensure ag
   :init (setq ag-highlight-search t))
 
-;;; AGGRESSIVE-INDENT
-(use-package aggressive-indent
-  :commands global-aggressive-indent-mode
-  :config (progn
-            (add-to-list 'aggressive-indent-excluded-modes 'inf-ruby-mode)
-            (add-to-list 'aggressive-indent-excluded-modes 'sml-mode))
-  :diminish aggressive-indent-mode
-  :ensure aggressive-indent
-  :init (progn
-          (global-aggressive-indent-mode 1)))
-
 ;;; ANNOYING ARROWS
 (use-package annoying-arrows-mode
   :commands global-annoying-arrows-mode
