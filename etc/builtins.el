@@ -354,6 +354,11 @@ This is a buffer-local variable.")
 ;;; VC
 (setq vc-follow-symlinks t)
 
+;;; WHITESPACE
+(use-package whitespace
+  :config (progn
+            (setq whitespace-style '(face tabs spaces trailing lines-tail space-before-tab newline indentation empty space-after-tab space-mark tab-mark newline-mark))))
+
 ;;; YANK
 (setq-default mouse-yank-at-point t)
 
