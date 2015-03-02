@@ -540,6 +540,10 @@ since 'js2-mode' steps on bindings I use globally..." )
       (genehack/strip-whitespace)))
 (add-hook 'before-save-hook 'genehack/set-up-whitespace-strip-in-these-modes)
 
+;;; SWIFT
+(use-package swift-mode
+  :ensure swift-mode)
+
 ;;; TEMPLATE
 (use-package template-mode
   :commands template-minor-mode
