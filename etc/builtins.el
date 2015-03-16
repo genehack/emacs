@@ -89,7 +89,8 @@
   (goto-char (point-max))
   (dired-next-line -1))
 
-;;; DISABLE
+;;; DISABLE / ENABLE
+(put 'downcase-region 'disabled nil)
 (put 'overwrite-mode 'disabled t)
 
 ;;; EXECUTABLE-UPON-SAVE MAGIC
