@@ -41,6 +41,7 @@
 (global-set-key (kbd "C-x K")        'genehack/kill-this-buffer)
 (global-set-key (kbd "C-x C-f")      'ido-find-file)
 (global-set-key (kbd "C-x M-b")      'ibuffer)
+(global-set-key (kbd "M-SPC")        'genehack/kill-space-forward)
 (global-set-key (kbd "M-+")          'text-scale-increase)
 (global-set-key (kbd "M-=")          'text-scale-increase)
 (global-set-key (kbd "M--")          'text-scale-decrease)

@@ -540,6 +540,14 @@ since 'js2-mode' steps on bindings I use globally..." )
       (genehack/strip-whitespace)))
 (add-hook 'before-save-hook 'genehack/set-up-whitespace-strip-in-these-modes)
 
+(defun genehack/kill-space-forward ()
+  "Delete white space to the right of point."
+  (interactive)
+  (save-excursion
+    (let* ((here (point)))
+      (skip-chars-forward " ")
+      (delete-region here (point)))))
+
 ;;; SWIFT
 (use-package swift-mode
   :ensure swift-mode)
