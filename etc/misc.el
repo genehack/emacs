@@ -478,10 +478,10 @@ since 'js2-mode' steps on bindings I use globally..." )
                     (emacs-lisp-mode . genehack/company-yasnippet-or-completion)
                     (lisp-mode       . genehack/company-yasnippet-or-completion)
                     (go-mode         . genehack/company-yasnippet-or-completion)
-                    (text-mode       . dabbrev-completion))))
+                    (text-mode       . dabbrev-completion)))
+            (global-smart-tab-mode 1))
   :diminish smart-tab-mode
-  :ensure smart-tab
-  :init (global-smart-tab-mode 1))
+  :ensure smart-tab)
 
 ;;; SMARTPARENS
 (use-package smartparens
