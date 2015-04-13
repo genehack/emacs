@@ -12,10 +12,10 @@
   :init (setq ag-highlight-search t))
 
 ;;; ANNOYING ARROWS
-(use-package annoying-arrows-mode
-  :commands global-annoying-arrows-mode
-  :ensure annoying-arrows-mode
-  :init (global-annoying-arrows-mode))
+;(use-package annoying-arrows-mode
+;  :commands global-annoying-arrows-mode
+;  :ensure annoying-arrows-mode
+;  :init (global-annoying-arrows-mode))
 
 ;;; AUTO CREATE DIRECTORIES
 ;;;; after <http://atomized.org/2008/12/emacs-create-directory-before-saving/>
