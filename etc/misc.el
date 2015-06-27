@@ -116,6 +116,7 @@
 
 ;;; FIXME
 (use-package fixme
+  :config (add-to-list 'fixme-modes 'go-mode)
   :ensure genehack-misc-elisp)
 
 ;;; FLYCHECK
