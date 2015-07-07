@@ -227,6 +227,30 @@ This is a buffer-local variable.")
             (setq magic-mode-alist (cons '("<\\?xml " . nxml-mode) magic-mode-alist))
             (setq nxml-bind-meta-tab-to-complete-flag nil)))
 
+;;; ORG MODE
+(use-package org-mode
+  :defines org-agenda-custom-commands
+           org-agenda-files
+           org-capture-templates
+           org-default-notes-file
+           org-directory
+           org-log-done
+           org-refile-targets
+  :config (progn
+            (setq org-agenda-custom-commands
+                  '(("w" "waiting for" todo "WAITING")))
+            (setq org-agenda-files '("~/org"))
+            (setq org-capture-templates
+                  '(("t" "todo" entry (file+headline "" "* INBOX") "** TODO %?\n %i\n %a")))
+            (setq org-default-notes-file (concat org-directory "/jfdi.org"))
+            (setq org-log-done 'time)
+            (setq org-refile-targets '((org-agenda-files . (:maxlevel . 2))))
+            (defun jfdi ()
+              "JFDI!"
+              (interactive)
+              (find-file "~/org/jfdi.org"))
+            ))
+
 ;;; PAREN MATCH
 (use-package paren
   :config (progn
