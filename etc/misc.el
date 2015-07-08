@@ -198,9 +198,9 @@ RequireFilenameMatchPackage policy works properly.
     (with-output-to-temp-buffer "*git blame*" (princ blame-out))))
 
 ;;; GIT COMMIT MODE
-(use-package git-commit-mode
-  :commands git-commit-mode
-  :ensure git-commit-mode)
+(use-package git-commit
+  :commands git-commit
+  :ensure git-commit)
 
 ;;; GITHUB-BROWSE-FILE
 (use-package github-browse-file
