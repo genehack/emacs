@@ -236,15 +236,19 @@ This is a buffer-local variable.")
            org-directory
            org-log-done
            org-refile-targets
+           org-return-follows-link
   :config (progn
             (setq org-agenda-custom-commands
-                  '(("w" "waiting for" todo "WAITING")))
+                  '(("a" "active" todo "ACTIVE")
+                    ("n" "next actions" tags-todo "NEXT")
+                    ("w" "waiting for" todo "WAITING")))
             (setq org-agenda-files '("~/org"))
             (setq org-capture-templates
                   '(("t" "todo" entry (file+headline "" "* INBOX") "** TODO %?\n %i\n %a")))
             (setq org-default-notes-file (concat org-directory "/jfdi.org"))
             (setq org-log-done 'time)
             (setq org-refile-targets '((org-agenda-files . (:maxlevel . 2))))
+            (setq org-return-follows-link t)
             (defun jfdi ()
               "JFDI!"
               (interactive)
