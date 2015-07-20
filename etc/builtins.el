@@ -228,7 +228,7 @@ This is a buffer-local variable.")
             (setq nxml-bind-meta-tab-to-complete-flag nil)))
 
 ;;; ORG MODE
-(use-package org-mode
+(use-package org
   :defines org-agenda-custom-commands
            org-agenda-files
            org-capture-templates
@@ -237,18 +237,23 @@ This is a buffer-local variable.")
            org-log-done
            org-refile-targets
            org-return-follows-link
+           org-tag-alist
+           org-todo-keywords
   :config (progn
             (setq org-agenda-custom-commands
                   '(("a" "active" todo "ACTIVE")
                     ("n" "next actions" tags-todo "NEXT")
                     ("w" "waiting for" todo "WAITING")))
-            (setq org-agenda-files '("~/org"))
+            (setq org-agenda-files '("~/org" "~/org/home" "~/org/oss" "~/org/work"))
             (setq org-capture-templates
                   '(("t" "todo" entry (file+headline "" "* INBOX") "** TODO %?\n %i\n %a")))
             (setq org-default-notes-file (concat org-directory "/jfdi.org"))
             (setq org-log-done 'time)
             (setq org-refile-targets '((org-agenda-files . (:maxlevel . 2))))
             (setq org-return-follows-link t)
+            (setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("@oss" . ?o) ("NEXT" . ?n)))
+            (setq org-todo-keywords '((sequence "TODO(t)" "ACTIVE(a)" "|" "DONE(d!)")
+                                      (sequence "WAITING(w!/@)" "|")))
             (defun jfdi ()
               "JFDI!"
               (interactive)
