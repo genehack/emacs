@@ -561,10 +561,6 @@ since 'js2-mode' steps on bindings I use globally..." )
       (skip-chars-forward " ")
       (delete-region here (point)))))
 
-;;; SWIFT
-(use-package swift-mode
-  :ensure swift-mode)
-
 ;;; TEMPLATE
 (use-package template-mode
   :commands template-minor-mode
