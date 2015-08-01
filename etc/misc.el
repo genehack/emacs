@@ -169,8 +169,7 @@ Modified to use original source file so that
 RequireFilenameMatchPackage policy works properly.
 "
                          :command ("perlcritic" "--no-color" "--verbose" "%f:%l:%c:%s:%m (%e)\n"
-                                   (option "--severity" flycheck-perlcritic-severity
-                                           flycheck-option-int)
+                                   (option "--severity" flycheck-perlcritic-severity)
                                    source-original)
                          :error-patterns
                          ((info line-start
