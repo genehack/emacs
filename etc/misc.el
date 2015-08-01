@@ -445,6 +445,13 @@ since 'js2-mode' steps on bindings I use globally..." )
           (eval-when-compile (defvar genehack/emacs-tmp-dir))
           (projectile-global-mode)))
 
+(defun genehack/find-file ()
+  "Switch between `projectile-file-file` and `ido-find-file` based on value of `projectile-project-p`."
+  (interactive)
+  (if (projectile-project-p)
+      (projectile-find-file)
+    (ido-find-file)))
+
 ;;; SAVE-AND-KILL
 (defun genehack/save-and-kill ()
   "Save current buffer and then kill it."
