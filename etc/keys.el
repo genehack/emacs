@@ -17,6 +17,7 @@
 (global-set-key (kbd "C-5")          'genehack/paren-bounce)
 (global-set-key (kbd "C-=")          'er/expand-region)
 (global-set-key (kbd "C-#")          'comment-or-uncomment-region)
+(global-set-key (kbd "C-3")          'comment-or-uncomment-region)
 (global-set-key (kbd "C-a")          'genehack/bol-toggle)
 (global-set-key (kbd "C-c a")        'org-agenda)
 (global-set-key (kbd "C-c c")        'org-capture)
