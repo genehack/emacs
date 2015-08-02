@@ -11,6 +11,13 @@
   :ensure ag
   :init (setq ag-highlight-search t))
 
+(defun genehack/kill-ag-buffers ()
+  "Kill all buffers that start with '*ag search text:."
+  (interactive)
+  (dolist (buffer (buffer-list))
+  (if (string-match "^*ag search text:" (buffer-name buffer))
+      (kill-buffer buffer))))
+
 ;;; AUTO CREATE DIRECTORIES
 ;;;; after <http://atomized.org/2008/12/emacs-create-directory-before-saving/>
 (defun genehack/set-up-before-save-hook ()
