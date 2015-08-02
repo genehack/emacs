@@ -102,12 +102,6 @@
 (use-package filladapt
   :ensure genehack-misc-elisp)
 
-;;; FIPLR
-;; TODO do you actually use this?
-(use-package fiplr
-  :defer t
-  :ensure fiplr)
-
 ;;; FIXME
 (use-package fixme
   :config (add-to-list 'fixme-modes 'go-mode)
