@@ -652,7 +652,7 @@ since 'web-mode' steps on bindings I use globally..." )
 
 (defun genehack/web-mode-setup ()
   "Set up my web-mode buffers."
-  (dolist (binding genehack/web-keybindings-to-remove)
+  (dolist (binding genehack/web-mode-keybindings-to-remove)
     (local-unset-key (edmacro-parse-keys binding))))
 
 ;;; YAML-MODE
