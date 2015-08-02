@@ -339,6 +339,7 @@ This is a buffer-local variable.")
 (defun genehack/set-up-term-mode ()
   "My customizations for 'term-mode'."
   (yas-minor-mode -1)
+  (setq show-trailing-whitespace nil)
   (setq term-buffer-maximum-size 10000))
 
 ;;; TEXT-MODE
