@@ -318,7 +318,7 @@ since 'js2-mode' steps on bindings I use globally..." )
     (defun genehack/magit-status-with-prompt (dir)
       "Prompt for git repo path then call magit-status on it."
       (interactive "Dgit repo: ")
-      (magit-status dir))
+      (magit-status-internal dir))
   (defun genehack/magit-status-with-prompt ()
     "Stub function for when git isn't available"
     (interactive)
