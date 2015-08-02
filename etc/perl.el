@@ -66,11 +66,11 @@ since 'cperl-mode' steps on a lot of the bindings I use globally..." )
 
 ;;; UTILITIES
 (defun genehack/perl-repl ()
-  "Start or show an re.pl in an 'ansi-term' shell."
+  "Start or show a reply REPL in an 'ansi-term' shell."
   (interactive)
-  (if (get-buffer "*re.pl*")
-      (switch-to-buffer "*re.pl*")
-    (ansi-term "re.pl" "re.pl")))
+  (if (get-buffer "*reply*")
+      (switch-to-buffer "*reply*")
+    (ansi-term "reply" "reply")))
 
 (defun genehack/get-test-or-lib-for-current-file ()
   "Given a lib file, create and return a buffer for the corresponding test lib.
