@@ -114,11 +114,14 @@
     c-mode
     cperl-mode
     emacs-lisp-mode
+    go-mode
+    js2-mode
     objc-mode
     python-mode
     rspec-mode
     ruby-mode
-    scala-mode)
+    scala-mode
+    web-mode)
   "List of modes to set up to do indent-on-paste.
 Also remove-leading-whitespace-on-kill-line tricks")
 
