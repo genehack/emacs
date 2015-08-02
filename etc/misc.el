@@ -26,6 +26,15 @@
   :init (browse-kill-ring-default-keybindings))
 
 ;;; COMPANY-MODE
+;; inspired by https://gist.github.com/nonsequitur/265010
+(defun genehack/company-yasnippet-or-completion ()
+  "Expand yasnippet if available, otherwise autocomplete."
+  (interactive)
+  (if (first (yas--templates-for-key-at-point))
+      (progn (company-abort)
+             (yas-expand))
+    (company-complete-common)))
+
 (use-package company
   :bind ("\t" . genehack/company-yasnippet-or-completion)
   :commands global-company-mode
@@ -44,15 +53,6 @@
   :diminish company-mode
   :ensure company
   :init (global-company-mode))
-
-;; inspired by https://gist.github.com/nonsequitur/265010
-(defun genehack/company-yasnippet-or-completion ()
-  "Expand yasnippet if available, otherwise autocomplete."
-  (interactive)
-  (if (first (yas--templates-for-key-at-point))
-      (progn (company-abort)
-             (yas-expand))
-    (company-complete-common)))
 
 ;;; CONVERT LINE ENDINGS
 ;;;; from http://www.emacswiki.org/emacs/EndOfLineTips
