@@ -40,6 +40,7 @@
 (global-set-key (kbd "C-x b")        'ido-switch-buffer)
 (global-set-key (kbd "C-x f")        'genehack/find-file)
 (global-set-key (kbd "C-x K")        'genehack/kill-this-buffer)
+(global-set-key (kbd "C-x p")        'projectile-switch-project)
 (global-set-key (kbd "C-x C-f")      'genehack/find-file)
 (global-set-key (kbd "C-x M-b")      'ibuffer)
 (global-set-key (kbd "M-SPC")        'genehack/kill-space-forward)

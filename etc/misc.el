@@ -427,7 +427,8 @@ since 'js2-mode' steps on bindings I use globally..." )
             (setq projectile-cache-file ".projectile.cache")
             (setq projectile-globally-ignored-files '("TAGS" ".git"))
             (setq projectile-known-projects-file
-                  (expand-file-name "projectile-bookmarks.eld" genehack/emacs-tmp-dir)))
+                  (expand-file-name "projectile-bookmarks.eld" genehack/emacs-tmp-dir))
+            (setq projectile-switch-project-action 'projectile-dired))
   :diminish projectile-mode
   :ensure projectile
   :init (progn
