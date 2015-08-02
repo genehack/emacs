@@ -311,7 +311,8 @@ since 'js2-mode' steps on bindings I use globally..." )
   :if genehack/git-executable
   :commands magit-status
   :config (progn
-            (define-key magit-status-mode-map (kbd "q") 'magit-quit-session))
+            (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
+            (setq magit-push-always-verify nil))
   :ensure magit)
 
 (if genehack/git-executable
