@@ -199,7 +199,6 @@ This is a buffer-local variable.")
 ;;; MAC STUFF
 (when (eq system-type 'darwin)
   (setq mac-command-modifier 'meta)
-  (setq mac-function-modifier 'super)
   (setq mac-option-modifier nil)
   (setq browse-url-browser-function 'browse-url-default-macosx-browser)
   (setq delete-by-moving-to-trash t))
