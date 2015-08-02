@@ -13,14 +13,6 @@
   "Sub-directory containing config files.")
 (add-to-list 'load-path genehack/emacs-config-dir)
 
-;; this here so i can load a local sml-mode, since it's only on ELPA
-;; and not on MELPA (*sigh*). once the PL coursera course is over,
-;; this (and the contents of the ./lib dir) can probably go away
-;; again.
-(defvar genehack/emacs-lib-dir (concat genehack/emacs-dir "lib/")
-  "Sub-directory containing library files that don't come thru MELPA.")
-(add-to-list 'load-path genehack/emacs-lib-dir)
-
 (defvar genehack/emacs-tmp-dir (concat genehack/emacs-dir "tmp/")
   "Scratch space for stuff...")
 
