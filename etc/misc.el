@@ -528,11 +528,11 @@ since 'js2-mode' steps on bindings I use globally..." )
     cperl-mode
     css-mode
     emacs-lisp-mode
+    js2-mode
     lisp-mode
     org-mode
     ruby-mode
     scala-mode
-    sml-mode
     tt-mode
     yaml-mode
     web-mode
