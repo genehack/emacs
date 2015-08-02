@@ -621,7 +621,7 @@ since 'js2-mode' steps on bindings I use globally..." )
 (defun genehack/unicode (char)
   "Insert Unicode character CHAR at point."
   (interactive "MCharacter name? ")
-  (insert (shell-command-to-string (format "u %s" char))))
+  (insert (shell-command-to-string (format "uni %s" char))))
 
 ;;; URL ENCODING
 ;;;; based on http://twitter.com/#!/OvidPerl/status/28076709865586688
