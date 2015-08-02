@@ -482,11 +482,23 @@ since 'js2-mode' steps on bindings I use globally..." )
 
 ;;; SMARTPARENS
 (use-package smartparens
-  :diminish smartparens-mode
   :ensure smartparens
+  :config (progn
+            ;; do not autoinsert ' pair if the point is preceeded by
+            ;; word.  This will handle the situation when ' is used as
+            ;; a contraction symbol in natural language.  Nil for
+            ;; second argument means to keep the original definition
+            ;; of closing pair.
+            (sp-pair "'" nil :unless '(sp-point-after-word-p))
+            ;; emacs is lisp hacking enviroment, so we set up some most common
+            ;; lisp modes too
+            (sp-with-modes sp--lisp-modes
+              ;; disable ', it's the quote character!
+              (sp-local-pair "'" nil :actions nil))
+  :diminish smartparens-mode
   :init (progn
           (smartparens-global-mode 1)
-          (show-smartparens-global-mode t)))
+          (show-smartparens-global-mode t))))
 
 ;;; SMEX
 (use-package smex
