@@ -27,7 +27,6 @@
 (global-set-key (kbd "C-c C-d")      'genehack/dired-right-here)
 (global-set-key (kbd "C-c C-g")      'genehack/magit-key)
 (global-set-key (kbd "C-c C-h")      'genehack/split-horizontally-or-delete-other-windows)
-(global-set-key (kbd "C-c C-j")      'projectile-find-file)
 (global-set-key (kbd "C-c C-l")      'github-browse-file)
 (global-set-key (kbd "C-c C-m")      'genehack/perl-find-file-at-point)
 (global-set-key (kbd "C-c C-o")      'projectile-multi-occur)
