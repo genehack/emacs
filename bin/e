@@ -3,14 +3,16 @@ set -euo pipefail
 IFS=$'\n\t'
 
 if [ $OS_TYPE = 'darwin' ]; then
-    EMACSCLIENT='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
+    EMACSCLIENT='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient';
+    EMACS='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient';
 else
-    EMACSCLIENT='/opt/emacs/bin/emacsclient'
+    EMACSCLIENT='/opt/emacs/bin/emacsclient';
+    EMACS='/opt/emacs/bin/emacs';
 fi
 
 if [ ! -e $EMACSCLIENT ]; then
-    echo "Can't find Emacs! Oh, the humanity!"
+    echo "Can't find Emacs! Oh, the humanity!";
     exit 1;
 fi
 
-$EMACSCLIENT -a "" -t "$@"
+$EMACSCLIENT -a $EMACS -t "$@"
