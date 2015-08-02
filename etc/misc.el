@@ -635,10 +635,23 @@ since 'js2-mode' steps on bindings I use globally..." )
 
 ;;; WEB-MODE
 (use-package web-mode
-  :config (add-to-list 'safe-local-variable-values
-                       '(web-mode-markup-indent-offset . 4))
+  :config (progn
+            (add-to-list 'safe-local-variable-values
+                         '(web-mode-markup-indent-offset . 4))
+            (add-hook 'web-mode-hook 'genehack/web-mode-setup))
   :ensure web-mode
   :mode "\\.\\(html\\|tx\\)")
+
+(defvar genehack/web-mode-keybindings-to-remove
+  '(
+    "\C-c\C-a"
+    ) "List of keybindings to unset in 'web-mode' buffers.
+since 'web-mode' steps on bindings I use globally..." )
+
+(defun genehack/web-mode-setup ()
+  "Set up my web-mode buffers."
+  (dolist (binding genehack/web-keybindings-to-remove)
+    (local-unset-key (edmacro-parse-keys binding))))
 
 ;;; YAML-MODE
 (use-package yaml-mode
