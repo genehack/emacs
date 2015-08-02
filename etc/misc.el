@@ -532,6 +532,7 @@ since 'js2-mode' steps on bindings I use globally..." )
     emacs-lisp-mode
     js2-mode
     lisp-mode
+    markdown-mode
     org-mode
     ruby-mode
     scala-mode
