@@ -20,6 +20,7 @@
 (global-set-key (kbd "C-a")          'genehack/bol-toggle)
 (global-set-key (kbd "C-c a")        'org-agenda)
 (global-set-key (kbd "C-c c")        'org-capture)
+(global-set-key (kbd "C-c d")        'dired-jump)
 (global-set-key (kbd "C-c l")        'genehack/git-blame-for-line)
 (global-set-key (kbd "C-c r")        'org-capture)
 (global-set-key (kbd "C-c s")        'org-store-link)

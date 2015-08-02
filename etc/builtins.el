@@ -64,13 +64,7 @@
   :init (dired-details-install))
 
 (use-package dired-x
-  :bind ("C-x C-j" . dired-jump)
   :commands dired-jump)
-
-(defun jsja-dired-right-here ()
-  "Run dired on current active directory."
-  (interactive)
-  (dired default-directory))
 
 ;;;; http://whattheemacsd.com//setup-dired.el-02.html
 (defun dired-back-to-top ()
