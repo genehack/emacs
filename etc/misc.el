@@ -100,6 +100,7 @@
 
 ;;; FILLADAPT -- WTF isn't this part of emacs by default by now?!
 (use-package filladapt
+  :diminish filladapt-mode
   :ensure genehack-misc-elisp)
 
 ;;; FIXME
