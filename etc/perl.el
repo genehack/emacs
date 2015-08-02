@@ -99,8 +99,7 @@ Or vice versa."
   (set (make-local-variable 'compile-command)
        (concat "perl -cw  " buffer-file-name))
   (set (make-local-variable 'flycheck-checker) 'perl-with-lib-from-project-root)
-  ;;; TODO parameterize the 90 so that fark code doesn't have big pink crap at the end
-  ;(font-lock-add-keywords nil '(("^[^\n]\\{90\\}\\(.*\\)$" 1 font-lock-warning-face t)))
+  (font-lock-add-keywords nil '(("^[^\n]\\{90\\}\\(.*\\)$" 1 font-lock-warning-face t)))
   (setq fill-column 78)
   (add-to-list 'safe-local-variable-values
                '(cperl-close-paren-offset . -4)
