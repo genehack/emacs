@@ -243,11 +243,12 @@ RequireFilenameMatchPackage policy works properly.
 (use-package ido
   :init (progn
           (ido-mode t)
-          (ido-everywhere 1)
-          (flx-ido-mode 1))
+          (ido-everywhere)
+          (flx-ido-mode t))
   :config (progn
-            (setq ido-enable-flex-matching 1)
-            (setq ido-use-faces nil))
+            (setq ido-enable-flex-matching t)
+            (setq ido-use-faces t)
+            (setq ido-use-filename-at-point t))
   :ensure ido)
 
 ;;; JS2
