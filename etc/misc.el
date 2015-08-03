@@ -443,10 +443,13 @@ since 'js2-mode' steps on bindings I use globally..." )
           (eval-when-compile (defvar genehack/emacs-tmp-dir))
           (projectile-global-mode)))
 
-(defun genehack/find-file ()
-  "Switch between `projectile-file-file` and `ido-find-file` based on value of `projectile-project-p`."
-  (interactive)
-  (if (projectile-project-p)
+(defun genehack/find-file (arg)
+  "Pick `projectile-file-file` or `ido-find-file` (Force latter w/ARG).
+Decision is based on the value of `projectile-project-p`.  If
+given a prefix arg ARG, unconditionally use `ido-find-file`."
+  (interactive "P")
+  (message "arg is %S"  arg)
+  (if (and (projectile-project-p) (null arg))
       (projectile-find-file)
     (ido-find-file)))
 
