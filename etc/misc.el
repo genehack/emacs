@@ -448,7 +448,6 @@ since 'js2-mode' steps on bindings I use globally..." )
 Decision is based on the value of `projectile-project-p`.  If
 given a prefix arg ARG, unconditionally use `ido-find-file`."
   (interactive "P")
-  (message "arg is %S"  arg)
   (if (and (projectile-project-p) (null arg))
       (projectile-find-file)
     (ido-find-file)))
