@@ -126,12 +126,12 @@
   :config (progn
             (add-hook 'after-init-hook #'global-flycheck-mode)
             (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
-            (defun genehack/include-perl-lib-p ()
+            (defun genehack/include-perl-lib-p (lib)
               "Add 'lib' subdir to '-I' option of flycheck cmd if it exists."
               (defvar project/lib "")
               (if (projectile-project-p)
                   (let ((root (projectile-project-root)))
-                    (setq project/lib (concat root "lib"))
+                    (setq project/lib (concat root lib))
                     (if (and (file-exists-p project/lib)
                              (file-directory-p project/lib))
                         (concat "-I" project/lib)))))
@@ -144,11 +144,14 @@
 (flycheck-define-checker perl-with-lib-from-project-root
                          "A Perl syntax checker using the Perl interpreter.
 
-Uses projectile to find the project root, and if there is a 'lib'
-directory there, adds it to PERL5LIB.
+Uses projectile to find the project root, and if there are 'lib'
+or 'local/lib/perl5' directories there, adds them to PERL5LIB.
 
 See URL `http://www.perl.org'."
-                         :command ("perl" "-w" "-c" (eval (genehack/include-perl-lib-p)) source)
+                         :command ("perl" "-w" "-c"
+                                   (eval (genehack/include-perl-lib-p "lib"))
+                                   (eval (genehack/include-perl-lib-p "local/lib/perl5"))
+                                   source)
                          :error-patterns
                          ((error line-start (minimal-match (message))
                                  " at " (file-name) " line " line
