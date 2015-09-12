@@ -67,8 +67,7 @@
 (global-set-key (kbd "<f1>")      'disk)
 (global-set-key (kbd "<f2>")      'genehack/save-and-kill)
 (global-set-key (kbd "<f3>")      'genehack/noop)
-(global-set-key (kbd "<f4>")      'flycheck-next-error)
-(global-set-key (kbd "C-<f4>")    'flycheck-previous-error)
+(global-set-key (kbd "<f4>")      'genehack/noop)
 (global-set-key (kbd "<f5>")      'genehack/noop)
 (global-set-key (kbd "<f6>")      'macro-dwim)
 (global-set-key (kbd "<f7>")      'macro-clear)
@@ -76,7 +75,8 @@
 (global-set-key (kbd "<f9>")      'genehack/noop)
 (global-set-key (kbd "<f10>")     'genehack/noop)
 (global-set-key (kbd "<f11>")     'genehack/noop)
-(global-set-key (kbd "<f12>")     'genehack/noop)
+(global-set-key (kbd "<f12>")     'flycheck-next-error)
+(global-set-key (kbd "C-<f12>")   'flycheck-next-error)
 
 (provide 'keys)
 ;;; keys.el ends here
