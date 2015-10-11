@@ -86,6 +86,7 @@
 ;;; DISABLE / ENABLE
 (put 'downcase-region 'disabled nil)
 (put 'overwrite-mode 'disabled t)
+(put 'upcase-region 'disabled nil)
 
 ;;; EXECUTABLE-UPON-SAVE MAGIC
 ;;;; from <http://www.emacswiki.org/cgi-bin/wiki/MakingScriptsExecutableOnSave>
