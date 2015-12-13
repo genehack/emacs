@@ -673,6 +673,8 @@ since 'web-mode' steps on bindings I use globally..." )
 (use-package yaml-mode
   :commands yaml-mode
   :config (progn
+            (add-to-list 'safe-local-variable-values
+                         '(yaml-indent-offset . 4))
             (define-key yaml-mode-map (kbd "RET") 'newline-and-indent))
   :ensure yaml-mode
   :mode "\\.ya?ml$")
