@@ -672,6 +672,8 @@ since 'web-mode' steps on bindings I use globally..." )
 ;;; YAML-MODE
 (use-package yaml-mode
   :commands yaml-mode
+  :config (progn
+            (define-key yaml-mode-map (kbd "RET") 'newline-and-indent))
   :ensure yaml-mode
   :mode "\\.ya?ml$")
 
