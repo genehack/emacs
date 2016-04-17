@@ -653,7 +653,7 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
 (use-package web-mode
   :config (progn
             (add-to-list 'safe-local-variable-values
-                         '(web-mode-markup-indent-offset . 4))
+                         '(web-mode-markup-indent-offset . 2))
             (add-hook 'web-mode-hook 'genehack/web-mode-setup))
   :ensure web-mode
   :mode "\\.\\(html\\|tx\\)")
