@@ -336,13 +336,15 @@ since 'js2-mode' steps on bindings I use globally..." )
     (interactive)
     (message "Unable to find a git binary; magit is unavailable.")))
 
-;;; http://endlessparentheses.com/automatically-configure-magit-to-access-github-prs.html
+;;; modified from http://endlessparentheses.com/automatically-configure-magit-to-access-github-prs.html
 (defun genehack/add-pr-fetch ()
   "If refs/pull is not defined on a GH repo, define it."
   (let ((fetch-address "+refs/pull/*/head:refs/pull/origin/*"))
     (unless (member fetch-address (magit-get-all "remote" "origin" "fetch"))
-      (when (string-match "github" (magit-get "remote" "origin" "url"))
-        (magit-git-string "config" "--add" "remote.origin.fetch" fetch-address)))))
+      (let ((repo-remote (magit-get "remote" "origin" "url")))
+        (unless (eq repo-remote nil)
+          (when (string-match "github" repo-remote)
+            (magit-git-string "config" "--add" "remote.origin.fetch" fetch-address)))))))
 (add-hook 'magit-mode-hook #'genehack/add-pr-fetch)
 
 (defun genehack/magit-key (arg)
