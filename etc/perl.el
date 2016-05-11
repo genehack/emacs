@@ -116,5 +116,32 @@ Or vice versa."
   (interactive)
   (find-file (perl-library-path (cperl-word-at-point))))
 
+(defun pod (word)
+  "Run `cpandoc' on WORD.
+Largely ganked from `cperl-perldoc' in cperl.el."
+  (interactive
+   (list (let* ((default-entry (cperl-word-at-point))
+                (input (read-string
+                        (format "perldoc entry%s: "
+                                (if (string= default-entry "")
+                                    ""
+                                  (format " (default %s)" default-entry))))))
+           (if (string= input "")
+               (if (string= default-entry "")
+                   (error "No perldoc args given")
+                 default-entry)
+             input))))
+  (require 'man)
+  (let* ((case-fold-search nil)
+         (is-func (and
+                   (string-match "^[a-z]+$" word)
+                   (string-match (concat "^" word "\\>")
+                                 (documentation-property
+                                  'cperl-short-docs
+                                  'variable-documentation))))
+         (Man-switches "")
+         (manual-program (if is-func "cpandoc -f" "cpandoc")))
+    (Man-getpage-in-background word)))
+
 (provide 'perl)
 ;;; perl.el ends here
