@@ -509,7 +509,7 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
             (sp-pair "'" nil :unless '(sp-point-after-word-p))
             ;; emacs is lisp hacking enviroment, so we set up some most common
             ;; lisp modes too
-            (sp-with-modes sp--lisp-modes
+            (sp-with-modes sp-lisp-modes
               ;; disable ', it's the quote character!
               (sp-local-pair "'" nil :actions nil))
   :diminish smartparens-mode
