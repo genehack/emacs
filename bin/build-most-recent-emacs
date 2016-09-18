@@ -157,7 +157,7 @@ sub find_available_emacs_versions {
 
     my $response = $ua->get($url);
 
-    die "Couldn't list FTP directory"
+    die "Couldn't list FTP directory:\nStatus: " . $response->code . "\nMessage: " . $response->message
       unless $response->is_success;
 
     foreach ( split /\n/ , $response->content ) {
