@@ -103,7 +103,11 @@ sub build_mac_emacs {
   _extract_tarball_and_get_ready_to_build( $tarball , $version );
 
   print "CONFIGURE..." if $VERBOSE;
-  system("./configure --with-ns >/dev/null") == 0
+  # FIXME the '--without-makeinfo' bit is a kludge for the moment to avoid
+  # having to build a new copy of textutils to meet the new version
+  # requirement for makeinfo (as of 25.1.91.1). it should probably be removed
+  # at some point.
+  system("./configure --without-makeinfo --with-ns >/dev/null") == 0
     or die "Configure failed : $!\n";
 
   _make_bootstrap_make_make_install();
