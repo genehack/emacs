@@ -29,7 +29,7 @@
     (set-face-attribute 'default t
                         :background "#000000"
                         :foreground "#ffffff"
-                        :family "Source Code Pro"
+                        :family "mononoki"
                         :height 180)
   (set-face-attribute 'default t
                       :background "#000000"
