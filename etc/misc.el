@@ -263,10 +263,13 @@ RequireFilenameMatchPackage policy works properly.
   :ensure ido)
 
 ;;; JS2
+(use-package js2-refactor :ensure js2-refactor)
 (use-package js2-mode
   :commands js2-mode
   :config (progn
             (add-hook 'js2-init-hook 'genehack/js2-mode-setup)
+            (add-hook 'js2-init-hook 'js2-refactor-mode)
+            (js2r-add-keybindings-with-prefix "C-c C-j")
             (setq-default js2-basic-offset 2))
   :ensure js2-mode
   :mode "\\.js$")
