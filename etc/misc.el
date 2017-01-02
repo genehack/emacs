@@ -40,7 +40,7 @@
   (if (first (yas--templates-for-key-at-point))
       (progn (company-abort)
              (yas-expand))
-    (company-complete-common)))
+    (company-complete)))
 
 ;; tern mode integration; requires tern to be installed
 (use-package company-tern
