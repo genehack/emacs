@@ -42,6 +42,14 @@
              (yas-expand))
     (company-complete-common)))
 
+;; tern mode integration; requires tern to be installed
+(use-package company-tern
+  :ensure company-tern
+  :commands tern-mode
+  :config (progn
+            (eval-after-load 'js2-mode
+              '(add-hook 'js2-init-hook (lambda () (tern-mode t))))))
+
 (use-package company
   :bind ("\t" . genehack/company-yasnippet-or-completion)
   :commands global-company-mode
@@ -54,6 +62,7 @@
                             (company-dabbrev-code company-keywords)
                             company-go
                             company-nxml
+                            company-tern
                             company-css
                             company-files
                             company-dabbrev)))
