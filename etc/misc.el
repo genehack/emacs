@@ -502,6 +502,7 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
             (setq smart-tab-completion-functions-alist
                   '((cperl-mode      . genehack/company-yasnippet-or-completion)
                     (emacs-lisp-mode . genehack/company-yasnippet-or-completion)
+                    (js2-mode        . genehack/company-yasnippet-or-completion)
                     (lisp-mode       . genehack/company-yasnippet-or-completion)
                     (go-mode         . genehack/company-yasnippet-or-completion)
                     (text-mode       . dabbrev-completion)))
