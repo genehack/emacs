@@ -218,12 +218,9 @@ RequireFilenameMatchPackage policy works properly.
 (use-package go-mode
   :commands go-mode
   :config (progn
-            (setq gofmt-command "goimports")
             (add-hook 'before-save-hook 'gofmt-before-save)
             (add-hook 'go-mode-hook
                       (lambda ()
-                        (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
-                        (local-set-key (kbd "C-c i")   'go-goto-imports)
                         (local-set-key (kbd "M-.")     'godef-jump))))
   :ensure go-mode)
 ;;;; depends on go-mode, so put this down here...
