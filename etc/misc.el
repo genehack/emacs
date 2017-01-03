@@ -464,12 +464,36 @@ since 'js2-mode' steps on bindings I use globally..." )
             (setq projectile-globally-ignored-files '("TAGS" ".git"))
             (setq projectile-known-projects-file
                   (expand-file-name "projectile-bookmarks.eld" genehack/emacs-tmp-dir))
-            (setq projectile-switch-project-action 'projectile-dired))
+            (setq projectile-switch-project-action 'projectile-dired)
+            (add-hook 'projectile-after-switch-project-hook 'genehack/node-project-setup)
+            (projectile-cleanup-known-projects))
   :diminish projectile-mode
   :ensure projectile
   :init (progn
           (eval-when-compile (defvar genehack/emacs-tmp-dir))
           (projectile-mode)))
+
+(defvar genehack/node-version "" "Version of Node to use as read from .nvmrc file.")
+(defvar genehack/nvmrc-file ".nvmrc" "Path to nvmrc file relative to project root.")
+(defun genehack/node-project-setup ()
+  "Use nvm to set active Node version if .nvmrc file exists in project root."
+  (interactive)
+  (if (file-exists-p genehack/nvmrc-file)
+      (progn
+        (setq genehack/node-version (chomp-end
+                                     (with-temp-buffer
+                                       (insert-file-contents genehack/nvmrc-file)
+                                       (buffer-(setq )tring))))
+        (genehack/nvm genehack/node-version)
+        (message "Set up to use node version %s" genehack/node-version))))
+
+;; from https://www.emacswiki.org/emacs/ElispCookbook#toc6
+(defun chomp-end (str)
+  "Chomp tailing whitespace from STR."
+  (replace-regexp-in-string
+   (rx (* (any " \t\n")) eos)
+   ""
+   str))
 
 (defun genehack/find-file (arg)
   "Pick `projectile-file-file` or `ido-find-file` (Force latter w/ARG).
