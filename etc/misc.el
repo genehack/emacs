@@ -12,7 +12,7 @@
   :init (setq ag-highlight-search t))
 
 (defun genehack/kill-ag-buffers ()
-  "Kill all buffers that start with '*ag search text:."
+  "Kill all buffers that start with '*ag search text:.'"
   (interactive)
   (dolist (buffer (buffer-list))
   (if (string-match "^*ag search text:" (buffer-name buffer))
