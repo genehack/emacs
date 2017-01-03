@@ -469,7 +469,7 @@ since 'js2-mode' steps on bindings I use globally..." )
   :ensure projectile
   :init (progn
           (eval-when-compile (defvar genehack/emacs-tmp-dir))
-          (projectile-global-mode)))
+          (projectile-mode)))
 
 (defun genehack/find-file (arg)
   "Pick `projectile-file-file` or `ido-find-file` (Force latter w/ARG).
