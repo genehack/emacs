@@ -86,7 +86,7 @@
 (use-package exec-path-from-shell
   :ensure exec-path-from-shell
   :init (progn
-          (setq exec-path-from-shell-variables '("PLENV_ROOT" "PATH" "MANPATH" "GOROOT" "GOPATH")
+          (setq exec-path-from-shell-variables '("PLENV_ROOT" "PATH" "MANPATH" "GOROOT" "GOPATH" "NVM_DIR")
                 exec-path-from-shell-check-startup-files nil)
           (exec-path-from-shell-initialize)))
 
