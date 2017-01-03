@@ -22,6 +22,7 @@
 ;;; then I can move stuff to where it really goes and empty out
 ;;; custom.el again...)
 (setq custom-file (concat genehack/emacs-config-dir "custom.el"))
+(load custom-file)
 
 ;; DEFAULT FACE
 ;;; If you don't set this early on, sometimes things get wonky.

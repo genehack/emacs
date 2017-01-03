@@ -483,7 +483,7 @@ since 'js2-mode' steps on bindings I use globally..." )
         (setq genehack/node-version (chomp-end
                                      (with-temp-buffer
                                        (insert-file-contents genehack/nvmrc-file)
-                                       (buffer-(setq )tring))))
+                                       (buffer-string))))
         (genehack/nvm genehack/node-version)
         (message "Set up to use node version %s" genehack/node-version))))
 
