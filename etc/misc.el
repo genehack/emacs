@@ -18,6 +18,16 @@
   (if (string-match "^*ag search text:" (buffer-name buffer))
       (kill-buffer buffer))))
 
+;;; AGGRESSIVE INDENT MODE
+(use-package aggressive-indent
+  :ensure aggressive-indent
+  :init (progn
+          (global-aggressive-indent-mode 1)
+          (add-to-list 'aggressive-indent-excluded-modes
+                       'html-mode
+                       'web-mode
+                       )))
+
 ;;; AUTO CREATE DIRECTORIES
 ;;;; after <http://atomized.org/2008/12/emacs-create-directory-before-saving/>
 (defun genehack/set-up-before-save-hook ()
