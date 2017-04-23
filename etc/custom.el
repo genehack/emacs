@@ -11,9 +11,9 @@
  '(safe-local-variable-values
    (quote
     ((yaml-indent-offset . 4)
-    (js2-basic-offset . 4)
-    (eval progn
-          (genehack/nvm "4.7")))))
+     (js2-basic-offset . 4)
+     (eval progn
+           (genehack/nvm "4.7")))))
  '(term-default-bg-color "#000000")
  '(term-default-fg-color "#cccccc"))
 
