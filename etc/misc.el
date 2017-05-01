@@ -609,6 +609,7 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
     org-mode
     ruby-mode
     scala-mode
+    swift-mode
     tt-mode
     yaml-mode
     web-mode
