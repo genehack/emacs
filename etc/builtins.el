@@ -212,6 +212,9 @@ This is a buffer-local variable.")
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
+;;; MOUSE WHEEL
+(mouse-wheel-mode -1)
+
 ;;; NXML-MODE
 (use-package nxml-mode
   :config (progn
