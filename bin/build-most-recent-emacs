@@ -180,7 +180,18 @@ sub find_most_recent_emacs_version {
 
   my @versions = ( sort { versioncmp $a , $b } keys %versions );
 
-  return $versions{$versions[-1]};
+  my $most_recent = $versions{$versions[-1]};
+
+  # Sort::Versions will count RC releases as newer than the final release. So
+  # if the most recent is an RC, check to see if there's also a non-RC with
+  # that same version number and use that instead
+  if ( $most_recent =~ /-rc[0-9]+\.tar/) {
+    my( $non_rc ) = $most_recent =~ s/-rc[0-9]+//;
+
+    $most_recent = $non_rc if $versions{$non_rc};
+  }
+
+  return $most_recent;
 }
 
 sub _extract_tarball_and_get_ready_to_build {
