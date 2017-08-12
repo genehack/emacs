@@ -120,6 +120,12 @@
   :commands disk
   :ensure disk)
 
+;;; DUMB-JUMP
+(use-package dumb-jump
+  :diminish dumb-jump-mode
+  :ensure dumb-jump
+  :init (dumb-jump-mode))
+
 ;;; EXPAND-REGION
 (use-package expand-region
   :ensure expand-region)
