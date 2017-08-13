@@ -31,14 +31,14 @@
                   cperl-lazy-help-time 5
                   cperl-tab-always-indent t))
   :init
-  :mode "\\.\\(cgi\\|psgi\\|t\\)$")
+  :mode "\\.\\(cgi\\|psgi\\|t\\)\\'")
 
 (use-package perl-find-library
   :ensure genehack-perl-elisp)
 
 (use-package pod-mode
   :ensure genehack-perl-elisp
-  :mode "\\.pod$")
+  :mode "\\.pod\\'")
 
 (use-package prove
   :ensure genehack-perl-elisp)
@@ -99,7 +99,7 @@ Or vice versa."
   (set (make-local-variable 'compile-command)
        (concat "perl -cw  " buffer-file-name))
   (set (make-local-variable 'flycheck-checker) 'perl-with-lib-from-project-root)
-  (font-lock-add-keywords nil '(("^[^\n]\\{90\\}\\(.*\\)$" 1 font-lock-warning-face t)))
+  (font-lock-add-keywords nil '(("^[^\n]\\{90\\}\\(.*\\)\\'" 1 font-lock-warning-face t)))
   (setq fill-column 78)
   (add-to-list 'safe-local-variable-values
                '(cperl-close-paren-offset . -4)
@@ -134,7 +134,7 @@ Largely ganked from `cperl-perldoc' in cperl.el."
   (require 'man)
   (let* ((case-fold-search nil)
          (is-func (and
-                   (string-match "^[a-z]+$" word)
+                   (string-match "^[a-z]+\\'" word)
                    (string-match (concat "^" word "\\>")
                                  (documentation-property
                                   'cperl-short-docs

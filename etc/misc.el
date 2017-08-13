@@ -294,7 +294,7 @@ RequireFilenameMatchPackage policy works properly.
             (js2r-add-keybindings-with-prefix "C-c C-j")
             (setq-default js2-basic-offset 2))
   :ensure js2-mode
-  :mode "\\.js$")
+  :mode "\\.js\\'")
 
 (defvar genehack/js2-keybindings-to-remove
   '(
@@ -658,7 +658,7 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
 
 (defun genehack/enable-template-minor-mode ()
   "Turn on 'template-minor-mode' in *.tt files."
-  (if (string-match "\\.tt2?$" buffer-file-name)
+  (if (string-match "\\.tt2?\\'" buffer-file-name)
       (template-minor-mode 1)))
 
 ;;; TEXT-SCALE
@@ -759,7 +759,7 @@ since 'web-mode' steps on bindings I use globally..." )
                          '(yaml-indent-offset . 4))
             (define-key yaml-mode-map (kbd "RET") 'newline-and-indent))
   :ensure yaml-mode
-  :mode "\\.ya?ml$")
+  :mode "\\.ya?ml\\'")
 
 ;;; YASNIPPET
 (eval-when-compile (defvar genehack/emacs-dir))
