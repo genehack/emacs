@@ -304,6 +304,7 @@ since 'js2-mode' steps on bindings I use globally..." )
 
 (defun genehack/js2-mode-setup ()
   "Set up my js2-mode buffers."
+  (setq company-backends '(company-tern))
   (dolist (binding genehack/js2-keybindings-to-remove)
     (local-unset-key (edmacro-parse-keys binding))))
 
