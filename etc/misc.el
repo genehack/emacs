@@ -9,19 +9,22 @@
 ;;; AG
 (use-package ag
   :ensure ag
-  :init (setq ag-highlight-search t))
+  :init (progn
+          (defvar ag-highlight-search)
+          (setq ag-highlight-search t)))
 
 (defun genehack/kill-ag-buffers ()
-  "Kill all buffers that start with '*ag search text:.'"
+  "Kill all buffers that start with '*ag search text:.'."
   (interactive)
   (dolist (buffer (buffer-list))
-  (if (string-match "^*ag search text:" (buffer-name buffer))
-      (kill-buffer buffer))))
+    (if (string-match "^*ag search text:" (buffer-name buffer))
+        (kill-buffer buffer))))
 
 ;;; AGGRESSIVE INDENT MODE
 (use-package aggressive-indent
   :ensure aggressive-indent
   :init (progn
+          (defvar aggressive-indent-excluded-modes)
           (global-aggressive-indent-mode 1)
           (add-to-list 'aggressive-indent-excluded-modes
                        'html-mode
@@ -348,6 +351,7 @@ since 'js2-mode' steps on bindings I use globally..." )
   :if genehack/git-executable
   :commands magit-status
   :config (progn
+            (defvar magit-push-always-verify)
             (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
             (setq magit-push-always-verify nil))
   :ensure magit)
@@ -721,6 +725,9 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
 (use-package web-beautify
   :ensure web-beautify
   :config (progn
+            (defvar json-mode-map)
+            (defvar web-mode-map)
+            (defvar css-mode-map)
             (eval-after-load 'js2-mode
               '(define-key js2-mode-map (kbd "C-c b") 'web-beautify-js))
             (eval-after-load 'json-mode
