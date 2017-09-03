@@ -37,11 +37,11 @@
 (global-set-key (kbd "C-c C-x")      'maximize-frame)
 (global-set-key (kbd "C-c M-x")      'execute-extended-command)
 (global-set-key (kbd "C-x =")        'genehack/diff-current-buffer-with-file)
-(global-set-key (kbd "C-x b")        'ido-switch-buffer)
+;;(global-set-key (kbd "C-x b")        'ido-switch-buffer)
 (global-set-key (kbd "C-x f")        'genehack/find-file)
 (global-set-key (kbd "C-x K")        'genehack/kill-this-buffer)
 (global-set-key (kbd "C-x p")        'projectile-switch-project)
-(global-set-key (kbd "C-x C-f")      'genehack/find-file)
+;;(global-set-key (kbd "C-x C-f")      'genehack/find-file)
 (global-set-key (kbd "C-x M-b")      'ibuffer)
 (global-set-key (kbd "M-SPC")        'genehack/kill-space-forward)
 (global-set-key (kbd "M-+")          'text-scale-increase)
@@ -52,7 +52,7 @@
 (global-set-key (kbd "M-g")          'goto-line)
 (global-set-key (kbd "M-p")          'ps-print-buffer)
 (global-set-key (kbd "M-s")          'imenu-goto-symbol)
-(global-set-key (kbd "M-x")          'smex)
+;;(global-set-key (kbd "M-x")          'smex)
 (global-set-key (kbd "RET")          'reindent-then-newline-and-indent)
 
 ;;; F keys
@@ -66,8 +66,8 @@
 ;; ahem.
 (global-set-key (kbd "<f1>")      'disk)
 (global-set-key (kbd "<f2>")      'genehack/save-and-kill)
-(global-set-key (kbd "<f3>")      'genehack/noop)
-(global-set-key (kbd "<f4>")      'genehack/noop)
+;;(global-set-key (kbd "<f3>")      'genehack/noop)
+;;(global-set-key (kbd "<f4>")      'genehack/noop)
 (global-set-key (kbd "<f5>")      'genehack/noop)
 (global-set-key (kbd "<f6>")      'macro-dwim)
 (global-set-key (kbd "<f7>")      'macro-clear)

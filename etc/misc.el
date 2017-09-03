@@ -117,12 +117,12 @@
   :ensure diminish)
 
 ;;; DIRED-RIGHT-HERE
-(defun genehack/dired-right-here (arg)
-  "Run 'ido-dired' or, with ARG, 'dired' on current active directory."
-  (interactive "p")
-  (if (eq 1 arg)
-      (ido-dired)
-    (dired default-directory)))
+;; (defun genehack/dired-right-here (arg)
+;;   "Run 'ido-dired' or, with ARG, 'dired' on current active directory."
+;;   (interactive "p")
+;;   (if (eq 1 arg)
+;;       (ido-dired)
+;;     (dired default-directory)))
 
 ;;; DIR-LOCALS-UPWARD
 ;;; from https://emacs.stackexchange.com/questions/5527/is-there-a-way-to-daisy-chain-dir-locals-el-files
@@ -302,18 +302,18 @@ RequireFilenameMatchPackage policy works properly.
           (replace-match replace nil nil))))))
 
 ;;; IDO
-(use-package flx-ido
-  :ensure flx-ido)
-(use-package ido
-  :init (progn
-          (ido-mode t)
-          (ido-everywhere)
-          (flx-ido-mode t))
-  :config (progn
-            (setq ido-enable-flex-matching t)
-            (setq ido-use-faces t)
-            (setq ido-use-filename-at-point t))
-  :ensure ido)
+;; (use-package flx-ido
+;;   :ensure flx-ido)
+;; (use-package ido
+;;   :init (progn
+;;           (ido-mode t)
+;;           (ido-everywhere)
+;;           (flx-ido-mode t))
+;;   :config (progn
+;;             (setq ido-enable-flex-matching t)
+;;             (setq ido-use-faces t)
+;;             (setq ido-use-filename-at-point t))
+;;   :ensure ido)
 
 ;;; JS2
 (use-package js2-refactor :ensure js2-refactor)
