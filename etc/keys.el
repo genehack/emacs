@@ -55,6 +55,24 @@
 ;;(global-set-key (kbd "M-x")          'smex)
 (global-set-key (kbd "RET")          'reindent-then-newline-and-indent)
 
+;;; IVY-related stuff
+;;; here while i'm evaluating using this...
+(global-unset-key (kbd "<f3>"))
+(global-unset-key (kbd "<f4>"))
+(global-set-key (kbd "C-s")          'swiper)
+(global-set-key (kbd "M-x")          'counsel-M-x)
+(global-set-key (kbd "C-x b")        'ivy-switch-buffer)
+(global-set-key (kbd "C-x C-f")      'counsel-find-file)
+(global-set-key (kbd "<f3> f")       'counsel-describe-function)
+(global-set-key (kbd "<f3> v")       'counsel-describe-variable)
+(global-set-key (kbd "<f3> l")       'counsel-find-library)
+(global-set-key (kbd "<f3> i")       'counsel-info-lookup-symbol)
+(global-set-key (kbd "<f4> u")       'counsel-unicode-char)
+(global-set-key (kbd "C-c g")        'counsel-git)
+(global-set-key (kbd "C-c j")        'counsel-git-grep)
+(global-set-key (kbd "C-c k")        'counsel-ag)
+(global-set-key (kbd "C-c C-r")      'ivy-resume)
+
 ;;; F keys
 ;; the things bound to genehack/noop are shadowed by the hardwired
 ;; multimedia keys on my keyboard -- but sometimes i use the keyboard

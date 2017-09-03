@@ -101,6 +101,16 @@
     (set-buffer-file-coding-system 'undecided-unix)
     (set-buffer-modified-p nil)))
 
+;;; COUNSEL (also IVY and SWIPER)
+(use-package counsel
+  :config (progn
+            (setq ivy-count-format "(%d/%d) ")
+            (setq ivy-re-builders-alist '((counsel-M-x . ivy--regex-fuzzy) ; Only counsel-M-x use flx fuzzy search
+                                          (t . ivy--regex-plus))))
+  :diminish ivy-mode
+  :ensure counsel
+  :init (ivy-mode 1))
+
 ;;; CSS-HEXCOLOR
 (use-package css-hexcolor
   :ensure genehack-misc-elisp)
@@ -381,6 +391,7 @@ since 'js2-mode' steps on bindings I use globally..." )
   :config (progn
             (defvar magit-push-always-verify)
             (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
+            (setq magit-completing-read-function 'ivy-completing-read)
             (setq magit-push-always-verify nil))
   :ensure magit)
 
@@ -514,6 +525,7 @@ since 'js2-mode' steps on bindings I use globally..." )
 (use-package projectile
   :config (progn
             (setq projectile-cache-file ".projectile.cache")
+            (setq projectile-completion-system 'ivy)
             (setq projectile-globally-ignored-files '("TAGS" ".git"))
             (setq projectile-known-projects-file
                   (expand-file-name "projectile-bookmarks.eld" genehack/emacs-tmp-dir))
@@ -555,7 +567,8 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
   (interactive "P")
   (if (and (projectile-project-p) (null arg))
       (projectile-find-file)
-    (ido-find-file)))
+    ;;    (ido-find-file)))
+    (counsel-find-file)))
 
 ;;; SAVE-AND-KILL
 (defun genehack/save-and-kill ()
