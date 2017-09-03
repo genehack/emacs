@@ -69,6 +69,7 @@
 (global-set-key (kbd "<f3> i")       'counsel-info-lookup-symbol)
 (global-set-key (kbd "<f4> u")       'counsel-unicode-char)
 (global-set-key (kbd "C-c g")        'counsel-git)
+(global-set-key (kbd "C-c h")        'helpful-at-point)
 (global-set-key (kbd "C-c j")        'counsel-git-grep)
 (global-set-key (kbd "C-c k")        'counsel-ag)
 (global-set-key (kbd "C-c C-r")      'ivy-resume)
