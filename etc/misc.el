@@ -104,6 +104,7 @@
 ;;; COUNSEL (also IVY and SWIPER)
 (use-package counsel
   :config (progn
+            (all-the-icons-ivy-setup)
             (setq ivy-count-format "(%d/%d) ")
             (setq ivy-re-builders-alist '((counsel-M-x . ivy--regex-fuzzy) ; Only counsel-M-x use flx fuzzy search
                                           (t . ivy--regex-plus))))
