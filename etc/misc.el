@@ -420,6 +420,10 @@ since 'js2-mode' steps on bindings I use globally..." )
                   multi-term-dedicated-window-height 24))
   :ensure multi-term)
 
+;;; NODEJS-REPL
+(use-package nodejs-repl
+  :ensure nodejs-repl)
+
 ;;; NOOP
 (defun genehack/noop nil "..." (interactive))
 
