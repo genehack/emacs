@@ -31,6 +31,12 @@
                        'web-mode
                        )))
 
+;;; API BLUEPRINT
+(use-package apib-mode
+  :ensure apib-mode
+  :init (progn
+          (add-to-list 'auto-mode-alist '("\\.apib\\'" . apib-mode))))
+
 ;;; AUTO CREATE DIRECTORIES
 ;;;; after <http://atomized.org/2008/12/emacs-create-directory-before-saving/>
 (defun genehack/set-up-before-save-hook ()
