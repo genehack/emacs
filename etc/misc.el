@@ -372,11 +372,16 @@ since 'js2-mode' steps on bindings I use globally..." )
   (defvar goto/line 0)
   (unwind-protect
       (progn
-        (linum-mode 1)
+        ;; display-line-numbers is Emacs
+        ;; 26 specific; if this gives
+        ;; you problems, conditionalize
+        ;; between it and linum-mode
+        ;; depending on Emacs version
+        (display-line-numbers-mode 1)
         (setq goto/line (read-number "Goto line: "))
         (goto-char (point-min))
         (forward-line (1- goto/line)))
-    (linum-mode -1)))
+    (display-line-numbers-mode -1)))
 
 ;;; MACRO
 (use-package macro
