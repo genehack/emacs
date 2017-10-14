@@ -118,6 +118,28 @@
       (ido-dired)
     (dired default-directory)))
 
+;;; DIR-LOCALS-UPWARD
+;;; from https://emacs.stackexchange.com/questions/5527/is-there-a-way-to-daisy-chain-dir-locals-el-files
+(defvar walk-dir-locals-upward nil
+  "If non-nil, eval .dir-locals.el files from current directory up the tree.
+Otherwise they will be evaluated from the top down to the current directory.  Setting this to nil allows subdirectories to overload parent directory settings.")
+
+(defadvice hack-dir-local-variables (around walk-dir-locals-file activate)
+  "Walk directory tree and load _all_ the .dir-locals.el files."
+  (let* ((dir-locals-list (list dir-locals-file))
+         (walk-dir-locals-file (first dir-locals-list)))
+    (while (file-readable-p (concat "../" walk-dir-locals-file))
+      (progn
+        (setq walk-dir-locals-file (concat "../" walk-dir-locals-file))
+        (add-to-list 'dir-locals-list walk-dir-locals-file
+                     walk-dir-locals-upward)
+        ))
+    (dolist (file dir-locals-list)
+      (let ((dir-locals-file (expand-file-name file)))
+        (message dir-locals-file)
+        ad-do-it
+        ))))
+
 ;;; DISK
 (use-package disk
   :commands disk
