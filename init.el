@@ -57,7 +57,9 @@
 (defvar genehack/private-config-file "~/private/emacs-private.el"
   "File with configuration info that can't be in public repository.")
 (if (file-readable-p genehack/private-config-file)
-    (load-library genehack/private-config-file))
+    (progn
+      (load-library genehack/private-config-file)
+      (message "Loaded private config")))
 
 ;; PACKAGES
 (eval-after-load "package"
