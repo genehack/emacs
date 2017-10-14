@@ -59,7 +59,6 @@
 ;;; here while i'm evaluating using this...
 (global-unset-key (kbd "<f3>"))
 (global-unset-key (kbd "<f4>"))
-(global-set-key (kbd "C-s")          'swiper)
 (global-set-key (kbd "M-x")          'counsel-M-x)
 (global-set-key (kbd "C-x b")        'ivy-switch-buffer)
 (global-set-key (kbd "C-x C-f")      'counsel-find-file)
