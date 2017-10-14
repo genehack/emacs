@@ -107,7 +107,7 @@ sub build_mac_emacs {
   # having to build a new copy of textutils to meet the new version
   # requirement for makeinfo (as of 25.1.91.1). it should probably be removed
   # at some point.
-  system("./configure --without-makeinfo --with-ns >/dev/null") == 0
+  system("./configure --with-gnutls=no --without-makeinfo --with-ns >/dev/null") == 0
     or die "Configure failed : $!\n";
 
   _make_bootstrap_make_make_install();
