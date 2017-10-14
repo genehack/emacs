@@ -102,6 +102,7 @@
     (set-buffer-modified-p nil)))
 
 ;;; COUNSEL (also IVY and SWIPER)
+(use-package all-the-icons :ensure t)
 (use-package counsel
   :config (progn
             (all-the-icons-ivy-setup)
