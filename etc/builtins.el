@@ -27,7 +27,8 @@
 
 ;;; CALENDAR
 (use-package calendar
-  :config (setq calendar-mark-holidays-flag t))
+  :config
+  (setq calendar-mark-holidays-flag t))
 
 ;;; CURSOR
 (setq-default cursor-type 'box)
@@ -45,26 +46,28 @@
 
 (use-package dired
   :commands dired
-  :config (progn
-            (define-key dired-mode-map
-              (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
-            (define-key dired-mode-map
-              (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom)
-            (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-            (add-hook 'dired-mode-hook 'genehack/bind-key-for-wdired)
-            (setq-default dired-listing-switches "-alhv --time-style=long-iso")
-            (setq dired-recursive-copies 'always)))
+  :config
+  (define-key dired-mode-map (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
+  (define-key dired-mode-map (vector 'remap 'end-of-buffer)       'dired-jump-to-bottom)
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  (add-hook 'dired-mode-hook 'genehack/bind-key-for-wdired)
+  (setq-default dired-listing-switches "-alhv --time-style=long-iso")
+  (setq dired-recursive-copies 'always))
 
 ;;;; http://www.reddit.com/r/emacs/comments/18qa15/dired_discussion/
 (use-package dired-details+
+  :after dired
   :ensure dired-details+)
 
 (use-package dired-details
-  :commands dired-details-install
   :ensure dired-details
-  :init (dired-details-install))
+  :after dired
+  :commands dired-details-install
+  :init
+  (dired-details-install))
 
 (use-package dired-x
+  :after dired
   :commands dired-jump)
 
 ;;;; http://whattheemacsd.com//setup-dired.el-02.html
@@ -95,17 +98,19 @@
 
 ;;; FFAP
 (use-package ffap
-  :init (ffap-bindings))
+  :init
+  (ffap-bindings))
 
 ;;; FONT-LOCK
 (use-package font-lock
-  :config (progn
-            (setq-default font-lock-maximum-decoration t
-                          font-lock-maximum-size nil)
-            (setq jit-lock-stealth-time 5
-                  jit-lock-defer-contextually t
-                  jit-lock-stealth-nice 0.5))
-  :init (global-font-lock-mode 1))
+  :config
+  (setq-default font-lock-maximum-decoration t
+                font-lock-maximum-size nil)
+  (setq jit-lock-stealth-time 5
+        jit-lock-defer-contextually t
+        jit-lock-stealth-nice 0.5)
+  :init
+  (global-font-lock-mode 1))
 
 ;;; GENERAL INDENTATION RELATED OPTIONS
 (setq-default indent-tabs-mode nil)
@@ -148,40 +153,42 @@ Also remove-leading-whitespace-on-kill-line tricks")
 
 ;;; GLOBAL AUTO-REVERT
 (use-package autorevert
-  :config (progn
-            ;; Also auto refresh dired, but be quiet about it
-            (setq global-auto-revert-non-file-buffers t)
-            (setq auto-revert-verbose nil))
-  :init (global-auto-revert-mode t))
+  :config
+  ;; Also auto refresh dired, but be quiet about it
+  (setq global-auto-revert-non-file-buffers t)
+  (setq auto-revert-verbose nil)
+  :init
+  (global-auto-revert-mode t))
 
 ;;; HIPPY-EXPAND
-(setq hippie-expand-try-functions-list '(
-                                         try-expand-dabbrev
-                                         try-expand-dabbrev-all-buffers
-                                         try-expand-dabbrev-from-kill
-                                         try-complete-file-name-partially
-                                         try-complete-file-name
-                                         try-expand-all-abbrevs
-                                         try-complete-lisp-symbol-partially
-                                         try-complete-lisp-symbol
-                                         ))
+(setq hippie-expand-try-functions-list
+      '(try-expand-dabbrev
+        try-expand-dabbrev-all-buffers
+        try-expand-dabbrev-from-kill
+        try-complete-file-name-partially
+        try-complete-file-name
+        try-expand-all-abbrevs
+        try-complete-lisp-symbol-partially
+        try-complete-lisp-symbol))
 
 ;;; HTML
 (add-hook 'html-mode-hook 'turn-off-auto-fill)
 
 ;;; IBUFFER
 (use-package ibuffer
-  :config (setq ibuffer-default-sorting-mode 'major-mode))
+  :config
+  (setq ibuffer-default-sorting-mode 'major-mode))
 
 ;;; KEYSTROKE ECHO
 (setq echo-keystrokes 0.1)
 
 ;;; LINE NUMBERS
 (use-package linum
-  :config (progn
-            (add-hook 'linum-before-numbering-hook 'genehack/linum-before-numbering)
-            (setq linum-format 'genehack/linum-format))
-  :init (column-number-mode 1))
+  :config
+  (add-hook 'linum-before-numbering-hook 'genehack/linum-before-numbering)
+  (setq linum-format 'genehack/linum-format)
+  :init
+  (column-number-mode 1))
 
 (defvar genehack/linum-max-line-width "0"
   "Number of digits in last line in current buffer.
@@ -218,69 +225,69 @@ This is a buffer-local variable.")
 
 ;;; NXML-MODE
 (use-package nxml-mode
-  :config (progn
-            (fset 'xml-mode 'nxml-mode)
-            (add-to-list 'auto-mode-alist '("\\.rng'"  . nxml-mode))
-            (add-to-list 'auto-mode-alist '("\\.rss'"  . nxml-mode))
-            (add-to-list 'auto-mode-alist '("\\.xml'"  . nxml-mode))
-            (add-to-list 'auto-mode-alist '("\\.xsd'"  . nxml-mode))
-            (add-to-list 'auto-mode-alist '("\\.xslt'" . nxml-mode))
-            (setq magic-mode-alist (cons '("<\\?xml " . nxml-mode) magic-mode-alist))
-            (setq nxml-bind-meta-tab-to-complete-flag nil)))
+  :config
+  (fset 'xml-mode 'nxml-mode)
+  (setq nxml-bind-meta-tab-to-complete-flag nil)
+  :mode "\\.\\(rng\\|rss\\|xml\\|xsd\\|xslt\\)\\'"
+  :magic "<\\?xml ")
 
 ;;; ORG MODE
 (use-package org
-  :defines org-agenda-custom-commands
-           org-agenda-files
-           org-capture-templates
-           org-default-notes-file
-           org-directory
-           org-log-done
-           org-refile-targets
-           org-return-follows-link
-           org-tag-alist
-           org-todo-keywords
-  :config (progn
-            (setq org-agenda-custom-commands
-                  '(("a" "active" todo "ACTIVE")
-                    ("n" "next actions" tags-todo "NEXT")
-                    ("w" "waiting for" todo "WAITING")))
-            (setq org-agenda-files '("~/org" "~/org/home" "~/org/oss" "~/org/work"))
-            (setq org-capture-templates
-                  '(("t" "todo" entry (file+headline "" "* INBOX") "** TODO %?\n %i\n %a")))
-            (setq org-default-notes-file (concat org-directory "/jfdi.org"))
-            (setq org-log-done 'time)
-            (setq org-refile-targets '((org-agenda-files . (:maxlevel . 2))))
-            (setq org-return-follows-link t)
-            (setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("@oss" . ?o) ("NEXT" . ?n)))
-            (setq org-todo-keywords '((sequence "TODO(t)" "ACTIVE(a)" "|" "DONE(d!)")
-                                      (sequence "WAITING(w!/@)" "|")))
-            (defun jfdi ()
-              "JFDI!"
-              (interactive)
-              (find-file "~/org/jfdi.org"))
-            ))
+  :disabled t
+  :defines
+  org-agenda-custom-commands
+  org-agenda-files
+  org-capture-templates
+  org-default-notes-file
+  org-directory
+  org-log-done
+  org-refile-targets
+  org-return-follows-link
+  org-tag-alist
+  org-todo-keywords
+  :config
+  (setq org-agenda-custom-commands
+        '(("a" "active" todo "ACTIVE")
+          ("n" "next actions" tags-todo "NEXT")
+          ("w" "waiting for" todo "WAITING")))
+  (setq org-agenda-files '("~/org" "~/org/home" "~/org/oss" "~/org/work"))
+  (setq org-capture-templates
+        '(("t" "todo" entry (file+headline "" "* INBOX") "** TODO %?\n %i\n %a")))
+  (setq org-default-notes-file (concat org-directory "/jfdi.org"))
+  (setq org-log-done 'time)
+  (setq org-refile-targets '((org-agenda-files . (:maxlevel . 2))))
+  (setq org-return-follows-link t)
+  (setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("@oss" . ?o) ("NEXT" . ?n)))
+  (setq org-todo-keywords '((sequence "TODO(t)" "ACTIVE(a)" "|" "DONE(d!)")
+                            (sequence "WAITING(w!/@)" "|")))
+  (defun jfdi ()
+    "JFDI!"
+    (interactive)
+    (find-file "~/org/jfdi.org")))
 
 ;;; PAREN MATCH
 (use-package paren
-  :config (progn
-            (show-paren-mode t)
-            (setq show-paren-style 'expression)))
+  :config
+  (show-paren-mode t)
+  (setq show-paren-style 'expression))
 
 ;;; PS PRINT
 (setq ps-print-color-p nil)
 
 ;;; SAVE-HIST
 (use-package savehist
-  :config (progn
-            (setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
-            (setq savehist-file (expand-file-name "savehist" genehack/emacs-tmp-dir)))
-  :init (savehist-mode t))
+  :config
+  (setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring)
+        savehist-file (expand-file-name "savehist" genehack/emacs-tmp-dir))
+  :init
+  (savehist-mode t))
 
 ;;; SAVEPLACE
 (use-package saveplace
-  :config (setq save-place-file (expand-file-name "saveplace" genehack/emacs-tmp-dir))
-  :init (setq-default save-place t))
+  :config
+  (setq save-place-file (expand-file-name "saveplace" genehack/emacs-tmp-dir))
+  :init
+  (setq-default save-place t))
 
 ;;; SCRATCH BUFFER
 (setq initial-scratch-message
@@ -291,7 +298,8 @@ This is a buffer-local variable.")
 
 ;;; SGML-MODE
 (use-package sgml-mode
-  :config (define-key sgml-mode-map "\C-c\C-b" nil))
+  :config
+  (define-key sgml-mode-map "\C-c\C-b" nil))
 
 ;;; SIZE INDICATION MODE
 (size-indication-mode t)
@@ -315,31 +323,31 @@ This is a buffer-local variable.")
   "Boolean indicating whether or not a spelling program was found in 'exec-path'.")
 
 (use-package ispell
-  :config (progn
-            (if (genehack/find-in-exec-path "aspell")
-                (progn
-                  (setq-default ispell-program-name "aspell")
-                  (setq ispell-extra-args '("--sug-mode=ultra"))
-                  (setq genehack/found-spelling-program t))
-              (if (genehack/find-in-exec-path "ispell")
-                  (progn
-                    (setq-default ispell-program-name "ispell")
-                    (setq ispell-extra-args '("-W 3"))
-                    (setq genehack/found-spelling-program t))))
-            (if (eq genehack/found-spelling-program t)
-                (progn
-                  (autoload 'ispell-word   "ispell" "check word spelling."   t)
-                  (autoload 'ispell-region "ispell" "check region spelling." t)
-                  (autoload 'ispell-buffer "ispell" "check buffer spelling." t)
-                  (require 'flyspell))
-
-              (defalias 'ispell-word   'genehack/spelling-not-found)
-              (defalias 'ispell-region 'genehack/spelling-not-found)
-              (defalias 'ispell-buffer 'genehack/spelling-not-found))))
+  :config
+  (if (genehack/find-in-exec-path "aspell")
+      (progn
+        (setq-default ispell-program-name "aspell")
+        (setq ispell-extra-args '("--sug-mode=ultra"))
+        (setq genehack/found-spelling-program t))
+    (if (genehack/find-in-exec-path "ispell")
+        (progn
+          (setq-default ispell-program-name "ispell")
+          (setq ispell-extra-args '("-W 3"))
+          (setq genehack/found-spelling-program t))))
+  (if (eq genehack/found-spelling-program t)
+      (progn
+        (autoload 'ispell-word   "ispell" "check word spelling."   t)
+        (autoload 'ispell-region "ispell" "check region spelling." t)
+        (autoload 'ispell-buffer "ispell" "check buffer spelling." t)
+        (require 'flyspell))
+    (defalias 'ispell-word   'genehack/spelling-not-found)
+    (defalias 'ispell-region 'genehack/spelling-not-found)
+    (defalias 'ispell-buffer 'genehack/spelling-not-found)))
 
 ;;; TERM-MODE
 (use-package term
-  :config (add-hook 'term-mode-hook 'genehack/set-up-term-mode))
+  :config
+  (add-hook 'term-mode-hook 'genehack/set-up-term-mode))
 
 (defun genehack/set-up-term-mode ()
   "My customizations for 'term-mode'."
@@ -359,10 +367,12 @@ This is a buffer-local variable.")
 
 ;;; TIME DISPLAY
 (use-package time
-  :init (progn
-          (setq display-time-24hr-format t)
-          (setq display-time-day-and-date t)
-          (display-time)))
+  :defines
+  display-time-24hr-format
+  :init
+  (setq display-time-24hr-format t)
+  (setq display-time-day-and-date t)
+  (display-time))
 
 ;;; TITLE BARS
 (setq frame-title-format "<%b> == (%f) [mode: %m]")
@@ -375,10 +385,10 @@ This is a buffer-local variable.")
 
 ;;; UNIQUIFY
 (use-package uniquify
-  :config (progn
-            (setq uniquify-buffer-name-style 'reverse
-                  uniquify-separator "/"
-                  uniquify-after-kill-buffer-p t)))
+  :config
+  (setq uniquify-buffer-name-style 'reverse
+        uniquify-separator "/"
+        uniquify-after-kill-buffer-p t))
 
 ;;; UTF8
 (setq locale-coding-system 'utf-8)
@@ -392,8 +402,10 @@ This is a buffer-local variable.")
 
 ;;; WHITESPACE
 (use-package whitespace
-  :config (progn
-            (setq whitespace-style '(face tabs spaces trailing lines-tail space-before-tab newline indentation empty space-after-tab space-mark tab-mark newline-mark))))
+  :config
+  (setq whitespace-style '(face tabs spaces trailing lines-tail
+                                space-before-tab newline indentation empty
+                                space-after-tab space-mark tab-mark newline-mark)))
 
 ;;; YANK
 (setq-default mouse-yank-at-point t)

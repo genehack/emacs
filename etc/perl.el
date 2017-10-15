@@ -7,30 +7,29 @@
 ;;; LIBRARIES
 (require 'use-package)
 (use-package cperl-mode
-  :config (progn
-            (defalias 'perl-mode 'cperl-mode)
-            (add-hook 'cperl-mode-hook 'genehack/cperl-mode-setup)
-            (add-hook 'cperl-mode-hook 'flyspell-prog-mode)
-            (add-hook 'cperl-mode-hook 'which-func-mode)
-            (setq cperl-autoindent-on-semi t
-                  cperl-auto-newline t
-                  cperl-clobber-lisp-bindings t
-                  cperl-close-paren-offset -2
-                  cperl-continued-statement-offset 2
-                  cperl-electric-keywords t
-                  cperl-electric-lbrace-space nil
-                  cperl-electric-linefeed t
-                  cperl-electric-parens nil
-                  cperl-font-lock t
-                  cperl-highlight-variables-indiscriminately t
-                  cperl-indent-level 2
-                  cperl-indent-parens-as-block t
-                  cperl-indent-region-fix-constructs nil
-                  cperl-info-on-command-no-prompt t
-                  cperl-invalid-face nil
-                  cperl-lazy-help-time 5
-                  cperl-tab-always-indent t))
-  :init
+  :config
+  (defalias 'perl-mode 'cperl-mode)
+  (add-hook 'cperl-mode-hook 'genehack/cperl-mode-setup)
+  (add-hook 'cperl-mode-hook 'flyspell-prog-mode)
+  (add-hook 'cperl-mode-hook 'which-func-mode)
+  (setq cperl-autoindent-on-semi t
+        cperl-auto-newline t
+        cperl-clobber-lisp-bindings t
+        cperl-close-paren-offset -2
+        cperl-continued-statement-offset 2
+        cperl-electric-keywords t
+        cperl-electric-lbrace-space nil
+        cperl-electric-linefeed t
+        cperl-electric-parens nil
+        cperl-font-lock t
+        cperl-highlight-variables-indiscriminately t
+        cperl-indent-level 2
+        cperl-indent-parens-as-block t
+        cperl-indent-region-fix-constructs nil
+        cperl-info-on-command-no-prompt t
+        cperl-invalid-face nil
+        cperl-lazy-help-time 5
+        cperl-tab-always-indent t)
   :mode "\\.\\(cgi\\|psgi\\|t\\)\\'")
 
 (use-package perl-find-library

@@ -9,9 +9,9 @@
 ;;; AG
 (use-package ag
   :ensure ag
-  :init (progn
-          (defvar ag-highlight-search)
-          (setq ag-highlight-search t)))
+  :init
+  (defvar ag-highlight-search)
+  (setq ag-highlight-search t))
 
 (defun genehack/kill-ag-buffers ()
   "Kill all buffers that start with '*ag search text:.'."
@@ -23,19 +23,17 @@
 ;;; AGGRESSIVE INDENT MODE
 (use-package aggressive-indent
   :ensure aggressive-indent
-  :init (progn
-          (defvar aggressive-indent-excluded-modes)
-          (global-aggressive-indent-mode 1)
-          (add-to-list 'aggressive-indent-excluded-modes
-                       'html-mode
-                       'web-mode
-                       )))
+  :init
+  (global-aggressive-indent-mode 1)
+  (defvar aggressive-indent-excluded-modes)
+  (add-to-list 'aggressive-indent-excluded-modes
+               'html-mode
+               'web-mode))
 
 ;;; API BLUEPRINT
 (use-package apib-mode
   :ensure apib-mode
-  :init (progn
-          (add-to-list 'auto-mode-alist '("\\.apib\\'" . apib-mode))))
+  :mode "\\.apib\\'")
 
 ;;; AUTO CREATE DIRECTORIES
 ;;;; after <http://atomized.org/2008/12/emacs-create-directory-before-saving/>
@@ -49,7 +47,8 @@
 (use-package browse-kill-ring
   :commands browse-kill-ring-default-keybindings
   :ensure browse-kill-ring
-  :init (browse-kill-ring-default-keybindings))
+  :init
+  (browse-kill-ring-default-keybindings))
 
 ;;; COMPANY-MODE
 ;; inspired by https://gist.github.com/nonsequitur/265010
@@ -64,29 +63,31 @@
 ;; tern mode integration; requires tern to be installed
 (use-package company-tern
   :ensure company-tern
+  :after tern company
   :commands tern-mode
-  :config (progn
-            (eval-after-load 'js2-mode
-              '(add-hook 'js2-init-hook (lambda () (tern-mode t))))))
+  :config
+  (eval-after-load 'js2-mode
+    '(add-hook 'js2-init-hook (lambda () (tern-mode t)))))
 
 (use-package company
-  :bind ("\t" . genehack/company-yasnippet-or-completion)
-  :commands global-company-mode
-  :config (progn
-            (setq company-echo-delay 0
-                  company-idle-delay 0.3
-                  company-minimum-prefix-length 1)
-            (setq-default company-backends
-                          '((company-capf :with company-yasnippet)
-                            (company-dabbrev-code company-keywords)
-                            company-go
-                            company-nxml
-                            company-tern
-                            company-css
-                            company-files
-                            company-dabbrev)))
-  :diminish company-mode
   :ensure company
+  :commands global-company-mode
+  :bind
+  ("\t" . genehack/company-yasnippet-or-completion)
+  :config
+  (setq company-echo-delay 0
+        company-idle-delay 0.3
+        company-minimum-prefix-length 1)
+  (setq-default company-backends
+                '((company-capf :with company-yasnippet)
+                  (company-dabbrev-code company-keywords)
+                  company-go
+                  company-nxml
+                  company-tern
+                  company-css
+                  company-files
+                  company-dabbrev))
+  :diminish company-mode
   :init (global-company-mode))
 
 ;;; CONVERT LINE ENDINGS
@@ -104,13 +105,14 @@
 ;;; COUNSEL (also IVY and SWIPER)
 (use-package all-the-icons-ivy :ensure t)
 (use-package counsel
-  :config (progn
-            (all-the-icons-ivy-setup)
-            (setq ivy-count-format "(%d/%d) ")
-            (setq ivy-re-builders-alist '((counsel-M-x . ivy--regex-fuzzy) ; Only counsel-M-x use flx fuzzy search
-                                          (t . ivy--regex-plus))))
-  :diminish ivy-mode
   :ensure counsel
+  :after all-the-icons-ivy
+  :config
+  (all-the-icons-ivy-setup)
+  (setq ivy-count-format "(%d/%d) ")
+  (setq ivy-re-builders-alist '((counsel-M-x . ivy--regex-fuzzy) ; Only counsel-M-x use flx fuzzy search
+                                (t . ivy--regex-plus)))
+  :diminish ivy-mode
   :init (ivy-mode 1))
 
 ;;; CSS-HEXCOLOR
@@ -165,8 +167,8 @@ Otherwise they will be evaluated from the top down to the current directory.  Se
 
 ;;; DUMB-JUMP
 (use-package dumb-jump
-  :diminish dumb-jump-mode
   :ensure dumb-jump
+  :diminish dumb-jump-mode
   :init (dumb-jump-mode))
 
 ;;; EXPAND-REGION
@@ -180,32 +182,33 @@ Otherwise they will be evaluated from the top down to the current directory.  Se
 
 ;;; FIXME
 (use-package fixme
-  :config (add-to-list 'fixme-modes 'go-mode)
-  :ensure genehack-misc-elisp)
+  :ensure genehack-misc-elisp
+  :config
+  (add-to-list 'fixme-modes 'go-mode))
 
 ;;; FLYCHECK
 ;;;; https://github.com/flycheck/flycheck
 (use-package flycheck-color-mode-line
-  :commands flycheck-color-mode-line-mode
-  :ensure flycheck-color-mode-line)
+  :ensure flycheck-color-mode-line
+  :commands flycheck-color-mode-line-mode)
 
 (use-package flycheck
   :commands flycheck-define-checker global-flycheck-mode
-  :config (progn
-            (add-hook 'after-init-hook #'global-flycheck-mode)
-            (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
-            (defun genehack/include-perl-lib-p (lib)
-              "Add 'lib' subdir to '-I' option of flycheck cmd if it exists."
-              (defvar project/lib "")
-              (if (projectile-project-p)
-                  (let ((root (projectile-project-root)))
-                    (setq project/lib (concat root lib))
-                    (if (and (file-exists-p project/lib)
-                             (file-directory-p project/lib))
-                        (concat "-I" project/lib)))))
-            (setq flycheck-perlcritic-severity "5")
-            (add-to-list 'flycheck-checkers 'genehack/perl-perlcritic)
-            (add-to-list 'flycheck-checkers 'perl-with-lib-from-project-root))
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
+  (defun genehack/include-perl-lib-p (lib)
+    "Add 'lib' subdir to '-I' option of flycheck cmd if it exists."
+    (defvar project/lib "")
+    (if (projectile-project-p)
+        (let ((root (projectile-project-root)))
+          (setq project/lib (concat root lib))
+          (if (and (file-exists-p project/lib)
+                   (file-directory-p project/lib))
+              (concat "-I" project/lib)))))
+  (setq flycheck-perlcritic-severity "5")
+  (add-to-list 'flycheck-checkers 'genehack/perl-perlcritic)
+  (add-to-list 'flycheck-checkers 'perl-with-lib-from-project-root)
   :defer t
   :ensure flycheck)
 
@@ -270,7 +273,8 @@ RequireFilenameMatchPackage policy works properly.
 
 ;;; GIT-GUTTER
 (use-package git-gutter
-  :config (progn (global-git-gutter-mode t))
+  :config
+  (global-git-gutter-mode t)
   :ensure git-gutter)
 
 ;;; GITHUB-BROWSE-FILE
@@ -281,15 +285,16 @@ RequireFilenameMatchPackage policy works properly.
 ;;; GO
 (use-package go-mode
   :commands go-mode
-  :config (progn
-            (add-hook 'before-save-hook 'gofmt-before-save)
-            (add-hook 'go-mode-hook
-                      (lambda ()
-                        (local-set-key (kbd "M-.")     'godef-jump))))
+  :config
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "M-.") 'godef-jump)))
   :ensure go-mode)
+
 ;;;; depends on go-mode, so put this down here...
 (use-package company-go
+  :after go-mode
   :ensure company-go)
+
 (use-package go-snippets
   :disabled t
   :ensure go-snippets
@@ -297,7 +302,11 @@ RequireFilenameMatchPackage policy works properly.
 
 ;;; HTML TIDY
 (use-package tidy
-  :commands tidy-buffer tidy-parse-config-file tidy-save-settings tidy-build-menu
+  :commands
+  tidy-buffer
+  tidy-parse-config-file
+  tidy-save-settings
+  tidy-build-menu
   :ensure tidy)
 
 (defun genehack/scrub-win-to-html ()
@@ -318,31 +327,17 @@ RequireFilenameMatchPackage policy works properly.
         (while (re-search-forward match nil t)
           (replace-match replace nil nil))))))
 
-;;; IDO
-;; (use-package flx-ido
-;;   :ensure flx-ido)
-;; (use-package ido
-;;   :init (progn
-;;           (ido-mode t)
-;;           (ido-everywhere)
-;;           (flx-ido-mode t))
-;;   :config (progn
-;;             (setq ido-enable-flex-matching t)
-;;             (setq ido-use-faces t)
-;;             (setq ido-use-filename-at-point t))
-;;   :ensure ido)
-
 ;;; JS2
 (use-package js2-refactor :ensure js2-refactor)
 (use-package js2-mode
   :commands js2-mode
-  :config (progn
-            (add-hook 'js2-init-hook 'genehack/js2-mode-setup)
-            (add-hook 'js2-init-hook 'js2-refactor-mode)
-            (js2r-add-keybindings-with-prefix "C-c C-j")
-            (add-to-list 'safe-local-variable-values '(js2-basic-offset . 2))
-            (add-to-list 'safe-local-variable-values '(js2-basic-offset . 4))
-            (setq-default js2-basic-offset 2))
+  :config
+  (add-hook 'js2-init-hook 'genehack/js2-mode-setup)
+  (add-hook 'js2-init-hook 'js2-refactor-mode)
+  (js2r-add-keybindings-with-prefix "C-c C-j")
+  (add-to-list 'safe-local-variable-values '(js2-basic-offset . 2))
+  (add-to-list 'safe-local-variable-values '(js2-basic-offset . 4))
+  (setq-default js2-basic-offset 2)
   :ensure js2-mode
   :mode "\\.js\\'")
 
@@ -402,11 +397,11 @@ since 'js2-mode' steps on bindings I use globally..." )
 (use-package magit
   :if genehack/git-executable
   :commands magit-status
-  :config (progn
-            (defvar magit-push-always-verify)
-            (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
-            (setq magit-completing-read-function 'ivy-completing-read)
-            (setq magit-push-always-verify nil))
+  :config
+  (defvar magit-push-always-verify)
+  (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
+  (setq magit-completing-read-function 'ivy-completing-read)
+  (setq magit-push-always-verify nil)
   :ensure magit)
 
 (if genehack/git-executable
@@ -459,18 +454,19 @@ since 'js2-mode' steps on bindings I use globally..." )
 ;;; MOVE TEXT
 (use-package move-text
   :ensure move-text
-  :init (move-text-default-bindings))
+  :init
+  (move-text-default-bindings))
 
 ;;; MULTI-TERM
 (setq system-uses-terminfo nil)
 (use-package multi-term
-  :config (progn
-            (defalias 'term 'multi-term)
-            (custom-set-variables
-             '(term-default-bg-color "#000000")
-             '(term-default-fg-color "#cccccc"))
-            (setq multi-term-dedicated-select-after-open-p t
-                  multi-term-dedicated-window-height 24))
+  :config
+  (defalias 'term 'multi-term)
+  (custom-set-variables
+   '(term-default-bg-color "#000000")
+   '(term-default-fg-color "#cccccc"))
+  (setq multi-term-dedicated-select-after-open-p t
+        multi-term-dedicated-window-height 24)
   :ensure multi-term)
 
 ;;; NODEJS-REPL
@@ -481,18 +477,17 @@ since 'js2-mode' steps on bindings I use globally..." )
 (defun genehack/noop nil "..." (interactive))
 
 ;;; NVM
-
 (use-package nvm
   :ensure nvm
-  :config (progn
-            ;; this bit depends on pulling this in from exec-shell,
-            ;; which is done in init.el.
-            (setq nvm-dir (getenv "NVM_DIR"))
-            (defun genehack/nvm (version)
-              "Reconfigure $PATH and `exec-path' to use a particular Node VERSION via nvm."
-              (interactive "sVersion: ")
-              (nvm-use version)
-              (setq exec-path (parse-colon-path (getenv "PATH"))))))
+  :config
+  ;; this bit depends on pulling this in from exec-shell,
+  ;; which is done in init.el.
+  (setq nvm-dir (getenv "NVM_DIR"))
+  (defun genehack/nvm (version)
+    "Reconfigure $PATH and `exec-path' to use a particular Node VERSION via nvm."
+    (interactive "sVersion: ")
+    (nvm-use version)
+    (setq exec-path (parse-colon-path (getenv "PATH")))))
 
 ;;; OPEN LINE
 ;;;; from http://whattheemacsd.com//editing-defuns.el-01.html
@@ -537,20 +532,20 @@ since 'js2-mode' steps on bindings I use globally..." )
 
 ;;; PROJECTILE
 (use-package projectile
-  :config (progn
-            (setq projectile-cache-file ".projectile.cache")
-            (setq projectile-completion-system 'ivy)
-            (setq projectile-globally-ignored-files '("TAGS" ".git"))
-            (setq projectile-known-projects-file
-                  (expand-file-name "projectile-bookmarks.eld" genehack/emacs-tmp-dir))
-            (setq projectile-switch-project-action 'projectile-dired)
-            (add-hook 'projectile-after-switch-project-hook 'genehack/node-project-setup)
-            (projectile-cleanup-known-projects))
+  :config
+  (setq projectile-cache-file ".projectile.cache")
+  (setq projectile-completion-system 'ivy)
+  (setq projectile-globally-ignored-files '("TAGS" ".git"))
+  (setq projectile-known-projects-file
+        (expand-file-name "projectile-bookmarks.eld" genehack/emacs-tmp-dir))
+  (setq projectile-switch-project-action 'projectile-dired)
+  (add-hook 'projectile-after-switch-project-hook 'genehack/node-project-setup)
+  (projectile-cleanup-known-projects)
   :diminish projectile-mode
   :ensure projectile
-  :init (progn
-          (eval-when-compile (defvar genehack/emacs-tmp-dir))
-          (projectile-mode)))
+  :init
+  (eval-when-compile (defvar genehack/emacs-tmp-dir))
+  (projectile-mode))
 
 (defvar genehack/node-version "" "Version of Node to use as read from .nvmrc file.")
 (defvar genehack/nvmrc-file ".nvmrc" "Path to nvmrc file relative to project root.")
@@ -598,9 +593,12 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
 
 ;;; SCALA
 (use-package ensime
-  :if (file-exists-p "/opt/ensime")
-  :config (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
-  :init (add-to-list 'load-path "/opt/ensime/elisp"))
+  :if
+  (file-exists-p "/opt/ensime")
+  :config
+  (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+  :init
+  (add-to-list 'load-path "/opt/ensime/elisp"))
 
 ;;; SCRATCH-BUFFER
 (defun genehack/create-scratch-buffer nil
@@ -612,16 +610,16 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
 
 ;;; SMART-TAB
 (use-package smart-tab
-  :config (progn
-            (setq smart-tab-using-hippie-expand t)
-            (setq smart-tab-completion-functions-alist
-                  '((cperl-mode      . genehack/company-yasnippet-or-completion)
-                    (emacs-lisp-mode . genehack/company-yasnippet-or-completion)
-                    (js2-mode        . genehack/company-yasnippet-or-completion)
-                    (lisp-mode       . genehack/company-yasnippet-or-completion)
-                    (go-mode         . genehack/company-yasnippet-or-completion)
-                    (text-mode       . dabbrev-completion)))
-            (global-smart-tab-mode 1))
+  :config
+  (setq smart-tab-using-hippie-expand t)
+  (setq smart-tab-completion-functions-alist
+        '((cperl-mode      . genehack/company-yasnippet-or-completion)
+          (emacs-lisp-mode . genehack/company-yasnippet-or-completion)
+          (js2-mode        . genehack/company-yasnippet-or-completion)
+          (lisp-mode       . genehack/company-yasnippet-or-completion)
+          (go-mode         . genehack/company-yasnippet-or-completion)
+          (text-mode       . dabbrev-completion)))
+  (global-smart-tab-mode 1)
   :diminish smart-tab-mode
   :ensure smart-tab)
 
@@ -629,15 +627,16 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
 (use-package smartparens
   :ensure smartparens
   :diminish smartparens-mode
-  :init (progn
-          (require 'smartparens-config)
-          (smartparens-global-mode 1)
-          (show-smartparens-global-mode t)))
+  :init
+  (require 'smartparens-config)
+  (smartparens-global-mode 1)
+  (show-smartparens-global-mode t))
 
 ;;; SMEX
 (use-package smex
   :ensure smex
-  :init (smex-initialize))
+  :init
+  (smex-initialize))
 
 ;;; SPLIT-(HORIZONT|VERTIC)ALLY-OR-DELETE-OTHER-WINDOWS
 (defun genehack/split-horizontally-or-delete-other-windows ()
@@ -706,7 +705,8 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
 ;;; TEMPLATE
 (use-package template-mode
   :commands template-minor-mode
-  :config (add-hook 'html-mode-hook 'genehack/enable-template-minor-mode)
+  :config
+  (add-hook 'html-mode-hook 'genehack/enable-template-minor-mode)
   :ensure genehack-perl-elisp)
 
 (defun genehack/enable-template-minor-mode ()
@@ -728,7 +728,8 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
 
 (use-package solarized-theme
   :ensure solarized-theme
-  :init (genehack/solarize-this))
+  :init
+  (genehack/solarize-this))
 
 (defun genehack/solarize-this-light ()
   "Enable solarized theme."
@@ -772,27 +773,27 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
 ;;; WEB-BEAUTIFY
 (use-package web-beautify
   :ensure web-beautify
-  :config (progn
-            (defvar json-mode-map)
-            (defvar web-mode-map)
-            (defvar css-mode-map)
-            (eval-after-load 'js2-mode
-              '(define-key js2-mode-map (kbd "C-c b") 'web-beautify-js))
-            (eval-after-load 'json-mode
-              '(define-key json-mode-map (kbd "C-c b") 'web-beautify-js))
-            (eval-after-load 'sgml-mode
-              '(define-key html-mode-map (kbd "C-c b") 'web-beautify-html))
-            (eval-after-load 'web-mode
-              '(define-key web-mode-map (kbd "C-c b") 'web-beautify-html))
-            (eval-after-load 'css-mode
-              '(define-key css-mode-map (kbd "C-c b") 'web-beautify-css))))
+  :config
+  (defvar json-mode-map)
+  (defvar web-mode-map)
+  (defvar css-mode-map)
+  (eval-after-load 'js2-mode
+    '(define-key js2-mode-map (kbd "C-c b") 'web-beautify-js))
+  (eval-after-load 'json-mode
+    '(define-key json-mode-map (kbd "C-c b") 'web-beautify-js))
+  (eval-after-load 'sgml-mode
+    '(define-key html-mode-map (kbd "C-c b") 'web-beautify-html))
+  (eval-after-load 'web-mode
+    '(define-key web-mode-map (kbd "C-c b") 'web-beautify-html))
+  (eval-after-load 'css-mode
+    '(define-key css-mode-map (kbd "C-c b") 'web-beautify-css)))
 
 ;;; WEB-MODE
 (use-package web-mode
-  :config (progn
-            (add-to-list 'safe-local-variable-values
-                         '(web-mode-markup-indent-offset . 2))
-            (add-hook 'web-mode-hook 'genehack/web-mode-setup))
+  :config
+  (add-to-list 'safe-local-variable-values
+               '(web-mode-markup-indent-offset . 2))
+  (add-hook 'web-mode-hook 'genehack/web-mode-setup)
   :ensure web-mode
   :mode "\\.\\(html\\|tx\\)")
 
@@ -810,9 +811,9 @@ since 'web-mode' steps on bindings I use globally..." )
 ;;; YAML-MODE
 (use-package yaml-mode
   :commands yaml-mode
-  :config (progn
-            (add-to-list 'safe-local-variable-values '(yaml-indent-offset . 4))
-            (define-key yaml-mode-map (kbd "RET") 'newline-and-indent))
+  :config
+  (add-to-list 'safe-local-variable-values '(yaml-indent-offset . 4))
+  (define-key yaml-mode-map (kbd "RET") 'newline-and-indent)
   :ensure yaml-mode
   :mode "\\.ya?ml\\'")
 
@@ -823,15 +824,15 @@ since 'web-mode' steps on bindings I use globally..." )
   "Directory with snippets.")
 
 (use-package yasnippet
-  :config (progn
-            (yas-load-directory genehack/yas-snippet-dir)
-            (setq yas-snippet-dirs (delete "~/.emacs.d/snippets" yas-snippet-dirs))
-            (add-to-list 'yas-snippet-dirs genehack/yas-snippet-dir)
-            (yas-global-mode))
+  :config
+  (yas-load-directory genehack/yas-snippet-dir)
+  (setq yas-snippet-dirs (delete "~/.emacs.d/snippets" yas-snippet-dirs))
+  (add-to-list 'yas-snippet-dirs genehack/yas-snippet-dir)
+  (yas-global-mode)
   :diminish yas-minor-mode
   :ensure yasnippet
-  :init (progn
-          (setq yas-use-menu nil)))
+  :init
+  (setq yas-use-menu nil))
 
 (if (file-exists-p genehack/yas-snippet-dir)
     (unless (file-directory-p genehack/yas-snippet-dir)
