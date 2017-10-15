@@ -268,6 +268,11 @@ RequireFilenameMatchPackage policy works properly.
   :commands git-commit
   :ensure git-commit)
 
+;;; GIT-GUTTER
+(use-package git-gutter
+  :config (progn (global-git-gutter-mode t))
+  :ensure git-gutter)
+
 ;;; GITHUB-BROWSE-FILE
 (use-package github-browse-file
   :commands github-browse-file
