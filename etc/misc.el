@@ -451,7 +451,9 @@ since 'js2-mode' steps on bindings I use globally..." )
 (use-package markdown-mode
   :commands markdown-mode
   :ensure markdown-mode
-  :mode "\\.mr?kd")
+  :mode "\\.mr?kd"
+  :config
+  (setq markdown-command "Markdown.pl"))
 
 ;;; MOVE TEXT
 (use-package move-text
