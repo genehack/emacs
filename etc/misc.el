@@ -524,14 +524,14 @@ since 'js2-mode' steps on bindings I use globally..." )
                     buffer-file-name))))
 
 ;;; PAREN-BOUNCE
-;;;; ganked from <http://elfs.livejournal.com/1216037.html>
+;;;; originally ganked from <http://elfs.livejournal.com/1216037.html>
 (defun genehack/paren-bounce ()
   "Bounce from one paren to the matching paren."
   (interactive)
   (let ((prev-char (char-to-string (preceding-char)))
         (next-char (char-to-string (following-char))))
-    (cond ((string-match "[[{(<]" next-char) (forward-sexp 1))
-          ((string-match "[\]})>]" prev-char) (backward-sexp 1))
+    (cond ((string-match "[[{(<\"']" next-char) (forward-sexp 1))
+          ((string-match "[\]})>\"']" prev-char) (backward-sexp 1))
           (t (error "%s" "Not an expression boundary.")))))
 
 ;;; PROJECTILE
