@@ -184,7 +184,9 @@ Otherwise they will be evaluated from the top down to the current directory.  Se
 (use-package fixme
   :ensure genehack-misc-elisp
   :config
-  (add-to-list 'fixme-modes 'go-mode))
+  (add-to-list 'fixme-modes 'go-mode)
+  (add-to-list 'fixme-modes 'js-mode)
+  (add-to-list 'fixme-modes 'js2-mode))
 
 ;;; FLYCHECK
 ;;;; https://github.com/flycheck/flycheck
