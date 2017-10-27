@@ -30,7 +30,7 @@
     (set-face-attribute 'default t
                         :background "#000000"
                         :foreground "#ffffff"
-                        :family "mononoki"
+                        :family "Fira Mono"
                         :height 180)
   (set-face-attribute 'default t
                       :background "#000000"
