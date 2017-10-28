@@ -44,6 +44,7 @@
   "Add a keybinding for wdired in 'dired-mode'."
   (local-set-key (kbd "E") 'wdired-change-to-wdired-mode))
 
+(use-package all-the-icons-dired :ensure t)
 (use-package dired
   :commands dired
   :config
