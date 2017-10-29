@@ -639,6 +639,8 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
 ;;; SMEX
 (use-package smex
   :ensure smex
+  :config
+  (setq smex-save-file (concat genehack/emacs-tmp-dir "smex-items"))
   :init
   (smex-initialize))
 
