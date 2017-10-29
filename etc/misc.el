@@ -661,6 +661,7 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
 (setq-default show-trailing-whitespace t)
 (defvar genehack/strip-trailing-whitespace-in-these-modes
   '(
+    c++-mode
     clojure-mode
     cperl-mode
     css-mode
