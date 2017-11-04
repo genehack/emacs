@@ -25,6 +25,12 @@
 (setq kept-old-versions 2)
 (setq version-control t)
 
+;;; BUFFER-MODE
+(defun genehack/set-up-buffer-mode ()
+  "My customizations for 'Buffer-menu-mode'."
+  (setq show-trailing-whitespace nil))
+(add-hook 'Buffer-menu-mode-hook 'genehack/set-up-buffer-mode)
+
 ;;; CALENDAR
 (use-package calendar
   :defer t
