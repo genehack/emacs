@@ -8,9 +8,10 @@
 
 ;;; AG
 (use-package ag
-  :ensure ag
-  :init
-  (defvar ag-highlight-search)
+  :commands ag
+  :ensure t
+  :defines ag-highlight-search
+  :config
   (setq ag-highlight-search t))
 
 (defun genehack/kill-ag-buffers ()
@@ -22,7 +23,8 @@
 
 ;;; AGGRESSIVE INDENT MODE
 (use-package aggressive-indent
-  :ensure aggressive-indent
+  :ensure t
+  :diminish (aggressive-indent-mode " ag")
   :init
   (global-aggressive-indent-mode 1)
   (defvar aggressive-indent-excluded-modes)
@@ -32,7 +34,8 @@
 
 ;;; API BLUEPRINT
 (use-package apib-mode
-  :ensure apib-mode
+  :defer t
+  :ensure t
   :mode "\\.apib\\'")
 
 ;;; AUTO CREATE DIRECTORIES
@@ -45,13 +48,13 @@
 
 ;;; BROWSE-KILL-RING
 (use-package browse-kill-ring
-  :commands browse-kill-ring-default-keybindings
-  :ensure browse-kill-ring
+  :ensure t
   :init
   (browse-kill-ring-default-keybindings))
 
 ;;; COMPANY-MODE
 ;; inspired by https://gist.github.com/nonsequitur/265010
+(require 'company)
 (defun genehack/company-yasnippet-or-completion ()
   "Expand yasnippet if available, otherwise autocomplete."
   (interactive)
@@ -62,16 +65,16 @@
 
 ;; tern mode integration; requires tern to be installed
 (use-package company-tern
-  :ensure company-tern
   :after tern company
   :commands tern-mode
+  :ensure t
   :config
   (eval-after-load 'js2-mode
     '(add-hook 'js2-init-hook (lambda () (tern-mode t)))))
 
 (use-package company
-  :ensure company
-  :commands global-company-mode
+  :ensure t
+  :diminish (company-mode . " Co")
   :bind
   ("\t" . genehack/company-yasnippet-or-completion)
   :config
@@ -87,7 +90,6 @@
                   company-css
                   company-files
                   company-dabbrev))
-  :diminish company-mode
   :init (global-company-mode))
 
 ;;; CONVERT LINE ENDINGS
@@ -105,14 +107,14 @@
 ;;; COUNSEL (also IVY and SWIPER)
 (use-package all-the-icons-ivy :ensure t)
 (use-package counsel
-  :ensure counsel
+  :ensure t
+  :diminish (ivy-mode . " ivy")
   :after all-the-icons-ivy
   :config
   (all-the-icons-ivy-setup)
   (setq ivy-count-format "(%d/%d) ")
   (setq ivy-re-builders-alist '((counsel-M-x . ivy--regex-fuzzy) ; Only counsel-M-x use flx fuzzy search
                                 (t . ivy--regex-plus)))
-  :diminish ivy-mode
   :init (ivy-mode 1))
 
 ;;; CSS-HEXCOLOR
@@ -127,16 +129,7 @@
 
 ;;; DIMINISH
 ;;;; from http://whattheemacsd.com/init.el-04.html
-(use-package diminish
-  :ensure diminish)
-
-;;; DIRED-RIGHT-HERE
-;; (defun genehack/dired-right-here (arg)
-;;   "Run 'ido-dired' or, with ARG, 'dired' on current active directory."
-;;   (interactive "p")
-;;   (if (eq 1 arg)
-;;       (ido-dired)
-;;     (dired default-directory)))
+(use-package diminish :ensure t)
 
 ;;; DIR-LOCALS-UPWARD
 ;;; from https://emacs.stackexchange.com/questions/5527/is-there-a-way-to-daisy-chain-dir-locals-el-files
@@ -162,23 +155,22 @@ Otherwise they will be evaluated from the top down to the current directory.  Se
 
 ;;; DISK
 (use-package disk
-  :commands disk
-  :ensure disk)
+  :ensure t
+  :commands disk)
 
 ;;; DUMB-JUMP
 (use-package dumb-jump
-  :ensure dumb-jump
-  :diminish dumb-jump-mode
+  :ensure t
+  :diminish (dumb-jump-mode . " dj")
   :init (dumb-jump-mode))
 
 ;;; EXPAND-REGION
-(use-package expand-region
-  :ensure expand-region)
+(use-package expand-region :ensure t)
 
 ;;; FILLADAPT -- WTF isn't this part of emacs by default by now?!
 (use-package filladapt
-  :diminish filladapt-mode
-  :ensure genehack-misc-elisp)
+  :ensure genehack-misc-elisp
+  :diminish (filladapt-mode . " fa"))
 
 ;;; FIXME
 (use-package fixme
@@ -191,10 +183,12 @@ Otherwise they will be evaluated from the top down to the current directory.  Se
 ;;; FLYCHECK
 ;;;; https://github.com/flycheck/flycheck
 (use-package flycheck-color-mode-line
-  :ensure flycheck-color-mode-line
+  :ensure t
   :commands flycheck-color-mode-line-mode)
 
 (use-package flycheck
+  :ensure t
+  :diminish (flycheck-mode . " FC")
   :commands flycheck-define-checker global-flycheck-mode
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -211,51 +205,51 @@ Otherwise they will be evaluated from the top down to the current directory.  Se
   (setq flycheck-perlcritic-severity "5")
   (add-to-list 'flycheck-checkers 'genehack/perl-perlcritic)
   (add-to-list 'flycheck-checkers 'perl-with-lib-from-project-root)
-  :defer t
-  :ensure flycheck)
+  :functions
+  projectile-project-p
+  projectile-project-root)
 
 (flycheck-define-checker perl-with-lib-from-project-root
-                         "A Perl syntax checker using the Perl interpreter.
+  "A Perl syntax checker using the Perl interpreter.
 
 Uses projectile to find the project root, and if there are 'lib'
-or 'local/lib/perl5' directories there, adds them to PERL5LIB.
-
-See URL `http://www.perl.org'."
-                         :command ("perl" "-w" "-c"
-                                   (eval (genehack/include-perl-lib-p "lib"))
-                                   (eval (genehack/include-perl-lib-p "local/lib/perl5"))
-                                   source)
-                         :error-patterns
-                         ((error line-start (minimal-match (message))
-                                 " at " (file-name) " line " line
-                                 (or "." (and ", " (zero-or-more not-newline))) line-end))
-                         :modes (perl-mode cperl-mode)
-                         :next-checkers (genehack/perl-perlcritic))
+or 'local/lib/perl5' directories there, adds them to PERL5LIB."
+  :command
+  ("perl" "-w" "-c"
+   (eval (genehack/include-perl-lib-p "lib"))
+   (eval (genehack/include-perl-lib-p "local/lib/perl5"))
+   source)
+  :error-patterns
+  ((error line-start (minimal-match (message))
+          " at " (file-name) " line " line
+          (or "." (and ", " (zero-or-more not-newline))) line-end))
+  :modes (perl-mode cperl-mode)
+  :next-checkers (genehack/perl-perlcritic))
 
 (flycheck-define-checker genehack/perl-perlcritic
-                         "A Perl syntax checker using Perl::Critic.
+  "A Perl syntax checker using Perl::Critic.
 
 See URL `http://search.cpan.org/~thaljef/Perl-Critic/'.
 
 Modified to use original source file so that
-RequireFilenameMatchPackage policy works properly.
-"
-                         :command ("perlcritic" "--no-color" "--verbose" "%f:%l:%c:%s:%m (%e)\n"
-                                   (option "--severity" flycheck-perlcritic-severity)
-                                   source-original)
-                         :error-patterns
-                         ((info line-start
-                                (file-name) ":" line ":" column ":" (any "1") ":" (message)
-                                line-end)
-                          (warning line-start
-                                   (file-name) ":" line ":" column ":" (any "234") ":" (message)
-                                   line-end)
-                          (error line-start
-                                 (file-name) ":" line ":" column ":" (any "5") ":" (message)
-                                 line-end))
-                         :modes (cperl-mode perl-mode)
-                         :predicate (lambda () (and (buffer-file-name)
-                                                    (not (buffer-modified-p)))))
+RequireFilenameMatchPackage policy works properly."
+  :command
+  ("perlcritic" "--no-color" "--verbose" "%f:%l:%c:%s:%m (%e)\n"
+   (option "--severity" flycheck-perlcritic-severity)
+   source-original)
+  :error-patterns
+  ((info line-start
+         (file-name) ":" line ":" column ":" (any "1") ":" (message)
+         line-end)
+   (warning line-start
+            (file-name) ":" line ":" column ":" (any "234") ":" (message)
+            line-end)
+   (error line-start
+          (file-name) ":" line ":" column ":" (any "5") ":" (message)
+          line-end))
+  :modes (cperl-mode perl-mode)
+  :predicate (lambda () (and (buffer-file-name)
+                             (not (buffer-modified-p)))))
 
 ;;; GIT BLAME FOR LINE
 (defun genehack/git-blame-for-line ()
@@ -270,46 +264,42 @@ RequireFilenameMatchPackage policy works properly.
 
 ;;; GIT COMMIT MODE
 (use-package git-commit
-  :commands git-commit
-  :ensure git-commit)
+  :ensure t
+  :commands git-commit)
 
 ;;; GIT-GUTTER
 (use-package git-gutter
+  :ensure t
+  :diminish (git-gutter-mode . " gg")
   :config
-  (global-git-gutter-mode t)
-  :ensure git-gutter)
+  (global-git-gutter-mode t))
 
 ;;; GITHUB-BROWSE-FILE
 (use-package github-browse-file
-  :commands github-browse-file
-  :ensure github-browse-file)
+  :ensure t
+  :commands github-browse-file)
 
 ;;; GO
 (use-package go-mode
+  :ensure t
   :commands go-mode
   :config
   (add-hook 'before-save-hook 'gofmt-before-save)
-  (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "M-.") 'godef-jump)))
-  :ensure go-mode)
+  (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "M-.") 'godef-jump)))  )
 
 ;;;; depends on go-mode, so put this down here...
 (use-package company-go
   :after go-mode
-  :ensure company-go)
-
-(use-package go-snippets
-  :disabled t
-  :ensure go-snippets
-  :init (go-snippets-initialize))
+  :ensure t)
 
 ;;; HTML TIDY
 (use-package tidy
+  :ensure t
   :commands
   tidy-buffer
   tidy-parse-config-file
   tidy-save-settings
-  tidy-build-menu
-  :ensure tidy)
+  tidy-build-menu)
 
 (defun genehack/scrub-win-to-html ()
   "Scrub dumb quotes and other common Latin-1 stuff into HTML entities."
@@ -330,17 +320,14 @@ RequireFilenameMatchPackage policy works properly.
           (replace-match replace nil nil))))))
 
 ;;; JS2
-(use-package js2-refactor :ensure js2-refactor)
 (use-package js2-mode
+  :ensure t
   :commands js2-mode
   :config
   (add-hook 'js2-init-hook 'genehack/js2-mode-setup)
-  (add-hook 'js2-init-hook 'js2-refactor-mode)
-  (js2r-add-keybindings-with-prefix "C-c C-j")
   (add-to-list 'safe-local-variable-values '(js2-basic-offset . 2))
   (add-to-list 'safe-local-variable-values '(js2-basic-offset . 4))
   (setq-default js2-basic-offset 2)
-  :ensure js2-mode
   :mode "\\.js\\'")
 
 (defvar genehack/js2-keybindings-to-remove
@@ -363,8 +350,8 @@ since 'js2-mode' steps on bindings I use globally..." )
 
 ;;; KOLON-MODE
 (use-package kolon-mode
-  :commands kolon-mode
-  :ensure kolon-mode)
+  :ensure t
+  :commands kolon-mode)
 
 ;;; LINE NUMBERS WITH M-G
 ;; from http://whattheemacsd.com//key-bindings.el-01.html
@@ -376,10 +363,8 @@ since 'js2-mode' steps on bindings I use globally..." )
   (defvar goto/line 0)
   (unwind-protect
       (progn
-        ;; display-line-numbers is Emacs
-        ;; 26 specific; if this gives
-        ;; you problems, conditionalize
-        ;; between it and linum-mode
+        ;; display-line-numbers is Emacs 26 specific; if this gives
+        ;; you problems, conditionalize between it and linum-mode
         ;; depending on Emacs version
         (display-line-numbers-mode 1)
         (setq goto/line (read-number "Goto line: "))
@@ -389,14 +374,14 @@ since 'js2-mode' steps on bindings I use globally..." )
 
 ;;; MACRO
 (use-package macro
-  :commands macro-clear macro-dwim
-  :ensure genehack-misc-elisp)
+  :ensure genehack-misc-elisp
+  :commands macro-clear macro-dwim)
 
 ;;; MAGIT
-(defvar genehack/git-executable (executable-find "git")
-  "Path to active git executable.")
+(defvar genehack/git-executable (executable-find "git") "Path to active git executable.")
 
 (use-package magit
+  :ensure t
   :if genehack/git-executable
   :commands magit-status
   :config
@@ -404,7 +389,22 @@ since 'js2-mode' steps on bindings I use globally..." )
   (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
   (setq magit-completing-read-function 'ivy-completing-read)
   (setq magit-push-always-verify nil)
-  :ensure magit)
+;;; modified from http://endlessparentheses.com/automatically-configure-magit-to-access-github-prs.html
+  (defun genehack/add-pr-fetch ()
+    "If refs/pull is not defined on a GH repo, define it."
+    (let ((fetch-address "+refs/pull/*/head:refs/pull/origin/*"))
+      (unless (member fetch-address (magit-get-all "remote" "origin" "fetch"))
+        (let ((repo-remote (magit-get "remote" "origin" "url")))
+          (unless (eq repo-remote nil)
+            (when (string-match "github" repo-remote)
+              (magit-git-string "config" "--add" "remote.origin.fetch" fetch-address)))))))
+  (add-hook 'magit-mode-hook #'genehack/add-pr-fetch)
+
+  :functions
+  genehack/add-pr-fetch
+  magit-get
+  magit-get-all
+  magit-git-string)
 
 (if genehack/git-executable
     (defun genehack/magit-status-with-prompt (dir)
@@ -415,17 +415,6 @@ since 'js2-mode' steps on bindings I use globally..." )
     "Stub function for when git isn't available"
     (interactive)
     (message "Unable to find a git binary; magit is unavailable.")))
-
-;;; modified from http://endlessparentheses.com/automatically-configure-magit-to-access-github-prs.html
-(defun genehack/add-pr-fetch ()
-  "If refs/pull is not defined on a GH repo, define it."
-  (let ((fetch-address "+refs/pull/*/head:refs/pull/origin/*"))
-    (unless (member fetch-address (magit-get-all "remote" "origin" "fetch"))
-      (let ((repo-remote (magit-get "remote" "origin" "url")))
-        (unless (eq repo-remote nil)
-          (when (string-match "github" repo-remote)
-            (magit-git-string "config" "--add" "remote.origin.fetch" fetch-address)))))))
-(add-hook 'magit-mode-hook #'genehack/add-pr-fetch)
 
 (defun genehack/magit-key (arg)
   "Call magit-status, or with ARG call genehack/magit-status-with-prompt."
@@ -449,40 +438,41 @@ since 'js2-mode' steps on bindings I use globally..." )
 
 ;;; MARKDOWN
 (use-package markdown-mode
+  :ensure t
   :commands markdown-mode
-  :ensure markdown-mode
   :mode "\\.mr?kd"
   :config
   (setq markdown-command "Markdown.pl"))
 
 ;;; MOVE TEXT
 (use-package move-text
-  :ensure move-text
+  :ensure t
   :init
   (move-text-default-bindings))
 
 ;;; MULTI-TERM
 (setq system-uses-terminfo nil)
 (use-package multi-term
+  :ensure t
   :config
   (defalias 'term 'multi-term)
   (custom-set-variables
    '(term-default-bg-color "#000000")
    '(term-default-fg-color "#cccccc"))
   (setq multi-term-dedicated-select-after-open-p t
-        multi-term-dedicated-window-height 24)
-  :ensure multi-term)
+        multi-term-dedicated-window-height 24))
 
 ;;; NODEJS-REPL
 (use-package nodejs-repl
-  :ensure nodejs-repl)
+  :ensure t
+  :commands nodejs-repl)
 
 ;;; NOOP
 (defun genehack/noop nil "..." (interactive))
 
 ;;; NVM
 (use-package nvm
-  :ensure nvm
+  :ensure t
   :config
   ;; this bit depends on pulling this in from exec-shell,
   ;; which is done in init.el.
@@ -491,7 +481,8 @@ since 'js2-mode' steps on bindings I use globally..." )
     "Reconfigure $PATH and `exec-path' to use a particular Node VERSION via nvm."
     (interactive "sVersion: ")
     (nvm-use version)
-    (setq exec-path (parse-colon-path (getenv "PATH")))))
+    (setq exec-path (parse-colon-path (getenv "PATH"))))
+  :functions genehack/nvm)
 
 ;;; OPEN LINE
 ;;;; from http://whattheemacsd.com//editing-defuns.el-01.html
@@ -536,6 +527,8 @@ since 'js2-mode' steps on bindings I use globally..." )
 
 ;;; PROJECTILE
 (use-package projectile
+  :ensure t
+  :diminish (projectile-mode . " pj")
   :config
   (setq projectile-cache-file ".projectile.cache")
   (setq projectile-completion-system 'ivy)
@@ -545,10 +538,19 @@ since 'js2-mode' steps on bindings I use globally..." )
   (setq projectile-switch-project-action 'projectile-dired)
   (add-hook 'projectile-after-switch-project-hook 'genehack/node-project-setup)
   (projectile-cleanup-known-projects)
-  :diminish projectile-mode
-  :ensure projectile
+  (defun genehack/find-file (arg)
+    "Pick `projectile-file-file` or `ido-find-file` (Force latter w/ARG).
+Decision is based on the value of `projectile-project-p`.  If
+given a prefix arg ARG, unconditionally use `ido-find-file`."
+    (interactive "P")
+    (if (and (projectile-project-p) (null arg))
+        (projectile-find-file)
+      ;;    (ido-find-file)))
+      (counsel-find-file)))
+  :defines genehack/emacs-tmp-dir
+  :functions
+  projectile-project-p
   :init
-  (eval-when-compile (defvar genehack/emacs-tmp-dir))
   (projectile-mode))
 
 (defvar genehack/node-version "" "Version of Node to use as read from .nvmrc file.")
@@ -573,16 +575,6 @@ since 'js2-mode' steps on bindings I use globally..." )
    ""
    str))
 
-(defun genehack/find-file (arg)
-  "Pick `projectile-file-file` or `ido-find-file` (Force latter w/ARG).
-Decision is based on the value of `projectile-project-p`.  If
-given a prefix arg ARG, unconditionally use `ido-find-file`."
-  (interactive "P")
-  (if (and (projectile-project-p) (null arg))
-      (projectile-find-file)
-    ;;    (ido-find-file)))
-    (counsel-find-file)))
-
 ;;; SAVE-AND-KILL
 (defun genehack/save-and-kill ()
   "Save current buffer and then kill it."
@@ -601,8 +593,7 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
   (file-exists-p "/opt/ensime")
   :config
   (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
-  :init
-  (add-to-list 'load-path "/opt/ensime/elisp"))
+  :load-path "/opt/ensime/elisp")
 
 ;;; SCRATCH-BUFFER
 (defun genehack/create-scratch-buffer nil
@@ -614,6 +605,8 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
 
 ;;; SMART-TAB
 (use-package smart-tab
+  :ensure t
+  :diminish (smart-tab-mode . " st")
   :config
   (setq smart-tab-using-hippie-expand t)
   (setq smart-tab-completion-functions-alist
@@ -623,14 +616,12 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
           (lisp-mode       . genehack/company-yasnippet-or-completion)
           (go-mode         . genehack/company-yasnippet-or-completion)
           (text-mode       . dabbrev-completion)))
-  (global-smart-tab-mode 1)
-  :diminish smart-tab-mode
-  :ensure smart-tab)
+  (global-smart-tab-mode 1))
 
 ;;; SMARTPARENS
 (use-package smartparens
-  :ensure smartparens
-  :diminish smartparens-mode
+  :ensure t
+  :diminish (smartparens-mode . " SP")
   :init
   (require 'smartparens-config)
   (smartparens-global-mode 1)
@@ -638,7 +629,7 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
 
 ;;; SMEX
 (use-package smex
-  :ensure smex
+  :ensure t
   :config
   (setq smex-save-file (concat genehack/emacs-tmp-dir "smex-items"))
   :init
@@ -668,6 +659,7 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
     cperl-mode
     css-mode
     emacs-lisp-mode
+    js-mode
     js2-mode
     lisp-mode
     markdown-mode
@@ -779,29 +771,24 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
 
 ;;; WEB-BEAUTIFY
 (use-package web-beautify
-  :ensure web-beautify
+  :ensure t
   :config
   (defvar json-mode-map)
   (defvar web-mode-map)
   (defvar css-mode-map)
-  (eval-after-load 'js2-mode
-    '(define-key js2-mode-map (kbd "C-c b") 'web-beautify-js))
-  (eval-after-load 'json-mode
-    '(define-key json-mode-map (kbd "C-c b") 'web-beautify-js))
-  (eval-after-load 'sgml-mode
-    '(define-key html-mode-map (kbd "C-c b") 'web-beautify-html))
-  (eval-after-load 'web-mode
-    '(define-key web-mode-map (kbd "C-c b") 'web-beautify-html))
-  (eval-after-load 'css-mode
-    '(define-key css-mode-map (kbd "C-c b") 'web-beautify-css)))
+  (eval-after-load 'js2-mode  '(define-key js2-mode-map  (kbd "C-c b") 'web-beautify-js))
+  (eval-after-load 'json-mode '(define-key json-mode-map (kbd "C-c b") 'web-beautify-js))
+  (eval-after-load 'sgml-mode '(define-key html-mode-map (kbd "C-c b") 'web-beautify-html))
+  (eval-after-load 'web-mode  '(define-key web-mode-map  (kbd "C-c b") 'web-beautify-html))
+  (eval-after-load 'css-mode  '(define-key css-mode-map  (kbd "C-c b") 'web-beautify-css)))
 
 ;;; WEB-MODE
 (use-package web-mode
+  :ensure t
   :config
   (add-to-list 'safe-local-variable-values
                '(web-mode-markup-indent-offset . 2))
   (add-hook 'web-mode-hook 'genehack/web-mode-setup)
-  :ensure web-mode
   :mode "\\.\\(html\\|tx\\)")
 
 (defvar genehack/web-mode-keybindings-to-remove
@@ -817,74 +804,80 @@ since 'web-mode' steps on bindings I use globally..." )
 
 ;;; YAML-MODE
 (use-package yaml-mode
+  :ensure t
   :commands yaml-mode
   :config
   (add-to-list 'safe-local-variable-values '(yaml-indent-offset . 4))
   (define-key yaml-mode-map (kbd "RET") 'newline-and-indent)
-  :ensure yaml-mode
   :mode "\\.ya?ml\\'")
 
 ;;; YASNIPPET
 (eval-when-compile (defvar genehack/emacs-dir))
-
 (defvar genehack/yas-snippet-dir (concat genehack/emacs-dir "share/snippets")
   "Directory with snippets.")
 
 (use-package yasnippet
+  :ensure t
+  :diminish (yas-minor-mode . " yas")
+  :functions
+  genehack/yasnippet-can-fire-p
+  yas-expand
+  yas-load-directory
+  yas--field-end
+  yas--field-start
+  yas--templates-for-key-at-point
   :config
   (yas-load-directory genehack/yas-snippet-dir)
   (setq yas-snippet-dirs (delete "~/.emacs.d/snippets" yas-snippet-dirs))
   (add-to-list 'yas-snippet-dirs genehack/yas-snippet-dir)
+  (setq yas-use-menu nil)
   (yas-global-mode)
-  :diminish yas-minor-mode
-  :ensure yasnippet
-  :init
-  (setq yas-use-menu nil))
 
-(if (file-exists-p genehack/yas-snippet-dir)
-    (unless (file-directory-p genehack/yas-snippet-dir)
-      (error "Snippets directory creation blocked by file"))
-  (make-directory genehack/yas-snippet-dir))
+  (if (file-exists-p genehack/yas-snippet-dir)
+      (unless (file-directory-p genehack/yas-snippet-dir)
+        (error "Snippets directory creation blocked by file"))
+    (make-directory genehack/yas-snippet-dir))
 
-;;;; update cursor color based on yasnippet status
-;;;;; http://stackoverflow.com/questions/14264228/how-can-i-trigger-an-event-when-a-yasnippet-macro-can-fire
-;;;;; https://gist.github.com/4506396
-(defvar genehack/default-cursor-color "red")
-(defvar genehack/default-cursor-type 'box)
-(defvar genehack/yasnippet-can-fire-cursor-color "green")
-(defvar genehack/yasnippet-can-fire-cursor-type 'box)
+  ;;;; update cursor color based on yasnippet status
+  ;;;;; http://stackoverflow.com/questions/14264228/how-can-i-trigger-an-event-when-a-yasnippet-macro-can-fire
+  ;;;;; https://gist.github.com/4506396
+  (defvar genehack/default-cursor-color "red")
+  (defvar genehack/default-cursor-type 'box)
+  (defvar genehack/yasnippet-can-fire-cursor-color "green")
+  (defvar genehack/yasnippet-can-fire-cursor-type 'box)
 
-;;;;; It will test whether it can expand, if yes, cursor color -> green.
-(defun genehack/yasnippet-can-fire-p (&optional field)
-  "Predicate for whether a yasnippet can fire.
+  ;;;;; It will test whether it can expand, if yes, cursor color -> green.
+  (defun genehack/yasnippet-can-fire-p (&optional field)
+    "Predicate for whether a yasnippet can fire.
 Not sure what FIELD is for ..."
-  (interactive)
-  (setq yas--condition-cache-timestamp (current-time))
-  (let (templates-and-pos)
-    (unless (and yas-expand-only-for-last-commands
-                 (not (member last-command yas-expand-only-for-last-commands)))
-      (setq templates-and-pos
-            (if field
-                (save-restriction
-                  (narrow-to-region (yas--field-start field)
-                                    (yas--field-end field))
-                  (yas--templates-for-key-at-point))
-              (yas--templates-for-key-at-point))))
-    (and templates-and-pos (first templates-and-pos))))
+    (interactive)
+    (setq yas--condition-cache-timestamp (current-time))
+    (let (templates-and-pos)
+      (unless (and yas-expand-only-for-last-commands
+                   (not (member last-command yas-expand-only-for-last-commands)))
+        (setq templates-and-pos
+              (if field
+                  (save-restriction
+                    (narrow-to-region (yas--field-start field)
+                                      (yas--field-end field))
+                    (yas--templates-for-key-at-point))
+                (yas--templates-for-key-at-point))))
+      (and templates-and-pos (first templates-and-pos))))
 
-(defun yasnippet-change-cursor-color-when-can-fire (&optional field)
-  "Change cursor color when a yasnippet could fire.
+  (defun yasnippet-change-cursor-color-when-can-fire (&optional field)
+    "Change cursor color when a yasnippet could fire.
 Again, not sure what FIELD does..."
-  (interactive)
-  (if (genehack/yasnippet-can-fire-p)
-      (progn
-        (set-cursor-color genehack/yasnippet-can-fire-cursor-color)
-        (setq cursor-type genehack/yasnippet-can-fire-cursor-type))
-    (set-cursor-color genehack/default-cursor-color)
-    (setq cursor-type genehack/default-cursor-type)))
+    (interactive)
+    (if (genehack/yasnippet-can-fire-p)
+        (progn
+          (set-cursor-color genehack/yasnippet-can-fire-cursor-color)
+          (setq cursor-type genehack/yasnippet-can-fire-cursor-type))
+      (set-cursor-color genehack/default-cursor-color)
+      (setq cursor-type genehack/default-cursor-type)))
 
-;;;;; As pointed out by Dmitri, this will make sure it will update color when needed.
-(add-hook 'post-command-hook 'yasnippet-change-cursor-color-when-can-fire)
+  ;;;;; As pointed out by Dmitri, this will make sure it will update color when needed.
+  (add-hook 'post-command-hook 'yasnippet-change-cursor-color-when-can-fire))
+
 
 (provide 'misc)
 ;;; misc.el ends here

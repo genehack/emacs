@@ -6,6 +6,8 @@
 (require 'use-package)
 
 (use-package cc-mode
+  :ensure t
+  :defer t
   :config
   ;; display-line-numbers is Emacs 26 specific; if this
   ;; gives you problems, conditionalize between it and

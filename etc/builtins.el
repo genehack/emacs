@@ -27,6 +27,7 @@
 
 ;;; CALENDAR
 (use-package calendar
+  :defer t
   :config
   (setq calendar-mark-holidays-flag t))
 
@@ -45,7 +46,9 @@
   (local-set-key (kbd "E") 'wdired-change-to-wdired-mode))
 
 (use-package all-the-icons-dired :ensure t)
+
 (use-package dired
+  :after all-the-icons-dired
   :commands dired
   :config
   (define-key dired-mode-map (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
@@ -58,12 +61,13 @@
 ;;;; http://www.reddit.com/r/emacs/comments/18qa15/dired_discussion/
 (use-package dired-details+
   :after dired
-  :ensure dired-details+)
+  :defer t
+  :ensure t)
 
 (use-package dired-details
-  :ensure dired-details
   :after dired
   :commands dired-details-install
+  :ensure t
   :init
   (dired-details-install))
 
@@ -72,6 +76,7 @@
   :commands dired-jump)
 
 ;;;; http://whattheemacsd.com//setup-dired.el-02.html
+(require 'dired)
 (defun dired-back-to-top ()
   "Jump to the top file in a dired buffer."
   (interactive)
@@ -93,17 +98,24 @@
 (put 'overwrite-mode 'disabled t)
 (put 'upcase-region 'disabled nil)
 
+;;; ELDOC
+(use-package eldoc
+  :diminish (eldoc-mode . " el"))
+
 ;;; EXECUTABLE-UPON-SAVE MAGIC
 ;;;; from <http://www.emacswiki.org/cgi-bin/wiki/MakingScriptsExecutableOnSave>
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 ;;; FFAP
 (use-package ffap
-  :init
+  :disabled t
+  :defer t
+  :config
   (ffap-bindings))
 
 ;;; FONT-LOCK
 (use-package font-lock
+  :defer t
   :config
   (setq-default font-lock-maximum-decoration t
                 font-lock-maximum-size nil)
@@ -116,6 +128,7 @@
 ;;; GENERAL INDENTATION RELATED OPTIONS
 (setq-default indent-tabs-mode nil)
 (setq tab-always-indent 'complete)
+(setq sentence-end-double-space nil)
 
 (defvar modes-for-indentation-munging
   '(c++-mode
@@ -123,6 +136,7 @@
     cperl-mode
     emacs-lisp-mode
     go-mode
+    js-mode
     js2-mode
     objc-mode
     python-mode
@@ -154,6 +168,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
 
 ;;; GLOBAL AUTO-REVERT
 (use-package autorevert
+  :diminish (autorevert-mode . " a")
   :config
   ;; Also auto refresh dired, but be quiet about it
   (setq global-auto-revert-non-file-buffers t)
@@ -370,9 +385,10 @@ This is a buffer-local variable.")
 (use-package time
   :defines
   display-time-24hr-format
-  :init
+  :config
   (setq display-time-24hr-format t)
   (setq display-time-day-and-date t)
+  :init
   (display-time))
 
 ;;; TITLE BARS

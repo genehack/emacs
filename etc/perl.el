@@ -7,6 +7,8 @@
 ;;; LIBRARIES
 (require 'use-package)
 (use-package cperl-mode
+  :ensure t
+  :defer t
   :config
   (defalias 'perl-mode 'cperl-mode)
   (add-hook 'cperl-mode-hook 'genehack/cperl-mode-setup)
@@ -33,20 +35,30 @@
   :mode "\\.\\(cgi\\|psgi\\|t\\)\\'")
 
 (use-package perl-find-library
-  :ensure genehack-perl-elisp)
+  :ensure genehack-perl-elisp
+  :after cperl-mode
+  :defer t)
 
 (use-package pod-mode
   :ensure genehack-perl-elisp
+  :after cperl-mode
+  :defer t
   :mode "\\.pod\\'")
 
 (use-package prove
-  :ensure genehack-perl-elisp)
+  :ensure genehack-perl-elisp
+  :after cperl-mode
+  :commands prove)
 
 (use-package perlcritic
-  :ensure perlcritic)
+  :ensure t
+  :after cperl-mode
+  :commands perlcritic)
 
 (use-package perltidy
-  :ensure genehack-perl-elisp)
+  :ensure genehack-perl-elisp
+  :after cperl-mode
+  :commands perltidy-dwim)
 
 (defvar genehack/cperl-keybindings-to-remove
   '(
