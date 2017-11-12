@@ -351,12 +351,6 @@ since 'js2-mode' steps on bindings I use globally..." )
   (dolist (binding genehack/js2-keybindings-to-remove)
     (local-unset-key (edmacro-parse-keys binding))))
 
-;;; KEYCHAIN-ENVIRONMENT
-(use-package keychain-environment
-  :ensure t
-  :init
-  (keychain-refresh-environment))
-
 ;;; KILL THIS BUFFER
 (defun genehack/kill-this-buffer ()
   "Kill the current buffer without prompting."
