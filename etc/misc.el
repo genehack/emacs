@@ -319,6 +319,15 @@ RequireFilenameMatchPackage policy works properly."
         (while (re-search-forward match nil t)
           (replace-match replace nil nil))))))
 
+;;; JSON
+(use-package json-mode
+  :ensure t
+  :commands json-mode
+  :config
+  (add-to-list 'safe-local-variable-values '(json-mode-indent-level . 4))
+  (setq-default json-mode-indent-level 2)
+  :mode "\\.json\\'")
+
 ;;; JS2
 (use-package js2-mode
   :ensure t
