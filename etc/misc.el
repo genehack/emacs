@@ -724,6 +724,30 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
       (skip-chars-forward " ")
       (delete-region here (point)))))
 
+;;; TELEPHONE
+;; (use-package telephone-line
+;;   :init
+;;   (defface genehack/red '((t (:foreground "white" :background "red"))) "")
+;;   (defface genehack/green '((t (:foreground "dim grey" :background "green"))) "")
+;;   (defface genehack/blue '((t (:foreground "white" :background "blue"))) "")
+;;   (defface genehack/black '((t (:foreground "white" :background "black"))) "")
+;;   (setq telephone-line-primary-left-separator 'telephone-line-gradient
+;;         telephone-line-secondary-left-separator 'telephone-line-nil
+;;         telephone-line-primary-right-separator 'telephone-line-gradient
+;;         telephone-line-secondary-right-separator 'telephone-line-nil
+;;         telephone-line-faces '((red   . (genehack/red   . genehack/red))
+;;                                (green . (genehack/green . genehack/green))
+;;                                (blue  . (genehack/blue  . genehack/blue))
+;;                                (black . (genehack/black . genehack/black)))
+;;         telephone-line-lhs '((green . (telephone-line-major-mode-segment))
+;;                              (blue    . (telephone-line-vc-segment))
+;;                              (black    . (telephone-line-process-segment
+;;                                           telephone-line-buffer-segment)))
+;;         telephone-line-rhs '((black    . (telephone-line-minor-mode-segment))
+;;                              (green . (telephone-line-misc-info-segment))))
+;;   (telephone-line-mode 1)
+;;   :ensure telephone-line)
+
 ;;; TEMPLATE
 (use-package template-mode
   :commands template-minor-mode
