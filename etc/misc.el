@@ -792,6 +792,16 @@ given a prefix arg ARG, unconditionally use `ido-find-file`."
    "perl -MURI::Escape -e 'print URI::Escape::uri_unescape(do { local $/; <STDIN> })'"
    'current-buffer t))
 
+;;; UUID
+(defun genehack/uuid ()
+  "Insert uuid at point."
+  (interactive)
+  (insert
+   (downcase
+    (replace-regexp-in-string
+     (rx (* (any " \t\n")) eos) ""
+     (shell-command-to-string "uuidgen")))))
+
 ;;; WEB-BEAUTIFY
 (use-package web-beautify
   :ensure t
