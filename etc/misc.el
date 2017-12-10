@@ -64,13 +64,13 @@
     (company-complete)))
 
 ;; tern mode integration; requires tern to be installed
-(use-package company-tern
-  :after tern company
-  :commands tern-mode
-  :ensure t
-  :config
-  (eval-after-load 'js2-mode
-    '(add-hook 'js2-init-hook (lambda () (tern-mode t)))))
+;; (use-package company-tern
+;;   :after tern company
+;;   :commands tern-mode
+;;   :ensure t
+;;   :config
+;;   (eval-after-load 'js2-mode
+;;     '(add-hook 'js2-init-hook (lambda () (tern-mode t)))))
 
 (use-package company
   :ensure t
@@ -934,6 +934,23 @@ Again, not sure what FIELD does..."
 
   ;;;;; As pointed out by Dmitri, this will make sure it will update color when needed.
   (add-hook 'post-command-hook 'yasnippet-change-cursor-color-when-can-fire))
+
+;;; YCMD
+(use-package ycmd
+  :config
+  (add-hook 'after-init-hook #'global-ycmd-mode)
+  (set-variable 'ycmd-server-command `("python" ,(file-truename "~/src/ycmd/ycmd")))
+  :ensure t)
+
+(use-package company-ycmd
+  :init
+  (company-ycmd-setup)
+  :ensure t)
+
+(use-package flycheck-ycmd
+  :init
+  (flycheck-ycmd-setup)
+  :ensure t)
 
 
 (provide 'misc)
