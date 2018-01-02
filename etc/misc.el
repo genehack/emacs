@@ -155,7 +155,6 @@ In a projectile project, walk the tree from the current directory up to the proj
           (add-to-list 'dir-locals-list walk-dir-locals-file walk-dir-locals-upward))))
     (dolist (file dir-locals-list)
       (let ((dir-locals-file (expand-file-name file)))
-        (message dir-locals-file)
         ad-do-it))))
 
 ;;; DISK
