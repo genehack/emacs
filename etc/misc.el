@@ -63,15 +63,6 @@
              (yas-expand))
     (company-complete)))
 
-;; tern mode integration; requires tern to be installed
-;; (use-package company-tern
-;;   :after tern company
-;;   :commands tern-mode
-;;   :ensure t
-;;   :config
-;;   (eval-after-load 'js2-mode
-;;     '(add-hook 'js2-init-hook (lambda () (tern-mode t)))))
-
 (use-package company
   :ensure t
   :diminish (company-mode . " Co")
@@ -86,7 +77,7 @@
                   (company-dabbrev-code company-keywords)
                   company-go
                   company-nxml
-                  company-tern
+                  company-ycmd
                   company-css
                   company-files
                   company-dabbrev))
@@ -361,7 +352,7 @@ since 'js2-mode' steps on bindings I use globally..." )
 
 (defun genehack/js2-mode-setup ()
   "Set up my js2-mode buffers."
-  (setq company-backends '(company-tern))
+  (setq company-backends '(company-ycmd))
   (dolist (binding genehack/js2-keybindings-to-remove)
     (local-unset-key (edmacro-parse-keys binding))))
 
