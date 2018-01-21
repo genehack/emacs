@@ -128,6 +128,7 @@
   "If non-nil, eval .dir-locals.el files from current directory up the tree.
 Otherwise they will be evaluated from the top down to the current directory.  Setting this to nil allows subdirectories to overload parent directory settings.")
 
+(require 'subr-x) ;; for `string-join' in the defun below
 (defun genehack/pop-dir (dir)
   "Pops a trailing directory off DIR to return the remainder of the path."
   (concat "/"
