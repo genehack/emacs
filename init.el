@@ -13,6 +13,10 @@
   "Sub-directory containing config files.")
 (add-to-list 'load-path genehack/emacs-config-dir)
 
+(defvar genehack/emacs-lib-dir (concat genehack/emacs-dir "lib/")
+  "Sub-directory containing non-(M)ELPA library files.")
+(add-to-list 'load-path genehack/emacs-lib-dir)
+
 (defvar genehack/emacs-tmp-dir (concat genehack/emacs-dir "tmp/")
   "Scratch space for stuff...")
 
