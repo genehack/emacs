@@ -138,23 +138,28 @@ Otherwise they will be evaluated from the top down to the current directory.  Se
 
 (defadvice hack-dir-local-variables (around walk-dir-locals-file activate)
   "Walk directory tree and load _all_ the .dir-locals.el files.
-In a projectile project, walk the tree from the current directory up to the project root, adding any .dir-locals.el files that are found, skipping over empty directories. When not in a projectile project, walk the tree from the current directory upwards, adding any .dir-locals.el files that are found, but stopping once a directory without a .dir-locals.el file is found."
+In a projectile project, walk the tree from the current directory up to one directory above the project root, adding any .dir-locals.el files that are found, skipping over empty directories. (It goes one level higher than the root to allow for applying common settings across  a group of related Git repos, e.g., work projects.) When not in a projectile project, walk the tree from the current directory upwards, adding any .dir-locals.el files that are found, but stopping once a directory without a .dir-locals.el file is found."
   (let* ((dir-locals-list (list dir-locals-file))
          (walk-dir-locals-file (first dir-locals-list)))
     (if (projectile-project-p)
-        (let ((root (projectile-project-root))
+        (let ((root (concat (projectile-parent (projectile-project-root)) "/"))
               (dir (expand-file-name default-directory)))
           (while (not (equal root dir))
             (progn
-              (setq walk-dir-locals-file (concat "../" walk-dir-locals-file))
-              (if (file-readable-p (concat "../" walk-dir-locals-file))
+              ;; TODO I'm not convinced this is actually doing the
+              ;; right thing but it seems to be working so...
+              (message "root: %s -> dir :%s" root dir)
+              (setq walk-dir-locals-file (expand-file-name (concat "../" walk-dir-locals-file)))
+              (message "walk dir locals file: %s" walk-dir-locals-file)
+              (if (file-readable-p walk-dir-locals-file)
                   (add-to-list 'dir-locals-list walk-dir-locals-file walk-dir-locals-upward))
               (setq dir (genehack/pop-dir dir)))))
       (while (file-readable-p (concat "../" walk-dir-locals-file))
         (progn
-          (setq walk-dir-locals-file (concat "../" walk-dir-locals-file))
+          (setq walk-dir-locals-file (expand-file-name (concat "../" walk-dir-locals-file)))
           (add-to-list 'dir-locals-list walk-dir-locals-file walk-dir-locals-upward))))
     (dolist (file dir-locals-list)
+      (message "Loading file: %s" file)
       (let ((dir-locals-file (expand-file-name file)))
         ad-do-it))))
 
