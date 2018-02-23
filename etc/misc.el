@@ -143,6 +143,8 @@ In a projectile project, walk the tree from the current directory up to one dire
          (walk-dir-locals-file dir-locals-file)
          (debug-dir-locals-walk nil))
     (if debug-dir-locals-walk (message "initial walk-dir-locals-file: %s" walk-dir-locals-file))
+    (if (file-readable-p walk-dir-locals-file)
+        (add-to-list 'dir-locals-list (expand-file-name walk-dir-locals-file) walk-dir-locals-upward))
     (if (projectile-project-p)
         (let ((root (concat (projectile-parent (projectile-project-root)) "/"))
               (dir (expand-file-name default-directory)))
