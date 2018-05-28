@@ -205,27 +205,28 @@ Also remove-leading-whitespace-on-kill-line tricks")
 (setq echo-keystrokes 0.1)
 
 ;;; LINE NUMBERS
-(use-package linum
-  :config
-  (add-hook 'linum-before-numbering-hook 'genehack/linum-before-numbering)
-  (setq linum-format 'genehack/linum-format)
-  :init
-  (column-number-mode 1))
+;; (use-package linum
+;;   :config
+;;   (add-hook 'linum-before-numbering-hook 'genehack/linum-before-numbering)
+;;   (setq linum-format 'genehack/linum-format)
+;;   :init
+(column-number-mode 1)
+;; )
 
-(defvar genehack/linum-max-line-width "0"
-  "Number of digits in last line in current buffer.
-This is a buffer-local variable.")
+;; (defvar genehack/linum-max-line-width "0"
+;;   "Number of digits in last line in current buffer.
+;; This is a buffer-local variable.")
 
-(defun genehack/linum-before-numbering ()
-  "Small kludge to figure out the appropriate width for linum to use."
-  (make-local-variable 'genehack/linum-max-line-width)
-  (save-excursion
-    (goto-char (point-max))
-    (setq genehack/linum-max-line-width (length (format "%s" (line-number-at-pos))))))
+;; (defun genehack/linum-before-numbering ()
+;;   "Small kludge to figure out the appropriate width for linum to use."
+;;   (make-local-variable 'genehack/linum-max-line-width)
+;;   (save-excursion
+;;     (goto-char (point-max))
+;;     (setq genehack/linum-max-line-width (length (format "%s" (line-number-at-pos))))))
 
-(defun genehack/linum-format (number)
-  "My linum format, NUMBER digits wide."
-  (format (concat " %" (number-to-string genehack/linum-max-line-width) "d ") number))
+;; (defun genehack/linum-format (number)
+;;   "My linum format, NUMBER digits wide."
+;;   (format (concat " %" (number-to-string genehack/linum-max-line-width) "d ") number))
 
 ;;; MAC STUFF
 (when (eq system-type 'darwin)
