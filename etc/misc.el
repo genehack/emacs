@@ -563,13 +563,12 @@ since 'js2-mode' steps on bindings I use globally..." )
   (add-hook 'projectile-after-switch-project-hook 'genehack/node-project-setup)
   (projectile-cleanup-known-projects)
   (defun genehack/find-file (arg)
-    "Pick `projectile-file-file` or `ido-find-file` (Force latter w/ARG).
+    "Pick `projectile-file-file` or `counsel-find-file` (Force latter w/ARG).
 Decision is based on the value of `projectile-project-p`.  If
-given a prefix arg ARG, unconditionally use `ido-find-file`."
+given a prefix arg ARG, unconditionally use `counsel-find-file`."
     (interactive "P")
     (if (and (projectile-project-p) (null arg))
         (projectile-find-file)
-      ;;    (ido-find-file)))
       (counsel-find-file)))
   :defines genehack/emacs-tmp-dir
   :functions
