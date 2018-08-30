@@ -561,6 +561,7 @@ since 'js2-mode' steps on bindings I use globally..." )
   (setq projectile-known-projects-file
         (expand-file-name "projectile-bookmarks.eld" genehack/emacs-tmp-dir))
   (setq projectile-switch-project-action 'projectile-dired)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (add-hook 'projectile-after-switch-project-hook 'genehack/node-project-setup)
   (projectile-cleanup-known-projects)
   (defun genehack/find-file (arg)
@@ -575,7 +576,7 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
   :functions
   projectile-project-p
   :init
-  (projectile-mode))
+  (projectile-mode +1))
 
 (defvar genehack/node-version "" "Version of Node to use as read from .nvmrc file.")
 (defvar genehack/nvmrc-file ".nvmrc" "Path to nvmrc file relative to project root.")
