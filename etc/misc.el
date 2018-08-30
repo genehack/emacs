@@ -681,6 +681,7 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
     c++-mode
     clojure-mode
     cperl-mode
+    csharp-mode
     css-mode
     emacs-lisp-mode
     js-mode
