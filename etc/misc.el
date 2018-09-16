@@ -340,16 +340,26 @@ RequireFilenameMatchPackage policy works properly."
   :ensure t
   :commands json-mode
   :config
+  (add-hook 'json-mode-hook #'prettier-js-mode)
   (add-to-list 'safe-local-variable-values '(json-mode-indent-level . 4))
   (setq-default json-mode-indent-level 2)
   :mode "\\.json\\'")
 
 ;;; JS2
+(use-package eslint-fix :ensure t)
+(use-package prettier-js
+  :ensure t
+  :diminish (prettier-js-mode . " pjs"))
+(use-package add-node-modules-path :ensure t)
 (use-package js2-mode
   :ensure t
+  :diminish (js2-mode . " js2")
   :commands js2-mode
   :config
-  (add-hook 'js2-init-hook 'genehack/js2-mode-setup)
+  (add-hook 'js2-mode-hook #'add-node-modules-path)
+  (add-hook 'js2-mode-hook #'prettier-js-mode)
+  (add-hook 'js2-mode-hook (lambda() (add-hook 'after-save-hook 'eslint-fix nil t)))
+  (add-hook 'js2-init-hook #'genehack/js2-mode-setup)
   (add-to-list 'safe-local-variable-values '(js2-basic-offset . 2))
   (add-to-list 'safe-local-variable-values '(js2-basic-offset . 4))
   (setq-default js2-basic-offset 2)
@@ -867,6 +877,7 @@ since 'web-mode' steps on bindings I use globally..." )
   :ensure t
   :commands yaml-mode
   :config
+  (add-hook 'yaml-mode-hook #'prettier-js-mode)
   (add-to-list 'safe-local-variable-values '(yaml-indent-offset . 4))
   (define-key yaml-mode-map (kbd "RET") 'newline-and-indent)
   :mode "\\.ya?ml\\'")
