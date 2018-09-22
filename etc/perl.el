@@ -32,11 +32,15 @@
         cperl-invalid-face nil
         cperl-lazy-help-time 5
         cperl-tab-always-indent t)
+  :functions
+  cperl-word-at-point
   :mode "\\.\\(cgi\\|psgi\\|t\\)\\'")
 
 (use-package perl-find-library
   :ensure genehack-perl-elisp
   :after cperl-mode
+  :commands
+  perl-library-path
   :defer t)
 
 (use-package pod-mode

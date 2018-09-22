@@ -19,6 +19,7 @@
     'company '(add-to-list 'company-backends 'company-omnisharp))
 
 (defun my-csharp-mode-setup ()
+  "Set up csharp mode for me."
   (omnisharp-mode)
   (company-mode)
   (flycheck-mode)
