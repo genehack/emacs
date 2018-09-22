@@ -52,36 +52,6 @@
   :init
   (browse-kill-ring-default-keybindings))
 
-;;; COMPANY-MODE
-;; inspired by https://gist.github.com/nonsequitur/265010
-(require 'company)
-(defun genehack/company-yasnippet-or-completion ()
-  "Expand yasnippet if available, otherwise autocomplete."
-  (interactive)
-  (if (first (yas--templates-for-key-at-point))
-      (progn (company-abort)
-             (yas-expand))
-    (company-complete)))
-
-(use-package company
-  :ensure t
-  :diminish (company-mode . " Co")
-  :bind
-  ("\t" . genehack/company-yasnippet-or-completion)
-  :config
-  (setq company-echo-delay 0
-        company-idle-delay 0.3
-        company-minimum-prefix-length 1)
-  (setq-default company-backends
-                '((company-capf :with company-yasnippet)
-                  (company-dabbrev-code company-keywords)
-                  company-go
-                  company-nxml
-                  company-ycmd
-                  company-css
-                  company-files
-                  company-dabbrev))
-  :init (global-company-mode))
 
 ;;; CONVERT LINE ENDINGS
 ;;;; from http://www.emacswiki.org/emacs/EndOfLineTips
@@ -303,11 +273,6 @@ RequireFilenameMatchPackage policy works properly."
   (add-hook 'before-save-hook 'gofmt-before-save)
   (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "M-.") 'godef-jump)))  )
 
-;;;; depends on go-mode, so put this down here...
-(use-package company-go
-  :after go-mode
-  :ensure t)
-
 ;;; HTML TIDY
 (use-package tidy
   :ensure t
@@ -373,7 +338,8 @@ since 'js2-mode' steps on bindings I use globally..." )
 
 (defun genehack/js2-mode-setup ()
   "Set up my js2-mode buffers."
-  (setq company-backends '(company-ycmd))
+  ;; (setq company-backends '(company-ycmd))
+  (add-hook 'js2-mode-hook #'lsp-javascript-typescript-enable)
   (dolist (binding genehack/js2-keybindings-to-remove)
     (local-unset-key (edmacro-parse-keys binding))))
 
@@ -637,21 +603,6 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
   (switch-to-buffer (get-buffer-create "*scratch*"))
   (insert initial-scratch-message)
   (lisp-interaction-mode))
-
-;;; SMART-TAB
-(use-package smart-tab
-  :ensure t
-  :diminish (smart-tab-mode . " st")
-  :config
-  (setq smart-tab-using-hippie-expand t)
-  (setq smart-tab-completion-functions-alist
-        '((cperl-mode      . genehack/company-yasnippet-or-completion)
-          (emacs-lisp-mode . genehack/company-yasnippet-or-completion)
-          (js2-mode        . genehack/company-yasnippet-or-completion)
-          (lisp-mode       . genehack/company-yasnippet-or-completion)
-          (go-mode         . genehack/company-yasnippet-or-completion)
-          (text-mode       . dabbrev-completion)))
-  (global-smart-tab-mode 1))
 
 ;;; SMARTPARENS
 (use-package smartparens
@@ -948,24 +899,6 @@ Again, not sure what FIELD does..."
 
   ;;;;; As pointed out by Dmitri, this will make sure it will update color when needed.
   (add-hook 'post-command-hook 'yasnippet-change-cursor-color-when-can-fire))
-
-;;; YCMD
-(use-package ycmd
-  :config
-  (add-hook 'after-init-hook #'global-ycmd-mode)
-  (set-variable 'ycmd-server-command `("python" ,(file-truename "~/src/ycmd/ycmd")))
-  :ensure t)
-
-(use-package company-ycmd
-  :init
-  (company-ycmd-setup)
-  :ensure t)
-
-(use-package flycheck-ycmd
-  :init
-  (flycheck-ycmd-setup)
-  :ensure t)
-
 
 (provide 'misc)
 ;;; misc.el ends here

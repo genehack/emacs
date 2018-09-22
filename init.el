@@ -105,6 +105,7 @@
   '(
     "builtins"
     "cc"
+    "completion"
     "keys"
     "misc"
     "perl"
