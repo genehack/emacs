@@ -25,17 +25,18 @@
         company-idle-delay 0.3
         company-minimum-prefix-length 1)
   (setq-default company-backends
-                '((company-capf :with company-yasnippet)
-                  (company-dabbrev-code company-keywords)
+                '(company-lsp
                   company-go
+                  company-omnisharp
                   company-nxml
                   ;; company-ycmd
+                  company-html
                   company-css
                   company-files
+                  (company-capf :with company-yasnippet)
+                  (company-dabbrev-code company-keywords)
                   company-dabbrev))
   :init (global-company-mode))
-(eval-after-load
-    'company '(add-to-list 'company-backends 'company-omnisharp))
 
 (setq company-backend '(company-lsp))
 
