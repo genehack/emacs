@@ -17,10 +17,6 @@
 
 (defun my-csharp-mode-setup ()
   "Set up csharp mode for me."
-  (omnisharp-mode)
-  (company-mode)
-  (flycheck-mode)
-
   (setq indent-tabs-mode nil)
   (setq c-syntactic-indentation t)
 

@@ -32,7 +32,6 @@
                   company-css
                   company-lsp
                   company-go
-                  company-omnisharp
                   company-nxml
                   company-files
                   (company-capf :with company-yasnippet)
@@ -67,18 +66,24 @@
         try-complete-lisp-symbol-partially
         try-complete-lisp-symbol))
 
-
 ;;; LSP
 (use-package lsp-mode
   :ensure t
-  :diminish (lsp-mode . " lsp")
-  :config
-  )
+  :diminish (lsp-mode . " lsp"))
+(use-package lsp-javascript-typescript
+  :ensure t)
 (use-package lsp-ui
+  :after lsp-mode
   :ensure t
+  :hook (lsp-mode . lsp-ui-mode))
+
+;;; OMNISHARP
+(use-package omnisharp
+  :after company
+  :ensure t
+  :hook (csharp-mode . omnisharp-mode)
   :config
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode))
-(use-package lsp-javascript-typescript :ensure t)
+  (add-to-list 'company-backends 'company-omnisharp))
 
 ;;; SMART-TAB
 (use-package smart-tab
@@ -95,25 +100,6 @@
           (go-mode         . genehack/company-yasnippet-or-completion)
           (text-mode       . dabbrev-completion)))
   (global-smart-tab-mode 1))
-
-;;; YCMD
-;; (use-package ycmd
-;;   :config
-;;   (add-hook 'after-init-hook #'global-ycmd-mode)
-;;   (set-variable 'ycmd-server-command `("python" ,(file-truename "~/src/ycmd/ycmd")))
-;;   :ensure t)
-
-;; (use-package company-ycmd
-;;   :init
-;;   (company-ycmd-setup)
-;;   :ensure t)
-
-;; (use-package flycheck-ycmd
-;;   :init
-;;   (flycheck-ycmd-setup)
-;;   :ensure t)
-
-
 
 (provide 'completion)
 ;;; completion.el ends here
