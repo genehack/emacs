@@ -17,6 +17,7 @@
 
 (use-package company
   :ensure t
+  :defer t
   :diminish (company-mode . " Co")
   :bind
   ("\t" . genehack/company-yasnippet-or-completion)
@@ -43,6 +44,7 @@
 ;;;; depends on go-mode, so put this down here...
 (use-package company-go
   :after go-mode
+  :defer t
   :ensure t)
 
 
@@ -61,18 +63,23 @@
 ;;; LSP
 (use-package lsp-mode
   :ensure t
+  :defer t
   :diminish (lsp-mode . " lsp")
   :config
   )
 (use-package lsp-ui
   :ensure t
+  :defer t
   :config
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
-(use-package lsp-javascript-typescript :ensure t)
+(use-package lsp-javascript-typescript
+  :ensure t
+  :defer t)
 
 ;;; SMART-TAB
 (use-package smart-tab
   :ensure t
+  :defer t
   :diminish (smart-tab-mode . " st")
   :config
   (setq smart-tab-using-hippie-expand t)

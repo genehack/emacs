@@ -10,6 +10,7 @@
 (use-package ag
   :commands ag
   :ensure t
+  :defer t
   :defines ag-highlight-search
   :config
   (setq ag-highlight-search t))
@@ -24,6 +25,7 @@
 ;;; AGGRESSIVE INDENT MODE
 (use-package aggressive-indent
   :ensure t
+  :defer t
   :diminish (aggressive-indent-mode " ag")
   :init
   (global-aggressive-indent-mode 1)
@@ -34,8 +36,8 @@
 
 ;;; API BLUEPRINT
 (use-package apib-mode
-  :defer t
   :ensure t
+  :defer t
   :mode "\\.apib\\'")
 
 ;;; AUTO CREATE DIRECTORIES
@@ -49,6 +51,7 @@
 ;;; BROWSE-KILL-RING
 (use-package browse-kill-ring
   :ensure t
+  :defer t
   :init
   (browse-kill-ring-default-keybindings))
 
@@ -66,9 +69,12 @@
     (set-buffer-modified-p nil)))
 
 ;;; COUNSEL (also IVY and SWIPER)
-(use-package all-the-icons-ivy :ensure t)
+(use-package all-the-icons-ivy
+  :ensure t
+  :defer t)
 (use-package counsel
   :ensure t
+  :defer t
   :diminish (ivy-mode . " ivy")
   :after all-the-icons-ivy
   :config
@@ -80,7 +86,8 @@
 
 ;;; CSS-HEXCOLOR
 (use-package css-hexcolor
-  :ensure genehack-misc-elisp)
+  :ensure genehack-misc-elisp
+  :defer t)
 
 ;;; DIFF-CURRENT-BUFFER-WITH-FILE
 (defun genehack/diff-current-buffer-with-file ()
@@ -90,7 +97,9 @@
 
 ;;; DIMINISH
 ;;;; from http://whattheemacsd.com/init.el-04.html
-(use-package diminish :ensure t)
+(use-package diminish
+  :ensure t
+  :defer t)
 
 ;;; DIR-LOCALS-UPWARD
 ;;; from https://emacs.stackexchange.com/questions/5527/is-there-a-way-to-daisy-chain-dir-locals-el-files
@@ -141,25 +150,31 @@ In a projectile project, walk the tree from the current directory up to one dire
 ;;; DISK
 (use-package disk
   :ensure t
+  :defer t
   :commands disk)
 
 ;;; DUMB-JUMP
 (use-package dumb-jump
   :ensure t
+  :defer t
   :diminish (dumb-jump-mode . " dj")
   :init (dumb-jump-mode))
 
 ;;; EXPAND-REGION
-(use-package expand-region :ensure t)
+(use-package expand-region
+  :ensure t
+  :defer t)
 
 ;;; FILLADAPT -- WTF isn't this part of emacs by default by now?!
 (use-package filladapt
   :ensure genehack-misc-elisp
+  :defer t
   :diminish (filladapt-mode . " fa"))
 
 ;;; FIXME
 (use-package fixme
   :ensure genehack-misc-elisp
+  :defer t
   :config
   (add-to-list 'fixme-modes 'go-mode)
   (add-to-list 'fixme-modes 'js-mode)
@@ -169,10 +184,12 @@ In a projectile project, walk the tree from the current directory up to one dire
 ;;;; https://github.com/flycheck/flycheck
 (use-package flycheck-color-mode-line
   :ensure t
+  :defer t
   :commands flycheck-color-mode-line-mode)
 
 (use-package flycheck
   :ensure t
+  :defer t
   :diminish (flycheck-mode . " FC")
   :commands flycheck-define-checker global-flycheck-mode
   :config
@@ -251,11 +268,13 @@ RequireFilenameMatchPackage policy works properly."
 ;;; GIT COMMIT MODE
 (use-package git-commit
   :ensure t
+  :defer t
   :commands git-commit)
 
 ;;; GIT-GUTTER
 (use-package git-gutter
   :ensure t
+  :defer t
   :diminish (git-gutter-mode . " gg")
   :config
   (global-git-gutter-mode t))
@@ -263,11 +282,13 @@ RequireFilenameMatchPackage policy works properly."
 ;;; GITHUB-BROWSE-FILE
 (use-package github-browse-file
   :ensure t
+  :defer t
   :commands github-browse-file)
 
 ;;; GO
 (use-package go-mode
   :ensure t
+  :defer t
   :commands go-mode
   :config
   (add-hook 'before-save-hook 'gofmt-before-save)
@@ -276,6 +297,7 @@ RequireFilenameMatchPackage policy works properly."
 ;;; HTML TIDY
 (use-package tidy
   :ensure t
+  :defer t
   :commands
   tidy-buffer
   tidy-parse-config-file
@@ -303,6 +325,7 @@ RequireFilenameMatchPackage policy works properly."
 ;;; JSON
 (use-package json-mode
   :ensure t
+  :defer t
   :commands json-mode
   :config
   (add-hook 'json-mode-hook #'prettier-js-mode)
@@ -311,13 +334,19 @@ RequireFilenameMatchPackage policy works properly."
   :mode "\\.json\\'")
 
 ;;; JS2
-(use-package eslint-fix :ensure t)
+(use-package eslint-fix
+  :ensure t
+  :defer t)
 (use-package prettier-js
   :ensure t
+  :defer t
   :diminish (prettier-js-mode . " pjs"))
-(use-package add-node-modules-path :ensure t)
+(use-package add-node-modules-path
+  :ensure t
+  :defer t)
 (use-package js2-mode
   :ensure t
+  :defer t
   :diminish (js2-mode . " js2")
   :commands js2-mode
   :config
@@ -352,6 +381,7 @@ since 'js2-mode' steps on bindings I use globally..." )
 ;;; KOLON-MODE
 (use-package kolon-mode
   :ensure t
+  :defer t
   :commands kolon-mode)
 
 ;;; LINE NUMBERS WITH M-G
@@ -376,6 +406,7 @@ since 'js2-mode' steps on bindings I use globally..." )
 ;;; MACRO
 (use-package macro
   :ensure genehack-misc-elisp
+  :defer t
   :commands macro-clear macro-dwim)
 
 ;;; MAGIT
@@ -383,6 +414,7 @@ since 'js2-mode' steps on bindings I use globally..." )
 
 (use-package magit
   :ensure t
+  :defer t
   :if genehack/git-executable
   :commands magit-status
   :config
@@ -440,6 +472,7 @@ since 'js2-mode' steps on bindings I use globally..." )
 ;;; MARKDOWN
 (use-package markdown-mode
   :ensure t
+  :defer t
   :commands markdown-mode
   :mode "\\.mr?kd"
   :config
@@ -448,6 +481,7 @@ since 'js2-mode' steps on bindings I use globally..." )
 ;;; MOVE TEXT
 (use-package move-text
   :ensure t
+  :defer t
   :init
   (move-text-default-bindings))
 
@@ -455,6 +489,7 @@ since 'js2-mode' steps on bindings I use globally..." )
 (setq system-uses-terminfo nil)
 (use-package multi-term
   :ensure t
+  :defer t
   :config
   (defalias 'term 'multi-term)
   (custom-set-variables
@@ -466,6 +501,7 @@ since 'js2-mode' steps on bindings I use globally..." )
 ;;; NODEJS-REPL
 (use-package nodejs-repl
   :ensure t
+  :defer t
   :commands nodejs-repl)
 
 ;;; NOOP
@@ -474,6 +510,7 @@ since 'js2-mode' steps on bindings I use globally..." )
 ;;; NVM
 (use-package nvm
   :ensure t
+  :defer t
   :config
   ;; this bit depends on pulling this in from exec-shell,
   ;; which is done in init.el.
@@ -529,6 +566,7 @@ since 'js2-mode' steps on bindings I use globally..." )
 ;;; PROJECTILE
 (use-package projectile
   :ensure t
+  :defer t
   :diminish (projectile-mode . " pj")
   :config
   (setq projectile-cache-file ".projectile.cache")
@@ -590,6 +628,7 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
 
 ;;; SCALA
 (use-package ensime
+  :defer t
   :if
   (file-exists-p "/opt/ensime")
   :config
@@ -607,6 +646,7 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
 ;;; SMARTPARENS
 (use-package smartparens
   :ensure t
+  :defer t
   :diminish (smartparens-mode . " SP")
   :init
   (require 'smartparens-config)
@@ -616,6 +656,7 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
 ;;; SMEX
 (use-package smex
   :ensure t
+  :defer t
   :config
   (setq smex-save-file (concat genehack/emacs-tmp-dir "smex-items"))
   :init
@@ -691,6 +732,7 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
 ;;; TEMPLATE
 (use-package template-mode
   :commands template-minor-mode
+  :defer t
   :config
   (add-hook 'html-mode-hook 'genehack/enable-template-minor-mode)
   :ensure genehack-perl-elisp)
@@ -714,6 +756,7 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
 
 (use-package solarized-theme
   :ensure solarized-theme
+  :defer t
   :init
   (genehack/solarize-this))
 
@@ -723,7 +766,8 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
   (load-theme 'solarized-light t))
 
 (use-package twilight-theme
-  :ensure twilight-theme)
+  :ensure twilight-theme
+  :defer t)
 
 (defun genehack/twilight-this ()
   "Enable twilight theme."
@@ -769,6 +813,7 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
 ;;; WEB-BEAUTIFY
 (use-package web-beautify
   :ensure t
+  :defer t
   :config
   (defvar json-mode-map)
   (defvar web-mode-map)
@@ -782,6 +827,7 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
 ;;; WEB-MODE
 (use-package web-mode
   :ensure t
+  :defer t
   :config
   (add-to-list 'safe-local-variable-values
                '(web-mode-markup-indent-offset . 2))
@@ -802,6 +848,7 @@ since 'web-mode' steps on bindings I use globally..." )
 ;;; YAML-MODE
 (use-package yaml-mode
   :ensure t
+  :defer t
   :commands yaml-mode
   :config
   (add-hook 'yaml-mode-hook #'prettier-js-mode)
@@ -816,6 +863,7 @@ since 'web-mode' steps on bindings I use globally..." )
 
 (use-package yasnippet
   :ensure t
+  :defer t
   :diminish (yas-minor-mode . " yas")
   :functions
   genehack/yasnippet-can-fire-p
