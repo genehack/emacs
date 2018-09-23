@@ -43,6 +43,7 @@
 (use-package company-box
   :ensure t
   :after company
+  :diminish (company-box-mode . " cb")
   :hook (company-mode . company-box-mode))
 
 ;;;; depends on go-mode, so put this down here...
