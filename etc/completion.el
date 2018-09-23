@@ -17,34 +17,43 @@
 
 (use-package company
   :ensure t
+  :defer t
   :diminish (company-mode . " Co")
   :bind
   ("\t" . genehack/company-yasnippet-or-completion)
   :config
   (setq company-echo-delay 0
         company-idle-delay 0.3
-        company-minimum-prefix-length 1)
+        company-minimum-prefix-length 1
+        company-show-numbers t
+        company-tooltip-align-annotations 't)
   (setq-default company-backends
-                '(company-lsp
+                '(company-web-html
+                  company-css
+                  company-lsp
                   company-go
                   company-omnisharp
                   company-nxml
-                  ;; company-ycmd
-                  company-html
-                  company-css
                   company-files
                   (company-capf :with company-yasnippet)
                   (company-dabbrev-code company-keywords)
                   company-dabbrev))
   :init (global-company-mode))
 
-(setq company-backend '(company-lsp))
+(use-package company-box
+  :ensure t
+  :after company
+  :hook (company-mode . company-box-mode))
 
 ;;;; depends on go-mode, so put this down here...
 (use-package company-go
-  :after go-mode
+  :after go-mode company
   :ensure t)
 
+(use-package company-web
+  :ensure t
+  :after company
+  )
 
 ;;; HIPPY-EXPAND
 (setq hippie-expand-try-functions-list
