@@ -11,9 +11,9 @@
   :defer t
   :config
   (defalias 'perl-mode 'cperl-mode)
-  (add-hook 'cperl-mode-hook 'genehack/cperl-mode-setup)
-  (add-hook 'cperl-mode-hook 'flyspell-prog-mode)
-  (add-hook 'cperl-mode-hook 'which-func-mode)
+  (add-hook 'cperl-mode-hook #'genehack/cperl-mode-setup)
+  (add-hook 'cperl-mode-hook #'flyspell-prog-mode)
+  (add-hook 'cperl-mode-hook #'which-func-mode)
   (setq cperl-autoindent-on-semi t
         cperl-auto-newline t
         cperl-clobber-lisp-bindings t
@@ -34,6 +34,7 @@
         cperl-tab-always-indent t)
   :functions
   cperl-word-at-point
+  :interpreter "perl"
   :mode "\\.\\(cgi\\|psgi\\|t\\)\\'")
 
 (use-package perl-find-library
