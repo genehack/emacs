@@ -55,6 +55,7 @@
 
 (use-package dired
   :after all-the-icons-dired
+  :defer t
   :commands dired
   :config
   (define-key dired-mode-map (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
@@ -72,6 +73,7 @@
 
 (use-package dired-details
   :after dired
+  :defer t
   :commands dired-details-install
   :ensure t
   :init
@@ -79,6 +81,7 @@
 
 (use-package dired-x
   :after dired
+  :defer t
   :commands dired-jump)
 
 ;;;; http://whattheemacsd.com//setup-dired.el-02.html
@@ -106,6 +109,7 @@
 
 ;;; ELDOC
 (use-package eldoc
+  :defer t
   :diminish (eldoc-mode . " el"))
 
 ;;; EXECUTABLE-UPON-SAVE MAGIC
@@ -174,6 +178,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
 
 ;;; GLOBAL AUTO-REVERT
 (use-package autorevert
+  :defer t
   :diminish (autorevert-mode . " a")
   :config
   ;; Also auto refresh dired, but be quiet about it
@@ -187,6 +192,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
 
 ;;; IBUFFER
 (use-package ibuffer
+  :defer t
   :config
   (setq ibuffer-default-sorting-mode 'major-mode))
 
@@ -216,6 +222,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
 
 ;;; NXML-MODE
 (use-package nxml-mode
+  :defer t
   :config
   (fset 'xml-mode 'nxml-mode)
   (setq nxml-bind-meta-tab-to-complete-flag nil)
@@ -224,6 +231,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
 
 ;;; ORG MODE
 (use-package org
+  :defer t
   :disabled t
   :defines
   org-agenda-custom-commands
@@ -258,6 +266,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
 
 ;;; PAREN MATCH
 (use-package paren
+  :defer t
   :config
   (show-paren-mode t)
   (setq show-paren-style 'expression))
@@ -267,6 +276,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
 
 ;;; SAVE-HIST
 (use-package savehist
+  :defer t
   :config
   (setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring)
         savehist-file (expand-file-name "savehist" genehack/emacs-tmp-dir))
@@ -275,6 +285,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
 
 ;;; SAVEPLACE
 (use-package saveplace
+  :defer t
   :config
   (setq save-place-file (expand-file-name "saveplace" genehack/emacs-tmp-dir))
   :init
@@ -289,6 +300,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
 
 ;;; SGML-MODE
 (use-package sgml-mode
+  :defer t
   :config
   (define-key sgml-mode-map "\C-c\C-b" nil))
 
@@ -314,6 +326,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
   "Boolean indicating whether or not a spelling program was found in 'exec-path'.")
 
 (use-package ispell
+  :defer t
   :config
   (if (genehack/find-in-exec-path "aspell")
       (progn
@@ -337,6 +350,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
 
 ;;; TERM-MODE
 (use-package term
+  :defer t
   :config
   (add-hook 'term-mode-hook 'genehack/set-up-term-mode))
 
@@ -358,6 +372,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
 
 ;;; TIME DISPLAY
 (use-package time
+  :defer t
   :defines
   display-time-24hr-format
   :config
@@ -377,6 +392,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
 
 ;;; UNIQUIFY
 (use-package uniquify
+  :defer t
   :config
   (setq uniquify-buffer-name-style 'reverse
         uniquify-separator "/"
@@ -394,6 +410,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
 
 ;;; WHITESPACE
 (use-package whitespace
+  :defer t
   :config
   (setq whitespace-style '(face tabs spaces trailing lines-tail
                                 space-before-tab newline indentation empty

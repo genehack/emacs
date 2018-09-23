@@ -48,6 +48,7 @@
 ;;;; depends on go-mode, so put this down here...
 (use-package company-go
   :after go-mode company
+  :defer t
   :ensure t)
 
 (use-package company-web
@@ -69,11 +70,16 @@
 ;;; LSP
 (use-package lsp-mode
   :ensure t
+  :defer t
   :diminish (lsp-mode . " lsp"))
+
 (use-package lsp-javascript-typescript
+  :defer t
   :ensure t)
+
 (use-package lsp-ui
   :after lsp-mode
+  :defer t
   :ensure t
   :hook (lsp-mode . lsp-ui-mode))
 
@@ -81,6 +87,7 @@
 (use-package omnisharp
   :after company
   :ensure t
+  :defer t
   :hook (csharp-mode . omnisharp-mode)
   :config
   (add-to-list 'company-backends 'company-omnisharp))
@@ -88,6 +95,7 @@
 ;;; SMART-TAB
 (use-package smart-tab
   :ensure t
+  :defer t
   :diminish (smart-tab-mode . " st")
   :config
   (setq smart-tab-using-hippie-expand t)
