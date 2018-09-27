@@ -365,9 +365,18 @@ RequireFilenameMatchPackage policy works properly."
     ) "List of keybindings to unset in 'js2-mode' buffers.
 since 'js2-mode' steps on bindings I use globally..." )
 
+;;; based on docs on https://github.com/emacs-lsp/lsp-javascript
+(defun genehack/company-transformer (candidates)
+  "My company transformer of CANDIDATES."
+  (let ((completion-ignore-case t))
+    (all-completions (company-grab-symbol) candidates)))
+
+(require 'company)
 (defun genehack/js2-mode-setup ()
   "Set up my js2-mode buffers."
   ;; (setq company-backends '(company-ycmd))
+  (make-local-variable 'company-transformers)
+  (push 'genehack/company-transformer company-transformers)
   (add-hook 'js2-mode-hook #'lsp-javascript-typescript-enable)
   (dolist (binding genehack/js2-keybindings-to-remove)
     (local-unset-key (edmacro-parse-keys binding))))
