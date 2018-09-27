@@ -514,13 +514,13 @@ since 'js2-mode' steps on bindings I use globally..." )
   :config
   ;; this bit depends on pulling this in from exec-shell,
   ;; which is done in init.el.
-  (setq nvm-dir (getenv "NVM_DIR"))
-  (defun genehack/nvm (version)
-    "Reconfigure $PATH and `exec-path' to use a particular Node VERSION via nvm."
-    (interactive "sVersion: ")
-    (nvm-use version)
-    (setq exec-path (parse-colon-path (getenv "PATH"))))
-  :functions genehack/nvm)
+  (setq nvm-dir (getenv "NVM_DIR")))
+
+(defun genehack/nvm (version)
+  "Reconfigure $PATH and `exec-path' to use a particular Node VERSION via nvm."
+  (interactive "sVersion: ")
+  (nvm-use version)
+  (setq exec-path (parse-colon-path (getenv "PATH"))))
 
 ;;; OPEN LINE
 ;;;; from http://whattheemacsd.com//editing-defuns.el-01.html
