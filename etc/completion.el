@@ -39,6 +39,9 @@
                   company-dabbrev))
   :init (global-company-mode))
 
+;;;; if you're tempted by company-box, see if this issue has been
+;;;; fixed: https://github.com/sebastiencs/company-box/issues/49
+
 ;;;; depends on go-mode, so put this down here...
 (use-package company-go
   :after go-mode company
