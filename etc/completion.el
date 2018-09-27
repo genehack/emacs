@@ -64,17 +64,15 @@
 ;;; LSP
 (use-package lsp-mode
   :ensure t
-  :defer t
   :diminish (lsp-mode . " lsp"))
 
 (use-package lsp-javascript-typescript
-  :defer t
-  :ensure t)
+  :ensure t
+  :after lsp-mode)
 
 (use-package lsp-ui
-  :after lsp-mode
-  :defer t
   :ensure t
+  :after lsp-mode
   :hook (lsp-mode . lsp-ui-mode))
 
 ;;; OMNISHARP
