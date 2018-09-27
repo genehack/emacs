@@ -67,15 +67,18 @@
 ;;; LSP
 (use-package lsp-mode
   :ensure t
+  ;;;; note that adding defer here fucks things up. don't do it.
   :diminish (lsp-mode . " lsp"))
 
 (use-package lsp-javascript-typescript
   :ensure t
+  ;;;; note that adding defer here fucks things up. don't do it.
   :after lsp-mode)
 
 (use-package lsp-ui
   :ensure t
   :after lsp-mode
+  ;;;; note that adding defer here fucks things up. don't do it.
   :hook (lsp-mode . lsp-ui-mode))
 
 ;;; OMNISHARP
