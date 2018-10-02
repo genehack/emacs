@@ -155,6 +155,7 @@ In a projectile project, walk the tree from the current directory up to one dire
 
 ;;; DUMB-JUMP
 (use-package dumb-jump
+  :disabled t
   :ensure t
   :defer t
   :diminish (dumb-jump-mode . " dj")
