@@ -11,6 +11,12 @@
 
 (global-set-key (kbd "C-c o")      #'open-with)
 (global-set-key (kbd "C-c C-SPC")  #'just-one-space)
+(global-set-key (kbd "C-M-a")      #'sp-beginning-of-sexp)
+(global-set-key (kbd "C-M-b")      #'sp-backward-sexp)
+(global-set-key (kbd "C-M-e")      #'sp-end-of-sexp)
+(global-set-key (kbd "C-M-f")      #'sp-forward-sexp)
+(global-set-key (kbd "C-M-n")      #'sp-next-sexp)
+(global-set-key (kbd "C-M-p")      #'sp-previous-sexp)
 (global-set-key (kbd "C-S-RET")    #'open-line-above)
 (global-set-key (kbd "C-RET")      #'open-line-below)
 (global-set-key (kbd "C-%")        #'genehack/paren-bounce)
