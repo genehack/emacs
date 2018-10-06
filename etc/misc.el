@@ -812,13 +812,15 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
 
 ;;; UUID
 (defun genehack/uuid ()
-  "Insert uuid at point."
+  "Insert a newly generated UUID at point.
+Also copies the new UUID to the clipboard."
   (interactive)
-  (insert
-   (downcase
-    (replace-regexp-in-string
-     (rx (* (any " \t\n")) eos) ""
-     (shell-command-to-string "uuidgen")))))
+  (let ((uuid (downcase
+               (replace-regexp-in-string
+                (rx (* (any " \t\n")) eos) ""
+                (shell-command-to-string "uuidgen")))))
+    (kill-new uuid)
+    (insert uuid)))
 
 ;;; WEB-BEAUTIFY
 (use-package web-beautify
