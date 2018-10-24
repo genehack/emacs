@@ -292,8 +292,7 @@ Also remove-leading-whitespace-on-kill-line tricks")
   (setq-default save-place t))
 
 ;;; SCRATCH BUFFER
-(setq initial-scratch-message
-      "welcome to john's emacs.\n\nput additional stuff in initial-scratch-message to have it show up here.\n\n")
+(setq initial-scratch-message "welcome to john's emacs.\n\n")
 
 ;;; SERVER
 (server-start)
