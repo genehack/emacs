@@ -7,4 +7,3 @@ create:
     - bin/ec: BIN
     - bin/git-blame-from-line-num: BIN
     - bin/map-test-lib: BIN
-    
