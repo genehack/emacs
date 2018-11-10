@@ -51,6 +51,7 @@
   "Add a keybinding for wdired in 'dired-mode'."
   (local-set-key (kbd "E") 'wdired-change-to-wdired-mode))
 
+(use-package all-the-icons :ensure t)
 (use-package all-the-icons-dired :ensure t)
 
 (use-package dired
@@ -60,8 +61,8 @@
   :config
   (define-key dired-mode-map (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
   (define-key dired-mode-map (vector 'remap 'end-of-buffer)       'dired-jump-to-bottom)
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
   (add-hook 'dired-mode-hook 'genehack/bind-key-for-wdired)
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
   (setq-default dired-listing-switches "-alhv --time-style=long-iso")
   (setq dired-recursive-copies 'always))
 

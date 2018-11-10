@@ -83,6 +83,8 @@
   (setq ivy-re-builders-alist '((counsel-M-x . ivy--regex-fuzzy) ; Only counsel-M-x use flx fuzzy search
                                 (t . ivy--regex-plus)))
   :init (ivy-mode 1))
+(setq font-lock-global-modes '(not dired-mode))
+
 
 ;;; CSS-HEXCOLOR
 (use-package css-hexcolor
