@@ -332,6 +332,7 @@ RequireFilenameMatchPackage policy works properly."
   :commands json-mode
   :config
   (add-hook 'json-mode-hook #'prettier-js-mode)
+  (add-to-list 'safe-local-variable-values '(json-mode-indent-level . 2))
   (add-to-list 'safe-local-variable-values '(json-mode-indent-level . 4))
   (setq-default json-mode-indent-level 2)
   :mode "\\.json\\'")
