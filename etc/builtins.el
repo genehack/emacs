@@ -59,26 +59,15 @@
   :defer t
   :commands dired
   :config
+  (require 'dired-details)
+  (require 'dired-details+)
+  (dired-details-install)
   (define-key dired-mode-map (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
   (define-key dired-mode-map (vector 'remap 'end-of-buffer)       'dired-jump-to-bottom)
   (add-hook 'dired-mode-hook 'genehack/bind-key-for-wdired)
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
   (setq-default dired-listing-switches "-alhv --time-style=long-iso")
   (setq dired-recursive-copies 'always))
-
-;;;; http://www.reddit.com/r/emacs/comments/18qa15/dired_discussion/
-(use-package dired-details+
-  :after dired
-  :defer t
-  :ensure t)
-
-(use-package dired-details
-  :after dired
-  :defer t
-  :commands dired-details-install
-  :ensure t
-  :init
-  (dired-details-install))
 
 (use-package dired-x
   :after dired
