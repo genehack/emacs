@@ -328,14 +328,7 @@ RequireFilenameMatchPackage policy works properly."
   (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "M-.") 'godef-jump)))  )
 
 ;;; HTML TIDY
-(use-package tidy
-  :ensure t
-  :defer t
-  :commands
-  tidy-buffer
-  tidy-parse-config-file
-  tidy-save-settings
-  tidy-build-menu)
+(require 'tidy)
 
 (defun genehack/scrub-win-to-html ()
   "Scrub dumb quotes and other common Latin-1 stuff into HTML entities."
