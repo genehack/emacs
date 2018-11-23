@@ -413,6 +413,16 @@ since 'js2-mode' steps on bindings I use globally..." )
         (genehack/nvm genehack/node-version)
         (message "Set up to use node version %s" genehack/node-version))))
 
+(defun genehack/js2-insert-debug (var)
+  "Prompt for VAR and then insert debug statement."
+  (interactive "sVar: ")
+  (save-excursion
+    (insert
+     "const util = require(\"util\");console.log(util.inspect("
+     var
+     ", { showHidden: false, depth: null }));"
+     )))
+
 (require 'company)
 (defun genehack/js2-mode-setup ()
   "Set up my js2-mode buffers."
@@ -420,6 +430,7 @@ since 'js2-mode' steps on bindings I use globally..." )
   (make-local-variable 'company-transformers)
   (push 'genehack/company-transformer company-transformers)
   (add-hook 'js2-mode-hook #'lsp-javascript-typescript-enable)
+  (local-set-key (kbd "C-?") #'genehack/js2-insert-debug)
   (dolist (binding genehack/js2-keybindings-to-remove)
     (local-unset-key (edmacro-parse-keys binding))))
 
