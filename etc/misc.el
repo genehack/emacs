@@ -6,6 +6,36 @@
 
 (require 'use-package)
 
+;;; PROJECTILE
+;;;; this is at the top because things below require it.
+(use-package projectile
+  :ensure t
+  :defer t
+  :diminish (projectile-mode . " pj")
+  :config
+  (setq projectile-cache-file ".projectile.cache")
+  (setq projectile-completion-system 'ivy)
+  (setq projectile-globally-ignored-files '("TAGS" ".git"))
+  (setq projectile-known-projects-file
+        (expand-file-name "projectile-bookmarks.eld" genehack/emacs-tmp-dir))
+  (setq projectile-switch-project-action 'projectile-dired)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (add-hook 'projectile-after-switch-project-hook 'genehack/node-project-setup)
+  (projectile-cleanup-known-projects)
+  (defun genehack/find-file (arg)
+    "Pick `projectile-file-file` or `counsel-find-file` (Force latter w/ARG).
+Decision is based on the value of `projectile-project-p`.  If
+given a prefix arg ARG, unconditionally use `counsel-find-file`."
+    (interactive "P")
+    (if (and (projectile-project-p) (null arg))
+        (projectile-find-file)
+      (counsel-find-file)))
+  :defines genehack/emacs-tmp-dir
+  :functions
+  projectile-project-p
+  :init
+  (projectile-mode +1))
+
 ;;; AG
 (use-package ag
   :commands ag
@@ -375,6 +405,21 @@ since 'js2-mode' steps on bindings I use globally..." )
   (let ((completion-ignore-case t))
     (all-completions (company-grab-symbol) candidates)))
 
+;;; nvm stuff
+(defvar genehack/node-version "" "Version of Node to use as read from .nvmrc file.")
+(defvar genehack/nvmrc-file ".nvmrc" "Path to nvmrc file relative to project root.")
+(defun genehack/node-project-setup ()
+  "Use nvm to set active Node version if .nvmrc file exists in project root."
+  (interactive)
+  (if (file-exists-p genehack/nvmrc-file)
+      (progn
+        (setq genehack/node-version (chomp-end
+                                     (with-temp-buffer
+                                       (insert-file-contents genehack/nvmrc-file)
+                                       (buffer-string))))
+        (genehack/nvm genehack/node-version)
+        (message "Set up to use node version %s" genehack/node-version))))
+
 (require 'company)
 (defun genehack/js2-mode-setup ()
   "Set up my js2-mode buffers."
@@ -576,48 +621,7 @@ since 'js2-mode' steps on bindings I use globally..." )
           ((string-match "[\]})>\"']" prev-char) (backward-sexp 1))
           (t (error "%s" "Not an expression boundary.")))))
 
-;;; PROJECTILE
-(use-package projectile
-  :ensure t
-  :defer t
-  :diminish (projectile-mode . " pj")
-  :config
-  (setq projectile-cache-file ".projectile.cache")
-  (setq projectile-completion-system 'ivy)
-  (setq projectile-globally-ignored-files '("TAGS" ".git"))
-  (setq projectile-known-projects-file
-        (expand-file-name "projectile-bookmarks.eld" genehack/emacs-tmp-dir))
-  (setq projectile-switch-project-action 'projectile-dired)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (add-hook 'projectile-after-switch-project-hook 'genehack/node-project-setup)
-  (projectile-cleanup-known-projects)
-  (defun genehack/find-file (arg)
-    "Pick `projectile-file-file` or `counsel-find-file` (Force latter w/ARG).
-Decision is based on the value of `projectile-project-p`.  If
-given a prefix arg ARG, unconditionally use `counsel-find-file`."
-    (interactive "P")
-    (if (and (projectile-project-p) (null arg))
-        (projectile-find-file)
-      (counsel-find-file)))
-  :defines genehack/emacs-tmp-dir
-  :functions
-  projectile-project-p
-  :init
-  (projectile-mode +1))
 
-(defvar genehack/node-version "" "Version of Node to use as read from .nvmrc file.")
-(defvar genehack/nvmrc-file ".nvmrc" "Path to nvmrc file relative to project root.")
-(defun genehack/node-project-setup ()
-  "Use nvm to set active Node version if .nvmrc file exists in project root."
-  (interactive)
-  (if (file-exists-p genehack/nvmrc-file)
-      (progn
-        (setq genehack/node-version (chomp-end
-                                     (with-temp-buffer
-                                       (insert-file-contents genehack/nvmrc-file)
-                                       (buffer-string))))
-        (genehack/nvm genehack/node-version)
-        (message "Set up to use node version %s" genehack/node-version))))
 
 ;; from https://www.emacswiki.org/emacs/ElispCookbook#toc6
 (defun chomp-end (str)

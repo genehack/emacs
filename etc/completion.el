@@ -5,16 +5,6 @@
 ;;; Code:
 
 ;;; COMPANY-MODE
-;; inspired by https://gist.github.com/nonsequitur/265010
-(require 'company)
-(defun genehack/company-yasnippet-or-completion ()
-  "Expand yasnippet if available, otherwise autocomplete."
-  (interactive)
-  (if (first (yas--templates-for-key-at-point))
-      (progn (company-abort)
-             (yas-expand))
-    (company-complete)))
-
 (use-package company
   :ensure t
   :defer t
@@ -38,6 +28,16 @@
                   (company-dabbrev-code company-keywords)
                   company-dabbrev))
   :init (global-company-mode))
+
+;; inspired by https://gist.github.com/nonsequitur/265010
+(require 'company)
+(defun genehack/company-yasnippet-or-completion ()
+  "Expand yasnippet if available, otherwise autocomplete."
+  (interactive)
+  (if (first (yas--templates-for-key-at-point))
+      (progn (company-abort)
+             (yas-expand))
+    (company-complete)))
 
 ;;;; if you're tempted by company-box, see if this issue has been
 ;;;; fixed: https://github.com/sebastiencs/company-box/issues/49
