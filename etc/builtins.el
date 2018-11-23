@@ -59,13 +59,11 @@
   :defer t
   :commands dired
   :config
-  (require 'dired-details)
-  (require 'dired-details+)
-  (dired-details-install)
   (define-key dired-mode-map (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
   (define-key dired-mode-map (vector 'remap 'end-of-buffer)       'dired-jump-to-bottom)
   (add-hook 'dired-mode-hook 'genehack/bind-key-for-wdired)
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
   (setq-default dired-listing-switches "-alhv --time-style=long-iso")
   (setq dired-recursive-copies 'always))
 
