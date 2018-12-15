@@ -68,7 +68,10 @@
 (use-package lsp-mode
   :ensure t
   ;;;; note that adding defer here fucks things up. don't do it.
-  :diminish (lsp-mode . " lsp"))
+  :diminish (lsp-mode . " lsp")
+  :config
+  (require 'lsp-clients)
+  (add-hook 'js2-mode-hook 'lsp))
 
 (use-package lsp-javascript-typescript
   :ensure t
