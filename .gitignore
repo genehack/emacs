@@ -1,6 +1,7 @@
 .cache
 *.elc
 .emacs.desktop*
+.lsp-session*
 .org-id-locations
 .projectile.cache
 anything-c-adaptive-history
