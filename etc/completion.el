@@ -73,11 +73,6 @@
   (require 'lsp-clients)
   (add-hook 'js2-mode-hook 'lsp))
 
-(use-package lsp-javascript-typescript
-  :ensure t
-  ;;;; note that adding defer here fucks things up. don't do it.
-  :after lsp-mode)
-
 (use-package lsp-ui
   :ensure t
   :after lsp-mode
