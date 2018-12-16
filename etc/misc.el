@@ -768,6 +768,35 @@ since 'js2-mode' steps on bindings I use globally..." )
   (interactive)
   (text-scale-set 0))
 
+;;;; based on <https://valignatev.com/posts/emacs-font/>
+(setq genehack/font-name "Fira Mono")
+(defcustom genehack/font-size 18 "My default font size.")
+
+(defun genehack/set-frame-font-size (&optional font-size)
+  "Change frame font size to FONT-SIZE.
+If no FONT-SIZE provided, reset the size to its default variable."
+  (let ((font-size
+         (or font-size
+             (car (get 'genehack/font-size 'standard-value)))))
+    (customize-set-variable 'genehack/font-size font-size)
+    (set-frame-font
+     (format "%s %d" genehack/font-name font-size) nil t)))
+
+(defun genehack/global-text-scale-increase ()
+  "Increase frame font by one."
+  (interactive)
+  (genehack/set-frame-font-size (+ genehack/font-size 5)))
+
+(defun genehack/global-text-scale-decrease ()
+  "Decrease frame font by one."
+  (interactive)
+  (genehack/set-frame-font-size (- genehack/font-size 1)))
+
+(defun genehack/global-text-scale-reset ()
+  "Reset frame font."
+  (interactive)
+  (genehack/set-frame-font-size))
+
 ;;; THEME
 (defun genehack/solarize-this ()
   "Enable solarized theme."
