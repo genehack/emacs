@@ -244,6 +244,12 @@ In a projectile project, walk the tree from the current directory up to one dire
   projectile-project-p
   projectile-project-root)
 
+(use-package flycheck-inline
+  :ensure t
+  :defer t
+  :after flycheck
+  :init (global-flycheck-inline-mode))
+
 (flycheck-define-checker perl-with-lib-from-project-root
   "A Perl syntax checker using the Perl interpreter.
 
