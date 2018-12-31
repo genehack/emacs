@@ -387,6 +387,7 @@ RequireFilenameMatchPackage policy works properly."
   (add-hook 'js2-mode-hook #'prettier-js-mode)
   (add-hook 'js2-mode-hook (lambda() (add-hook 'after-save-hook 'eslint-fix nil t)))
   (add-hook 'js2-init-hook #'genehack/js2-mode-setup)
+  (add-hook 'js2-mode-hook #'eglot-ensure)
   (add-to-list 'safe-local-variable-values '(js2-basic-offset . 2))
   (add-to-list 'safe-local-variable-values '(js2-basic-offset . 4))
   (setq-default js2-basic-offset 2)
@@ -397,12 +398,6 @@ RequireFilenameMatchPackage policy works properly."
     "\C-c\C-a"
     ) "List of keybindings to unset in 'js2-mode' buffers.
 since 'js2-mode' steps on bindings I use globally..." )
-
-;;; based on docs on https://github.com/emacs-lsp/lsp-javascript
-(defun genehack/company-transformer (candidates)
-  "My company transformer of CANDIDATES."
-  (let ((completion-ignore-case t))
-    (all-completions (company-grab-symbol) candidates)))
 
 ;;; nvm stuff
 (defvar genehack/node-version "" "Version of Node to use as read from .nvmrc file.")
@@ -434,7 +429,6 @@ since 'js2-mode' steps on bindings I use globally..." )
   "Set up my js2-mode buffers."
   ;; (setq company-backends '(company-ycmd))
   (make-local-variable 'company-transformers)
-  (push 'genehack/company-transformer company-transformers)
   (local-set-key (kbd "C-?") #'genehack/js2-insert-debug)
   (dolist (binding genehack/js2-keybindings-to-remove)
     (local-unset-key (edmacro-parse-keys binding))))

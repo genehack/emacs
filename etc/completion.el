@@ -20,7 +20,6 @@
   (setq-default company-backends
                 '(company-web-html
                   company-css
-                  company-lsp
                   company-go
                   company-nxml
                   company-files
@@ -53,6 +52,12 @@
   :after company
   )
 
+;;; EGLOT
+(use-package eglot
+  :ensure t
+  :after company
+  )
+
 ;;; HIPPY-EXPAND
 (setq hippie-expand-try-functions-list
       '(try-expand-dabbrev
@@ -63,21 +68,6 @@
         try-expand-all-abbrevs
         try-complete-lisp-symbol-partially
         try-complete-lisp-symbol))
-
-;;; LSP
-(use-package lsp-mode
-  :ensure t
-  ;;;; note that adding defer here fucks things up. don't do it.
-  :diminish (lsp-mode . " lsp")
-  :config
-  (require 'lsp-clients)
-  (add-hook 'js2-mode-hook 'lsp))
-
-(use-package lsp-ui
-  :ensure t
-  :after lsp-mode
-  ;;;; note that adding defer here fucks things up. don't do it.
-  :hook (lsp-mode . lsp-ui-mode))
 
 ;;; OMNISHARP
 (use-package omnisharp
