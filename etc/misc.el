@@ -387,7 +387,7 @@ RequireFilenameMatchPackage policy works properly."
   (add-hook 'js2-mode-hook #'prettier-js-mode)
   (add-hook 'js2-mode-hook (lambda() (add-hook 'after-save-hook 'eslint-fix nil t)))
   (add-hook 'js2-init-hook #'genehack/js2-mode-setup)
-  (add-hook 'js2-mode-hook #'eglot-ensure)
+  ;;(add-hook 'js2-mode-hook #'eglot-ensure)
   (add-to-list 'safe-local-variable-values '(js2-basic-offset . 2))
   (add-to-list 'safe-local-variable-values '(js2-basic-offset . 4))
   (setq-default js2-basic-offset 2)

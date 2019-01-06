@@ -53,10 +53,10 @@
   )
 
 ;;; EGLOT
-(use-package eglot
-  :ensure t
-  :after company
-  )
+;; (use-package eglot
+;;   :ensure t
+;;   :after company
+;;   )
 
 ;;; HIPPY-EXPAND
 (setq hippie-expand-try-functions-list
