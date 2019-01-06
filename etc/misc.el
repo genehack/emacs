@@ -431,7 +431,11 @@ since 'js2-mode' steps on bindings I use globally..." )
   (make-local-variable 'company-transformers)
   (local-set-key (kbd "C-?") #'genehack/js2-insert-debug)
   (dolist (binding genehack/js2-keybindings-to-remove)
-    (local-unset-key (edmacro-parse-keys binding))))
+    (local-unset-key (edmacro-parse-keys binding)))
+  (setq js2-highlight-level 3)
+  (setq js2-include-browser-externs nil)
+  (setq js2-include-node-externs t)
+  (setq js2-mode-assume-strict t))
 
 ;;; KILL THIS BUFFER
 (defun genehack/kill-this-buffer ()
