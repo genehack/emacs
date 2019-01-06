@@ -382,6 +382,8 @@ RequireFilenameMatchPackage policy works properly."
   :defer t
   :diminish (js2-mode . " js2")
   :commands js2-mode
+  :interpreter "node"
+  :mode "\\.jsx?\\'"
   :config
   (add-hook 'js2-mode-hook #'add-node-modules-path)
   (add-hook 'js2-mode-hook #'prettier-js-mode)
@@ -389,9 +391,7 @@ RequireFilenameMatchPackage policy works properly."
   (add-hook 'js2-init-hook #'genehack/js2-mode-setup)
   ;;(add-hook 'js2-mode-hook #'eglot-ensure)
   (add-to-list 'safe-local-variable-values '(js2-basic-offset . 2))
-  (add-to-list 'safe-local-variable-values '(js2-basic-offset . 4))
-  (setq-default js2-basic-offset 2)
-  :mode "\\.js\\'")
+  (add-to-list 'safe-local-variable-values '(js2-basic-offset . 4)))
 
 (defvar genehack/js2-keybindings-to-remove
   '(
@@ -432,6 +432,7 @@ since 'js2-mode' steps on bindings I use globally..." )
   (local-set-key (kbd "C-?") #'genehack/js2-insert-debug)
   (dolist (binding genehack/js2-keybindings-to-remove)
     (local-unset-key (edmacro-parse-keys binding)))
+  (setq-default js2-basic-offset 2)
   (setq js2-highlight-level 3)
   (setq js2-include-browser-externs nil)
   (setq js2-include-node-externs t)
