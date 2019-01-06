@@ -18,12 +18,12 @@
         company-show-numbers t
         company-tooltip-align-annotations 't)
   (setq-default company-backends
-                '(company-web-html
+                '((company-capf :with company-yasnippet)
+                  company-web-html
                   company-css
                   company-go
                   company-nxml
                   company-files
-                  (company-capf :with company-yasnippet)
                   (company-dabbrev-code company-keywords)
                   company-dabbrev))
   :init (global-company-mode))
