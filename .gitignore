@@ -9,5 +9,7 @@ elpa
 projectile-bookmarks.eld
 tmp
 tramp
+transient/history.el
 url
 var/pcache
+
