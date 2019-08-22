@@ -324,6 +324,9 @@ RequireFilenameMatchPackage policy works properly."
   :defer t
   :commands github-browse-file)
 
+;;; GNU-ELPA-KEYRING-UPDATE
+(use-package gnu-elpa-keyring-update :ensure t)
+
 ;;; GO
 (use-package go-mode
   :ensure t
