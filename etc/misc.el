@@ -224,9 +224,9 @@ In a projectile project, walk the tree from the current directory up to one dire
   :ensure t
   :defer t
   :diminish (flycheck-mode . " FC")
+  :init (global-flycheck-mode)
   :commands flycheck-define-checker global-flycheck-mode
   :config
-  (add-hook 'after-init-hook #'global-flycheck-mode)
   (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
   (defun genehack/include-perl-lib-p (lib)
     "Add 'lib' subdir to '-I' option of flycheck cmd if it exists."
