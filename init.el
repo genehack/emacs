@@ -34,7 +34,7 @@
     (set-face-attribute 'default t
                         :background "#000000"
                         :foreground "#ffffff"
-                        :family "Fira Mono"
+                        :family "Cascadia Code"
                         :height 180)
   (set-face-attribute 'default t
                       :background "#000000"
