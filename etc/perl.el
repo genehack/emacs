@@ -13,7 +13,7 @@
   (defalias 'perl-mode 'cperl-mode)
   (add-hook 'cperl-mode-hook #'genehack/cperl-mode-setup)
   (add-hook 'cperl-mode-hook #'flyspell-prog-mode)
-  (add-hook 'cperl-mode-hook #'which-func-mode)
+  (add-hook 'cperl-mode-hook #'which-function-mode)
   (setq cperl-autoindent-on-semi t
         cperl-auto-newline t
         cperl-clobber-lisp-bindings t
