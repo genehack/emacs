@@ -389,6 +389,7 @@ RequireFilenameMatchPackage policy works properly."
   :mode "\\.jsx?\\'"
   :config
   (add-hook 'js2-mode-hook #'add-node-modules-path)
+  (add-hook 'js2-mode-hook #'eglot-ensure)
   (add-hook 'js2-mode-hook #'prettier-js-mode)
   (add-hook 'js2-mode-hook (lambda() (add-hook 'after-save-hook 'eslint-fix nil t)))
   (add-hook 'js2-init-hook #'genehack/js2-mode-setup)
