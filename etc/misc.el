@@ -645,6 +645,13 @@ since 'js2-mode' steps on bindings I use globally..." )
    ""
    str))
 
+;;; PRINTING
+(defun genehack/print-buffer ()
+  "Do a y-or-n confirmation before printing buffer."
+  (interactive)
+  (if (yes-or-no-p "Print buffer? ")
+      (ps-print-buffer)))
+
 ;;; SAVE-AND-KILL
 (defun genehack/save-and-kill ()
   "Save current buffer and then kill it."
