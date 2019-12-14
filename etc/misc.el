@@ -733,6 +733,7 @@ since 'js2-mode' steps on bindings I use globally..." )
     ruby-mode
     scala-mode
     swift-mode
+    terraform-mode
     tt-mode
     yaml-mode
     web-mode
@@ -779,6 +780,13 @@ since 'js2-mode' steps on bindings I use globally..." )
   "Turn on 'template-minor-mode' in *.tt files."
   (if (string-match "\\.tt2?\\'" buffer-file-name)
       (template-minor-mode 1)))
+
+;;; TERRAFORM
+(use-package terraform-mode
+  :ensure t
+  :defer t
+  :config
+  (terraform-format-on-save-mode))
 
 ;;; TEXT-SCALE
 (defun genehack/text-scale-default ()
