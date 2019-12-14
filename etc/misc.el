@@ -908,6 +908,7 @@ Also copies the new UUID to the clipboard."
   :config
   (add-to-list 'safe-local-variable-values
                '(web-mode-markup-indent-offset . 2))
+  (setq web-mode-markup-indent-offset 2)
   (add-hook 'web-mode-hook 'genehack/web-mode-setup)
   :mode "\\.\\(html\\|tx\\)")
 
