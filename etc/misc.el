@@ -745,6 +745,9 @@ since 'js2-mode' steps on bindings I use globally..." )
     web-mode
     )
   "List of modes where trailing whitespace should be stripped when saving files.")
+;;;; but we don't want to highlight whitespace in the minibuffer...
+(add-hook 'minibuffer-setup-hook
+          (lambda () (setq-local show-trailing-whitespace nil)))
 
 ;;;; inspired by http://whattheemacsd.com/buffer-defuns.el-01.html
 (defun genehack/strip-whitespace ()
