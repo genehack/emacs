@@ -99,6 +99,12 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
     (set-buffer-modified-p nil)))
 
 ;;; COUNSEL (also IVY and SWIPER)
+(use-package ivy-rich
+  :ensure t
+  :defer t
+  :after counsel
+  :init (ivy-rich-mode 1)
+  :config (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
 (use-package all-the-icons-ivy
   :ensure t
   :defer t)
