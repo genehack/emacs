@@ -47,6 +47,8 @@
 (global-set-key (kbd "C-c C-v")    #'genehack/split-vertically-or-delete-other-windows)
 (global-set-key (kbd "C-c C-x")    #'maximize-frame)
 (global-set-key (kbd "C-c M-x")    #'execute-extended-command)
+(global-set-key (kbd "C-h f")      #'counsel-describe-function)
+(global-set-key (kbd "C-h v")      #'counsel-describe-variable)
 (global-set-key (kbd "C-x =")      #'genehack/diff-current-buffer-with-file)
 (global-set-key (kbd "C-x b")      #'ivy-switch-buffer)
 (global-set-key (kbd "C-x f")      #'counsel-find-file)
