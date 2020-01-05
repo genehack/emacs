@@ -345,7 +345,8 @@ RequireFilenameMatchPackage policy works properly."
 ;;; HANDLEBARS
 (use-package handlebars-mode
   :ensure t
-  :defer t)
+  :defer t
+  :commands handlebars-mode)
 
 ;;; HTML TIDY
 (require 'tidy)
@@ -802,6 +803,7 @@ since 'js2-mode' steps on bindings I use globally..." )
 (use-package terraform-mode
   :ensure t
   :defer t
+  :commands terraform-mode
   :config
   (terraform-format-on-save-mode))
 
