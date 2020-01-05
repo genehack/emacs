@@ -342,6 +342,11 @@ RequireFilenameMatchPackage policy works properly."
   (add-hook 'before-save-hook 'gofmt-before-save)
   (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "M-.") 'godef-jump)))  )
 
+;;; HANDLEBARS
+(use-package handlebars-mode
+  :ensure t
+  :defer t)
+
 ;;; HTML TIDY
 (require 'tidy)
 
