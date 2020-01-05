@@ -381,16 +381,19 @@ RequireFilenameMatchPackage policy works properly."
   :mode "\\.json\\'")
 
 ;;; JS2
+(use-package add-node-modules-path
+  :ensure t
+  :defer t)
 (use-package eslint-fix
+  :ensure t
+  :defer t)
+(use-package flymake-eslint
   :ensure t
   :defer t)
 (use-package prettier-js
   :ensure t
   :defer t
   :diminish (prettier-js-mode . " pjs"))
-(use-package add-node-modules-path
-  :ensure t
-  :defer t)
 (use-package js2-mode
   :ensure t
   :defer t
