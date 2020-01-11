@@ -199,6 +199,13 @@ In a projectile project, walk the tree from the current directory up to one dire
   :diminish (dumb-jump-mode . " dj")
   :init (dumb-jump-mode))
 
+;;; EDITORCONFIG
+(use-package editorconfig
+  :ensure t
+  :defer t
+  :config
+  (editorconfig-mode 1))
+
 ;;; EXPAND-REGION
 (use-package expand-region
   :ensure t
