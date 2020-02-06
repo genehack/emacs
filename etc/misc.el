@@ -251,6 +251,7 @@ In a projectile project, walk the tree from the current directory up to one dire
                    (file-directory-p project/lib))
               (concat "-I" project/lib)))))
   (setq flycheck-perlcritic-severity "5")
+  (setq flycheck-checkers (delete 'javascript-jshint flycheck-checkers))
   (add-to-list 'flycheck-checkers 'genehack/perl-perlcritic)
   (add-to-list 'flycheck-checkers 'perl-with-lib-from-project-root)
   :functions
