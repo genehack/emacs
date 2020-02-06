@@ -933,9 +933,15 @@ Also copies the new UUID to the clipboard."
   :ensure t
   :defer t
   :config
+  (setq web-mode-code-indent-offset 2)
+  (add-to-list 'safe-local-variable-values
+               '(web-mode-code-indent-offset . 2))
+  (setq web-mode-css-indent-offset 2)
+  (add-to-list 'safe-local-variable-values
+               '(web-mode-css-indent-offset . 2))
+  (setq web-mode-markup-indent-offset 2)
   (add-to-list 'safe-local-variable-values
                '(web-mode-markup-indent-offset . 2))
-  (setq web-mode-markup-indent-offset 2)
   (add-hook 'web-mode-hook 'genehack/web-mode-setup)
   :mode "\\.\\(html\\|tx\\)")
 
