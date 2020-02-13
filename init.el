@@ -88,6 +88,12 @@
   (package-install 'use-package))
 (require 'use-package)
 
+;; GARBAGE COLLECTION MAGIC HACK
+;;; speeds startup?
+(use-package gcmh
+  :ensure t
+  :init (gcmh-mode 1))
+
 ;; MAKE EMACS PATH MATCH SHELL PATH
 (setenv "PLENV_ROOT" "/opt/plenv")
 (use-package exec-path-from-shell

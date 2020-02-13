@@ -123,6 +123,10 @@
   :init
   (global-font-lock-mode 1))
 
+;;; FRAME RESIZE
+;;;; see https://www.reddit.com/r/emacs/comments/f3ed3r/how_is_doom_emacs_so_damn_fast/fhicvbj/
+(setq frame-inhibit-implied-resize t)
+
 ;;; GENERAL INDENTATION RELATED OPTIONS
 (setq-default indent-tabs-mode nil)
 (setq tab-always-indent 'complete)
