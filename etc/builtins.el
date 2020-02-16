@@ -183,6 +183,12 @@ Also remove-leading-whitespace-on-kill-line tricks")
 (add-hook 'html-mode-hook 'turn-off-auto-fill)
 
 ;;; IBUFFER
+;;;; this is in 'builtins' because it modifies ibuffer, which is a
+;;;; built-in mode
+(use-package all-the-icons-ibuffer
+  :ensure t
+  :defer t
+  :init (all-the-icons-ibuffer-mode 1))
 (use-package ibuffer
   :defer t
   :config
