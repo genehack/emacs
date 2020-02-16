@@ -51,6 +51,8 @@
   "Add a keybinding for wdired in 'dired-mode'."
   (local-set-key (kbd "E") 'wdired-change-to-wdired-mode))
 
+;;;; these are in 'builtins' because they modify dired, which is a
+;;;; built-in mode
 (use-package all-the-icons :ensure t)
 (use-package all-the-icons-dired :ensure t)
 
