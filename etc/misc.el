@@ -105,9 +105,10 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
   :after counsel
   :init (ivy-rich-mode 1)
   :config (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
-(use-package all-the-icons-ivy
+(use-package all-the-icons-ivy-rich
   :ensure t
-  :defer t)
+  :defer t
+  :init (all-the-icons-ivy-rich-mode 1))
 (use-package counsel
   :ensure t
   :defer t
