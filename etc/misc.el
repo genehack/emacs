@@ -132,15 +132,28 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
 (use-package dashboard
   :ensure t
   :config
-  (setq dashboard-banner-logo-title initial-scratch-message)
+  (setq dashboard-banner-logo-title "welcome to john’s emacs! ")
   (if (display-graphic-p)
       (setq dashboard-startup-banner 'logo)
     (setq dashboard-startup-banner 2))
   (setq dashboard-center-content t)
   (setq dashboard-show-shortcuts nil)
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-navigator t)
+  (setq dashboard-navigator-buttons
+        '(;; line1
+          (("" "Scratch buffer" "Scratch buffer"
+            (lambda (&rest _) (switch-to-buffer "*scratch*")) 'warning "[ " " ]")
+           ("" "Projectile" "Projectile buffer"
+            (lambda (&rest _) (projectile-switch-project)) 'default "[ " " ]")
+           ("" "Home" "Home directory"
+            (lambda (&rest _) (find-file "~")) 'all-the-icons-blue  "[ " " ]"))
+          ))
   (setq dashboard-set-footer nil)
   (setq dashboard-items '((projects . 10)))
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+  (add-hook 'dashboard-mode-hook (lambda () (setq show-trailing-whitespace nil)))
   (dashboard-setup-startup-hook))
 
 ;;; DIFF-CURRENT-BUFFER-WITH-FILE
