@@ -128,6 +128,24 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
   :ensure genehack-misc-elisp
   :defer t)
 
+;;; DASHBOARD
+(use-package dashboard
+  :ensure t
+  :config
+  (setq dashboard-banner-logo-title initial-scratch-message)
+  ;; Value can be
+  ;; 'official which displays the official emacs logo
+  ;; 'logo which displays an alternative emacs logo
+  ;; 1, 2 or 3 which displays one of the text banners
+  ;; "path/to/your/image.png" which displays whatever image you would prefer
+  (setq dashboard-startup-banner 'logo)
+  (setq dashboard-center-content t)
+  (setq dashboard-show-shortcuts nil)
+  (setq dashboard-set-footer nil)
+  (setq dashboard-items '((projects . 10)
+                          (recents  . 5)))
+  (dashboard-setup-startup-hook))
+
 ;;; DIFF-CURRENT-BUFFER-WITH-FILE
 (defun genehack/diff-current-buffer-with-file ()
   "Show diff between current buffer contents and file on disk."
