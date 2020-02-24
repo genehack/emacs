@@ -133,12 +133,9 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
   :ensure t
   :config
   (setq dashboard-banner-logo-title initial-scratch-message)
-  ;; Value can be
-  ;; 'official which displays the official emacs logo
-  ;; 'logo which displays an alternative emacs logo
-  ;; 1, 2 or 3 which displays one of the text banners
-  ;; "path/to/your/image.png" which displays whatever image you would prefer
-  (setq dashboard-startup-banner 'logo)
+  (if (display-graphic-p)
+      (setq dashboard-startup-banner 'icon)
+    (setq dashboard-startup-banner 2))
   (setq dashboard-center-content t)
   (setq dashboard-show-shortcuts nil)
   (setq dashboard-set-footer nil)
