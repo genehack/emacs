@@ -134,7 +134,7 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
   :config
   (setq dashboard-banner-logo-title initial-scratch-message)
   (if (display-graphic-p)
-      (setq dashboard-startup-banner 'icon)
+      (setq dashboard-startup-banner 'logo)
     (setq dashboard-startup-banner 2))
   (setq dashboard-center-content t)
   (setq dashboard-show-shortcuts nil)
