@@ -139,8 +139,7 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
   (setq dashboard-center-content t)
   (setq dashboard-show-shortcuts nil)
   (setq dashboard-set-footer nil)
-  (setq dashboard-items '((projects . 10)
-                          (recents  . 5)))
+  (setq dashboard-items '((projects . 10)))
   (dashboard-setup-startup-hook))
 
 ;;; DIFF-CURRENT-BUFFER-WITH-FILE
