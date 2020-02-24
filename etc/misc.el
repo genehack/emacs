@@ -140,6 +140,7 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
   (setq dashboard-show-shortcuts nil)
   (setq dashboard-set-footer nil)
   (setq dashboard-items '((projects . 10)))
+  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
   (dashboard-setup-startup-hook))
 
 ;;; DIFF-CURRENT-BUFFER-WITH-FILE
