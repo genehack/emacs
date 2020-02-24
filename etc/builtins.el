@@ -291,9 +291,6 @@ Also remove-leading-whitespace-on-kill-line tricks")
   :init
   (setq-default save-place t))
 
-;;; SCRATCH BUFFER
-(setq initial-scratch-message "welcome to john's emacs.\n\n")
-
 ;;; SERVER
 (server-start)
 
