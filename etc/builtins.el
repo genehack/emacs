@@ -51,6 +51,19 @@
   "Add a keybinding for wdired in 'dired-mode'."
   (local-set-key (kbd "E") 'wdired-change-to-wdired-mode))
 
+;;;; having all-the-icons mode on is pretty, but having the icons in
+;;;; the buffer fucks up wdired something fierce. let's defadvice the
+;;;; functions that take us into and out of wdired mode so they remove
+;;;; the icons and then put them back.
+(defadvice wdired-change-to-wdired-mode (before genehack/disable-icons activate)
+  "Disable all-the-icons when entering wdired."
+  (all-the-icons-dired-mode 0))
+(defadvice wdired-finish-edit (after genehack/restore-icons activate)
+  "Restore all-the-icons after an edit."
+  (interactive)
+  (all-the-icons-dired-mode 1))
+
+
 ;;;; these are in 'builtins' because they modify dired, which is a
 ;;;; built-in mode
 (use-package all-the-icons :ensure t)
