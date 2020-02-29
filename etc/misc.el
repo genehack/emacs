@@ -143,8 +143,8 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
   (setq dashboard-set-navigator t)
   (setq dashboard-navigator-buttons
         '(;; line1
-          (("" "Scratch buffer" "Scratch buffer"
-            (lambda (&rest _) (switch-to-buffer "*scratch*")) 'warning "[ " " ]")
+          (("" "Scratch" "Scratch buffer"
+            (lambda (&rest _) (genehack/create-scratch-buffer)) 'warning "[ " " ]")
            ("" "Projectile" "Projectile buffer"
             (lambda (&rest _) (projectile-switch-project)) 'default "[ " " ]")
            ("" "Home" "Home directory"
@@ -730,7 +730,6 @@ since 'js2-mode' steps on bindings I use globally..." )
   "(re)create a scratch buffer."
   (interactive)
   (switch-to-buffer (get-buffer-create "*scratch*"))
-  (insert initial-scratch-message)
   (lisp-interaction-mode))
 
 ;;; SMARTPARENS
