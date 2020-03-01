@@ -71,6 +71,7 @@
 
 ;;; OMNISHARP
 (use-package omnisharp
+  :disabled t
   :after company
   :ensure t
   :defer t
