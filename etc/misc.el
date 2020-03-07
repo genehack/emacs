@@ -130,6 +130,9 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
 
 ;;; DASHBOARD
 (use-package dashboard
+  :disabled t ;;; gives warnings about `Invalid face attribute
+              ;;; :inherit 'warning' and `Invalid face reference:
+              ;;; quote'
   :ensure t
   :config
   (setq dashboard-banner-logo-title "welcome to john’s emacs! ")
