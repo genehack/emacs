@@ -122,6 +122,12 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
   :init (ivy-mode 1))
 (setq font-lock-global-modes '(not dired-mode))
 
+;;; COVID-HOUSE
+(defun genehack/new-covid-entry ()
+  (interactive)
+  "Start a new covid.house entry."
+  (if (file-exists-p "~/proj/covid.house")
+      (shell-command "~/proj/covid.house/bin/new-entry")))
 
 ;;; CSS-HEXCOLOR
 (use-package css-hexcolor
