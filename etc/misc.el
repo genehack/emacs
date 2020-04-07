@@ -124,10 +124,12 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
 
 ;;; COVID-HOUSE
 (defun genehack/new-covid-entry ()
-  (interactive)
   "Start a new covid.house entry."
+  (interactive)
   (if (file-exists-p "~/proj/covid.house")
-      (shell-command "~/proj/covid.house/bin/new-entry")))
+      (let ((new-entry (shell-command-to-string "~/proj/covid.house/bin/new-entry")))
+        (message new-entry)
+        (find-file new-entry))))
 
 ;;; CSS-HEXCOLOR
 (use-package css-hexcolor
