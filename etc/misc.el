@@ -605,12 +605,24 @@ since 'js2-mode' steps on bindings I use globally..." )
   (jump-to-register :magit-fullscreen))
 
 ;;; MARKDOWN
+(defvar genehack/markdown-keybindings-to-remove
+  '(
+    "\C-c\C-b"
+    ) "List of keybindings to unset in 'markdown-mode' buffers.
+since 'markdown-mode' steps on bindings I use globally..." )
+
+(defun genehack/markdown-mode-setup ()
+  "Set up my markdown-mode buffers."
+  (dolist (binding genehack/markdown-keybindings-to-remove)
+    (local-unset-key (edmacro-parse-keys binding))))
+
 (use-package markdown-mode
   :ensure t
   :defer t
   :commands markdown-mode
   :mode "\\.mr?kd"
   :config
+  (add-hook 'markdown-mode-hook #'genehack/markdown-mode-setup)
   (setq markdown-command "Markdown.pl"))
 
 ;;; MOVE TEXT
