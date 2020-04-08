@@ -625,6 +625,18 @@ since 'markdown-mode' steps on bindings I use globally..." )
   (add-hook 'markdown-mode-hook #'genehack/markdown-mode-setup)
   (setq markdown-command "Markdown.pl"))
 
+(use-package html-to-markdown
+  :ensure t
+  :defer t
+  :commands html-to-markdown-string)
+
+(defun genehack/html-to-markdown-on-region (beg end)
+  "Convert the text from BEG to END from HTML into markdown."
+  (interactive "r")
+  (let ((markdown (html-to-markdown-string (buffer-substring beg end))))
+    (delete-active-region)
+    (insert markdown)))
+
 ;;; MOVE TEXT
 (use-package move-text
   :ensure t
