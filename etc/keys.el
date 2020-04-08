@@ -51,7 +51,7 @@
 (global-set-key (kbd "C-h v")      #'counsel-describe-variable)
 (global-set-key (kbd "C-x =")      #'genehack/diff-current-buffer-with-file)
 (global-set-key (kbd "C-x b")      #'ivy-switch-buffer)
-(global-set-key (kbd "C-x f")      #'counsel-find-file)
+(global-set-key (kbd "C-x f")      #'genehack/find-file)
 (global-set-key (kbd "C-x K")      #'genehack/kill-this-buffer)
 (global-set-key (kbd "C-x p")      #'projectile-switch-project)
 (global-set-key (kbd "C-x C-b")    #'ivy-switch-buffer)
