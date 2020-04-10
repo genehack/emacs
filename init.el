@@ -94,6 +94,10 @@
   :ensure t
   :init (gcmh-mode 1))
 
+;;; per https://github.com/emacs-lsp/lsp-mode#performance
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq gc-cons-threshold 100000000)
+
 ;; MAKE EMACS PATH MATCH SHELL PATH
 (setenv "PLENV_ROOT" "/opt/plenv")
 (use-package exec-path-from-shell
