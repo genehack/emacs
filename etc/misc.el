@@ -1005,6 +1005,7 @@ Also copies the new UUID to the clipboard."
   (setq web-mode-markup-indent-offset 2)
   (add-to-list 'safe-local-variable-values
                '(web-mode-markup-indent-offset . 2))
+  (setq web-mode-enable-comment-interpolation t)
   (add-hook 'web-mode-hook 'genehack/web-mode-setup)
   :mode "\\.\\(html\\|tx\\)")
 
@@ -1016,6 +1017,7 @@ since 'web-mode' steps on bindings I use globally..." )
 
 (defun genehack/web-mode-setup ()
   "Set up my web-mode buffers."
+  (turn-off-smartparens-mode)
   (dolist (binding genehack/web-mode-keybindings-to-remove)
     (local-unset-key (edmacro-parse-keys binding))))
 
