@@ -248,7 +248,7 @@ In a projectile project, walk the tree from the current directory up to one dire
 
 ;;; FILLADAPT -- WTF isn't this part of emacs by default by now?!
 (use-package filladapt
-  :ensure genehack-misc-elisp
+  :ensure t
   :defer t
   :diminish (filladapt-mode . " fa"))
 
