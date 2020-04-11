@@ -131,11 +131,6 @@ given a prefix arg ARG, unconditionally use `counsel-find-file`."
         (message new-entry)
         (find-file new-entry))))
 
-;;; CSS-HEXCOLOR
-(use-package css-hexcolor
-  :ensure genehack-misc-elisp
-  :defer t)
-
 ;;; DASHBOARD
 (use-package dashboard
   :disabled t ;;; gives warnings about `Invalid face attribute
