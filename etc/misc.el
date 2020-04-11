@@ -257,14 +257,59 @@ In a projectile project, walk the tree from the current directory up to one dire
   :defer t
   :diminish (filladapt-mode . " fa"))
 
-;;; FIXME
-(use-package fixme
-  :ensure genehack-misc-elisp
-  :defer t
-  :config
-  (add-to-list 'fixme-modes 'go-mode)
-  (add-to-list 'fixme-modes 'js-mode)
-  (add-to-list 'fixme-modes 'js2-mode))
+;;; FIXME HIGHLIGHTING
+;;;; modified from <http://ch.twi.tudelft.nl/~mostert/fixme.el>
+(defvar genehack/fixme-modes
+  '(
+    cperl-mode
+    emacs-lisp-mode
+    go-mode
+    js-mode
+    js2-mode
+    template-mode
+    )
+  "Modes to activate fixme comments for.")
+
+(defvar genehack/fixme-fixme-regexp "FIXME")
+(defvar genehack/fixme-todo-regexp  "TODO")
+(defvar genehack/fixme-bug-regexp   "BUG")
+
+;; angry red on yellow background. It *really* gets your attention
+(defface genehack/font-lock-fixme-face
+  '((((class grayscale) (background light)) (:foreground "DimGray" :italic t))
+    (((class grayscale) (background dark))  (:foreground "LightGray" :italic t))
+    (((class color)     (background light)) (:foreground "Red" :background "Yellow"))
+    (((class color)     (background dark))  (:foreground "Red" :background "Yellow")))
+  "Face for fixme comments.")
+(defvar genehack/font-lock-fixme-face 'genehack/font-lock-fixme-face)
+
+(defface genehack/font-lock-todo-face
+  '((((class grayscale) (background light)) (:foreground "DimGray" :italic t))
+    (((class grayscale) (background dark))  (:foreground "LightGray" :italic t))
+    (((class color)     (background light)) (:foreground "Green" :background "DarkGray"))
+    (((class color)     (background dark))  (:foreground "Green" :background "DarkGray")))
+  "Face for todo comments.")
+(defvar genehack/font-lock-todo-face 'genehack/font-lock-todo-face)
+
+(defface genehack/font-lock-bug-face
+  '((((class grayscale) (background light)) (:foreground "DimGray" :italic t))
+    (((class grayscale) (background dark))  (:foreground "LightGray" :italic t))
+    (((class color)     (background light)) (:foreground "White"
+                                                         :background "Red"))
+    (((class color)     (background dark))  (:foreground "White"
+                                                         :background "Red")))
+  "Face for bug comments.")
+(defvar genehack/font-lock-bug-face 'genehack/font-lock-bug-face)
+
+(mapc
+ (lambda (mode)
+   (font-lock-add-keywords
+    mode
+    (list
+     (list genehack/fixme-fixme-regexp 0 genehack/font-lock-fixme-face t)
+     (list genehack/fixme-todo-regexp 0 genehack/font-lock-todo-face t)
+     (list genehack/fixme-bug-regexp 0 genehack/font-lock-bug-face t))))
+ genehack/fixme-modes)
 
 ;;; FLYCHECK
 ;;;; https://github.com/flycheck/flycheck
