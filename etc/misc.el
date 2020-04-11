@@ -261,6 +261,7 @@ In a projectile project, walk the tree from the current directory up to one dire
     go-mode
     js-mode
     js2-mode
+    markdown-mode
     template-mode
     )
   "Modes to activate fixme comments for.")
