@@ -584,10 +584,25 @@ since 'js2-mode' steps on bindings I use globally..." )
     (display-line-numbers-mode -1)))
 
 ;;; MACRO
-(use-package macro
-  :ensure genehack-misc-elisp
-  :defer t
-  :commands macro-clear macro-dwim)
+;;;; after <http://www.emacswiki.org/cgi-bin/wiki.pl?MacroKey>
+
+(defun genehack/macro-dwim (arg)
+  "DWIM keyboard macro recording and executing.
+If provided, ARG will be passed as a macro execution repeat count."
+  (interactive "P")
+  (if defining-kbd-macro
+      (if arg
+          (end-kbd-macro arg)
+        (end-kbd-macro))
+    (if last-kbd-macro
+        (call-last-kbd-macro arg)
+      (start-kbd-macro arg))))
+
+(defun genehack/macro-clear ()
+  "Clear out the last keyboard macro."
+  (interactive)
+  (setq last-kbd-macro nil)
+  (message "Last keyboard macro cleared."))
 
 ;;; MAGIT
 (defvar genehack/git-executable (executable-find "git") "Path to active git executable.")
